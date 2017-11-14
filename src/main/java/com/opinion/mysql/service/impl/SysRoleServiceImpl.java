@@ -1,5 +1,6 @@
 package com.opinion.mysql.service.impl;
 
+import com.opinion.mysql.dao.CommonSearchDao;
 import com.opinion.mysql.entity.SysRole;
 import com.opinion.mysql.repository.SysRoleRepository;
 import com.opinion.mysql.service.SysRoleService;
@@ -18,6 +19,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     private SysRoleRepository sysRoleRepository;
 
+    @Autowired
+    private CommonSearchDao commonSearchDao;
+
     @Override
     public SysRole save(SysRole sysRole) {
         return sysRoleRepository.save(sysRole);
@@ -26,5 +30,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public List<SysRole> findList() {
         return (List<SysRole>) sysRoleRepository.findAll();
+    }
+
+    @Override
+    public List<SysRole> findListByUserId(Long userId) {
+        return commonSearchDao.findSysRoleListByUserId(userId);
     }
 }

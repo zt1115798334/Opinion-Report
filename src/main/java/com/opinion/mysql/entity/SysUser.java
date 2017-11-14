@@ -19,39 +19,68 @@ public class SysUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-
     private Long id;
 
+    /**
+     * 用户账户
+     */
     @Column(name = "user_account", nullable = false)
     private String userAccount;
 
+    /**
+     * 用户名称
+     */
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    /**
+     * 手机号
+     */
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    /**
+     * 用户密码
+     */
     @Column(name = "user_password", nullable = false)
     private String userPassword;
 
+    /**
+     * 最后登录时间
+     */
     @Column(name = "last_login_time", nullable = false)
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime lastLoginTime;
 
+    /**
+     * effective:有效，invalid:无效
+     */
     @Column(name = "status", nullable = false)
     private String status;
 
+    /**
+     * 创建时间
+     */
     @Column(name = "created_date", nullable = false)
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdDate;
 
+    /**
+     * 创建人
+     */
     @Column(name = "created_user", nullable = false)
     private String createdUser;
 
+    /**
+     * 修改时间
+     */
     @Column(name = "modified_date", nullable = false)
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime modifiedDate;
 
+    /**
+     * 修改人
+     */
     @Column(name = "modified_user", nullable = false)
     private String modifiedUser;
 

@@ -6,14 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 系统访问认证表
- *
  * @author zhangtong
  * Created by on 2017/11/14
  */
 @Entity
 @Table(name = "t_sys_permission")
-public class SysPermission implements Serializable {
+public class SysPermissionInit implements Serializable {
+
     private static final long serialVersionUID = 9201034849892179274L;
 
     @Id
@@ -30,8 +29,14 @@ public class SysPermission implements Serializable {
     /**
      * url描述
      */
-    @Column(name = "url_name", nullable = false)
-    private String urlName;
+    @Column(name = "permission_init", nullable = false)
+    private String permissionInit;
+
+    /**
+     * 排序
+     */
+    @Column(name = "sort", nullable = false)
+    private Integer sort;
 
     public Long getId() {
         return id;
@@ -49,12 +54,20 @@ public class SysPermission implements Serializable {
         this.sysUrl = sysUrl;
     }
 
-    public String getUrlName() {
-        return urlName;
+    public String getPermissionInit() {
+        return permissionInit;
     }
 
-    public void setUrlName(String urlName) {
-        this.urlName = urlName;
+    public void setPermissionInit(String permissionInit) {
+        this.permissionInit = permissionInit;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     @Override

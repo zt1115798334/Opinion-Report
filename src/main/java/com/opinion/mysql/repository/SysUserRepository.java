@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
  * Created by on 2017/11/13
  */
 public interface SysUserRepository extends CrudRepository<SysUser,Long> {
+
+    SysUser findByUserAccountAndUserPassword(String userAccount,String userPassword);
 }

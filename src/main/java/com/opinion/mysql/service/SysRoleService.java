@@ -19,4 +19,6 @@ public interface SysRoleService {
     SysRole save(SysRole sysRole);
 
     List<SysRole> findList();
+
+    List<SysRole> findListByUserId(Long userId);
 }

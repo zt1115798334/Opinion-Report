@@ -9,6 +9,7 @@ import com.opinion.mysql.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,5 +44,20 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUser> findListByRoleId(Long roleId) {
         return commonSearchDao.findSysUserListByRoleId(roleId);
+    }
+
+    @Override
+    public SysUser findByUserAccountAndUserPassword(String userAccount, String userPassword) {
+        return sysUserRepository.findByUserAccountAndUserPassword(userAccount, userPassword);
+    }
+
+    @Override
+    public SysUser updateLocalDateTime(Long id, LocalDateTime localDateTime) {
+        SysUser sysUser = sysUserRepository.findOne(id);
+        if (sysUser != null) {
+            sysUser.setLastLoginTime(localDateTime);
+            sysUser = sysUserRepository.save(sysUser);
+        }
+        return sysUser;
     }
 }
