@@ -12,6 +12,28 @@ public class SysConst {
      */
     public static final String DEFAULT_USER_ACCOUNT = "admin";
 
+    public enum LoginStatus {
+
+        EFFECTIVE("effective", "有效"),
+        INVALID("invalid", "无效");
+
+        private String code;
+        private String name;
+
+        LoginStatus(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public enum ReportSource {
 
         ARTIFICIAL("artificial", "人工上报"),

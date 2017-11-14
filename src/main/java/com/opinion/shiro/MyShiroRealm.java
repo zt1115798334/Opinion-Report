@@ -1,6 +1,6 @@
 package com.opinion.shiro;
 
-import com.opinion.mysql.entity.SysPermission;
+import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.SysRole;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.SysPermissionService;
@@ -8,13 +8,14 @@ import com.opinion.mysql.service.SysRoleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.MyDES;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -30,6 +31,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class MyShiroRealm extends AuthorizingRealm {
+
+    private static Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
 
     @Autowired
     private SysUserService sysUserService;
@@ -83,7 +86,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(name, pawDES);
         if (null == sysUser) {
             throw new AccountException("帐号或密码不正确！");
-        } else if ("0".equals(sysUser.getStatus())) {
+        } else if (SysConst.LoginStatus.INVALID.getCode().equals(sysUser.getStatus())) {
             /**
              * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
              */
@@ -95,7 +98,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             //清空登录计数
             opsForValue.set(SHIRO_LOGIN_COUNT + name, "0");
         }
-        Logger.getLogger(getClass()).info("身份认证成功，登录用户：" + name);
+        logger.info("身份认证成功，登录用户：" + name);
         return new SimpleAuthenticationInfo(sysUser, password, getName());
     }
 

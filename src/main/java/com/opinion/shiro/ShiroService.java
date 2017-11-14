@@ -6,6 +6,8 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.Map;
  */
 @Service
 public class ShiroService {
+
+    private static Logger logger = LoggerFactory.getLogger(ShiroService.class);
 
     @Autowired
     ShiroFilterFactoryBean shiroFilterFactoryBean;
@@ -80,8 +84,7 @@ public class ShiroService {
                         .replace(" ", "");
                 manager.createChain(url, chainDefinition);
             }
-
-            System.out.println("更新权限成功！！");
+            logger.info("更新权限成功！！");
         }
     }
 }

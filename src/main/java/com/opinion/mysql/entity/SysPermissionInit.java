@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by on 2017/11/14
  */
 @Entity
-@Table(name = "t_sys_permission")
+@Table(name = "t_sys_permission_init")
 public class SysPermissionInit implements Serializable {
 
     private static final long serialVersionUID = 9201034849892179274L;
@@ -27,7 +27,7 @@ public class SysPermissionInit implements Serializable {
     private String sysUrl;
 
     /**
-     * url描述
+     * 需要具备的权限
      */
     @Column(name = "permission_init", nullable = false)
     private String permissionInit;
