@@ -1,6 +1,9 @@
 package com.opinion.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.opinion.base.bean.AjaxResult;
+import com.opinion.base.controller.BaseController;
 import com.opinion.redis.entity.Operate;
 import com.opinion.redis.entity.RedisInfoDetail;
 import com.opinion.redis.service.RedisService;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -20,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "redis")
-public class RedisController {
+public class RedisController extends BaseController {
 
     @Autowired
     RedisService redisService;
@@ -28,16 +32,23 @@ public class RedisController {
     //跳转到监控页面
     @RequestMapping(value = "redisMonitor")
     public String redisMonitor(Model model) {
+        return "redisMonitor";
+    }
+
+    @RequestMapping(value = "getRedisMonitor", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult getRedisMonitor() {
         //获取redis的info
         List<RedisInfoDetail> ridList = redisService.getRedisInfo();
         //获取redis的日志记录
         List<Operate> logList = redisService.getLogs(1000);
         //获取日志总数
         long logLen = redisService.getLogLen();
-        model.addAttribute("infoList", ridList);
-        model.addAttribute("logList", logList);
-        model.addAttribute("logLen", logLen);
-        return "redisMonitor";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ridList", ridList);
+        jsonObject.put("logList", logList);
+        jsonObject.put("logLen", logLen);
+        return success(jsonObject);
     }
 
     //清空日志按钮

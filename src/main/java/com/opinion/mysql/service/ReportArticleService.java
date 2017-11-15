@@ -31,18 +31,10 @@ public interface ReportArticleService {
     /**
      * 根据创建人查询上报文章集合
      *
-     * @param createdUser 创建人
+     * @param reportArticle
      * @return
      */
-    List<ReportArticle> findListByCreatedUser(String createdUser);
-
-    /**
-     * 根据创建人查询上报文章集合
-     *
-     * @param createdUser 创建人
-     * @return
-     */
-    Page<ReportArticle> findPageByCreateUser(String createdUser, int page, int size, String sortParam, String sortType);
+    Page<ReportArticle> findPageByCreateUser(ReportArticle reportArticle);
 
     /**
      * 对上报文章进行审核

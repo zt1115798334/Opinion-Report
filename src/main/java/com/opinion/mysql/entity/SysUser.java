@@ -84,6 +84,22 @@ public class SysUser implements Serializable {
     @Column(name = "modified_user", nullable = false)
     private String modifiedUser;
 
+    public SysUser() {
+    }
+
+    public SysUser(SysUser user) {
+        this.userAccount = user.getUserAccount();
+        this.userName = user.getUserName();
+        this.phone = user.getPhone();
+        this.userPassword = user.getUserPassword();
+        this.lastLoginTime = user.getLastLoginTime();
+        this.status = user.getStatus();
+        this.createdDate = user.getCreatedDate();
+        this.createdUser = user.getCreatedUser();
+        this.modifiedDate = user.getModifiedDate();
+        this.modifiedUser = user.getModifiedUser();
+    }
+
     public Long getId() {
         return id;
     }

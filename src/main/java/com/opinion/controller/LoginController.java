@@ -81,7 +81,22 @@ public class LoginController {
         }
         return resultMap;
     }
-
+    /**
+     * 退出
+     * @return
+     */
+    @RequestMapping(value="logout",method =RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> logout(){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        try {
+            //退出
+            SecurityUtils.getSubject().logout();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return resultMap;
+    }
     /**
      * 获取验证码（Gif版本）
      * @param response

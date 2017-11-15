@@ -6,9 +6,9 @@ import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,18 +57,10 @@ public class ReportArticleController extends BaseController {
     }
 
     /**
-     * 根据登录者账户查询上报信息
-     *
+     * 根据id查看上报文章
+     * @param id
      * @return
      */
-    @RequestMapping(value = "search", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchReportArticle() {
-        String userAccount = SysConst.DEFAULT_USER_ACCOUNT;
-        List<ReportArticle> reportArticles = reportArticleService.findListByCreatedUser(userAccount);
-        return success(reportArticles);
-    }
-
     @RequestMapping(value = "searchId", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticleById(Long id) {
@@ -76,14 +68,21 @@ public class ReportArticleController extends BaseController {
         return success(reportArticle);
     }
 
+    /**
+     * 报文章分页查询
+     *
+     * @return
+     */
     @RequestMapping(value = "searchPage", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticlePage() {
+    public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
         String userAccount = SysConst.DEFAULT_USER_ACCOUNT;
-        String sortType = Sort.Direction.DESC.toString();
-        String sortParam = "id";
-        Page<ReportArticle> reportArticles = reportArticleService
-                .findPageByCreateUser(userAccount, 2, 2, sortParam, sortType);
+        if(StringUtils.isNotEmpty(reportArticle.getSortParam())){
+            reportArticle.setSortParam("publishDatetime");
+            reportArticle.setSortType("desc");
+        }
+        reportArticle.setCreatedUser(userAccount);
+        Page<ReportArticle> reportArticles = reportArticleService.findPageByCreateUser(reportArticle);
         return success(reportArticles);
     }
 

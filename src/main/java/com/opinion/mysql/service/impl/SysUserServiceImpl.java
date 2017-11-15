@@ -6,6 +6,7 @@ import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.SysRoleUserRepository;
 import com.opinion.mysql.repository.SysUserRepository;
 import com.opinion.mysql.service.SysUserService;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,10 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserRepository sysUserRepository;
 
     @Autowired
-    private SysRoleUserRepository sysRoleUserRepository;
+    private CommonSearchDao commonSearchDao;
 
     @Autowired
-    private CommonSearchDao commonSearchDao;
+    RedisSessionDAO redisSessionDAO;
 
     @Override
     public SysUser save(SysUser sysUser, Long roleId) {

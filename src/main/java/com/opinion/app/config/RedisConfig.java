@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -27,7 +28,24 @@ import java.lang.reflect.Method;
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
 
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+    @Value("${spring.redis.pool.max-idle}")
+    private int maxIdle;
+
+    @Value("${spring.redis.pool.max-wait}")
+    private long maxWaitMillis;
+
     private static Logger logger = LoggerFactory.getLogger(RedisConfig.class);
+
     @Bean
     public KeyGenerator wiselyKeyGenerator() {
         return new KeyGenerator() {
@@ -66,6 +84,18 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;
+    }
+
+    @Bean
+    public JedisPool redisPoolFactory() {
+        logger.info("JedisPool注入成功！！");
+        logger.info("redis地址：" + host + ":" + port);
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
+
+        return jedisPool;
     }
 
 }

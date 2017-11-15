@@ -2,11 +2,14 @@ package com.opinion.mysql.dao.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.opinion.mysql.dao.CommonSearchDao;
+import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.SysRole;
 import com.opinion.mysql.entity.SysUser;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -82,4 +86,5 @@ public class CommonSearchDaoImpl implements CommonSearchDao {
         }).collect(Collectors.toList());
         return result;
     }
+
 }
