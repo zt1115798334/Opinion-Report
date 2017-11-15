@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "t_sys_user")
 public class SysUser implements Serializable {
-    private static final long serialVersionUID = 9201034849892179274L;
+    private static final long serialVersionUID = 9201034849892179276L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

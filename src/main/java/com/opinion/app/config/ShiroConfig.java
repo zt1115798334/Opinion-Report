@@ -61,7 +61,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/");
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权界面;
@@ -84,7 +84,10 @@ public class ShiroConfig {
         //logout这个拦截器是shiro已经实现好了的。
         // 从数据库获取
         List<SysPermissionInit> list = sysPermissionInitService.findAll();
-
+//        filterChainDefinitionMap.put("/static/**", "anon");
+//        filterChainDefinitionMap.put("/logining", "anon");
+//        filterChainDefinitionMap.put("/logout", "logout");
+//        filterChainDefinitionMap.put("/reportArticle/**", "authc");
         for (SysPermissionInit sysPermissionInit : list) {
             filterChainDefinitionMap.put(sysPermissionInit.getSysUrl(),
                     sysPermissionInit.getPermissionInit());
@@ -128,7 +131,8 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(host);
         redisManager.setPort(port);
-        redisManager.setExpire(1800);// 配置缓存过期时间
+        // 配置缓存过期时间
+        redisManager.setExpire(1800);
         redisManager.setTimeout(timeout);
         // redisManager.setPassword(password);
         return redisManager;

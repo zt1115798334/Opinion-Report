@@ -1,5 +1,8 @@
 package com.opinion.constants;
 
+import com.opinion.mysql.entity.SysUser;
+import org.apache.shiro.SecurityUtils;
+
 /**
  * 系统常量类
  *
@@ -10,7 +13,9 @@ public class SysConst {
     /**
      * 系统的默认用户账号
      */
-    public static final String DEFAULT_USER_ACCOUNT = "admin";
+    public static final SysUser SYS_USER = (SysUser) SecurityUtils.getSubject().getPrincipal();
+
+    public static final String USER_ACCOUNT = SYS_USER.getUserAccount();
 
     public enum LoginStatus {
 

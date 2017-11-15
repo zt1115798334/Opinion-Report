@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     //登录
-    @RequestMapping(value="login")
+    @RequestMapping(value="/")
     public String login() {
         return "login";
     }

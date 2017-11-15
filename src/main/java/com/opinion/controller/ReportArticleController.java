@@ -4,9 +4,11 @@ import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.ReportArticle;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,14 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author zhangtong
  * Created by on 2017/11/13
  */
 @Controller
-@RequestMapping("/reportArticle")
+@RequestMapping("reportArticle")
 public class ReportArticleController extends BaseController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class ReportArticleController extends BaseController {
 
     @RequestMapping("opinionReport")
     public String opinionReport() {
-        return "/opinionReport";
+        return "/report/opinionReport";
     }
 
     /**
@@ -42,7 +43,7 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
         LocalDateTime currentDate = DateUtils.currentDate();
-        String userAccount = SysConst.DEFAULT_USER_ACCOUNT;
+        String userAccount = SysConst.USER_ACCOUNT;
         LocalDate publishDatetime = DateUtils.parseDate(reportArticle.getPublishDate(), DateUtils.DATE_FORMAT);
 
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
@@ -58,6 +59,7 @@ public class ReportArticleController extends BaseController {
 
     /**
      * 根据id查看上报文章
+     *
      * @param id
      * @return
      */
@@ -76,8 +78,8 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchPage", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
-        String userAccount = SysConst.DEFAULT_USER_ACCOUNT;
-        if(StringUtils.isNotEmpty(reportArticle.getSortParam())){
+        String userAccount = SysConst.USER_ACCOUNT;
+        if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
             reportArticle.setSortParam("publishDatetime");
             reportArticle.setSortType("desc");
         }
@@ -97,7 +99,7 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestParam("reportArticleId") Long reportArticleId,
                                                     @RequestParam("adoptState") String adoptState) {
-        String adoptUser = SysConst.DEFAULT_USER_ACCOUNT;
+        String adoptUser = SysConst.USER_ACCOUNT;
         LocalDateTime adoptDate = DateUtils.currentDate();
         ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUser, adoptState);
         return success(reportArticle);

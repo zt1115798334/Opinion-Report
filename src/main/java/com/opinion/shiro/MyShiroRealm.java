@@ -76,12 +76,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         if ("LOCK".equals(opsForValue.get(SHIRO_IS_LOCK + name))) {
             throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！");
         }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("nickname", name);
         //密码进行加密处理  明文为  password+name
         String paw = password + name;
         String pawDES = MyDES.encryptBasedDes(paw);
-        map.put("pswd", pawDES);
         // 从数据库获取对应用户名密码的用户
         SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(name, pawDES);
         if (null == sysUser) {
