@@ -4,29 +4,32 @@ import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.ReportArticle;
-import com.opinion.mysql.entity.SysUser;
+import com.opinion.mysql.entity.ReportArticleLog;
+import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author zhangtong
  * Created by on 2017/11/13
  */
 @Controller
-@RequestMapping("/reportArticle")
+@RequestMapping("reportArticle")
 public class ReportArticleController extends BaseController {
 
     @Autowired
     private ReportArticleService reportArticleService;
+
+    @Autowired
+    private ReportArticleLogService reportArticleLogService;
 
     @RequestMapping("opinionReport")
     public String opinionReport() {
@@ -96,10 +99,37 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "examineAndVerify", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestParam("reportArticleId") Long reportArticleId,
-                                                    @RequestParam("adoptState") String adoptState) {
+                                                    @RequestParam("adoptState") String adoptState,
+                                                    @RequestParam("adoptOpinion") String adoptOpinion) {
         String adoptUser = SysConst.USER_ACCOUNT;
         LocalDateTime adoptDate = DateUtils.currentDate();
-        ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUser, adoptState);
+        ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUser, adoptState, adoptOpinion);
         return success(reportArticle);
     }
+
+    /**
+     * 对上报文章日志
+     *
+     * @param reportArticleId id
+     * @return
+     */
+    @RequestMapping(value = "searchReportArticleLog", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchReportArticleLog(@RequestParam("reportArticleId") Long reportArticleId) {
+        List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportArticleId);
+        return success(list);
+    }
+
+
+//    /**
+//     * 查询子级上报文章信息
+//     *
+//     * @return
+//     */
+//    @RequestMapping(value = "searchReportArticleByChild", method = RequestMethod.POST)
+//    @ResponseBody
+//    public AjaxResult searchReportArticleByChild(@RequestBody ReportArticle reportArticle) {
+//        String userAccount = SysConst.USER_ACCOUNT;
+//
+//    }
 }

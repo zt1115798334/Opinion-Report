@@ -4,7 +4,6 @@ import com.opinion.mysql.entity.ReportArticle;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author zhangtong
@@ -38,11 +37,12 @@ public interface ReportArticleService {
 
     /**
      * 对上报文章进行审核
-     * @param id id
-     * @param adoptDate 审核时间
-     * @param adoptUser 审核人
+     *
+     * @param id         id
+     * @param adoptDate  审核时间
+     * @param adoptUser  审核人
      * @param adoptState 审核状态
      * @return
      */
-    ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, String adoptUser, String adoptState);
+    ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, String adoptUser, String adoptState, String adoptOpinion);
 }

@@ -21,4 +21,6 @@ public interface SysRoleService {
     List<SysRole> findList();
 
     List<SysRole> findListByUserId(Long userId);
+
+    boolean delSysRole(Long id);
 }

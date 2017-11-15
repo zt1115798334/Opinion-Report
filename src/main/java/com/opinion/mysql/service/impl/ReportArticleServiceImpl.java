@@ -1,8 +1,12 @@
 package com.opinion.mysql.service.impl;
 
+import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.ReportArticle;
+import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.repository.ReportArticleRepository;
+import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
+import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +31,14 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Autowired
     private ReportArticleRepository reportArticleRepository;
 
+    @Autowired
+    private ReportArticleLogService reportArticleLogService;
+
     @Override
     public ReportArticle save(ReportArticle reportArticle) {
-        return reportArticleRepository.save(reportArticle);
+        reportArticle = reportArticleRepository.save(reportArticle);
+        saveReportArticleLog(reportArticle.getId(), reportArticle.getAdoptState(), null);
+        return reportArticle;
     }
 
     @Override
@@ -67,14 +76,33 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
-    public ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, String adoptUser, String adoptState) {
+    public ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, String adoptUser, String adoptState, String adoptOpinion) {
         ReportArticle reportArticle = reportArticleRepository.findOne(id);
         if (reportArticle != null) {
             reportArticle.setAdoptDate(adoptDate);
             reportArticle.setAdoptUser(adoptUser);
             reportArticle.setAdoptState(adoptState);
+            reportArticle.setAdoptOpinion(adoptOpinion);
             reportArticle = reportArticleRepository.save(reportArticle);
+            saveReportArticleLog(id, adoptState, adoptOpinion);
         }
         return reportArticle;
+    }
+
+    public ReportArticleLog saveReportArticleLog(Long reportArticleId,
+                                                 String adoptState,
+                                                 String adoptOpinion) {
+        String userAccount = SysConst.USER_ACCOUNT;
+        LocalDateTime currentDate = DateUtils.currentDate();
+        ReportArticleLog reportArticleLog = new ReportArticleLog();
+        reportArticleLog.setReportArticleId(reportArticleId);
+        reportArticleLog.setAdoptDate(currentDate);
+        reportArticleLog.setAdoptUser(userAccount);
+        reportArticleLog.setAdoptState(adoptState);
+        reportArticleLog.setAdoptOpinion(adoptOpinion);
+        reportArticleLog.setCreatedDate(currentDate);
+        reportArticleLog.setCreatedUser(userAccount);
+        reportArticleLogService.save(reportArticleLog);
+        return reportArticleLog;
     }
 }

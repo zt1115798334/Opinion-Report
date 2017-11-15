@@ -10,6 +10,7 @@ import com.opinion.mysql.entity.SysUser;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.data.domain.Page;
+import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -1,16 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <link rel="stylesheet" href="/css/animate.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/style.min.css">
-    <link rel="stylesheet" href="/css/iconfont.css">
-    <link rel="stylesheet" href="/js/validator-0.7.3/jquery.validator.css">
-    <link rel="stylesheet" href="/css/sweetalert/sweetalert.css">
-
+    <link rel="stylesheet" type="text/css" href="/css/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/js/validator-0.7.3/jquery.validator.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert/sweetalert.css"/>
 
 </head>
 <body bgcolor="#FFFFFF">
@@ -41,11 +40,12 @@
     </div>
     <div class="part" style="z-index:-1;position:fixed;height:100%;width:100%;top:0;left:0"></div>
     <script src="../js/jquery-1.8.3.js"></script>
-    <script src="../js/validator-0.7.3/jquery.validator.js"></script>
-    <script src="../js/validator-0.7.3/local/zh_CN.js"></script>
-    <script src="../js/host.js"></script>
-    <script src="../js/sweetalert/sweetalert.min.js"></script>
-    <script src="../common/utils.js"></script>
-    <script src="../common/login.js"></script>
+    <script src="/js/validator-0.7.3/jquery.validator.js"></script>
+    <script src="/js/validator-0.7.3/local/zh_CN.js"></script>
+    <script src="/js/host.js"></script>
+    <script src="/js/sweetalert/sweetalert.min.js"></script>
+    <script src="/common/utils.js"></script>
+    <script src="/common/login.js"></script>
+</div>
 </body>
 </html>

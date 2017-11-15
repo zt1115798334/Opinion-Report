@@ -10,9 +10,7 @@
 <body>
 <div class="header">
     <div class="dl-title">
-        <a href="http://z77z.oschina.io/" title="个人博客地址" target="_blank">
-            <span class="lp-title-port">z77z</span><span class="dl-title-text">后台管理系统</span>
-        </a>
+        <span class="lp-title-port">z77z</span><span class="dl-title-text">后台管理系统</span>
     </div>
     <div class="dl-log">
         欢迎您，<span class="dl-log-user">王二</span> <span class="admin">（管理员）</span>
@@ -37,6 +35,7 @@
 <script src="/assets/js/bui-min.js"></script>
 <script src="/assets/js/config-min.js"></script>
 <script src="/js/barrage.js"></script>
+<script src="/common/utils.js"></script>
 <script>
     //学生登录
     BUI.use('common/main', function () {

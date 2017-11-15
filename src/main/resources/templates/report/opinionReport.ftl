@@ -36,4 +36,5 @@
 <script src="/assets/js/jquery-1.8.1.min.js"></script>
 <script src="/common/utils.js"></script>
 <script src="/common/report/opinionReport.js"></script>
+<script src="/common/report/opinionReportInfo.js"></script>
 </html>

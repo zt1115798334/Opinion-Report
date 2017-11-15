@@ -2,7 +2,7 @@ $(function () {
 
     $(document).on("click", ".btn-primary", function () {
         login();
-    })
+    });
 });
 
 function login() {
@@ -31,3 +31,5 @@ function login() {
         }
     }
 }
+
+

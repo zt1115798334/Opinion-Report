@@ -84,6 +84,11 @@ public class SysUser implements Serializable {
     @Column(name = "modified_user", nullable = false)
     private String modifiedUser;
 
+    @Transient
+    private Long roleId;
+    @Transient
+    private Long cityOrganizationId;
+
     public SysUser() {
     }
 
@@ -186,6 +191,22 @@ public class SysUser implements Serializable {
 
     public void setModifiedUser(String modifiedUser) {
         this.modifiedUser = modifiedUser;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public Long getCityOrganizationId() {
+        return cityOrganizationId;
+    }
+
+    public void setCityOrganizationId(Long cityOrganizationId) {
+        this.cityOrganizationId = cityOrganizationId;
     }
 
     @Override

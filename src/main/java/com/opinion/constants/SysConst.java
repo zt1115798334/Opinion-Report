@@ -15,7 +15,7 @@ public class SysConst {
      */
     public static final SysUser SYS_USER = (SysUser) SecurityUtils.getSubject().getPrincipal();
 
-    public static final String USER_ACCOUNT = SYS_USER.getUserAccount();
+    public static final String USER_ACCOUNT = "admin";
 
     public enum LoginStatus {
 

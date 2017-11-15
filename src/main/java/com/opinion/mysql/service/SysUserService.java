@@ -1,7 +1,6 @@
 package com.opinion.mysql.service;
 
 import com.opinion.mysql.entity.SysUser;
-import com.opinion.mysql.entity.UserOnline;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
@@ -13,16 +12,18 @@ import java.util.List;
  */
 public interface SysUserService {
 
-    SysUser save(SysUser sysUser, Long roleId);
+    SysUser save(SysUser sysUser);
 
-    List<SysUser> findList();
+    boolean delSysUser(Long id);
 
-    List<SysUser> findListByRoleId(Long roleId);
+    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize);
+
+    Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNum, int pageSize);
 
     /**
      * 根据账户密码查询账户信息
      *
-     * @param userAccount 账户
+     * @param userAccount  账户
      * @param userPassword
      * @return
      */
@@ -30,6 +31,7 @@ public interface SysUserService {
 
     /**
      * 更新最后一次登录时间
+     *
      * @param id
      * @param localDateTime
      * @return

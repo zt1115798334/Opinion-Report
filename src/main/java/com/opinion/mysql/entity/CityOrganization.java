@@ -6,14 +6,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 省市区信息表
+ * 省市区组织信息表
  *
  * @author zhangtong
  * Created by on 2017/11/15
  */
 @Entity
-@Table(name = "t_city")
-public class City implements Serializable {
+@Table(name = "t_city_organization")
+public class CityOrganization implements Serializable {
 
     private static final long serialVersionUID = 9201034849892179274L;
 
@@ -40,12 +40,6 @@ public class City implements Serializable {
      */
     @Column(name = "parent_id", nullable = false)
     private Long parentId;
-
-    /**
-     * 首字母
-     */
-    @Column(name = "first_letter", nullable = false)
-    private String firstLetter;
 
     /**
      * 城市等级
@@ -83,14 +77,6 @@ public class City implements Serializable {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public String getFirstLetter() {
-        return firstLetter;
-    }
-
-    public void setFirstLetter(String firstLetter) {
-        this.firstLetter = firstLetter;
     }
 
     public Integer getLevel() {
