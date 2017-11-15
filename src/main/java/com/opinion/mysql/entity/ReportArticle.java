@@ -35,22 +35,22 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     private String reportSource;
 
     /**
-     * 上报类型 nonSensitive：非敏感，sensitive：敏感，serious：严重
+     * 上报类型 上报类型 red：红色，orange：橙色，yellow：黄色
      */
-    @Column(name = "report_type", nullable = false)
-    private String reportType;
+    @Column(name = "report_level", nullable = false)
+    private String reportLevel;
 
     /**
      * 来源地址
      */
-    @Column(name = "source_url", nullable = false)
+    @Column(name = "source_url")
     private String sourceUrl;
 
     /**
-     * 来源站点
+     * 来源类型 网络：network 媒体 ： media 现场 scene 其他 other
      */
-    @Column(name = "source_site", nullable = false)
-    private String sourceSite;
+    @Column(name = "source_type", nullable = false)
+    private String sourceType;
 
     /**
      * 标题
@@ -61,22 +61,16 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     /**
      * 发布时间
      */
-    @Column(name = "publish_date", nullable = false)
-    private String publishDate;
-
-    /**
-     * 发布时间
-     */
     @Column(name = "publish_datetime", nullable = false)
-    @Convert(converter = LocalDateAttributeConverter.class)
-    private LocalDate publishDatetime;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime publishDatetime;
 
 
     /**
-     * 点击数
+     * 回复类型 点击 click，评论 comment  预估值 estimate
      */
-    @Column(name = "click_number", nullable = false)
-    private Integer clickNumber;
+    @Column(name = "reply_type", nullable = false)
+    private String replyType;
 
     /**
      * 回复数
@@ -158,12 +152,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.reportSource = reportSource;
     }
 
-    public String getReportType() {
-        return reportType;
+    public String getReportLevel() {
+        return reportLevel;
     }
 
-    public void setReportType(String reportType) {
-        this.reportType = reportType;
+    public void setReportLevel(String reportLevel) {
+        this.reportLevel = reportLevel;
     }
 
     public String getSourceUrl() {
@@ -174,12 +168,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.sourceUrl = sourceUrl;
     }
 
-    public String getSourceSite() {
-        return sourceSite;
+    public String getSourceType() {
+        return sourceType;
     }
 
-    public void setSourceSite(String sourceSite) {
-        this.sourceSite = sourceSite;
+    public void setSourceType(String sourceType) {
+        this.sourceType = sourceType;
     }
 
     public String getTitle() {
@@ -190,28 +184,20 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.title = title;
     }
 
-    public String getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public LocalDate getPublishDatetime() {
+    public LocalDateTime getPublishDatetime() {
         return publishDatetime;
     }
 
-    public void setPublishDatetime(LocalDate publishDatetime) {
+    public void setPublishDatetime(LocalDateTime publishDatetime) {
         this.publishDatetime = publishDatetime;
     }
 
-    public Integer getClickNumber() {
-        return clickNumber;
+    public String getReplyType() {
+        return replyType;
     }
 
-    public void setClickNumber(Integer clickNumber) {
-        this.clickNumber = clickNumber;
+    public void setReplyType(String replyType) {
+        this.replyType = replyType;
     }
 
     public Integer getReplyNumber() {

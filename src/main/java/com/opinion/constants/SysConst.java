@@ -82,4 +82,28 @@ public class SysConst {
             return name;
         }
     }
+
+    public enum ReportType {
+
+        RED("red", "红色"),
+        ORANGE("orange", "橙色"),
+        YELLOW("yellow", "黄色");
+
+        private String code;
+        private String name;
+
+        ReportType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 }

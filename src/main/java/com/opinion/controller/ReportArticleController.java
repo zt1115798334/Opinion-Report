@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * Created by on 2017/11/13
  */
 @Controller
-@RequestMapping("reportArticle")
+@RequestMapping("/reportArticle")
 public class ReportArticleController extends BaseController {
 
     @Autowired
@@ -44,10 +44,8 @@ public class ReportArticleController extends BaseController {
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
         LocalDateTime currentDate = DateUtils.currentDate();
         String userAccount = SysConst.USER_ACCOUNT;
-        LocalDate publishDatetime = DateUtils.parseDate(reportArticle.getPublishDate(), DateUtils.DATE_FORMAT);
-
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
-        reportArticle.setPublishDatetime(publishDatetime);
+        reportArticle.setPublishDatetime(currentDate);
         reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setCreatedDate(currentDate);
         reportArticle.setCreatedUser(userAccount);

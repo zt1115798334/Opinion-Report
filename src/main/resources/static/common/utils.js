@@ -38,19 +38,18 @@ function execAjaxJSON(url, params, callback) {
         type: 'post',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSON.stringify(params),
-        error: function (result) {
+        data : JSON.stringify(params),
+        error: function(result) {
             return false;
         },
-        success: function (result) {
+        success: function(result) {
             //console.log(JSON.stringify(result));
             if (result && (typeof(callback) == 'function')) {
                 callback(result);
             }
         },
-        beforeSend: _arguments.length > 3 ? _arguments[3] : function () {   /*请求前*/
-        },
-        complete: _arguments.length > 3 ? _arguments[4] : function () { /*请求结束后*/
-        }
+        beforeSend: _arguments.length>3 ? _arguments[3] : function () {   /*请求前*/ },
+        complete: _arguments.length>3 ? _arguments[4] : function () { /*请求结束后*/ }
     });
 }
+

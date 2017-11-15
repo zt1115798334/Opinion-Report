@@ -46,6 +46,15 @@ public class ReportArticleServiceImpl implements ReportArticleService {
                 if (StringUtils.isNotEmpty(reportArticle.getCreatedUser())) {
                     query.where(builder.and(builder.equal(root.get("createdUser").as(String.class), reportArticle.getCreatedUser())));
                 }
+                if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
+                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
+                }
+                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
+                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                }
+                if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
+                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                }
                 return null;
             }
         };
