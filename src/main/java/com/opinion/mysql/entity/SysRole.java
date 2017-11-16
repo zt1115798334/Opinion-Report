@@ -44,8 +44,8 @@ public class SysRole implements Serializable {
     /**
      * 创建人
      */
-    @Column(name = "created_user", nullable = false)
-    private String createdUser;
+    @Column(name = "created_user_id", nullable = false)
+    private Long createdUserId;
 
     /**
      * 修改时间
@@ -57,8 +57,8 @@ public class SysRole implements Serializable {
     /**
      * 修改人
      */
-    @Column(name = "modified_user", nullable = false)
-    private String modifiedUser;
+    @Column(name = "modified_user_id", nullable = false)
+    private Long modifiedUserId;
 
     public Long getId() {
         return id;
@@ -92,12 +92,12 @@ public class SysRole implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public Long getCreatedUserId() {
+        return createdUserId;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser;
+    public void setCreatedUserId(Long createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     public LocalDateTime getModifiedDate() {
@@ -108,12 +108,12 @@ public class SysRole implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
-    public String getModifiedUser() {
-        return modifiedUser;
+    public Long getModifiedUserId() {
+        return modifiedUserId;
     }
 
-    public void setModifiedUser(String modifiedUser) {
-        this.modifiedUser = modifiedUser;
+    public void setModifiedUserId(Long modifiedUserId) {
+        this.modifiedUserId = modifiedUserId;
     }
 
     @Override

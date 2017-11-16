@@ -76,16 +76,20 @@ public class MyDES {
     }
 
     public static void main(String[] args) {
-        IntStream.rangeClosed(1, 6).forEach(i -> {
-            String str = 1 + "00" + i;
+        String str = "123123" + "admin";
+        // DES数据加密
+        String s1 = encryptBasedDes(str);
+        System.out.println(s1);
+        IntStream.rangeClosed(1, 4).forEach(i -> {
+            String str1 = "123123" + "admin" + i;
             // DES数据加密
-            String s1 = encryptBasedDes(str);
-            System.out.println(s1);
+            String s11 = encryptBasedDes(str1);
+            System.out.println(s11);
         });
 
 
-//		// DES数据解密
-//		String s2 = decryptBasedDes(s1);
+        // DES数据解密
+//		String s2 = decryptBasedDes("oCLRJiSv2qwNZNyxXU2SRA==");
 //		System.err.println(s2);
     }
 }

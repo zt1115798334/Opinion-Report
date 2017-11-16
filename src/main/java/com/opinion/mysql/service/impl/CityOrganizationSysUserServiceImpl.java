@@ -46,4 +46,9 @@ public class CityOrganizationSysUserServiceImpl implements CityOrganizationSysUs
         return cityOrganizationSysUserRepository.countByCityOrganizationId(cityOrganizationId);
     }
 
+    @Override
+    public List<CityOrganizationSysUser> findListByCityOrganizationIds(List<Long> cityOrganizationIds) {
+        return cityOrganizationSysUserRepository.findByCityOrganizationIdIn(cityOrganizationIds);
+    }
+
 }

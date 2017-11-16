@@ -28,7 +28,7 @@ $(function () {
 
 
 function saveReportArticleFun(params) {
-    var url = "/reportArticle/save";
+    var url = "/reportArticle/saveReportArticle";
     execAjaxJSON(url, params, callback);
 
     function callback(result) {

@@ -1,5 +1,6 @@
 package com.opinion.mysql.service;
 
+import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface CityOrganizationSysUserService {
     void delCityOrganizationSysUser(Long userId);
 
     long findCountByCityOrganizationId(Long cityOrganizationId);
+
+    List<CityOrganizationSysUser> findListByCityOrganizationIds(List<Long> cityOrganizationIds);
 
 }

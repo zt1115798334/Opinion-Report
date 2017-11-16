@@ -14,7 +14,5 @@ import java.util.List;
  * Created by on 2017/11/13
  */
 public interface ReportArticleRepository extends CrudRepository<ReportArticle, Long>, JpaSpecificationExecutor<ReportArticle> {
-    List<ReportArticle> findByCreatedUser(String createUser);
-
     Page<ReportArticle> findAll(Specification<ReportArticle> specification, Pageable pageable);
 }

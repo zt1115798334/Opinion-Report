@@ -68,8 +68,8 @@ public class SysUser implements Serializable {
     /**
      * 创建人
      */
-    @Column(name = "created_user", nullable = false)
-    private String createdUser;
+    @Column(name = "created_user_id", nullable = false)
+    private Long createdUserId;
 
     /**
      * 修改时间
@@ -81,8 +81,8 @@ public class SysUser implements Serializable {
     /**
      * 修改人
      */
-    @Column(name = "modified_user", nullable = false)
-    private String modifiedUser;
+    @Column(name = "modified_user_id", nullable = false)
+    private Long modifiedUserId;
 
     @Transient
     private Long roleId;
@@ -100,9 +100,9 @@ public class SysUser implements Serializable {
         this.lastLoginTime = user.getLastLoginTime();
         this.status = user.getStatus();
         this.createdDate = user.getCreatedDate();
-        this.createdUser = user.getCreatedUser();
+        this.createdUserId = user.getCreatedUserId();
         this.modifiedDate = user.getModifiedDate();
-        this.modifiedUser = user.getModifiedUser();
+        this.modifiedUserId = user.getModifiedUserId();
     }
 
     public Long getId() {
@@ -169,12 +169,12 @@ public class SysUser implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public Long getCreatedUserId() {
+        return createdUserId;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser;
+    public void setCreatedUserId(Long createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     public LocalDateTime getModifiedDate() {
@@ -185,12 +185,12 @@ public class SysUser implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
-    public String getModifiedUser() {
-        return modifiedUser;
+    public Long getModifiedUserId() {
+        return modifiedUserId;
     }
 
-    public void setModifiedUser(String modifiedUser) {
-        this.modifiedUser = modifiedUser;
+    public void setModifiedUserId(Long modifiedUserId) {
+        this.modifiedUserId = modifiedUserId;
     }
 
     public Long getRoleId() {

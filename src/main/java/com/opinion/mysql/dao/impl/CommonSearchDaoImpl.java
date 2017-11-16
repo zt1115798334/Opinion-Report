@@ -49,10 +49,10 @@ public class CommonSearchDaoImpl implements CommonSearchDao {
             sysRole.setRoleType(jo.getString("role_type"));
             Date createdDate = jo.getDate("created_date");
             sysRole.setCreatedDate(LocalDateTime.ofInstant(createdDate.toInstant(), zone));
-            sysRole.setCreatedUser(jo.getString("created_user"));
+            sysRole.setCreatedUserId(jo.getLong("created_user"));
             Date modifiedDate = jo.getDate("modified_date");
             sysRole.setModifiedDate(LocalDateTime.ofInstant(modifiedDate.toInstant(), zone));
-            sysRole.setModifiedUser(jo.getString("modified_user"));
+            sysRole.setModifiedUserId(jo.getLong("modified_user"));
             return sysRole;
         }).collect(Collectors.toList());
         return result;
@@ -79,10 +79,10 @@ public class CommonSearchDaoImpl implements CommonSearchDao {
             sysUser.setStatus(jo.getString("status"));
             Date createdDate = jo.getDate("created_date");
             sysUser.setCreatedDate(LocalDateTime.ofInstant(createdDate.toInstant(), zone));
-            sysUser.setCreatedUser(jo.getString("created_user"));
+            sysUser.setCreatedUserId(jo.getLong("created_user"));
             Date modifiedDate = jo.getDate("modified_date");
             sysUser.setModifiedDate(LocalDateTime.ofInstant(modifiedDate.toInstant(), zone));
-            sysUser.setModifiedUser(jo.getString("modified_user"));
+            sysUser.setModifiedUserId(jo.getLong("modified_user"));
             return sysUser;
         }).collect(Collectors.toList());
         return result;

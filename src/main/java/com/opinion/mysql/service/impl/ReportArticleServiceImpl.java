@@ -1,9 +1,13 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.constants.SysConst;
+import com.opinion.mysql.entity.CityOrganization;
+import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.repository.ReportArticleRepository;
+import com.opinion.mysql.service.CityOrganizationService;
+import com.opinion.mysql.service.CityOrganizationSysUserService;
 import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.utils.DateUtils;
@@ -20,6 +24,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -34,10 +40,16 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Autowired
     private ReportArticleLogService reportArticleLogService;
 
+    @Autowired
+    private CityOrganizationService cityOrganizationService;
+
+    @Autowired
+    private CityOrganizationSysUserService cityOrganizationSysUserService;
+
     @Override
     public ReportArticle save(ReportArticle reportArticle) {
         reportArticle = reportArticleRepository.save(reportArticle);
-        saveReportArticleLog(reportArticle.getId(), reportArticle.getAdoptState(), null);
+        saveReportArticleLog(reportArticle.getReportCode(), reportArticle.getAdoptState(), null);
         return reportArticle;
     }
 
@@ -52,9 +64,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                if (StringUtils.isNotEmpty(reportArticle.getCreatedUser())) {
-                    query.where(builder.and(builder.equal(root.get("createdUser").as(String.class), reportArticle.getCreatedUser())));
-                }
+                query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), reportArticle.getCreatedUserId())));
                 if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
                     query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
                 }
@@ -76,32 +86,68 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
-    public ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, String adoptUser, String adoptState, String adoptOpinion) {
+    public ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, Long adoptUserId, String adoptState, String adoptOpinion) {
         ReportArticle reportArticle = reportArticleRepository.findOne(id);
         if (reportArticle != null) {
             reportArticle.setAdoptDate(adoptDate);
-            reportArticle.setAdoptUser(adoptUser);
+            reportArticle.setAdoptUserId(adoptUserId);
             reportArticle.setAdoptState(adoptState);
             reportArticle.setAdoptOpinion(adoptOpinion);
             reportArticle = reportArticleRepository.save(reportArticle);
-            saveReportArticleLog(id, adoptState, adoptOpinion);
+            saveReportArticleLog(reportArticle.getReportCode(), adoptState, adoptOpinion);
         }
         return reportArticle;
     }
 
-    public ReportArticleLog saveReportArticleLog(Long reportArticleId,
+    @Override
+    public Page<ReportArticle> findPageByInChild(ReportArticle reportArticle) {
+        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(reportArticle.getCreatedUserId());
+        Page<ReportArticle> result = null;
+        if (cityOrganizationSysUser != null) {
+            List<CityOrganization> cityOrganizations = cityOrganizationService.findByParentId(cityOrganizationSysUser.getId());
+            List<Long> cityOrganizationIds = cityOrganizations.stream().map(CityOrganization::getId).collect(Collectors.toList());
+            List<CityOrganizationSysUser> cityOrganizationSysUsers = cityOrganizationSysUserService.findListByCityOrganizationIds(cityOrganizationIds);
+            List<Long> userId = cityOrganizationSysUsers.stream().map(CityOrganizationSysUser::getUserId).collect(Collectors.toList());
+            Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+                @Override
+                public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                    CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
+                    userId.forEach(userid -> in.value(userid));
+                    query.where(in);
+                    if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
+                        query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
+                    }
+                    if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
+                        query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                    }
+                    if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
+                        query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                    }
+                    return null;
+                }
+            };
+            Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+                    reportArticle.getPageSize(),
+                    reportArticle.getSortParam(),
+                    reportArticle.getSortParam());
+            result = reportArticleRepository.findAll(specification, pageable);
+        }
+        return result;
+    }
+
+    public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
                                                  String adoptOpinion) {
-        String userAccount = SysConst.USER_ACCOUNT;
+        Long userId = SysConst.USER_ID;
         LocalDateTime currentDate = DateUtils.currentDate();
         ReportArticleLog reportArticleLog = new ReportArticleLog();
-        reportArticleLog.setReportArticleId(reportArticleId);
+        reportArticleLog.setReportCode(reportCode);
         reportArticleLog.setAdoptDate(currentDate);
-        reportArticleLog.setAdoptUser(userAccount);
+        reportArticleLog.setAdoptUserId(userId);
         reportArticleLog.setAdoptState(adoptState);
         reportArticleLog.setAdoptOpinion(adoptOpinion);
         reportArticleLog.setCreatedDate(currentDate);
-        reportArticleLog.setCreatedUser(userAccount);
+        reportArticleLog.setCreatedUserId(userId);
         reportArticleLogService.save(reportArticleLog);
         return reportArticleLog;
     }

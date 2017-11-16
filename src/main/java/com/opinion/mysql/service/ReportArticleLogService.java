@@ -12,5 +12,5 @@ public interface ReportArticleLogService {
 
     ReportArticleLog save(ReportArticleLog reportArticleLog);
 
-    List<ReportArticleLog> findListByReportArticleId(Long reportArticleId);
+    List<ReportArticleLog> findListByReportArticleId(String  reportCode);
 }

@@ -29,6 +29,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     private Long id;
 
     /**
+     * 上报编号
+     */
+    @Column(name = "report_code",nullable = false)
+    private String reportCode;
+
+    /**
      * 上报来源 artificial:人工上报，machine:机器上报
      */
     @Column(name = "report_source", nullable = false)
@@ -92,10 +98,10 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     private LocalDateTime adoptDate;
 
     /**
-     * 采纳人
+     * 采纳人Id
      */
-    @Column(name = "adopt_user")
-    private String adoptUser;
+    @Column(name = "adopt_user_id")
+    private Long adoptUserId;
 
     /**
      * adopt:采纳，report:已上报
@@ -117,24 +123,10 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdDate;
     /**
-     * 创建人
+     * 创建人Id
      */
-    @Column(name = "created_user", nullable = false)
-    private String createdUser;
-
-    /**
-     * 修改时间
-     */
-    @Column(name = "modified_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime modifiedDate;
-
-    /**
-     * 修改人
-     */
-    @Column(name = "modified_user", nullable = false)
-    private String modifiedUser;
+    @Column(name = "created_user_id", nullable = false)
+    private Long createdUserId;
 
     public Long getId() {
         return id;
@@ -142,6 +134,14 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 
     public String getReportSource() {
@@ -224,12 +224,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.adoptDate = adoptDate;
     }
 
-    public String getAdoptUser() {
-        return adoptUser;
+    public Long getAdoptUserId() {
+        return adoptUserId;
     }
 
-    public void setAdoptUser(String adoptUser) {
-        this.adoptUser = adoptUser;
+    public void setAdoptUserId(Long adoptUserId) {
+        this.adoptUserId = adoptUserId;
     }
 
     public String getAdoptState() {
@@ -256,28 +256,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public Long getCreatedUserId() {
+        return createdUserId;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser;
-    }
-
-    public LocalDateTime getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(LocalDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public String getModifiedUser() {
-        return modifiedUser;
-    }
-
-    public void setModifiedUser(String modifiedUser) {
-        this.modifiedUser = modifiedUser;
+    public void setCreatedUserId(Long createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     @Override

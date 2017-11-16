@@ -61,7 +61,7 @@ public class SystemController extends BaseController {
      * @param roleId 角色id
      * @return
      */
-    @RequestMapping(value = "saveSysRole", method = RequestMethod.POST)
+    @RequestMapping(value = "delSysRole", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult delSysRole(@RequestParam("roleId") Long roleId) {
         boolean flag = sysRoleService.delSysRole(roleId);
@@ -177,13 +177,13 @@ public class SystemController extends BaseController {
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，参数信息为：sysUser:{}", sysUser);
         LocalDateTime currentDate = DateUtils.currentDate();
-        String userAccount = SysConst.USER_ACCOUNT;
+        Long userId = SysConst.USER_ID;
         sysUser.setCreatedDate(currentDate);
-        sysUser.setCreatedUser(userAccount);
+        sysUser.setCreatedUserId(userId);
         sysUser.setModifiedDate(currentDate);
-        sysUser.setModifiedUser(userAccount);
+        sysUser.setModifiedUserId(userId);
         sysUser.setLastLoginTime(currentDate);
-        String paw = sysUser.getUserPassword() + sysUser.getUserName();
+        String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
         String pawDES = MyDES.encryptBasedDes(paw);
         sysUser.setUserPassword(pawDES);
         sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());

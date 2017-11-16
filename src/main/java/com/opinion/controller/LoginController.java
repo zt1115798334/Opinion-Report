@@ -85,18 +85,19 @@ public class LoginController {
 
     /**
      * 退出
-     *
      * @return
      */
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
-    public String logout() {
+    @RequestMapping(value="logout",method =RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> logout(){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         try {
             //退出
             SecurityUtils.getSubject().logout();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        return "login";
+        return resultMap;
     }
 
     /**

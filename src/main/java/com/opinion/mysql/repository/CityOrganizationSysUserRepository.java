@@ -18,4 +18,6 @@ public interface CityOrganizationSysUserRepository extends CrudRepository<CityOr
     void deleteByUserId(Long userId);
 
     long countByCityOrganizationId(Long cityOrganizationId);
+
+    List<CityOrganizationSysUser> findByCityOrganizationIdIn(List<Long> cityOrganizationIds);
 }

@@ -27,10 +27,10 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     private Long id;
 
     /**
-     * 上传文章id
+     * 上传编号
      */
-    @Column(name = "report_article_id")
-    private Long reportArticleId;
+    @Column(name = "report_code")
+    private String reportCode;
 
     /**
      * 采纳时间
@@ -42,8 +42,8 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     /**
      * 采纳人
      */
-    @Column(name = "adopt_user")
-    private String adoptUser;
+    @Column(name = "adopt_user_id")
+    private Long adoptUserId;
 
     /**
      * adopt:采纳，report:已上报
@@ -67,8 +67,8 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     /**
      * 创建人
      */
-    @Column(name = "created_user", nullable = false)
-    private String createdUser;
+    @Column(name = "created_user_id", nullable = false)
+    private Long createdUserId;
 
     public Long getId() {
         return id;
@@ -78,12 +78,12 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.id = id;
     }
 
-    public Long getReportArticleId() {
-        return reportArticleId;
+    public String getReportCode() {
+        return reportCode;
     }
 
-    public void setReportArticleId(Long reportArticleId) {
-        this.reportArticleId = reportArticleId;
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 
     public LocalDateTime getAdoptDate() {
@@ -94,12 +94,12 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.adoptDate = adoptDate;
     }
 
-    public String getAdoptUser() {
-        return adoptUser;
+    public Long getAdoptUserId() {
+        return adoptUserId;
     }
 
-    public void setAdoptUser(String adoptUser) {
-        this.adoptUser = adoptUser;
+    public void setAdoptUserId(Long adoptUserId) {
+        this.adoptUserId = adoptUserId;
     }
 
     public String getAdoptState() {
@@ -126,12 +126,12 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public Long getCreatedUserId() {
+        return createdUserId;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser;
+    public void setCreatedUserId(Long createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     @Override

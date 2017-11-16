@@ -8,6 +8,7 @@ import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.SNUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,18 +43,17 @@ public class ReportArticleController extends BaseController {
      * @param reportArticle
      * @return
      */
-    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @RequestMapping(value = "saveReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
         LocalDateTime currentDate = DateUtils.currentDate();
-        String userAccount = SysConst.USER_ACCOUNT;
+        Long userId = SysConst.USER_ID;
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
         reportArticle.setPublishDatetime(currentDate);
         reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setCreatedDate(currentDate);
-        reportArticle.setCreatedUser(userAccount);
-        reportArticle.setModifiedDate(currentDate);
-        reportArticle.setModifiedUser(userAccount);
+        reportArticle.setCreatedUserId(userId);
+        reportArticle.setReportCode(SNUtil.create15());
         reportArticleService.save(reportArticle);
         return success("添加成功");
     }
@@ -79,12 +79,12 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchPage", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
-        String userAccount = SysConst.USER_ACCOUNT;
+        Long userId = SysConst.USER_ID;
         if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
             reportArticle.setSortParam("publishDatetime");
             reportArticle.setSortType("desc");
         }
-        reportArticle.setCreatedUser(userAccount);
+        reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> reportArticles = reportArticleService.findPageByCreateUser(reportArticle);
         return success(reportArticles);
     }
@@ -101,35 +101,39 @@ public class ReportArticleController extends BaseController {
     public AjaxResult examineAndVerifyReportArticle(@RequestParam("reportArticleId") Long reportArticleId,
                                                     @RequestParam("adoptState") String adoptState,
                                                     @RequestParam("adoptOpinion") String adoptOpinion) {
-        String adoptUser = SysConst.USER_ACCOUNT;
+        Long adoptUserId = SysConst.USER_ID;
         LocalDateTime adoptDate = DateUtils.currentDate();
-        ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUser, adoptState, adoptOpinion);
+        ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUserId, adoptState, adoptOpinion);
         return success(reportArticle);
     }
 
     /**
      * 对上报文章日志
      *
-     * @param reportArticleId id
+     * @param reportCode 上报编号
      * @return
      */
     @RequestMapping(value = "searchReportArticleLog", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleLog(@RequestParam("reportArticleId") Long reportArticleId) {
-        List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportArticleId);
+    public AjaxResult searchReportArticleLog(@RequestParam("reportArticleId") String reportCode) {
+        List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
         return success(list);
     }
 
 
-//    /**
-//     * 查询子级上报文章信息
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "searchReportArticleByChild", method = RequestMethod.POST)
-//    @ResponseBody
-//    public AjaxResult searchReportArticleByChild(@RequestBody ReportArticle reportArticle) {
-//        String userAccount = SysConst.USER_ACCOUNT;
-//
-//    }
+    /**
+     * 查询子级上报文章信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
+        Long userId = SysConst.USER_ID;
+        reportArticle.setCreatedUserId(userId);
+        Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
+        return success(page);
+    }
+
+
 }
