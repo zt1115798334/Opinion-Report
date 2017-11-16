@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -176,13 +177,16 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，参数信息为：sysUser:{}", sysUser);
-        LocalDateTime currentDate = DateUtils.currentDate();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         Long userId = SysConst.USER_ID;
         sysUser.setCreatedDate(currentDate);
+        sysUser.setCreatedDatetime(currentDatetime);
         sysUser.setCreatedUserId(userId);
         sysUser.setModifiedDate(currentDate);
+        sysUser.setModifiedDatetime(currentDatetime);
         sysUser.setModifiedUserId(userId);
-        sysUser.setLastLoginTime(currentDate);
+        sysUser.setLastLoginTime(currentDatetime);
         String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
         String pawDES = MyDES.encryptBasedDes(paw);
         sysUser.setUserPassword(pawDES);

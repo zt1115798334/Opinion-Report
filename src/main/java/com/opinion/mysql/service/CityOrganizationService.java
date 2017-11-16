@@ -14,6 +14,8 @@ public interface CityOrganizationService {
 
     CityOrganization findById(Long id);
 
+    CityOrganization findByUserId(Long userId);
+
     List<CityOrganization> findByParentId(Long parentId);
 
     boolean delCityOrganization(Long id);

@@ -93,9 +93,9 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     /**
      * 采纳时间
      */
-    @Column(name = "adopt_date")
+    @Column(name = "adopt_datetime")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime adoptDate;
+    private LocalDateTime adoptDatetime;
 
     /**
      * 采纳人Id
@@ -104,7 +104,7 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     private Long adoptUserId;
 
     /**
-     * adopt:采纳，report:已上报
+     * adopt:已采纳 notAdopted:未采纳，report:已上报
      */
     @Column(name = "adopt_state", nullable = false)
     private String adoptState;
@@ -116,12 +116,20 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     private String adoptOpinion;
 
     /**
-     * 创建时间
+     * 创建日期
      */
     @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate createdDate;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "created_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDatetime;
     /**
      * 创建人Id
      */
@@ -132,9 +140,16 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
      * 修改时间
      */
     @Column(name = "modified_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate modifiedDate;
+    /**
+     * 修改时间
+     */
+    @Column(name = "modified_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedDatetime;
     /**
      * 修改人Id
      */
@@ -229,12 +244,12 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.reportCause = reportCause;
     }
 
-    public LocalDateTime getAdoptDate() {
-        return adoptDate;
+    public LocalDateTime getAdoptDatetime() {
+        return adoptDatetime;
     }
 
-    public void setAdoptDate(LocalDateTime adoptDate) {
-        this.adoptDate = adoptDate;
+    public void setAdoptDatetime(LocalDateTime adoptDatetime) {
+        this.adoptDatetime = adoptDatetime;
     }
 
     public Long getAdoptUserId() {
@@ -261,12 +276,20 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.adoptOpinion = adoptOpinion;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
     public Long getCreatedUserId() {
@@ -277,12 +300,20 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
         this.createdUserId = createdUserId;
     }
 
-    public LocalDateTime getModifiedDate() {
+    public LocalDate getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(LocalDateTime modifiedDate) {
+    public void setModifiedDate(LocalDate modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public LocalDateTime getModifiedDatetime() {
+        return modifiedDatetime;
+    }
+
+    public void setModifiedDatetime(LocalDateTime modifiedDatetime) {
+        this.modifiedDatetime = modifiedDatetime;
     }
 
     public Long getModifiedUserId() {

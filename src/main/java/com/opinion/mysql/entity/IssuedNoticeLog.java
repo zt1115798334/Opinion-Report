@@ -1,12 +1,14 @@
 package com.opinion.mysql.entity;
 
 import com.opinion.base.bean.BaseSortRequest;
+import com.opinion.mysql.converter.LocalDateAttributeConverter;
 import com.opinion.mysql.converter.LocalDateTimeAttributeConverter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
  * Created by on 2017/11/16
  */
 @Entity
-@Table(name = "t_issued_notice")
+@Table(name = "t_issued_notice_log")
 public class IssuedNoticeLog extends BaseSortRequest implements Serializable {
     private static final long serialVersionUID = 9201034849892179274L;
 
@@ -49,12 +51,20 @@ public class IssuedNoticeLog extends BaseSortRequest implements Serializable {
     private Long receiptUserId;
 
     /**
-     * 创建时间
+     * 创建日期
      */
     @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate createdDate;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "created_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDatetime;
     /**
      * 创建人Id
      */
@@ -101,12 +111,20 @@ public class IssuedNoticeLog extends BaseSortRequest implements Serializable {
         this.receiptUserId = receiptUserId;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
     public Long getCreatedUserId() {

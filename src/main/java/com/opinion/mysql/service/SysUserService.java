@@ -14,6 +14,8 @@ public interface SysUserService {
 
     SysUser save(SysUser sysUser);
 
+    SysUser findById(Long id);
+
     boolean delSysUser(Long id);
 
     Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize);

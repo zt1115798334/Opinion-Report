@@ -1,6 +1,7 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.mysql.entity.CityOrganization;
+import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.repository.CityOrganizationRepository;
 import com.opinion.mysql.service.CityOrganizationService;
 import com.opinion.mysql.service.CityOrganizationSysUserService;
@@ -30,6 +31,16 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     @Override
     public CityOrganization findById(Long id) {
         return cityOrganizationRepository.findOne(id);
+    }
+
+    @Override
+    public CityOrganization findByUserId(Long userId) {
+        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
+        CityOrganization cityOrganization = null;
+        if (cityOrganizationSysUser != null) {
+            cityOrganization = findById(cityOrganizationSysUser.getCityOrganizationId());
+        }
+        return cityOrganization;
     }
 
     @Override

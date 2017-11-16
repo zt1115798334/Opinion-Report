@@ -2,15 +2,11 @@ package com.opinion.mysql.dao.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.opinion.mysql.dao.CommonSearchDao;
-import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.SysRole;
 import com.opinion.mysql.entity.SysUser;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -47,11 +42,15 @@ public class CommonSearchDaoImpl implements CommonSearchDao {
             sysRole.setId(jo.getLong("id"));
             sysRole.setRoleName(jo.getString("role_name"));
             sysRole.setRoleType(jo.getString("role_type"));
-            Date createdDate = jo.getDate("created_date");
-            sysRole.setCreatedDate(LocalDateTime.ofInstant(createdDate.toInstant(), zone));
+            Date createdDatetime = jo.getDate("created_datetime");
+            LocalDateTime createdDatetimeL = LocalDateTime.ofInstant(createdDatetime.toInstant(), zone);
+            sysRole.setCreatedDate(createdDatetimeL.toLocalDate());
+            sysRole.setCreatedDatetime(createdDatetimeL);
             sysRole.setCreatedUserId(jo.getLong("created_user"));
-            Date modifiedDate = jo.getDate("modified_date");
-            sysRole.setModifiedDate(LocalDateTime.ofInstant(modifiedDate.toInstant(), zone));
+            Date modifiedDatetime = jo.getDate("modified_datetime");
+            LocalDateTime modifiedDatetimeL = LocalDateTime.ofInstant(modifiedDatetime.toInstant(), zone);
+            sysRole.setModifiedDate(modifiedDatetimeL.toLocalDate());
+            sysRole.setModifiedDatetime(modifiedDatetimeL);
             sysRole.setModifiedUserId(jo.getLong("modified_user"));
             return sysRole;
         }).collect(Collectors.toList());
@@ -77,11 +76,15 @@ public class CommonSearchDaoImpl implements CommonSearchDao {
             Date lastLoginTime = jo.getDate("last_login_time");
             sysUser.setLastLoginTime(LocalDateTime.ofInstant(lastLoginTime.toInstant(), zone));
             sysUser.setStatus(jo.getString("status"));
-            Date createdDate = jo.getDate("created_date");
-            sysUser.setCreatedDate(LocalDateTime.ofInstant(createdDate.toInstant(), zone));
+            Date createdDatetime = jo.getDate("created_datetime");
+            LocalDateTime createdDatetimeL = LocalDateTime.ofInstant(createdDatetime.toInstant(), zone);
+            sysUser.setCreatedDate(createdDatetimeL.toLocalDate());
+            sysUser.setCreatedDatetime(createdDatetimeL);
             sysUser.setCreatedUserId(jo.getLong("created_user"));
-            Date modifiedDate = jo.getDate("modified_date");
-            sysUser.setModifiedDate(LocalDateTime.ofInstant(modifiedDate.toInstant(), zone));
+            Date modifiedDatetime = jo.getDate("modified_datetime");
+            LocalDateTime modifiedDatetimeL = LocalDateTime.ofInstant(modifiedDatetime.toInstant(), zone);
+            sysUser.setModifiedDate(modifiedDatetimeL.toLocalDate());
+            sysUser.setModifiedDatetime(modifiedDatetimeL);
             sysUser.setModifiedUserId(jo.getLong("modified_user"));
             return sysUser;
         }).collect(Collectors.toList());

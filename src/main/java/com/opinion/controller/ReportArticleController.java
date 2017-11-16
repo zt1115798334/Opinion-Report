@@ -46,22 +46,12 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "saveReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
-        LocalDateTime currentDate = DateUtils.currentDate();
-        Long userId = SysConst.USER_ID;
-        reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
-        reportArticle.setPublishDatetime(currentDate);
-        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
-        reportArticle.setCreatedDate(currentDate);
-        reportArticle.setCreatedUserId(userId);
-        reportArticle.setModifiedDate(currentDate);
-        reportArticle.setModifiedUserId(userId);
-        reportArticle.setReportCode(SNUtil.create15());
         reportArticleService.save(reportArticle);
         return success("添加成功");
     }
 
     /**
-     * 根据id查看上报文章
+     * 查询当前用户上报信息
      *
      * @param id
      * @return
@@ -94,30 +84,28 @@ public class ReportArticleController extends BaseController {
     /**
      * 对上报文章进行审核
      *
-     * @param reportArticleId id
-     * @param adoptState      审核状态
      * @return
      */
     @RequestMapping(value = "examineAndVerify", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult examineAndVerifyReportArticle(@RequestParam("reportArticleId") Long reportArticleId,
-                                                    @RequestParam("adoptState") String adoptState,
-                                                    @RequestParam("adoptOpinion") String adoptOpinion) {
+    public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
         Long adoptUserId = SysConst.USER_ID;
-        LocalDateTime adoptDate = DateUtils.currentDate();
-        ReportArticle reportArticle = reportArticleService.examineAndVerify(reportArticleId, adoptDate, adoptUserId, adoptState, adoptOpinion);
+        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
+        reportArticle.setAdoptDatetime(adoptDatetime);
+        reportArticle.setModifiedUserId(adoptUserId);
+        reportArticle = reportArticleService.examineAndVerify(reportArticle);
         return success(reportArticle);
     }
 
     /**
-     * 对上报文章日志
+     * 根据上报编号查询上报日志
      *
      * @param reportCode 上报编号
      * @return
      */
     @RequestMapping(value = "searchReportArticleLog", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleLog(@RequestParam("reportArticleId") String reportCode) {
+    public AjaxResult searchReportArticleLog(@RequestParam("reportCode") String reportCode) {
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
         return success(list);
     }
@@ -137,5 +125,18 @@ public class ReportArticleController extends BaseController {
         return success(page);
     }
 
+
+    /**
+     * 对上报文章再次上报
+     *
+     * @param reportCode
+     * @return
+     */
+    @RequestMapping(value = "saveReportArticleAgain", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult saveReportArticleAgain(@RequestParam("reportCode") String reportCode) {
+        reportArticleService.saveAgain(reportCode);
+        return success("上报成功");
+    }
 
 }

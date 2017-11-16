@@ -1,12 +1,14 @@
 package com.opinion.mysql.entity;
 
 import com.opinion.base.bean.BaseSortRequest;
+import com.opinion.mysql.converter.LocalDateAttributeConverter;
 import com.opinion.mysql.converter.LocalDateTimeAttributeConverter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -35,9 +37,9 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     /**
      * 采纳时间
      */
-    @Column(name = "adopt_date")
+    @Column(name = "adopt_datetime")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime adoptDate;
+    private LocalDateTime adoptDatetime;
 
     /**
      * 采纳人
@@ -58,17 +60,28 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     private String adoptOpinion;
 
     /**
-     * 创建时间
+     * 创建日期
      */
     @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate createdDate;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "created_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDatetime;
     /**
      * 创建人
      */
     @Column(name = "created_user_id", nullable = false)
     private Long createdUserId;
+
+    @Transient
+    private String userName;
 
     public Long getId() {
         return id;
@@ -86,12 +99,12 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.reportCode = reportCode;
     }
 
-    public LocalDateTime getAdoptDate() {
-        return adoptDate;
+    public LocalDateTime getAdoptDatetime() {
+        return adoptDatetime;
     }
 
-    public void setAdoptDate(LocalDateTime adoptDate) {
-        this.adoptDate = adoptDate;
+    public void setAdoptDatetime(LocalDateTime adoptDatetime) {
+        this.adoptDatetime = adoptDatetime;
     }
 
     public Long getAdoptUserId() {
@@ -118,12 +131,20 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.adoptOpinion = adoptOpinion;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
     public Long getCreatedUserId() {
@@ -132,6 +153,14 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
 
     public void setCreatedUserId(Long createdUserId) {
         this.createdUserId = createdUserId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

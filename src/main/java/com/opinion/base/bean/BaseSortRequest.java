@@ -2,6 +2,7 @@ package com.opinion.base.bean;
 
 
 import javax.persistence.Transient;
+import java.time.LocalDateTime;
 
 /**
  * @author zhangtong
@@ -31,6 +32,13 @@ public abstract class BaseSortRequest {
      */
     @Transient
     private int pageSize;
+
+//    @Transient
+//    private LocalDateTime startDateTime;
+//
+//    @Transient
+//    private LocalDateTime endDateTime;
+
 
 
     public String getSortParam() {
@@ -64,4 +72,20 @@ public abstract class BaseSortRequest {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+//    public LocalDateTime getStartDateTime() {
+//        return startDateTime;
+//    }
+//
+//    public void setStartDateTime(LocalDateTime startDateTime) {
+//        this.startDateTime = startDateTime;
+//    }
+//
+//    public LocalDateTime getEndDateTime() {
+//        return endDateTime;
+//    }
+//
+//    public void setEndDateTime(LocalDateTime endDateTime) {
+//        this.endDateTime = endDateTime;
+//    }
 }

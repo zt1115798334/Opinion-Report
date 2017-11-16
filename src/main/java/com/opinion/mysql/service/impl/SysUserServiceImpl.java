@@ -1,7 +1,6 @@
 package com.opinion.mysql.service.impl;
 
 import com.google.common.collect.Lists;
-import com.opinion.mysql.dao.CommonSearchDao;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.SysRoleUser;
@@ -48,9 +47,6 @@ public class SysUserServiceImpl implements SysUserService {
     private CityOrganizationSysUserService cityOrganizationSysUserService;
 
     @Autowired
-    private CommonSearchDao commonSearchDao;
-
-    @Autowired
     RedisSessionDAO redisSessionDAO;
 
     @Override
@@ -62,6 +58,11 @@ public class SysUserServiceImpl implements SysUserService {
         saveSysRoleUser(roleId, userId);
         saveCityOrganizationSysUser(cityOrganizationId, userId);
         return sysUser;
+    }
+
+    @Override
+    public SysUser findById(Long id) {
+        return sysUserRepository.findOne(id);
     }
 
     @Override
@@ -171,7 +172,7 @@ public class SysUserServiceImpl implements SysUserService {
         };
         Pageable pageable = PageUtils.buildPageRequest(pageNum,
                 pageSize,
-                "createdDate");
+                "createdDatetime");
         return sysUserRepository.findAll(specification, pageable);
     }
 }

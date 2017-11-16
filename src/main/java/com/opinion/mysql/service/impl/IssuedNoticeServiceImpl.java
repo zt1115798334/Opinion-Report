@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,8 +40,8 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     @Override
     public IssuedNotice save(IssuedNotice issuedNotice, List<Long> childIds) {
         issuedNotice = issuedNoticeRepository.save(issuedNotice);
-
-        LocalDateTime currentDate = DateUtils.currentDate();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         Long userId = SysConst.USER_ID;
         String noticeCode = issuedNotice.getNoticeCode();
         List<IssuedNoticeLog> issuedNoticeLogs = childIds.stream()
@@ -50,6 +51,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                     issuedNoticeLog.setReceiptState(SysConst.ReceiptState.UNREAD.getCode());
                     issuedNoticeLog.setReceiptUserId(childId);
                     issuedNoticeLog.setCreatedDate(currentDate);
+                    issuedNoticeLog.setCreatedDatetime(currentDatetime);
                     issuedNoticeLog.setCreatedUserId(userId);
                     return issuedNoticeLog;
                 }).collect(Collectors.toList());
@@ -113,7 +115,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
 
     @Override
     public IssuedNotice replyExecution(String noticeCode) {
-        LocalDateTime currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         Long userId = SysConst.USER_ID;
         IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
         if (issuedNoticeLog != null) {
@@ -129,7 +131,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
             issuedNotice.setReceiptState(SysConst.ReceiptState.RECEIPTING.getCode());
         } else {
             issuedNotice.setReceiptState(SysConst.ReceiptState.RECEIPT.getCode());
-            issuedNotice.setReceiptDate(currentDate);
+            issuedNotice.setReceiptDatetime(currentDatetime);
         }
         return issuedNoticeRepository.save(issuedNotice);
     }

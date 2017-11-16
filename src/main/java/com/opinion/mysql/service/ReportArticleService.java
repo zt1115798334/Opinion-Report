@@ -1,10 +1,10 @@
 package com.opinion.mysql.service;
 
 import com.opinion.mysql.entity.ReportArticle;
-import com.opinion.mysql.entity.SysUser;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author zhangtong
@@ -19,6 +19,14 @@ public interface ReportArticleService {
      * @return
      */
     ReportArticle save(ReportArticle reportArticle);
+
+    /**
+     * 再次保存 --上报文章信息
+     *
+     * @param reportCode 上报编号
+     * @return
+     */
+    ReportArticle saveAgain(String reportCode);
 
     /**
      * 根据id查询上报文章信息
@@ -39,13 +47,9 @@ public interface ReportArticleService {
     /**
      * 对上报文章进行审核
      *
-     * @param id          id
-     * @param adoptDate   审核时间
-     * @param adoptUserId 审核人id
-     * @param adoptState  审核状态
      * @return
      */
-    ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, Long adoptUserId, String adoptState, String adoptOpinion);
+    ReportArticle examineAndVerify(ReportArticle reportArticle);
 
 
     /**
@@ -55,5 +59,9 @@ public interface ReportArticleService {
      * @return
      */
     Page<ReportArticle> findPageByInChild(ReportArticle reportArticle);
+
+    List<ReportArticle> findListByCreatedUserId(Long createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
 }

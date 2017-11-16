@@ -91,7 +91,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         } else {
             //登录成功
             //更新登录时间 last login time
-            sysUserService.updateLocalDateTime(sysUser.getId(), DateUtils.currentDate());
+            sysUserService.updateLocalDateTime(sysUser.getId(), DateUtils.currentDatetime());
             //清空登录计数
             opsForValue.set(SHIRO_LOGIN_COUNT + name, "0");
         }

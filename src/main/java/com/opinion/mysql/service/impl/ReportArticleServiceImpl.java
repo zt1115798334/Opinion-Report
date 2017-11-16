@@ -4,13 +4,17 @@ import com.opinion.constants.SysConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.repository.ReportArticleRepository;
-import com.opinion.mysql.service.*;
+import com.opinion.mysql.service.ReportArticleLogService;
+import com.opinion.mysql.service.ReportArticleService;
+import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
+import com.opinion.utils.SNUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,18 +43,39 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Autowired
     private ReportArticleLogService reportArticleLogService;
 
-    @Autowired
-    private CityOrganizationService cityOrganizationService;
-
-    @Autowired
-    private CityOrganizationSysUserService cityOrganizationSysUserService;
-
     @Override
     public ReportArticle save(ReportArticle reportArticle) {
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        Long userId = SysConst.USER_ID;
+        reportArticle.setReportCode(SNUtil.create15());
+        reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
+        reportArticle.setPublishDatetime(currentDatetime);
+        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+        reportArticle.setCreatedDate(currentDate);
+        reportArticle.setCreatedDatetime(currentDatetime);
+        reportArticle.setCreatedUserId(userId);
+        reportArticle.setModifiedDate(currentDate);
+        reportArticle.setModifiedDatetime(currentDatetime);
+        reportArticle.setModifiedUserId(userId);
         reportArticle = reportArticleRepository.save(reportArticle);
         saveReportArticleLog(reportArticle.getReportCode(), reportArticle.getAdoptState(), null);
         return reportArticle;
     }
+
+    @Override
+    public ReportArticle saveAgain(String reportCode) {
+        ReportArticle reportArticle = reportArticleRepository.findByReportCode(reportCode);
+        ReportArticle newReportArticle = null;
+        if (reportArticle != null) {
+            String newReportCode = SNUtil.create15();
+            reportArticle.setReportCode(newReportCode);
+            reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+            newReportArticle = save(reportArticle);
+        }
+        return newReportArticle;
+    }
+
 
     @Override
     public ReportArticle findOneById(Long id) {
@@ -84,17 +110,20 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
-    public ReportArticle examineAndVerify(Long id, LocalDateTime adoptDate, Long adoptUserId, String adoptState, String adoptOpinion) {
-        ReportArticle reportArticle = reportArticleRepository.findOne(id);
-        if (reportArticle != null) {
-            reportArticle.setAdoptDate(adoptDate);
-            reportArticle.setAdoptUserId(adoptUserId);
-            reportArticle.setAdoptState(adoptState);
-            reportArticle.setAdoptOpinion(adoptOpinion);
-            reportArticle = reportArticleRepository.save(reportArticle);
-            saveReportArticleLog(reportArticle.getReportCode(), adoptState, adoptOpinion);
+    public ReportArticle examineAndVerify(ReportArticle reportArticle) {
+        ReportArticle result = reportArticleRepository.findByReportCode(reportArticle.getReportCode());
+        if (result != null) {
+            String adoptState = reportArticle.getAdoptState();
+            String adoptOpinion = reportArticle.getAdoptOpinion();
+
+            result.setAdoptDatetime(reportArticle.getAdoptDatetime());
+            result.setAdoptUserId(reportArticle.getAdoptUserId());
+            result.setAdoptState(adoptState);
+            result.setAdoptOpinion(adoptOpinion);
+            result = reportArticleRepository.save(result);
+            saveReportArticleLog(result.getReportCode(), adoptState, adoptOpinion);
         }
-        return reportArticle;
+        return result;
     }
 
     @Override
@@ -126,18 +155,53 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         return result;
     }
 
+    @Override
+    public List<ReportArticle> findListByCreatedUserId(Long createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+            @Override
+            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), createdUserId)));
+                query.where(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
+                return null;
+            }
+        };
+        Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
+        List<ReportArticle> result = reportArticleRepository.findAll(specification, sort);
+        return result;
+    }
+
+    @Override
+    public List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+            @Override
+            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
+                createdUserId.forEach(userid -> in.value(userid));
+                query.where(in);
+                query.where(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
+                return null;
+            }
+        };
+        Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
+        List<ReportArticle> result = reportArticleRepository.findAll(specification, sort);
+        return result;
+    }
+
+
     public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
                                                  String adoptOpinion) {
         Long userId = SysConst.USER_ID;
-        LocalDateTime currentDate = DateUtils.currentDate();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         ReportArticleLog reportArticleLog = new ReportArticleLog();
         reportArticleLog.setReportCode(reportCode);
-        reportArticleLog.setAdoptDate(currentDate);
+        reportArticleLog.setAdoptDatetime(currentDatetime);
         reportArticleLog.setAdoptUserId(userId);
         reportArticleLog.setAdoptState(adoptState);
         reportArticleLog.setAdoptOpinion(adoptOpinion);
         reportArticleLog.setCreatedDate(currentDate);
+        reportArticleLog.setCreatedDatetime(currentDatetime);
         reportArticleLog.setCreatedUserId(userId);
         reportArticleLogService.save(reportArticleLog);
         return reportArticleLog;

@@ -1,12 +1,14 @@
 package com.opinion.mysql.entity;
 
 import com.opinion.base.bean.BaseSortRequest;
+import com.opinion.mysql.converter.LocalDateAttributeConverter;
 import com.opinion.mysql.converter.LocalDateTimeAttributeConverter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -63,31 +65,45 @@ public class IssuedNotice extends BaseSortRequest implements Serializable {
     /**
      * 回执时间
      */
-    @Column(name = "receipt_date")
+    @Column(name = "receipt_datetime")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime receiptDate;
+    private LocalDateTime receiptDatetime;
+
+    /**
+     * 创建日期
+     */
+    @Column(name = "created_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate createdDate;
 
     /**
      * 创建时间
      */
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDatetime;
 
     /**
      * 创建人Id
      */
     @Column(name = "created_user_id", nullable = false)
     private Long createdUserId;
-
     /**
      * 修改时间
      */
     @Column(name = "modified_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate modifiedDate;
+    /**
+     * 修改时间
+     */
+    @Column(name = "modified_datetime", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedDatetime;
     /**
      * 修改人Id
      */
@@ -153,20 +169,28 @@ public class IssuedNotice extends BaseSortRequest implements Serializable {
         this.receiptState = receiptState;
     }
 
-    public LocalDateTime getReceiptDate() {
-        return receiptDate;
+    public LocalDateTime getReceiptDatetime() {
+        return receiptDatetime;
     }
 
-    public void setReceiptDate(LocalDateTime receiptDate) {
-        this.receiptDate = receiptDate;
+    public void setReceiptDatetime(LocalDateTime receiptDatetime) {
+        this.receiptDatetime = receiptDatetime;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
     public Long getCreatedUserId() {
@@ -177,12 +201,20 @@ public class IssuedNotice extends BaseSortRequest implements Serializable {
         this.createdUserId = createdUserId;
     }
 
-    public LocalDateTime getModifiedDate() {
+    public LocalDate getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(LocalDateTime modifiedDate) {
+    public void setModifiedDate(LocalDate modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public LocalDateTime getModifiedDatetime() {
+        return modifiedDatetime;
+    }
+
+    public void setModifiedDatetime(LocalDateTime modifiedDatetime) {
+        this.modifiedDatetime = modifiedDatetime;
     }
 
     public Long getModifiedUserId() {

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
         String noticeRange = issuedNotice.getNoticeRange();
-        LocalDateTime currentDate = DateUtils.currentDate();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         Long userId = SysConst.USER_ID;
 
         List<Long> childId = Lists.newArrayList();
@@ -62,8 +64,10 @@ public class IssuedNoticeController extends BaseController {
 
         issuedNotice.setNoticeCode(SNUtil.create15());
         issuedNotice.setReceiptState(SysConst.ReceiptState.UNRECEIPT.getCode());
+        issuedNotice.setCreatedDatetime(currentDatetime);
         issuedNotice.setCreatedDate(currentDate);
         issuedNotice.setCreatedUserId(userId);
+        issuedNotice.setModifiedDatetime(currentDatetime);
         issuedNotice.setModifiedDate(currentDate);
         issuedNotice.setModifiedUserId(userId);
         issuedNoticeService.save(issuedNotice, childId);
