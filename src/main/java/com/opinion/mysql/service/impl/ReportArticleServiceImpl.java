@@ -1,15 +1,10 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.constants.SysConst;
-import com.opinion.mysql.entity.CityOrganization;
-import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.repository.ReportArticleRepository;
-import com.opinion.mysql.service.CityOrganizationService;
-import com.opinion.mysql.service.CityOrganizationSysUserService;
-import com.opinion.mysql.service.ReportArticleLogService;
-import com.opinion.mysql.service.ReportArticleService;
+import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +20,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -34,8 +28,12 @@ import java.util.stream.Collectors;
 @Service
 public class ReportArticleServiceImpl implements ReportArticleService {
 
+
     @Autowired
     private ReportArticleRepository reportArticleRepository;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     @Autowired
     private ReportArticleLogService reportArticleLogService;
@@ -66,7 +64,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), reportArticle.getCreatedUserId())));
                 if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
+                    query.where(builder.and(builder.like(root.get("title").as(String.class), "%" + reportArticle.getTitle() + "%")));
                 }
                 if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
                     query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
@@ -101,37 +99,30 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public Page<ReportArticle> findPageByInChild(ReportArticle reportArticle) {
-        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(reportArticle.getCreatedUserId());
-        Page<ReportArticle> result = null;
-        if (cityOrganizationSysUser != null) {
-            List<CityOrganization> cityOrganizations = cityOrganizationService.findByParentId(cityOrganizationSysUser.getId());
-            List<Long> cityOrganizationIds = cityOrganizations.stream().map(CityOrganization::getId).collect(Collectors.toList());
-            List<CityOrganizationSysUser> cityOrganizationSysUsers = cityOrganizationSysUserService.findListByCityOrganizationIds(cityOrganizationIds);
-            List<Long> userId = cityOrganizationSysUsers.stream().map(CityOrganizationSysUser::getUserId).collect(Collectors.toList());
-            Specification<ReportArticle> specification = new Specification<ReportArticle>() {
-                @Override
-                public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                    CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
-                    userId.forEach(userid -> in.value(userid));
-                    query.where(in);
-                    if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
-                        query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
-                    }
-                    if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
-                        query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
-                    }
-                    if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
-                        query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
-                    }
-                    return null;
+        List<Long> userId = sysUserService.findChildIdListByParentId(reportArticle.getCreatedUserId());
+        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+            @Override
+            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
+                userId.forEach(userid -> in.value(userid));
+                query.where(in);
+                if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
+                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
                 }
-            };
-            Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
-                    reportArticle.getPageSize(),
-                    reportArticle.getSortParam(),
-                    reportArticle.getSortParam());
-            result = reportArticleRepository.findAll(specification, pageable);
-        }
+                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
+                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                }
+                if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
+                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                }
+                return null;
+            }
+        };
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+                reportArticle.getPageSize(),
+                reportArticle.getSortParam(),
+                reportArticle.getSortParam());
+        Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
         return result;
     }
 

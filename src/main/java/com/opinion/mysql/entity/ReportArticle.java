@@ -128,6 +128,19 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     @Column(name = "created_user_id", nullable = false)
     private Long createdUserId;
 
+    /**
+     * 修改时间
+     */
+    @Column(name = "modified_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime modifiedDate;
+    /**
+     * 修改人Id
+     */
+    @Column(name = "modified_user_id", nullable = false)
+    private Long modifiedUserId;
+
     public Long getId() {
         return id;
     }
@@ -262,6 +275,22 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
 
     public void setCreatedUserId(Long createdUserId) {
         this.createdUserId = createdUserId;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Long getModifiedUserId() {
+        return modifiedUserId;
+    }
+
+    public void setModifiedUserId(Long modifiedUserId) {
+        this.modifiedUserId = modifiedUserId;
     }
 
     @Override

@@ -108,4 +108,52 @@ public class SysConst {
         }
     }
 
+    public enum NoticeRange {
+
+        ALL("all", "全部"),
+        MUNICIPAL ("municipal ", "市级"),
+        COUNTY("county", "县级");
+
+        private String code;
+        private String name;
+
+        NoticeRange(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public enum ReceiptState {
+
+        UNRECEIPT("unreceipt", "未回执"),
+        RECEIPT ("receipt ", "以回执"),
+        RECEIPTING ("receipting ", "回执中"),
+        UNREAD ("unread ", "未读"),
+        READ("read", "已读");
+
+        private String code;
+        private String name;
+
+        ReceiptState(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 }

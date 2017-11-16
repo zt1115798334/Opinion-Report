@@ -1,10 +1,13 @@
 package com.opinion.mysql.service.impl;
 
+import com.google.common.collect.Lists;
 import com.opinion.mysql.dao.CommonSearchDao;
+import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.SysRoleUser;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.SysUserRepository;
+import com.opinion.mysql.service.CityOrganizationService;
 import com.opinion.mysql.service.CityOrganizationSysUserService;
 import com.opinion.mysql.service.SysRoleUserService;
 import com.opinion.mysql.service.SysUserService;
@@ -14,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysRoleUserService sysRoleUserService;
+
+    @Autowired
+    private CityOrganizationService cityOrganizationService;
 
     @Autowired
     private CityOrganizationSysUserService cityOrganizationSysUserService;
@@ -102,6 +107,42 @@ public class SysUserServiceImpl implements SysUserService {
             sysUser = sysUserRepository.save(sysUser);
         }
         return sysUser;
+    }
+
+    @Override
+    public List<Long> findChildIdListByParentId(Long parentId) {
+        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(parentId);
+        List<Long> userIds = null;
+        if (cityOrganizationSysUser != null) {
+            List<CityOrganization> cityOrganizations = cityOrganizationService.findByParentId(cityOrganizationSysUser.getId());
+            List<Long> cityOrganizationIds = cityOrganizations.stream().map(CityOrganization::getId).collect(Collectors.toList());
+            List<CityOrganizationSysUser> cityOrganizationSysUsers = cityOrganizationSysUserService.findListByCityOrganizationIds(cityOrganizationIds);
+            userIds = cityOrganizationSysUsers.stream().map(CityOrganizationSysUser::getUserId).collect(Collectors.toList());
+        }
+        return userIds;
+    }
+
+    @Override
+    public List<Long> findDescendantIdListByParentId(Long parentId) {
+        List<Long> childIds = findChildIdListByParentId(parentId);
+        List<Long> descendantIds = Lists.newArrayList();
+        childIds.stream().forEach(childId -> {
+            List<Long> descendantId = findChildIdListByParentId(childId);
+            descendantIds.addAll(descendantId);
+        });
+        return descendantIds;
+    }
+
+    @Override
+    public List<Long> findDescendantAllIdListByParentId(Long parentId) {
+        List<Long> childIds = findChildIdListByParentId(parentId);
+        List<Long> descendantIds = Lists.newArrayList();
+        descendantIds.addAll(childIds);
+        childIds.stream().forEach(childId -> {
+            List<Long> descendantId = findChildIdListByParentId(childId);
+            descendantIds.addAll(descendantId);
+        });
+        return descendantIds;
     }
 
     private SysRoleUser saveSysRoleUser(Long roleId, Long userId) {

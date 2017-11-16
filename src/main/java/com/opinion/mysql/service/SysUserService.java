@@ -38,4 +38,29 @@ public interface SysUserService {
      */
     SysUser updateLocalDateTime(Long id, LocalDateTime localDateTime);
 
+
+    /**
+     * 根据上级id查询下级id集合
+     *
+     * @param parentId
+     * @return
+     */
+    List<Long> findChildIdListByParentId(Long parentId);
+
+    /**
+     * 根据上级id查询孙子id集合
+     *
+     * @param parentId
+     * @return
+     */
+    List<Long> findDescendantIdListByParentId(Long parentId);
+
+    /**
+     * 根据上级id查询子孙全部集合
+     *
+     * @param parentId
+     * @return
+     */
+    List<Long> findDescendantAllIdListByParentId(Long parentId);
+
 }

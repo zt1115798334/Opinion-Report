@@ -53,6 +53,8 @@ public class ReportArticleController extends BaseController {
         reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setCreatedDate(currentDate);
         reportArticle.setCreatedUserId(userId);
+        reportArticle.setModifiedDate(currentDate);
+        reportArticle.setModifiedUserId(userId);
         reportArticle.setReportCode(SNUtil.create15());
         reportArticleService.save(reportArticle);
         return success("添加成功");
