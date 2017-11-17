@@ -109,6 +109,15 @@ public class SysConst {
         }
     }
 
+    public static AdoptState getAdoptStateByCode(String code) {
+        for (AdoptState adoptState : AdoptState.values()) {
+            if (StringUtils.equals(code, adoptState.getCode())) {
+                return adoptState;
+            }
+        }
+        return null;
+    }
+
     public enum ReportLevel {
 
         RED("red", "红色"),
@@ -187,6 +196,15 @@ public class SysConst {
         public String getName() {
             return name;
         }
+    }
+
+    public static ReceiptState getReceiptStateByCode(String code) {
+        for (ReceiptState receiptState : ReceiptState.values()) {
+            if (StringUtils.equals(code, receiptState.getCode())) {
+                return receiptState;
+            }
+        }
+        return null;
     }
 
     public enum CityLevel {

@@ -39,6 +39,12 @@ public class SysPermission implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
+    /**
+     * display：显示权限   operation 操作权限
+     */
+    @Column(name = "code", nullable = false)
+    private String code;
+
     public Long getId() {
         return id;
     }
@@ -61,6 +67,22 @@ public class SysPermission implements Serializable {
 
     public void setUrlName(String urlName) {
         this.urlName = urlName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override

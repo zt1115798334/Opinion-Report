@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysUserConst;
-import com.opinion.mysql.entity.CityOrganization;
-import com.opinion.mysql.entity.CityOrganizationSysUser;
-import com.opinion.mysql.entity.SysRole;
-import com.opinion.mysql.entity.SysUser;
+import com.opinion.mysql.entity.*;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,12 @@ public class SystemController extends BaseController {
 
     @Autowired
     private SysRoleUserService sysRoleUserService;
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
+    @Autowired
+    private SysRolePermissionService sysRolePermissionService;
 
     @Autowired
     private CityOrganizationService cityOrganizationService;
@@ -119,6 +122,31 @@ public class SystemController extends BaseController {
             result.add(jo);
         });
         return success(result);
+    }
+
+    /**
+     * 根据角色id查询权限信息
+     *
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    public AjaxResult searchSysPermission(@RequestParam("roleId") Long roleId) {
+        List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
+        return success(sysRolePermissions);
+    }
+
+    /**
+     * 根据角色id保存权限信息
+     *
+     * @param codes
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    public AjaxResult saveSysPermission(@RequestParam("code") List<String> codes, @RequestParam("roleId") Long roleId) {
+        sysPermissionService.saveSysRolePermission(codes, roleId);
+        return success("添加成功");
     }
 
     /**

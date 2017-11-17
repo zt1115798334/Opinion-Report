@@ -1,6 +1,7 @@
 package com.opinion.mysql.service;
 
 import com.opinion.mysql.entity.SysPermission;
+import com.opinion.mysql.entity.SysRolePermission;
 
 import java.util.List;
 
@@ -11,4 +12,9 @@ import java.util.List;
 public interface SysPermissionService {
 
     List<SysPermission> findAll();
+
+    boolean saveSysRolePermission(List<String> codes,Long roleId);
+
+
+
 }
