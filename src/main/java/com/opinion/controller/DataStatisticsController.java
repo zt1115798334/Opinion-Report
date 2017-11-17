@@ -37,9 +37,6 @@ public class DataStatisticsController extends BaseController {
     private ReportArticleService reportArticleService;
 
     @Autowired
-    private IssuedNoticeService issuedNoticeService;
-
-    @Autowired
     private CityOrganizationService cityOrganizationService;
 
     @Autowired
