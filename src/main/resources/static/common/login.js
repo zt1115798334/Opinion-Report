@@ -16,7 +16,7 @@ function login() {
         "vcode": vcode,
         "rememberMe": rememberMe
     };
-    var url = "/logining";
+    var url = "/ajaxLogin";
     execAjax(url, param, callback);
 
     function callback(result) {

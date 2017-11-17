@@ -3,6 +3,7 @@ package com.opinion.controller;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.service.ReportArticleLogService;
@@ -31,6 +32,7 @@ public class ReportArticleController extends BaseController {
 
     @Autowired
     private ReportArticleLogService reportArticleLogService;
+
 
     @RequestMapping("opinionReport")
     public String opinionReport() {
@@ -71,11 +73,11 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchPage", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
-        Long userId = SysConst.USER_ID;
         if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
             reportArticle.setSortParam("publishDatetime");
             reportArticle.setSortType("desc");
         }
+        Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> reportArticles = reportArticleService.findPageByCreateUser(reportArticle);
         return success(reportArticles);
@@ -89,10 +91,10 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "examineAndVerify", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
-        Long adoptUserId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         reportArticle.setAdoptDatetime(adoptDatetime);
-        reportArticle.setModifiedUserId(adoptUserId);
+        reportArticle.setModifiedUserId(userId);
         reportArticle = reportArticleService.examineAndVerify(reportArticle);
         return success(reportArticle);
     }
@@ -119,7 +121,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
-        Long userId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
         return success(page);

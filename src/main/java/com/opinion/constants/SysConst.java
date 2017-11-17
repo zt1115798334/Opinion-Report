@@ -1,8 +1,6 @@
 package com.opinion.constants;
 
-import com.opinion.mysql.entity.SysUser;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 
 /**
  * 系统常量类
@@ -11,15 +9,6 @@ import org.apache.shiro.SecurityUtils;
  * Created by on 2017/11/13
  */
 public class SysConst {
-    /**
-     * 系统的默认用户账号
-     */
-    public static final SysUser SYS_USER = (SysUser) SecurityUtils.getSubject().getPrincipal();
-
-//    public static final String USER_ACCOUNT = "admin";
-
-    public static final Long USER_ID = 1L;
-
     public enum LoginStatus {
 
         EFFECTIVE("effective", "有效"),
@@ -88,9 +77,9 @@ public class SysConst {
         }
     }
 
-    public static SourceType getSourceTypeByCode(String code){
-        for(SourceType sourceType : SourceType.values()){
-            if(StringUtils.equals(code, sourceType.getCode())){
+    public static SourceType getSourceTypeByCode(String code) {
+        for (SourceType sourceType : SourceType.values()) {
+            if (StringUtils.equals(code, sourceType.getCode())) {
                 return sourceType;
             }
         }
@@ -143,9 +132,9 @@ public class SysConst {
         }
     }
 
-    public static ReportLevel getReportLevelByCode(String code){
-        for(ReportLevel reportLevel : ReportLevel.values()){
-            if(StringUtils.equals(code, reportLevel.getCode())){
+    public static ReportLevel getReportLevelByCode(String code) {
+        for (ReportLevel reportLevel : ReportLevel.values()) {
+            if (StringUtils.equals(code, reportLevel.getCode())) {
                 return reportLevel;
             }
         }

@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="part" style="z-index:-1;position:fixed;height:100%;width:100%;top:0;left:0"></div>
-    <script src="../js/jquery-1.8.3.js"></script>
+    <script src="/js/jquery-1.8.3.js"></script>
     <script src="/js/validator-0.7.3/jquery.validator.js"></script>
     <script src="/js/validator-0.7.3/local/zh_CN.js"></script>
     <script src="/js/host.js"></script>

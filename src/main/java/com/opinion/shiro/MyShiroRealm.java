@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,10 +48,14 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Autowired
     private SysRoleService sysRoleService;
 
-    //用户登录次数计数  redisKey 前缀
+    /**
+     * 用户登录次数计数  redisKey 前缀
+     */
     private String SHIRO_LOGIN_COUNT = "shiro_login_count_";
 
-    //用户登录是否被锁定    一小时 redisKey 前缀
+    /**
+     * 用户登录是否被锁定    一小时 redisKey 前缀
+     */
     private String SHIRO_IS_LOCK = "shiro_is_lock_";
 
     /**

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.IssuedNotice;
 import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
@@ -45,10 +46,11 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "saveIssuedNotice", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
+        Long userId = new SysUserConst().getUserId();
+
         String noticeRange = issuedNotice.getNoticeRange();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        Long userId = SysConst.USER_ID;
 
         List<Long> childId = Lists.newArrayList();
         //全部
@@ -84,7 +86,7 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "searchIssuedNoticeReceive", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchIssuedNoticeReceive(@RequestBody IssuedNotice issuedNotice) {
-        Long userId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
         Page<IssuedNotice> issuedNoticePage = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
         return success(issuedNoticePage);
@@ -99,7 +101,8 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "searchIssuedNoticeSend", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchIssuedNoticeSend(@RequestBody IssuedNotice issuedNotice) {
-        Long userId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
+
         issuedNotice.setCreatedUserId(userId);
         Page<IssuedNotice> issuedNoticePage = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
         return success(issuedNoticePage);
@@ -126,7 +129,8 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "readIssuedNotice", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult readIssuedNotice(@RequestParam String noticeCode) {
-        Long userId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
+
         issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
         return success("读取成功");
     }

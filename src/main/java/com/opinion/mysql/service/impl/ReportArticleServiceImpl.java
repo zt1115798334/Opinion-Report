@@ -1,6 +1,7 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.repository.ReportArticleRepository;
@@ -43,11 +44,12 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Autowired
     private ReportArticleLogService reportArticleLogService;
 
+
     @Override
     public ReportArticle save(ReportArticle reportArticle) {
+        Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        Long userId = SysConst.USER_ID;
         reportArticle.setReportCode(SNUtil.create15());
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
         reportArticle.setPublishDatetime(currentDatetime);
@@ -191,7 +193,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
                                                  String adoptOpinion) {
-        Long userId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         ReportArticleLog reportArticleLog = new ReportArticleLog();

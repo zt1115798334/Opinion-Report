@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.SysRole;
@@ -42,6 +43,7 @@ public class SystemController extends BaseController {
 
     @Autowired
     private SysUserService sysUserService;
+
 
     /**
      * 添加角色
@@ -141,8 +143,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchCityOrganization", method = RequestMethod.POST)
     public AjaxResult searchCityOrganization() {
-        SysUser sysUser = SysConst.SYS_USER;
-        Long userId = sysUser.getId();
+        Long userId = new SysUserConst().getUserId();
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
         JSONObject result = new JSONObject();
         if (cityOrganizationSysUser != null) {
@@ -177,9 +178,9 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，参数信息为：sysUser:{}", sysUser);
+        Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        Long userId = SysConst.USER_ID;
         sysUser.setCreatedDate(currentDate);
         sysUser.setCreatedDatetime(currentDatetime);
         sysUser.setCreatedUserId(userId);

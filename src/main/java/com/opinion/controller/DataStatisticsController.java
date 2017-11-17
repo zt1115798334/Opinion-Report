@@ -6,10 +6,10 @@ import com.google.common.collect.Lists;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.service.CityOrganizationService;
-import com.opinion.mysql.service.IssuedNoticeService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
@@ -42,6 +42,8 @@ public class DataStatisticsController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
+
+
     /**
      * 舆情上报分析 -- 折线图信息
      *
@@ -54,8 +56,8 @@ public class DataStatisticsController extends BaseController {
         LocalDateTime startDateTime = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime endDateTime = DateUtils.currentDatetime();
 
-        Long uesrId = SysConst.USER_ID;
-        List<ReportArticle> reportArticles = getReportArticles(startDateTime, endDateTime, uesrId);
+        Long userId = new SysUserConst().getUserId();
+        List<ReportArticle> reportArticles = getReportArticles(startDateTime, endDateTime, userId);
 
         Map<String, Long> map = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
@@ -77,18 +79,17 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisProportion", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisProportion() {
-
-        Long uesrId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
 
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, userId);
         LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
 
         //获取上周周信息
-        List<ReportArticle> reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, uesrId);
+        List<ReportArticle> reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
 
         long thisWeekCount = reportArticlesThisWeek.stream().count();
         long lastWeekCount = reportArticlesLastWeek.stream().count();
@@ -116,13 +117,13 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public AjaxResult dataAnalysisTable() {
 
-        Long uesrId = SysConst.USER_ID;
+        Long userId = new SysUserConst().getUserId();
 
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
         Map<String, Long> reportCountMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
         Map<String, Long> adoptCountMap = reportArticles.stream()
@@ -159,13 +160,14 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelDistribution() {
-        Long uesrId = SysConst.USER_ID;
+
+        Long userId = new SysUserConst().getUserId();
 
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
         Map<String, Long> reportLevelMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting()));
         JSONArray result = new JSONArray();
@@ -191,13 +193,12 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public AjaxResult dataSourceDistribution() {
 
-        Long uesrId = SysConst.USER_ID;
-
+        Long userId = new SysUserConst().getUserId();
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
         Map<String, Long> sourceTypeMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting()));
         JSONArray result = new JSONArray();
@@ -222,13 +223,13 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelSourceTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelSourceTable() {
-        Long uesrId = SysConst.USER_ID;
 
+        Long userId = new SysUserConst().getUserId();
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
 
         Map<String, Map<String, Long>> reportLevelDateMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
@@ -265,13 +266,12 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectDistribution() {
-        Long uesrId = SysConst.USER_ID;
-
+        Long userId = new SysUserConst().getUserId();
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
 
         Map<String, Map<String, Long>> replyTypeDateMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
@@ -288,13 +288,12 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectTable() {
-        Long uesrId = SysConst.USER_ID;
-
+        Long userId = new SysUserConst().getUserId();
         //获取本周信息
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, uesrId);
+        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
 
         Map<String, Map<String, Long>> replyTypeDateMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),

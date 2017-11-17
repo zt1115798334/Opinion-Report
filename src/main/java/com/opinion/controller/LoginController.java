@@ -1,5 +1,9 @@
 package com.opinion.controller;
 
+import com.google.common.base.Objects;
+import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.shiro.ShiroService;
 import com.opinion.vcode.Captcha;
 import com.opinion.vcode.GifCaptcha;
@@ -35,7 +39,7 @@ public class LoginController {
     }
 
     //登录
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "login")
     public String login() {
         return "login";
     }
@@ -47,9 +51,9 @@ public class LoginController {
      * @param password
      * @return
      */
-    @RequestMapping(value = "logining", method = RequestMethod.POST)
+    @RequestMapping(value = "ajaxLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> logining(String username, String password, String vcode, Boolean rememberMe, Model model) {
+    public Map<String, Object> ajaxLogin(String username, String password, String vcode, Boolean rememberMe, Model model, HttpServletRequest request) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
 
         if (vcode == null || vcode == "") {
@@ -61,7 +65,7 @@ public class LoginController {
         Session session = SecurityUtils.getSubject().getSession();
         //转化成小写字母
         vcode = vcode.toLowerCase();
-        String v = (String) session.getAttribute("_code");
+        String v = (String) session.getAttribute("_codeKey");
         //还可以读取一次后把验证码清空，这样每次登录都必须获取验证码
 //        session.removeAttribute("_code");
         if (!vcode.equals(v)) {
@@ -85,16 +89,17 @@ public class LoginController {
 
     /**
      * 退出
+     *
      * @return
      */
-    @RequestMapping(value="logout",method =RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> logout(){
+    public Map<String, Object> logout() {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         try {
             //退出
             SecurityUtils.getSubject().logout();
-        } catch (Exception e) {
+        } catch(Exception e) {
             System.err.println(e.getMessage());
         }
         return resultMap;
@@ -120,8 +125,10 @@ public class LoginController {
             //输出
             captcha.out(response.getOutputStream());
             HttpSession session = request.getSession(true);
+            String v = captcha.text().toLowerCase();
             //存入Session
-            session.setAttribute("_code", captcha.text().toLowerCase());
+            session.setAttribute("_codeKey", v);
+
         } catch(Exception e) {
             System.err.println("获取验证码异常：" + e.getMessage());
         }

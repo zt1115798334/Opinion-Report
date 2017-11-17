@@ -4,6 +4,7 @@ import com.opinion.mysql.entity.SysPermissionInit;
 import com.opinion.mysql.repository.SysPermissionInitRepository;
 import com.opinion.mysql.service.SysPermissionInitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class SysPermissionInitServiceImpl implements SysPermissionInitService {
 
     @Override
     public List<SysPermissionInit> findAll() {
-        return (List<SysPermissionInit>) sysPermissionInitRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.ASC, "sort");
+        return sysPermissionInitRepository.findAll(sort);
     }
 }

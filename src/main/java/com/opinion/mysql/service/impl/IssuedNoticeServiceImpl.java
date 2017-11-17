@@ -1,6 +1,7 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.IssuedNotice;
 import com.opinion.mysql.entity.IssuedNoticeLog;
 import com.opinion.mysql.repository.IssuedNoticeRepository;
@@ -37,12 +38,13 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     @Autowired
     private IssuedNoticeLogService issuedNoticeLogService;
 
+
     @Override
     public IssuedNotice save(IssuedNotice issuedNotice, List<Long> childIds) {
         issuedNotice = issuedNoticeRepository.save(issuedNotice);
+        Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        Long userId = SysConst.USER_ID;
         String noticeCode = issuedNotice.getNoticeCode();
         List<IssuedNoticeLog> issuedNoticeLogs = childIds.stream()
                 .map(childId -> {
@@ -115,8 +117,8 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
 
     @Override
     public IssuedNotice replyExecution(String noticeCode) {
+        Long userId = new SysUserConst().getUserId();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        Long userId = SysConst.USER_ID;
         IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
         if (issuedNoticeLog != null) {
             issuedNoticeLog.setReceiptUserId(userId);
