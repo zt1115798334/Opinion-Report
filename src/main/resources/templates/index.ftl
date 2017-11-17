@@ -44,7 +44,7 @@
             menu: [{
                 text: '系统管理',
                 items: [
-                    {id: 'yqsb', text: '舆情上报', href: '/reportArticle/opinionReport'},
+                    {id: 'yqsb', text: '舆情上报', href: '/reportArticle/opinionReportPage'},
                     {id: 'yhgl', text: '用户管理', href: '/user/userPage'},
                     {id: 'qxgl', text: '权限管理', href: '/permission/permissionPage'},
                     {id: 'jsgl', text: '角色管理', href: '/role/rolePage'},
