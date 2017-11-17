@@ -1,6 +1,8 @@
 package com.opinion.mysql.service.impl;
 
 import com.google.common.collect.Lists;
+import com.opinion.constants.SysConst;
+import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.SysRoleUser;
@@ -10,6 +12,8 @@ import com.opinion.mysql.service.CityOrganizationService;
 import com.opinion.mysql.service.CityOrganizationSysUserService;
 import com.opinion.mysql.service.SysRoleUserService;
 import com.opinion.mysql.service.SysUserService;
+import com.opinion.utils.DateUtils;
+import com.opinion.utils.MyDES;
 import com.opinion.utils.PageUtils;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,8 +56,21 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser save(SysUser sysUser) {
+        Long userId = new SysUserConst().getUserId();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        sysUser.setCreatedDate(currentDate);
+        sysUser.setCreatedDatetime(currentDatetime);
+        sysUser.setCreatedUserId(userId);
+        sysUser.setModifiedDate(currentDate);
+        sysUser.setModifiedDatetime(currentDatetime);
+        sysUser.setModifiedUserId(userId);
+        sysUser.setLastLoginTime(currentDatetime);
+        String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
+        String pawDES = MyDES.encryptBasedDes(paw);
+        sysUser.setUserPassword(pawDES);
+        sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
         sysUser = sysUserRepository.save(sysUser);
-        Long userId = sysUser.getId();
         Long roleId = sysUser.getRoleId();
         Long cityOrganizationId = sysUser.getCityOrganizationId();
         saveSysRoleUser(roleId, userId);

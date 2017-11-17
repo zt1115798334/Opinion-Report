@@ -1,9 +1,9 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
-import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
@@ -11,14 +11,11 @@ import com.opinion.mysql.entity.SysRole;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.MyDES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -44,6 +41,25 @@ public class SystemController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
+    /**
+     * 跳转组织机构页面
+     *
+     * @return
+     */
+    @RequestMapping("organizationStructurePage")
+    public String organizationStructurePage() {
+        return "organizationStructure";
+    }
+
+    /**
+     * 跳转角色管理页面
+     *
+     * @return
+     */
+    @RequestMapping("roleManagementPage")
+    public String roleManagementPage() {
+        return "roleManagement";
+    }
 
     /**
      * 添加角色
@@ -94,7 +110,15 @@ public class SystemController extends BaseController {
     public AjaxResult searchSysRole() {
         logger.info("searchSysRole:");
         List<SysRole> sysRoles = sysRoleService.findList();
-        return success(sysRoles);
+        JSONArray result = new JSONArray();
+        sysRoles.stream().forEach(sysRole -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id", sysRole.getId());
+            jo.put("roleName", sysRole.getRoleName());
+            jo.put("createdDatetime", DateUtils.formatDate(sysRole.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            result.add(jo);
+        });
+        return success(result);
     }
 
     /**
@@ -178,20 +202,6 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，参数信息为：sysUser:{}", sysUser);
-        Long userId = new SysUserConst().getUserId();
-        LocalDate currentDate = DateUtils.currentDate();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        sysUser.setCreatedDate(currentDate);
-        sysUser.setCreatedDatetime(currentDatetime);
-        sysUser.setCreatedUserId(userId);
-        sysUser.setModifiedDate(currentDate);
-        sysUser.setModifiedDatetime(currentDatetime);
-        sysUser.setModifiedUserId(userId);
-        sysUser.setLastLoginTime(currentDatetime);
-        String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
-        String pawDES = MyDES.encryptBasedDes(paw);
-        sysUser.setUserPassword(pawDES);
-        sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
         sysUser = sysUserService.save(sysUser);
         return success(sysUser);
     }

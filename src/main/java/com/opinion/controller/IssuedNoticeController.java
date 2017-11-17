@@ -38,6 +38,24 @@ public class IssuedNoticeController extends BaseController {
     private SysUserService sysUserService;
 
     /**
+     * 跳转通知下传（接受）页面
+     * @return
+     */
+    @RequestMapping("issuedNoticeReceivePage")
+    public String issuedNoticeReceivePage() {
+        return "issuedNoticeReceive";
+    }
+
+    /**
+     * 跳转通知下传（发出）页面
+     * @return
+     */
+    @RequestMapping("issuedNoticeSendPage")
+    public String issuedNoticeSendPage() {
+        return "issuedNoticeSend";
+    }
+
+    /**
      * 保存下传信息
      *
      * @param issuedNotice

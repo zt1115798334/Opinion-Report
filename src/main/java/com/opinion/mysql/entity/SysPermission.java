@@ -33,6 +33,12 @@ public class SysPermission implements Serializable {
     @Column(name = "url_name", nullable = false)
     private String urlName;
 
+    /**
+     * display：显示权限   operation 操作权限
+     */
+    @Column(name = "type", nullable = false)
+    private String type;
+
     public Long getId() {
         return id;
     }

@@ -34,9 +34,22 @@ public class ReportArticleController extends BaseController {
     private ReportArticleLogService reportArticleLogService;
 
 
-    @RequestMapping("opinionReport")
-    public String opinionReport() {
+    /**
+     * 跳转上报文章页面
+     * @return
+     */
+    @RequestMapping("opinionReportPage")
+    public String opinionReportPage() {
         return "/report/opinionReport";
+    }
+
+    /**
+     * 跳转上报文章(审核)页面
+     * @return
+     */
+    @RequestMapping("opinionReportExaminePage")
+    public String opinionReportExaminePage() {
+        return "/report/opinionReportExamine";
     }
 
     /**

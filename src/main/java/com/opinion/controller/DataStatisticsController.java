@@ -42,7 +42,15 @@ public class DataStatisticsController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
-
+    /**
+     * 跳转信息统计页面
+     *
+     * @return
+     */
+    @RequestMapping("dataStatisticsPage")
+    public String dataStatisticsPage() {
+        return "dataStatistics";
+    }
 
     /**
      * 舆情上报分析 -- 折线图信息
