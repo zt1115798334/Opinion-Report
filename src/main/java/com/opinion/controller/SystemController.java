@@ -143,7 +143,7 @@ public class SystemController extends BaseController {
      * @param roleId
      * @return
      */
-    @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    @RequestMapping(value = "saveSysPermission", method = RequestMethod.POST)
     public AjaxResult saveSysPermission(@RequestParam("code") List<String> codes, @RequestParam("roleId") Long roleId) {
         sysPermissionService.saveSysRolePermission(codes, roleId);
         return success("添加成功");
