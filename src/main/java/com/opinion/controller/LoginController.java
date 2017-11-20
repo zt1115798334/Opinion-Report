@@ -44,6 +44,11 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping(value = "/")
+    public String login2() {
+        return "index";
+    }
+
     /**
      * ajax登录请求
      *

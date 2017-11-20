@@ -40,7 +40,6 @@ public interface SysUserService {
      */
     SysUser updateLocalDateTime(Long id, LocalDateTime localDateTime);
 
-
     /**
      * 根据上级id查询下级id集合
      *

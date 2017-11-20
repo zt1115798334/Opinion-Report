@@ -45,6 +45,7 @@ public class ShiroConfig {
 
     @Value("${spring.redis.timeout}")
     private int timeout;
+
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
@@ -84,7 +85,7 @@ public class ShiroConfig {
         //logout这个拦截器是shiro已经实现好了的。
         // 从数据库获取
         List<SysPermissionInit> list = sysPermissionInitService.findAll();
-//        filterChainDefinitionMap.put("/static/**", "anon");
+//        filterChainDefinitionMap.put("/", "user");
 //        filterChainDefinitionMap.put("/logining", "anon");
 //        filterChainDefinitionMap.put("/logout", "logout");
 //        filterChainDefinitionMap.put("/reportArticle/**", "authc");
@@ -125,6 +126,7 @@ public class ShiroConfig {
     /**
      * 配置shiro redisManager
      * 使用的是shiro-redis开源插件
+     *
      * @return
      */
     public RedisManager redisManager() {
@@ -141,6 +143,7 @@ public class ShiroConfig {
     /**
      * cacheManager 缓存 redis实现
      * 使用的是shiro-redis开源插件
+     *
      * @return
      */
     public RedisCacheManager cacheManager() {
@@ -173,9 +176,10 @@ public class ShiroConfig {
 
     /**
      * cookie对象;
+     *
      * @return
      */
-    public SimpleCookie rememberMeCookie(){
+    public SimpleCookie rememberMeCookie() {
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
@@ -185,9 +189,10 @@ public class ShiroConfig {
 
     /**
      * cookie管理对象;记住我功能
+     *
      * @return
      */
-    public CookieRememberMeManager rememberMeManager(){
+    public CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
         //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
@@ -197,9 +202,10 @@ public class ShiroConfig {
 
     /**
      * 限制同一账号登录同时登录人数控制
+     *
      * @return
      */
-    public KickoutSessionControlFilter kickoutSessionControlFilter(){
+    public KickoutSessionControlFilter kickoutSessionControlFilter() {
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
         //使用cacheManager获取相应的cache来缓存用户登录的会话；用于保存用户—会话之间的关系的；
         //这里我们还是用之前shiro使用的redisManager()实现的cacheManager()缓存管理

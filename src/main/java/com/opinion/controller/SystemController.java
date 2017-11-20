@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
+import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.*;
 import com.opinion.mysql.service.*;
@@ -131,6 +132,7 @@ public class SystemController extends BaseController {
      * @return
      */
     @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    @ResponseBody
     public AjaxResult searchSysPermission(@RequestParam("roleId") Long roleId) {
         List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
         return success(sysRolePermissions);
@@ -144,9 +146,51 @@ public class SystemController extends BaseController {
      * @return
      */
     @RequestMapping(value = "saveSysPermission", method = RequestMethod.POST)
+    @ResponseBody
     public AjaxResult saveSysPermission(@RequestParam("code") List<String> codes, @RequestParam("roleId") Long roleId) {
         sysPermissionService.saveSysRolePermission(codes, roleId);
         return success("添加成功");
+    }
+
+    /**
+     * 查询显示的菜单
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchDisplayMenu", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchDisplayMenu() {
+        String permissionType = SysConst.PermissionType.DISPLAY.getCode();
+        List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
+        System.out.println("sysPermissions = " + sysPermissions);
+        JSONArray result = new JSONArray();
+        return success(result);
+    }
+
+    /**
+     * 查询用户的操作权限的菜单
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchOperationAuthority", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchOperationAuthority() {
+        String permissionType = SysConst.PermissionType.OPERATION.getCode();
+        List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
+        System.out.println("sysPermissions = " + sysPermissions);
+        JSONArray result = new JSONArray();
+        return success(result);
+    }
+
+    private List<SysPermission> getSysPermissionsByType(String permissionType) {
+        Long userId = new SysUserConst().getUserId();
+        SysRoleUser sysRoleUser = sysRoleUserService.findByUserId(userId);
+        List<SysPermission> sysPermissions = null;
+        if (sysRoleUser != null) {
+            Long roleId = sysRoleUser.getRoleId();
+            sysPermissions = sysPermissionService.findListByRoleIdAndType(roleId, permissionType);
+        }
+        return sysPermissions;
     }
 
     /**
@@ -220,7 +264,6 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
-
     /**
      * 保存用户信息
      *
@@ -278,6 +321,5 @@ public class SystemController extends BaseController {
         Page<SysUser> list = sysUserService.findPageByCityOrganizationId(cityOrganizationId, pageNum, pageSize);
         return success(list);
     }
-
 
 }

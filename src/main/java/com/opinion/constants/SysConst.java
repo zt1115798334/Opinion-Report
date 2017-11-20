@@ -231,5 +231,27 @@ public class SysConst {
         }
     }
 
+    public enum PermissionType {
+
+        DISPLAY("display", "显示权限"),
+        OPERATION("operation ", "操作权限");
+
+        private String code;
+        private String name;
+
+        PermissionType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 
 }

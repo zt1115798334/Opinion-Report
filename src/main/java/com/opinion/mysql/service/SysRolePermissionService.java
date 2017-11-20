@@ -1,5 +1,6 @@
 package com.opinion.mysql.service;
 
+import com.opinion.mysql.entity.SysPermission;
 import com.opinion.mysql.entity.SysRolePermission;
 
 import java.util.List;

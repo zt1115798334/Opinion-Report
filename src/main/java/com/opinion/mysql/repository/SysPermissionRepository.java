@@ -12,4 +12,6 @@ import java.util.List;
 public interface SysPermissionRepository extends CrudRepository<SysPermission, Long> {
 
     List<SysPermission> findByCodeIn(List<String> codes);
+
+    List<SysPermission> findByTypeAndIdIn(String type, List<Long> ids);
 }

@@ -3,9 +3,11 @@ $(function () {
     searchSysRoleFun();
 
     var params = {
-        roleName: "roleName"
+        roleName: "角色名称"
     };
     saveSysRoleFun(params);
+
+
 });
 
 /**

@@ -14,6 +14,8 @@ public interface SysRoleUserService {
 
     List<SysRoleUser> findByRoleId(Long roleId);
 
+    SysRoleUser findByUserId(Long userId);
+
     void delSysRoleUser(Long userId);
 
     long findCountByRoleId(Long roleId);

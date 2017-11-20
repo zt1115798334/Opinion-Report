@@ -43,4 +43,12 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         sysRolePermissionService.save(sysRolePermissions);
         return false;
     }
+
+    @Override
+    public List<SysPermission> findListByRoleIdAndType(Long roleId, String type) {
+        List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
+        List<Long> permissionId = sysRolePermissions.stream()
+                .map(SysRolePermission::getPermissionId).collect(Collectors.toList());
+        return sysPermissionRepository.findByTypeAndIdIn(type, permissionId);
+    }
 }

@@ -35,4 +35,5 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     public List<SysRolePermission> findByRoleId(Long roleId) {
         return sysRolePermissionRepository.findByRoleId(roleId);
     }
+
 }
