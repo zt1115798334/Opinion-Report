@@ -9,4 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SysRoleRepository extends CrudRepository<SysRole, Long> {
 
+    SysRole findByRoleName(String roleName);
 }

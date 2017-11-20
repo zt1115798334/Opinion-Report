@@ -52,7 +52,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping("organizationStructurePage")
     public String organizationStructurePage() {
-        return "organizationStructure";
+        return "/system/organizationStructure";
     }
 
     /**
@@ -62,7 +62,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping("roleManagementPage")
     public String roleManagementPage() {
-        return "roleManagement";
+        return "/system/roleManagement";
     }
 
     /**
@@ -74,8 +74,29 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "saveSysRole", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveSysRole(@RequestBody SysRole sysRole) {
-        sysRoleService.save(sysRole);
-        return success("添加成功");
+        boolean flag = sysRoleService.save(sysRole);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "添加成功");
+        } else {
+            result.put("msg", "该角色存在，添加失败");
+        }
+        return success(result);
+    }
+
+    /**
+     * 查询角色名称是否存在
+     *
+     * @param roleName
+     * @return
+     */
+    @RequestMapping(value = "searchExistByRoleName", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchExistByRoleName(@RequestParam("roleName") String roleName) {
+        boolean isExist = sysRoleService.isExistByRoleName(roleName);
+        JSONObject result = new JSONObject();
+        result.put("isExist", isExist);
+        return success(result);
     }
 
     /**
@@ -88,7 +109,13 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult delSysRole(@RequestParam("roleId") Long roleId) {
         boolean flag = sysRoleService.delSysRole(roleId);
-        return success(flag);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "删除成功");
+        } else {
+            result.put("msg", "删除失败，角色下还存在用户");
+        }
+        return success(result);
     }
 
     /**
@@ -119,7 +146,7 @@ public class SystemController extends BaseController {
             JSONObject jo = new JSONObject();
             jo.put("id", sysRole.getId());
             jo.put("roleName", sysRole.getRoleName());
-            jo.put("createdDatetime", DateUtils.formatDate(sysRole.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("createdDatetime", DateUtils.formatDate(sysRole.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             result.add(jo);
         });
         return success(result);
@@ -307,7 +334,7 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 根据角色id查看用户列表
+     * 根据系统用户省市区组织信息id查看用户列表
      *
      * @param cityOrganizationId 系统用户省市区组织信息id
      * @return

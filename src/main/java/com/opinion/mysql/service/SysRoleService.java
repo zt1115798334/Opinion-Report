@@ -16,11 +16,13 @@ public interface SysRoleService {
      * @param sysRole
      * @return
      */
-    SysRole save(SysRole sysRole);
+    boolean save(SysRole sysRole);
 
     List<SysRole> findList();
 
     List<SysRole> findListByUserId(Long userId);
 
     boolean delSysRole(Long id);
+
+    boolean isExistByRoleName(String roleName);
 }

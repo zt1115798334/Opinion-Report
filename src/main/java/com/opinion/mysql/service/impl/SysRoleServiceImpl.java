@@ -31,17 +31,25 @@ public class SysRoleServiceImpl implements SysRoleService {
     private CommonSearchDao commonSearchDao;
 
     @Override
-    public SysRole save(SysRole sysRole) {
-        Long userId = new SysUserConst().getUserId();
-        LocalDate currentDate = DateUtils.currentDate();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        sysRole.setCreatedDate(currentDate);
-        sysRole.setCreatedDatetime(currentDatetime);
-        sysRole.setCreatedUserId(userId);
-        sysRole.setModifiedDate(currentDate);
-        sysRole.setModifiedDatetime(currentDatetime);
-        sysRole.setModifiedUserId(userId);
-        return sysRoleRepository.save(sysRole);
+    public boolean save(SysRole sysRole) {
+        String roleName = sysRole.getRoleName();
+        boolean isExist = isExistByRoleName(roleName);
+        if (isExist) {
+            return false;
+        } else {
+            Long userId = new SysUserConst().getUserId();
+            LocalDate currentDate = DateUtils.currentDate();
+            LocalDateTime currentDatetime = DateUtils.currentDatetime();
+            sysRole.setRoleType(sysRole.getRoleName());
+            sysRole.setCreatedDate(currentDate);
+            sysRole.setCreatedDatetime(currentDatetime);
+            sysRole.setCreatedUserId(userId);
+            sysRole.setModifiedDate(currentDate);
+            sysRole.setModifiedDatetime(currentDatetime);
+            sysRole.setModifiedUserId(userId);
+            sysRoleRepository.save(sysRole);
+            return true;
+        }
     }
 
     @Override
@@ -63,5 +71,11 @@ public class SysRoleServiceImpl implements SysRoleService {
             sysRoleRepository.delete(id);
             return true;
         }
+    }
+
+    @Override
+    public boolean isExistByRoleName(String roleName) {
+        SysRole isExist = sysRoleRepository.findByRoleName(roleName);
+        return isExist != null;
     }
 }
