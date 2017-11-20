@@ -25,7 +25,7 @@ public class CityOrganization implements Serializable {
     /**
      * 行政代码
      */
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
 
@@ -42,7 +42,7 @@ public class CityOrganization implements Serializable {
     private Long parentId;
 
     /**
-     * 城市等级 0 全部， 1 省级 2 市级 3 县级
+     * 城市等级 0 全部， 1 省级 2 市级 3 县级 99 无效
      */
     @Column(name = "level", nullable = false)
     private Integer level;

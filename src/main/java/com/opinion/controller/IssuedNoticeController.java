@@ -43,7 +43,7 @@ public class IssuedNoticeController extends BaseController {
      */
     @RequestMapping("issuedNoticeReceivePage")
     public String issuedNoticeReceivePage() {
-        return "issuedNoticeReceive";
+        return "/issued/issuedNoticeReceive";
     }
 
     /**
@@ -52,7 +52,7 @@ public class IssuedNoticeController extends BaseController {
      */
     @RequestMapping("issuedNoticeSendPage")
     public String issuedNoticeSendPage() {
-        return "issuedNoticeSend";
+        return "/issued/issuedNoticeSend";
     }
 
     /**

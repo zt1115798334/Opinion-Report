@@ -55,27 +55,35 @@ public class SysUserServiceImpl implements SysUserService {
     RedisSessionDAO redisSessionDAO;
 
     @Override
-    public SysUser save(SysUser sysUser) {
-        Long userId = new SysUserConst().getUserId();
-        LocalDate currentDate = DateUtils.currentDate();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        sysUser.setCreatedDate(currentDate);
-        sysUser.setCreatedDatetime(currentDatetime);
-        sysUser.setCreatedUserId(userId);
-        sysUser.setModifiedDate(currentDate);
-        sysUser.setModifiedDatetime(currentDatetime);
-        sysUser.setModifiedUserId(userId);
-        sysUser.setLastLoginTime(currentDatetime);
-        String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
-        String pawDES = MyDES.encryptBasedDes(paw);
-        sysUser.setUserPassword(pawDES);
-        sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
-        sysUser = sysUserRepository.save(sysUser);
-        Long roleId = sysUser.getRoleId();
-        Long cityOrganizationId = sysUser.getCityOrganizationId();
-        saveSysRoleUser(roleId, userId);
-        saveCityOrganizationSysUser(cityOrganizationId, userId);
-        return sysUser;
+    public boolean save(SysUser sysUser) {
+        String userAccount = sysUser.getUserAccount();
+        boolean isExist = isExistByUserAccount(userAccount);
+        if (!isExist) {
+            Long userId = new SysUserConst().getUserId();
+            LocalDate currentDate = DateUtils.currentDate();
+            LocalDateTime currentDatetime = DateUtils.currentDatetime();
+
+            sysUser.setCreatedDate(currentDate);
+            sysUser.setCreatedDatetime(currentDatetime);
+            sysUser.setCreatedUserId(userId);
+            sysUser.setModifiedDate(currentDate);
+            sysUser.setModifiedDatetime(currentDatetime);
+            sysUser.setModifiedUserId(userId);
+            sysUser.setLastLoginTime(currentDatetime);
+            String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
+            String pawDES = MyDES.encryptBasedDes(paw);
+            sysUser.setUserPassword(pawDES);
+            sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
+            sysUser = sysUserRepository.save(sysUser);
+            Long roleId = sysUser.getRoleId();
+            Long cityOrganizationId = sysUser.getCityOrganizationId();
+            saveSysRoleUser(roleId, userId);
+            saveCityOrganizationSysUser(cityOrganizationId, userId);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -89,6 +97,12 @@ public class SysUserServiceImpl implements SysUserService {
         sysRoleUserService.delSysRoleUser(id);
         cityOrganizationSysUserService.delCityOrganizationSysUser(id);
         return false;
+    }
+
+    @Override
+    public boolean isExistByUserAccount(String userAccount) {
+        SysUser sysUser = sysUserRepository.findByUserAccount(userAccount);
+        return sysUser != null;
     }
 
     @Override

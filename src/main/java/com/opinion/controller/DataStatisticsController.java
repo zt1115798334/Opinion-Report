@@ -49,7 +49,7 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping("dataStatisticsPage")
     public String dataStatisticsPage() {
-        return "dataStatistics";
+        return "/dataStatistics/dataStatistics";
     }
 
     /**

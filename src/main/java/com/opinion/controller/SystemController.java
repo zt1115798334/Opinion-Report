@@ -138,9 +138,12 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchSysRole", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysRole() {
+    public AjaxResult searchSysRole(@RequestParam("keyword") String keyword,
+                                    @RequestParam("pageNum") int pageNum,
+                                    @RequestParam("pageSize") int pageSize) {
         logger.info("searchSysRole:");
-        List<SysRole> sysRoles = sysRoleService.findList();
+        Page<SysRole> page = sysRoleService.findPage(keyword, pageNum, pageSize);
+        List<SysRole> sysRoles = page.getContent();
         JSONArray result = new JSONArray();
         sysRoles.stream().forEach(sysRole -> {
             JSONObject jo = new JSONObject();
@@ -220,6 +223,7 @@ public class SystemController extends BaseController {
         return sysPermissions;
     }
 
+
     /**
      * 保存省市区组织信息表
      *
@@ -229,8 +233,40 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "saveCityOrganization", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveCityOrganization(@RequestBody CityOrganization cityOrganization) {
-        cityOrganizationService.save(cityOrganization);
-        return success("添加成功");
+        Long userId = new SysUserConst().getUserId();
+        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
+        if (cityOrganizationSysUser != null) {
+            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
+            CityOrganization parentCityOrganization = cityOrganizationService.findById(cityOrganizationId);
+            cityOrganization.setLevel(parentCityOrganization.getLevel() + 1);
+        } else {
+            cityOrganization.setLevel(99);
+        }
+        boolean flag = cityOrganizationService.save(cityOrganization);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "添加成功");
+        } else {
+            result.put("msg", "添加失败，该机构已存在");
+        }
+        return success(result);
+    }
+
+    /**
+     * 查询省市区组织信息名称是否存在
+     *
+     * @param name     组织机构名称
+     * @param parentId 上级id
+     * @return
+     */
+    @RequestMapping(value = "searchExistByCityOrganizationName", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchExistByCityOrganizationName(@RequestParam("name") String name,
+                                                        @RequestParam("parentId") Long parentId) {
+        boolean isExist = cityOrganizationService.isExistByNameAndParentId(name, parentId);
+        JSONObject result = new JSONObject();
+        result.put("isExist", isExist);
+        return success(result);
     }
 
     /**
@@ -243,7 +279,13 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult delCityOrganization(@RequestParam("cityOrganizationId") Long cityOrganizationId) {
         boolean flag = cityOrganizationService.delCityOrganization(cityOrganizationId);
-        return success(flag);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "删除成功");
+        } else {
+            result.put("msg", "删除失败，该组织下存在其他信息");
+        }
+        return success(result);
     }
 
     /**
@@ -265,6 +307,7 @@ public class SystemController extends BaseController {
      * @return
      */
     @RequestMapping(value = "searchCityOrganization", method = RequestMethod.POST)
+    @ResponseBody
     public AjaxResult searchCityOrganization() {
         Long userId = new SysUserConst().getUserId();
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
@@ -284,6 +327,7 @@ public class SystemController extends BaseController {
      * @return
      */
     @RequestMapping(value = "searchCityOrganizationChild", method = RequestMethod.POST)
+    @ResponseBody
     public AjaxResult searchCityOrganizationChild(@RequestParam("cityOrganizationId") Long cityOrganizationId) {
         JSONObject result = new JSONObject();
         List<CityOrganization> cityOrganizationChild = cityOrganizationService.findByParentId(cityOrganizationId);
@@ -300,8 +344,29 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，参数信息为：sysUser:{}", sysUser);
-        sysUser = sysUserService.save(sysUser);
-        return success(sysUser);
+        boolean flag = sysUserService.save(sysUser);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "添加成功");
+        } else {
+            result.put("msg", "添加失败，该账户已存在");
+        }
+        return success(result);
+    }
+
+    /**
+     * 用户账户是否存在
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchExistByUserAccount", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchExistByUserAccount(@RequestParam("userAccount") String userAccount) {
+        logger.info("请求 isExistByUserAccount 方法，参数信息为：userAccount:{}", userAccount);
+        boolean isExist = sysUserService.isExistByUserAccount(userAccount);
+        JSONObject result = new JSONObject();
+        result.put("isExist", isExist);
+        return success(result);
     }
 
     /**

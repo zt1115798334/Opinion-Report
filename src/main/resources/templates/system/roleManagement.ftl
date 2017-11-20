@@ -24,7 +24,6 @@
 <input type="button" class="saveRoleName" value="保存">
 <script src="/js/jquery-1.8.3.js"></script>
 <script src="/common/utils.js"></script>
-<script src="/common/login.js"></script>
 <script src="/common/system/roleManagement.js?v=1"></script>
 </body>
 </html>

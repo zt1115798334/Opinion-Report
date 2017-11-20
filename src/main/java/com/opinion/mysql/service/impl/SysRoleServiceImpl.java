@@ -7,9 +7,17 @@ import com.opinion.mysql.repository.SysRoleRepository;
 import com.opinion.mysql.service.SysRoleService;
 import com.opinion.mysql.service.SysRoleUserService;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +48,6 @@ public class SysRoleServiceImpl implements SysRoleService {
             Long userId = new SysUserConst().getUserId();
             LocalDate currentDate = DateUtils.currentDate();
             LocalDateTime currentDatetime = DateUtils.currentDatetime();
-            sysRole.setRoleType(sysRole.getRoleName());
             sysRole.setCreatedDate(currentDate);
             sysRole.setCreatedDatetime(currentDatetime);
             sysRole.setCreatedUserId(userId);
@@ -53,8 +60,19 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public List<SysRole> findList() {
-        return (List<SysRole>) sysRoleRepository.findAll();
+    public Page<SysRole> findPage(String keyword, int pageNum, int pageSize) {
+        Specification<SysRole> specification = new Specification<SysRole>() {
+            @Override
+            public Predicate toPredicate(Root<SysRole> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                query.where(builder.and(builder.like(root.get("roleName").as(String.class), "%" + keyword + "%")));
+                return null;
+            }
+        };
+        Pageable pageable = PageUtils.buildPageRequest(pageNum,
+                pageSize,
+                "id");
+        return sysRoleRepository.findAll(specification, pageable);
+
     }
 
     @Override

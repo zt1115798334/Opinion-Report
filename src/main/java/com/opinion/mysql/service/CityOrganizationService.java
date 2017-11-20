@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface CityOrganizationService {
 
-    CityOrganization save(CityOrganization cityOrganization);
+    boolean save(CityOrganization cityOrganization);
 
     CityOrganization findById(Long id);
 
@@ -19,4 +19,8 @@ public interface CityOrganizationService {
     List<CityOrganization> findByParentId(Long parentId);
 
     boolean delCityOrganization(Long id);
+
+    boolean isExistByNameAndParentId(String name, Long parentId);
+
+    boolean isExistChildByParentId(Long parentId);
 }

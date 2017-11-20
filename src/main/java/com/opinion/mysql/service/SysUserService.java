@@ -12,11 +12,13 @@ import java.util.List;
  */
 public interface SysUserService {
 
-    SysUser save(SysUser sysUser);
+    boolean save(SysUser sysUser);
 
     SysUser findById(Long id);
 
     boolean delSysUser(Long id);
+
+    boolean isExistByUserAccount(String userAccount);
 
     Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize);
 

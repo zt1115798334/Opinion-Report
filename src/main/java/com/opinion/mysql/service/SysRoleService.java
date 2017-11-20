@@ -1,6 +1,7 @@
 package com.opinion.mysql.service;
 
 import com.opinion.mysql.entity.SysRole;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface SysRoleService {
      */
     boolean save(SysRole sysRole);
 
-    List<SysRole> findList();
+    Page<SysRole> findPage(String keyword, int pageNum, int pageSize);
 
     List<SysRole> findListByUserId(Long userId);
 

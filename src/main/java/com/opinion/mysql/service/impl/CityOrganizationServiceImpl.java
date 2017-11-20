@@ -24,8 +24,17 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     private CityOrganizationSysUserService cityOrganizationSysUserService;
 
     @Override
-    public CityOrganization save(CityOrganization cityOrganization) {
-        return cityOrganizationRepository.save(cityOrganization);
+    public boolean save(CityOrganization cityOrganization) {
+        String name = cityOrganization.getName();
+        Long parentId = cityOrganization.getParentId();
+        boolean isExist = isExistByNameAndParentId(name, parentId);
+        if (isExist) {
+            return false;
+
+        } else {
+            cityOrganizationRepository.save(cityOrganization);
+            return true;
+        }
     }
 
     @Override
@@ -51,11 +60,24 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     @Override
     public boolean delCityOrganization(Long id) {
         long userCount = cityOrganizationSysUserService.findCountByCityOrganizationId(id);
-        if (userCount > 0) {
+        boolean isExistChild = isExistChildByParentId(id);
+        if (userCount > 0 || isExistChild) {
             return false;
         } else {
             cityOrganizationRepository.delete(id);
             return true;
         }
+    }
+
+    @Override
+    public boolean isExistByNameAndParentId(String name, Long parentId) {
+        CityOrganization isExist = cityOrganizationRepository.findByNameAndParentId(name, parentId);
+        return isExist != null;
+    }
+
+    @Override
+    public boolean isExistChildByParentId(Long parentId) {
+        List<CityOrganization> cityOrganizations = cityOrganizationRepository.findByParentId(parentId);
+        return cityOrganizations.size() != 0;
     }
 }

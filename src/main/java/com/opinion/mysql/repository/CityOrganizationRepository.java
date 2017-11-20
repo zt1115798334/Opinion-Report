@@ -12,4 +12,6 @@ import java.util.List;
 public interface CityOrganizationRepository extends CrudRepository<CityOrganization, Long> {
 
     List<CityOrganization> findByParentId(Long parentId);
+
+    CityOrganization findByNameAndParentId(String name, Long parentId);
 }
