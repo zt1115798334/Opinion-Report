@@ -56,33 +56,47 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean save(SysUser sysUser) {
-        String userAccount = sysUser.getUserAccount();
-        boolean isExist = isExistByUserAccount(userAccount);
-        if (!isExist) {
-            Long userId = new SysUserConst().getUserId();
-            LocalDate currentDate = DateUtils.currentDate();
-            LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-            sysUser.setCreatedDate(currentDate);
-            sysUser.setCreatedDatetime(currentDatetime);
-            sysUser.setCreatedUserId(userId);
-            sysUser.setModifiedDate(currentDate);
-            sysUser.setModifiedDatetime(currentDatetime);
-            sysUser.setModifiedUserId(userId);
-            sysUser.setLastLoginTime(currentDatetime);
-            String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
-            String pawDES = MyDES.encryptBasedDes(paw);
-            sysUser.setUserPassword(pawDES);
-            sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
-            sysUser = sysUserRepository.save(sysUser);
+        Long id = sysUser.getId();
+        Long userId = new SysUserConst().getUserId();
+        LocalDate currentDate = DateUtils.currentDate();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        String paw = sysUser.getUserPassword() + sysUser.getUserAccount();
+        String pawDES = MyDES.encryptBasedDes(paw);
+        if (id != null) {
+            /**
+             * 修改密码和角色
+             */
+            SysUser su = sysUserRepository.findOne(id);
+            su.setModifiedDate(currentDate);
+            su.setModifiedDatetime(currentDatetime);
+            su.setModifiedUserId(userId);
+            su.setUserPassword(pawDES);
             Long roleId = sysUser.getRoleId();
-            Long cityOrganizationId = sysUser.getCityOrganizationId();
-            saveSysRoleUser(roleId, userId);
-            saveCityOrganizationSysUser(cityOrganizationId, userId);
-
+            su.setRoleId(roleId);
+            sysUserRepository.save(su);
             return true;
         } else {
-            return false;
+            String userAccount = sysUser.getUserAccount();
+            boolean isExist = isExistByUserAccount(userAccount);
+            if (!isExist) {
+                sysUser.setCreatedDate(currentDate);
+                sysUser.setCreatedDatetime(currentDatetime);
+                sysUser.setCreatedUserId(userId);
+                sysUser.setModifiedDate(currentDate);
+                sysUser.setModifiedDatetime(currentDatetime);
+                sysUser.setModifiedUserId(userId);
+                sysUser.setLastLoginTime(currentDatetime);
+                sysUser.setUserPassword(pawDES);
+                sysUser.setStatus(SysConst.LoginStatus.EFFECTIVE.getCode());
+                sysUser = sysUserRepository.save(sysUser);
+                Long roleId = sysUser.getRoleId();
+                Long cityOrganizationId = sysUser.getCityOrganizationId();
+                saveSysRoleUser(roleId, userId);
+                saveCityOrganizationSysUser(cityOrganizationId, userId);
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
