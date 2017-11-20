@@ -16,4 +16,6 @@ public interface SysPermissionService {
 
     List<SysPermission> findListByRoleIdAndType(Long roleId, String type);
 
+    List<SysPermission> findListByParentId(Long parentId);
+
 }

@@ -24,11 +24,11 @@ public class SysPermission implements Serializable {
     /**
      * url地址
      */
-    @Column(name = "sys_url", nullable = false)
+    @Column(name = "sys_url")
     private String sysUrl;
 
     /**
-     * url描述
+     * url名称
      */
     @Column(name = "url_name", nullable = false)
     private String urlName;
@@ -38,6 +38,23 @@ public class SysPermission implements Serializable {
      */
     @Column(name = "type", nullable = false)
     private String type;
+
+    /**
+     * 描述
+     */
+    @Column(name = "describe")
+    private String describe;
+    /**
+     * 标示
+     */
+    @Column(name = "sn")
+    private Integer sn;
+
+    /**
+     * 父id
+     */
+    @Column(name = "parent_id")
+    private Long parentId;
 
     /**
      * display：显示权限   operation 操作权限
@@ -75,6 +92,30 @@ public class SysPermission implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public Integer getSn() {
+        return sn;
+    }
+
+    public void setSn(Integer sn) {
+        this.sn = sn;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getCode() {

@@ -6,6 +6,7 @@ import com.opinion.mysql.repository.SysPermissionRepository;
 import com.opinion.mysql.service.SysPermissionService;
 import com.opinion.mysql.service.SysRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,6 +50,13 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
         List<Long> permissionId = sysRolePermissions.stream()
                 .map(SysRolePermission::getPermissionId).collect(Collectors.toList());
-        return sysPermissionRepository.findByTypeAndIdIn(type, permissionId);
+        Sort sort = new Sort(Sort.Direction.ASC, "sn");
+        return sysPermissionRepository.findByTypeAndIdIn(type, permissionId, sort);
+    }
+
+    @Override
+    public List<SysPermission> findListByParentId(Long parentId) {
+        Sort sort = new Sort(Sort.Direction.ASC, "sn");
+        return sysPermissionRepository.findByParentId(parentId, sort);
     }
 }

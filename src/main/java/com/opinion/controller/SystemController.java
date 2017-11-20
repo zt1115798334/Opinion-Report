@@ -198,6 +198,21 @@ public class SystemController extends BaseController {
     }
 
     /**
+     * 查询显示的菜单
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchDisplayChildMenu", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchDisplayChildMenu(@RequestParam("permissionId") Long permissionId) {
+        List<SysPermission> sysPermissions = sysPermissionService.findListByParentId(permissionId);
+        System.out.println("sysPermissions = " + sysPermissions);
+        JSONArray result = new JSONArray();
+        return success(result);
+    }
+
+
+    /**
      * 查询用户的操作权限的菜单
      *
      * @return

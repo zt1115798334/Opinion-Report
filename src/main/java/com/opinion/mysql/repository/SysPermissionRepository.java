@@ -1,6 +1,7 @@
 package com.opinion.mysql.repository;
 
 import com.opinion.mysql.entity.SysPermission;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -13,5 +14,7 @@ public interface SysPermissionRepository extends CrudRepository<SysPermission, L
 
     List<SysPermission> findByCodeIn(List<String> codes);
 
-    List<SysPermission> findByTypeAndIdIn(String type, List<Long> ids);
+    List<SysPermission> findByTypeAndIdIn(String type, List<Long> ids, Sort sort);
+
+    List<SysPermission> findByParentId(Long parentId, Sort sort);
 }
