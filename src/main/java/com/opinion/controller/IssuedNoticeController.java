@@ -1,11 +1,15 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.IssuedNotice;
+import com.opinion.mysql.entity.IssuedNoticeLog;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
 import com.opinion.mysql.service.SysUserService;
@@ -14,6 +18,7 @@ import com.opinion.utils.SNUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -39,6 +44,7 @@ public class IssuedNoticeController extends BaseController {
 
     /**
      * 跳转通知下传（接受）页面
+     *
      * @return
      */
     @RequestMapping("issuedNoticeReceivePage")
@@ -48,11 +54,26 @@ public class IssuedNoticeController extends BaseController {
 
     /**
      * 跳转通知下传（发出）页面
+     *
      * @return
      */
     @RequestMapping("issuedNoticeSendPage")
     public String issuedNoticeSendPage() {
         return "/issued/issuedNoticeSend";
+    }
+
+    /**
+     * 跳转通知下传详情页面
+     *
+     * @return
+     */
+    @RequestMapping("issuedNoticeInfoPage")
+    public String issuedNoticeInfoPage(Model model,
+                                       @RequestParam String noticeCode) {
+        Long userId = new SysUserConst().getUserId();
+        issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
+        model.addAttribute("noticeCode", noticeCode);
+        return "/issued/issuedNoticeInfo";
     }
 
     /**
@@ -93,7 +114,6 @@ public class IssuedNoticeController extends BaseController {
         issuedNoticeService.save(issuedNotice, childId);
         return success("添加成功");
     }
-
 
     /**
      * 查询下传信息(接受)
@@ -139,18 +159,48 @@ public class IssuedNoticeController extends BaseController {
     }
 
     /**
-     * 执行读取操作
+     * 查询当前用户下传信息 详情
      *
      * @param noticeCode
      * @return
      */
-    @RequestMapping(value = "readIssuedNotice", method = RequestMethod.POST)
+    @RequestMapping(value = "searchIssuedNoticeByNoticeCode", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult readIssuedNotice(@RequestParam String noticeCode) {
-        Long userId = new SysUserConst().getUserId();
+    public AjaxResult searchIssuedNoticeByNoticeCode(@RequestParam String noticeCode) {
+        IssuedNotice issuedNotice = issuedNoticeService.findOneByNoticeCode(noticeCode);
+        return success(issuedNotice);
+    }
 
-        issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
-        return success("读取成功");
+    /**
+     * 根据上报编号查询上报日志
+     *
+     * @param noticeCode
+     * @return
+     */
+    @RequestMapping(value = "searchIssuedNoticeLog", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchIssuedNoticeLog(@RequestParam String noticeCode) {
+        List<IssuedNoticeLog> list = issuedNoticeLogService.findListByNoticeCode(noticeCode);
+        JSONArray ja = new JSONArray();
+        list.stream().forEach(issuedNoticeLog -> {
+            JSONObject jo = new JSONObject();
+            String RReceiptStateVal = SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getCode();
+            SysUser sysUser = sysUserService.findById(issuedNoticeLog.getCreatedUserId());
+            StringBuilder sb = new StringBuilder();
+            sb.append("用户：").append(sysUser.getUserName()).append(RReceiptStateVal);
+            jo.put("msg", sb.toString());
+            jo.put("datetime", DateUtils.formatDate(issuedNoticeLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
+            ja.add(jo);
+        });
+
+        long allIssuedNoticeLogCount = issuedNoticeLogService.findCountByNoticeCode(noticeCode);
+        long receiptIssuedNoticeLogCount = issuedNoticeLogService
+                .findCountByNoticeCodeAndReceiptState(noticeCode, SysConst.ReceiptState.RECEIPT.getCode());
+        JSONObject result = new JSONObject();
+        result.put("data", ja);
+        result.put("allCount", allIssuedNoticeLogCount);
+        result.put("noticeCount", receiptIssuedNoticeLogCount);
+        return success(result);
     }
 
 }

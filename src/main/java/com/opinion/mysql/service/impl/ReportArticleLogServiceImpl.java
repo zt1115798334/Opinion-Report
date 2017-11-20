@@ -33,11 +33,6 @@ public class ReportArticleLogServiceImpl implements ReportArticleLogService {
     public List<ReportArticleLog> findListByReportArticleId(String reportCode) {
         Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
         List<ReportArticleLog> reportArticleLogs = reportArticleLogRepository.findAllByReportCode(reportCode, sort);
-        reportArticleLogs.forEach(reportArticleLog -> {
-            Long createdUserId = reportArticleLog.getCreatedUserId();
-            SysUser sysUser = sysUserService.findById(createdUserId);
-            reportArticleLog.setUserName(sysUser.getUserName());
-        });
         return reportArticleLogs;
     }
 }

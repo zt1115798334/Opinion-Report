@@ -13,6 +13,8 @@ public interface IssuedNoticeService {
 
     IssuedNotice save(IssuedNotice issuedNotice, List<Long> childIds);
 
+    IssuedNotice findOneByNoticeCode(String noticeCode);
+
     Page<IssuedNotice> findPageByCreatedUserId(IssuedNotice issuedNotice);
 
     Page<IssuedNotice> findPageByReceiptUserId(IssuedNotice issuedNotice);

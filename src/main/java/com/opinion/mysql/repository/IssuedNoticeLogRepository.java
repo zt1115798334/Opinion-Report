@@ -1,6 +1,7 @@
 package com.opinion.mysql.repository;
 
 import com.opinion.mysql.entity.IssuedNoticeLog;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface IssuedNoticeLogRepository extends CrudRepository<IssuedNoticeLog, Long> {
 
     List<IssuedNoticeLog> findByReceiptUserId(Long receiptUserId);
+
+    List<IssuedNoticeLog> findByNoticeCode(String noticeCode, Sort sort);
 
     IssuedNoticeLog findByNoticeCodeAndReceiptUserId(String noticeCode, Long receiptUserId);
 

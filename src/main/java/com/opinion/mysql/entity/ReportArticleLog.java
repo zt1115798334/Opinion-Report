@@ -80,8 +80,8 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
     @Column(name = "created_user_id", nullable = false)
     private Long createdUserId;
 
-    @Transient
-    private String userName;
+//    @Transient
+//    private String userName;
 
     public Long getId() {
         return id;
@@ -155,13 +155,13 @@ public class ReportArticleLog extends BaseSortRequest implements Serializable {
         this.createdUserId = createdUserId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 
     @Override
     public String toString() {

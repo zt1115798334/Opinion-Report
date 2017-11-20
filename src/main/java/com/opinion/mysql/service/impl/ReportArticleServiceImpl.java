@@ -80,8 +80,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
 
     @Override
-    public ReportArticle findOneById(Long id) {
-        return reportArticleRepository.findOne(id);
+    public ReportArticle findOneByreportCode(String reportCode) {
+        return reportArticleRepository.findByReportCode(reportCode);
     }
 
     @Override

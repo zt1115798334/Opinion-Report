@@ -5,6 +5,7 @@ import com.opinion.mysql.entity.IssuedNoticeLog;
 import com.opinion.mysql.repository.IssuedNoticeLogRepository;
 import com.opinion.mysql.service.IssuedNoticeLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public class IssuedNoticeLogServiceImpl implements IssuedNoticeLogService {
             issuedNoticeLogRepository.save(issuedNoticeLog);
         }
         return issuedNoticeLog;
+    }
+
+    @Override
+    public List<IssuedNoticeLog> findListByNoticeCode(String noticeCode) {
+        Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
+        return issuedNoticeLogRepository.findByNoticeCode(noticeCode, sort);
     }
 
     @Override

@@ -18,9 +18,12 @@ $(function () {
         }
         delSysRoleFun(params);
     });
-    searchSysPermissionFun(params);
-
-    saveSysPermissionFun(params);
+    // var params = {
+    //     roleName: ""
+    // };
+    // searchSysPermissionFun(params);
+    //
+    // saveSysPermissionFun(params);
 });
 
 /**

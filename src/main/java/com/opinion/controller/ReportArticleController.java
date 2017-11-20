@@ -1,15 +1,18 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
+import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.SNUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,9 +36,13 @@ public class ReportArticleController extends BaseController {
     @Autowired
     private ReportArticleLogService reportArticleLogService;
 
+    @Autowired
+    private SysUserService sysUserService;
+
 
     /**
      * 跳转上报文章页面
+     *
      * @return
      */
     @RequestMapping("opinionReportPage")
@@ -45,6 +52,7 @@ public class ReportArticleController extends BaseController {
 
     /**
      * 跳转上报文章(审核)页面
+     *
      * @return
      */
     @RequestMapping("opinionReportExaminePage")
@@ -66,15 +74,15 @@ public class ReportArticleController extends BaseController {
     }
 
     /**
-     * 查询当前用户上报信息
+     * 查询当前用户上报信息 详情
      *
-     * @param id
+     * @param reportCode
      * @return
      */
-    @RequestMapping(value = "searchId", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleById(Long id) {
-        ReportArticle reportArticle = reportArticleService.findOneById(id);
+    public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
+        ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
         return success(reportArticle);
     }
 
@@ -83,7 +91,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "searchPage", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticlePage", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
         if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
@@ -101,7 +109,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "examineAndVerify", method = RequestMethod.POST)
+    @RequestMapping(value = "examineAndVerifyReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
         Long userId = new SysUserConst().getUserId();
@@ -122,7 +130,18 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult searchReportArticleLog(@RequestParam("reportCode") String reportCode) {
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
-        return success(list);
+        JSONArray result = new JSONArray();
+        list.stream().forEach(reportArticleLog -> {
+            JSONObject jo = new JSONObject();
+            String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
+            SysUser sysUser = sysUserService.findById(reportArticleLog.getCreatedUserId());
+            StringBuilder sb = new StringBuilder();
+            sb.append("用户：").append(sysUser.getUserName()).append(adopStateVal);
+            jo.put("msg", sb.toString());
+            jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
+            result.add(jo);
+        });
+        return success(result);
     }
 
 

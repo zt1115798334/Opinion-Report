@@ -62,6 +62,11 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     }
 
     @Override
+    public IssuedNotice findOneByNoticeCode(String noticeCode) {
+        return issuedNoticeRepository.findByNoticeCode(noticeCode);
+    }
+
+    @Override
     public Page<IssuedNotice> findPageByCreatedUserId(IssuedNotice issuedNotice) {
         Specification<IssuedNotice> specification = new Specification<IssuedNotice>() {
             @Override

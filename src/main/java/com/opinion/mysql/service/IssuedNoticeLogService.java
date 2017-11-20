@@ -14,6 +14,8 @@ public interface IssuedNoticeLogService {
 
     IssuedNoticeLog readIssuedNotice(String noticeCode,Long receiptUserId);
 
+    List<IssuedNoticeLog> findListByNoticeCode(String noticeCode);
+
     List<IssuedNoticeLog> findListByReceiptUserId(Long receiptUserId);
 
     IssuedNoticeLog findByNoticeCodeAndReceiptUserId(String noticeCode,Long receiptUserId);

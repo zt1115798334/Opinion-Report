@@ -31,10 +31,10 @@ public interface ReportArticleService {
     /**
      * 根据id查询上报文章信息
      *
-     * @param id id
+     * @param reportCode 上报编号
      * @return
      */
-    ReportArticle findOneById(Long id);
+    ReportArticle findOneByreportCode(String reportCode);
 
     /**
      * 根据创建人查询上报文章集合
