@@ -194,8 +194,8 @@ public class DateUtils {
         return dateTime.plusDays(day);
     }
 
-    public static void main(String[] args) {
-        LocalDateTime localDateTime = currentDateBeforeFourteenDays();
-        System.out.println("localDateTime = " + localDateTime);
-    }
+//    public static void main(String[] args) {
+//        LocalDateTime localDateTime = currentDateBeforeFourteenDays();
+//        System.out.println("localDateTime = " + localDateTime);
+//    }
 }

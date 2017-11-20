@@ -75,21 +75,21 @@ public class MyDES {
         return decryptedData;
     }
 
-    public static void main(String[] args) {
-        String str = "123123" + "admin";
-        // DES数据加密
-        String s1 = encryptBasedDes(str);
-        System.out.println(s1);
-        IntStream.rangeClosed(1, 4).forEach(i -> {
-            String str1 = "123123" + "admin" + i;
-            // DES数据加密
-            String s11 = encryptBasedDes(str1);
-            System.out.println(s11);
-        });
-
-
-        // DES数据解密
+//    public static void main(String[] args) {
+//        String str = "123123" + "admin";
+//        // DES数据加密
+//        String s1 = encryptBasedDes(str);
+//        System.out.println(s1);
+//        IntStream.rangeClosed(1, 4).forEach(i -> {
+//            String str1 = "123123" + "admin" + i;
+//            // DES数据加密
+//            String s11 = encryptBasedDes(str1);
+//            System.out.println(s11);
+//        });
+//
+//
+//        // DES数据解密
 //		String s2 = decryptBasedDes("oCLRJiSv2qwNZNyxXU2SRA==");
 //		System.err.println(s2);
-    }
+//    }
 }

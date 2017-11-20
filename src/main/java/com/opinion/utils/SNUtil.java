@@ -103,11 +103,11 @@ public class SNUtil {
     }
 
 
-    public static void main(String[] args) {
-        SNUtil uuidHexGenerator = new SNUtil();
-        String generate = uuidHexGenerator.generate();
-        System.out.println(generate);
-    }
+//    public static void main(String[] args) {
+//        SNUtil uuidHexGenerator = new SNUtil();
+//        String generate = uuidHexGenerator.generate();
+//        System.out.println(generate);
+//    }
 
     public String generate() {
         return new StringBuilder(36).append(format(getIP())).append(sep)
