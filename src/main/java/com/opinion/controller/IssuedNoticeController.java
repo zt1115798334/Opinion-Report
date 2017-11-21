@@ -127,8 +127,9 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult searchIssuedNoticeReceive(@RequestBody IssuedNotice issuedNotice) {
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
-        Page<IssuedNotice> issuedNoticePage = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
-        return success(issuedNoticePage);
+        Page<IssuedNotice> page = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
+        JSONObject result = pageIssuedNoticeToJSONObject(page);
+        return success(result);
     }
 
     /**
@@ -141,10 +142,10 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public AjaxResult searchIssuedNoticeSend(@RequestBody IssuedNotice issuedNotice) {
         Long userId = new SysUserConst().getUserId();
-
         issuedNotice.setCreatedUserId(userId);
-        Page<IssuedNotice> issuedNoticePage = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
-        return success(issuedNoticePage);
+        Page<IssuedNotice> page = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
+        JSONObject result = pageIssuedNoticeToJSONObject(page);
+        return success(result);
     }
 
     /**
@@ -211,7 +212,7 @@ public class IssuedNoticeController extends BaseController {
         list.stream().forEach(issuedNotice -> {
             JSONObject jo = new JSONObject();
             jo.put("id", issuedNotice.getId());
-            jo.put("reportCode", issuedNotice.getNoticeCode());
+            jo.put("noticeCode", issuedNotice.getNoticeCode());
             jo.put("title", issuedNotice.getTitle());
             jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
             jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
