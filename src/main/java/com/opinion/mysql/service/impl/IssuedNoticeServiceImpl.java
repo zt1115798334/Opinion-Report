@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
  * @author zhangtong
  * Created by on 2017/11/16
  */
+@Transactional
 @Service
 public class IssuedNoticeServiceImpl implements IssuedNoticeService {
 

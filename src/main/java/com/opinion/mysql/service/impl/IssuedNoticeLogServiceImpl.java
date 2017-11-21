@@ -7,6 +7,7 @@ import com.opinion.mysql.service.IssuedNoticeLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author zhangtong
  * Created by on 2017/11/16
  */
+@Transactional
 @Service
 public class IssuedNoticeLogServiceImpl implements IssuedNoticeLogService {
 
