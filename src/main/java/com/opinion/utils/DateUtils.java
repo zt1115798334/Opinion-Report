@@ -2,6 +2,7 @@ package com.opinion.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -143,6 +144,16 @@ public class DateUtils {
     }
 
     /**
+     * 获取相隔微秒数
+     * @param dateTime
+     * @return
+     */
+    public static long dateTimeBeApart(LocalDateTime dateTime){
+        LocalDateTime currentDatetime = currentDatetime();
+        return Duration.between(dateTime,currentDatetime).toMillis();
+    }
+
+    /**
      * 时分秒归零
      *
      * @param dateTime
@@ -195,7 +206,9 @@ public class DateUtils {
     }
 
 //    public static void main(String[] args) {
-//        LocalDateTime localDateTime = currentDateBeforeFourteenDays();
-//        System.out.println("localDateTime = " + localDateTime);
+//        LocalDate date = LocalDate.of(2017, 11, 21);
+//        LocalDateTime dt3 = date.atTime(13, 45, 20);
+//        String l = RelativeDateUtils.format(dt3);
+//        System.out.println("localDateTime = " + l);
 //    }
 }

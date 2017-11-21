@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface IssuedNoticeService {
 
-    IssuedNotice save(IssuedNotice issuedNotice, List<Long> childIds);
+    IssuedNotice save(IssuedNotice issuedNotice);
 
     IssuedNotice findOneByNoticeCode(String noticeCode);
 

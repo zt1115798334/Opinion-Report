@@ -1,14 +1,20 @@
 package com.opinion.mysql.service.impl;
 
+import com.google.common.collect.Lists;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.IssuedNotice;
 import com.opinion.mysql.entity.IssuedNoticeLog;
+import com.opinion.mysql.entity.SysMessage;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.IssuedNoticeRepository;
 import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
+import com.opinion.mysql.service.SysMessageService;
+import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
+import com.opinion.utils.SNUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,13 +44,45 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     @Autowired
     private IssuedNoticeLogService issuedNoticeLogService;
 
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private SysMessageService sysMessageService;
+
 
     @Override
-    public IssuedNotice save(IssuedNotice issuedNotice, List<Long> childIds) {
-        issuedNotice = issuedNoticeRepository.save(issuedNotice);
-        Long userId = new SysUserConst().getUserId();
+    public IssuedNotice save(IssuedNotice issuedNotice) {
+        SysUser sysUser = new SysUserConst().getSysUser();
+        Long userId = sysUser.getId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
+
+        issuedNotice.setNoticeCode(SNUtil.create15());
+        issuedNotice.setReceiptState(SysConst.ReceiptState.UNRECEIPT.getCode());
+        issuedNotice.setPublishDatetime(currentDatetime);
+        issuedNotice.setCreatedDatetime(currentDatetime);
+        issuedNotice.setCreatedDate(currentDate);
+        issuedNotice.setCreatedUserId(userId);
+        issuedNotice.setModifiedDatetime(currentDatetime);
+        issuedNotice.setModifiedDate(currentDate);
+        issuedNotice.setModifiedUserId(userId);
+
+        issuedNotice = issuedNoticeRepository.save(issuedNotice);
+
+        String noticeRange = issuedNotice.getNoticeRange();
+        List<Long> childIds = Lists.newArrayList();
+        //全部
+        if (noticeRange.equals(SysConst.NoticeRange.ALL.getCode())) {
+            childIds = sysUserService.findDescendantAllIdListByParentId(userId);
+            //市级
+        } else if (noticeRange.equals(SysConst.NoticeRange.MUNICIPAL.getCode())) {
+            childIds = sysUserService.findChildIdListByParentId(userId);
+            //县级
+        } else if (noticeRange.equals(SysConst.NoticeRange.COUNTY.getCode())) {
+            childIds = sysUserService.findDescendantIdListByParentId(userId);
+        }
+
         String noticeCode = issuedNotice.getNoticeCode();
         List<IssuedNoticeLog> issuedNoticeLogs = childIds.stream()
                 .map(childId -> {
@@ -58,6 +96,25 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                     return issuedNoticeLog;
                 }).collect(Collectors.toList());
         issuedNoticeLogService.save(issuedNoticeLogs);
+
+        /**
+         * 保存系统消息
+         */
+        StringBuilder title = new StringBuilder();
+        title.append("用户：").append(sysUser.getUserName())
+                .append("下发了新的通知");
+        StringBuilder subtitle = new StringBuilder();
+        subtitle.append("《").append(issuedNotice.getTitle()).append("》");
+       List<SysMessage> sysMessages =  childIds.stream()
+                .map(childId->{
+                   SysMessage sysMessage = new SysMessage();
+                   sysMessage.setRelationUserId(childId);
+                   sysMessage.setTitle(title.toString());
+                   sysMessage.setSubtitle(subtitle.toString());
+                   return sysMessage;
+                }).collect(Collectors.toList());
+        sysMessageService.save(sysMessages);
+
         return issuedNotice;
     }
 

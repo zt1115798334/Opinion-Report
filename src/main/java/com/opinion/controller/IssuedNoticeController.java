@@ -87,32 +87,11 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
         Long userId = new SysUserConst().getUserId();
 
-        String noticeRange = issuedNotice.getNoticeRange();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        List<Long> childId = Lists.newArrayList();
-        //全部
-        if (noticeRange.equals(SysConst.NoticeRange.ALL.getCode())) {
-            childId = sysUserService.findDescendantAllIdListByParentId(userId);
-            //市级
-        } else if (noticeRange.equals(SysConst.NoticeRange.MUNICIPAL.getCode())) {
-            childId = sysUserService.findChildIdListByParentId(userId);
-            //县级
-        } else if (noticeRange.equals(SysConst.NoticeRange.COUNTY.getCode())) {
-            childId = sysUserService.findDescendantIdListByParentId(userId);
-        }
 
-        issuedNotice.setNoticeCode(SNUtil.create15());
-        issuedNotice.setReceiptState(SysConst.ReceiptState.UNRECEIPT.getCode());
-        issuedNotice.setPublishDatetime(currentDatetime);
-        issuedNotice.setCreatedDatetime(currentDatetime);
-        issuedNotice.setCreatedDate(currentDate);
-        issuedNotice.setCreatedUserId(userId);
-        issuedNotice.setModifiedDatetime(currentDatetime);
-        issuedNotice.setModifiedDate(currentDate);
-        issuedNotice.setModifiedUserId(userId);
-        issuedNoticeService.save(issuedNotice, childId);
+        issuedNoticeService.save(issuedNotice);
         return success("添加成功");
     }
 

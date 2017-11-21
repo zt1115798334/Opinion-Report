@@ -89,13 +89,13 @@ public class DataStatisticsController extends BaseController {
     public AjaxResult dataAnalysisProportion() {
         Long userId = new SysUserConst().getUserId();
 
-        //获取本周信息
+
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
+        //获取本周信息
         List<ReportArticle> reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, userId);
-        LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
 
+        LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
         //获取上周周信息
         List<ReportArticle> reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
 
@@ -109,9 +109,16 @@ public class DataStatisticsController extends BaseController {
                 .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.ADOPT.getCode())).count();
         JSONObject adoptInfo = calculationTrend(thisWeekAdoptCount, lastWeekAdoptCount);
 
+        long thisWeekNotAdoptCount = reportArticlesThisWeek.stream()
+                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.NOTADOPTED.getCode())).count();
+        long lastWeekNotAdoptCount = reportArticlesLastWeek.stream()
+                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.NOTADOPTED.getCode())).count();
+        JSONObject notAdoptInfo = calculationTrend(thisWeekNotAdoptCount, lastWeekNotAdoptCount);
+
         JSONObject result = new JSONObject();
         result.put("allInfo", allInfo);
         result.put("adoptInfo", adoptInfo);
+        result.put("notAdoptInfo", notAdoptInfo);
         return success(result);
     }
 
@@ -248,6 +255,7 @@ public class DataStatisticsController extends BaseController {
                         Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting())));
         List<String> dateList = reportArticles.stream()
                 .map(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate())).collect(Collectors.toList());
+
         JSONArray result = new JSONArray();
         dateList.stream().forEach(date -> {
             JSONObject jo = new JSONObject();
@@ -334,6 +342,7 @@ public class DataStatisticsController extends BaseController {
             result.put("num", num);
         } else {
             double num = NumberUtils.changeProportion(num1, num2);
+            result.put("type", "down");
             result.put("num", num);
         }
         return result;

@@ -4,9 +4,12 @@ import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.ReportArticleLog;
+import com.opinion.mysql.entity.SysMessage;
+import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.ReportArticleRepository;
 import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
+import com.opinion.mysql.service.SysMessageService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
@@ -43,6 +46,9 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Autowired
     private ReportArticleLogService reportArticleLogService;
+
+    @Autowired
+    private SysMessageService sysMessageService;
 
 
     @Override
@@ -113,17 +119,35 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public ReportArticle examineAndVerify(ReportArticle reportArticle) {
-        ReportArticle result = reportArticleRepository.findByReportCode(reportArticle.getReportCode());
+        SysUser sysUser = new SysUserConst().getSysUser();
+        Long userId = sysUser.getId();
+        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
+        String reportCode = reportArticle.getReportCode();
+        ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
         if (result != null) {
             String adoptState = reportArticle.getAdoptState();
             String adoptOpinion = reportArticle.getAdoptOpinion();
 
-            result.setAdoptDatetime(reportArticle.getAdoptDatetime());
-            result.setAdoptUserId(reportArticle.getAdoptUserId());
+            result.setAdoptDatetime(adoptDatetime);
+            result.setAdoptUserId(userId);
             result.setAdoptState(adoptState);
             result.setAdoptOpinion(adoptOpinion);
             result = reportArticleRepository.save(result);
-            saveReportArticleLog(result.getReportCode(), adoptState, adoptOpinion);
+            saveReportArticleLog(reportCode, adoptState, adoptOpinion);
+
+            /**
+             * 保存系统消息
+             */
+            SysMessage sysMessage = new SysMessage();
+            StringBuilder title = new StringBuilder();
+            title.append("用户：").append(sysUser.getUserName())
+                    .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
+            StringBuilder subtitle = new StringBuilder();
+            subtitle.append("《").append(result.getTitle()).append("》");
+            sysMessage.setRelationUserId(result.getCreatedUserId());
+            sysMessage.setTitle(title.toString());
+            sysMessage.setSubtitle(subtitle.toString());
+            sysMessageService.save(sysMessage);
         }
         return result;
     }

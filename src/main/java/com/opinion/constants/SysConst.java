@@ -286,5 +286,27 @@ public class SysConst {
         }
     }
 
+    public enum MessageState {
+
+        UNREAD("unread ", "未读"),
+        READ("read", "已读");
+
+        private String code;
+        private String name;
+
+        MessageState(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 
 }

@@ -128,10 +128,6 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "examineAndVerifyReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
-        Long userId = new SysUserConst().getUserId();
-        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
-        reportArticle.setAdoptDatetime(adoptDatetime);
-        reportArticle.setModifiedUserId(userId);
         reportArticle = reportArticleService.examineAndVerify(reportArticle);
         return success(reportArticle);
     }
