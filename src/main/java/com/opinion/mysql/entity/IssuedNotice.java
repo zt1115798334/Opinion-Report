@@ -41,7 +41,14 @@ public class IssuedNotice extends BaseSortRequest implements Serializable {
     private String title;
 
     /**
-     * 通知类型
+     * 发布时间
+     */
+    @Column(name = "publish_datetime", nullable = false)
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime publishDatetime;
+
+    /**
+     * 通知类型 重要通知 ：importantNotice 工作安排 :workArrangement 工作建议 :workSuggestion 其他：other
      */
     @Column(name = "notice_type", nullable = false)
     private String noticeType;
@@ -135,6 +142,14 @@ public class IssuedNotice extends BaseSortRequest implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public LocalDateTime getPublishDatetime() {
+        return publishDatetime;
+    }
+
+    public void setPublishDatetime(LocalDateTime publishDatetime) {
+        this.publishDatetime = publishDatetime;
     }
 
     public String getNoticeType() {

@@ -150,6 +150,39 @@ public class SysConst {
         return null;
     }
 
+    public enum NoticeType {
+
+        IMPORTANTNOTICE("importantNotice", "重要通知"),
+        WORKARRANGEMENT("workArrangement ", "工作安排"),
+        WORKSUGGESTION("workSuggestion", "工作建议"),
+        OTHER("other", "其他");
+
+        private String code;
+        private String name;
+
+        NoticeType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public static NoticeType getNoticeTypeByCode(String code) {
+        for (NoticeType noticeType : NoticeType.values()) {
+            if (StringUtils.equals(code, noticeType.getCode())) {
+                return noticeType;
+            }
+        }
+        return null;
+    }
+
     public enum NoticeRange {
 
         ALL("all", "全部"),

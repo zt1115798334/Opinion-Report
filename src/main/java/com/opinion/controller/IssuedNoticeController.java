@@ -105,6 +105,7 @@ public class IssuedNoticeController extends BaseController {
 
         issuedNotice.setNoticeCode(SNUtil.create15());
         issuedNotice.setReceiptState(SysConst.ReceiptState.UNRECEIPT.getCode());
+        issuedNotice.setPublishDatetime(currentDatetime);
         issuedNotice.setCreatedDatetime(currentDatetime);
         issuedNotice.setCreatedDate(currentDate);
         issuedNotice.setCreatedUserId(userId);
@@ -203,4 +204,23 @@ public class IssuedNoticeController extends BaseController {
         return success(result);
     }
 
+    private JSONObject pageIssuedNoticeToJSONObject(Page<IssuedNotice> page) {
+        JSONObject result = new JSONObject();
+        List<IssuedNotice> list = page.getContent();
+        JSONArray ja = new JSONArray();
+        list.stream().forEach(issuedNotice -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id", issuedNotice.getId());
+            jo.put("reportCode", issuedNotice.getNoticeCode());
+            jo.put("title", issuedNotice.getTitle());
+            jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
+            jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+            jo.put("replyNumber", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            ja.add(jo);
+        });
+        result.put("totalElements", page.getTotalElements());
+        result.put("totalPages", page.getTotalPages());
+        result.put("list", ja);
+        return result;
+    }
 }

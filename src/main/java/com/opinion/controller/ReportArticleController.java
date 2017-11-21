@@ -174,7 +174,7 @@ public class ReportArticleController extends BaseController {
         return success("上报成功");
     }
 
-    public JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page){
+    private JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page){
         JSONObject result = new JSONObject();
         List<ReportArticle> list = page.getContent();
         JSONArray ja = new JSONArray();

@@ -432,7 +432,7 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
-    public JSONObject pageSysUserToJSONObject(Page<SysUser> page){
+    private JSONObject pageSysUserToJSONObject(Page<SysUser> page){
         JSONObject result = new JSONObject();
         List<SysUser> list = page.getContent();
         JSONArray ja = new JSONArray();
