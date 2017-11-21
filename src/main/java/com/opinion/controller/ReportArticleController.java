@@ -39,7 +39,6 @@ public class ReportArticleController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
-
     /**
      * 跳转上报文章页面
      *
