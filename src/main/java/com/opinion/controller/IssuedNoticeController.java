@@ -85,12 +85,6 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "saveIssuedNotice", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
-        Long userId = new SysUserConst().getUserId();
-
-        LocalDate currentDate = DateUtils.currentDate();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-
         issuedNoticeService.save(issuedNotice);
         return success("添加成功");
     }
