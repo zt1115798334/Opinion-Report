@@ -26,7 +26,7 @@ public class SysMessageServiceImpl implements SysMessageService {
     private SysMessageRepository sysMessageRepository;
 
     @Override
-    public SysMessage save( SysMessage sysMessage) {
+    public SysMessage save(SysMessage sysMessage) {
         Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
@@ -54,10 +54,11 @@ public class SysMessageServiceImpl implements SysMessageService {
     }
 
     @Override
-    public List<SysMessage> findByRelationUserId(Long relationUserId,String status) {
+    public List<SysMessage> findByRelationUserId(Long relationUserId, String status) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishDatetime");
-        return sysMessageRepository.findByRelationUserIdAndStatus(relationUserId, status,sort);
+        return sysMessageRepository.findByRelationUserIdAndStatus(relationUserId, status, sort);
     }
+
 
     @Override
     public boolean executeRead(Long id) {
@@ -68,13 +69,25 @@ public class SysMessageServiceImpl implements SysMessageService {
     }
 
     @Override
+    public boolean executeRead() {
+        Long userId = new SysUserConst().getUserId();
+        List<SysMessage> sysMessages = findByRelationUserId(userId, SysConst.MessageState.UNREAD.getCode());
+        readList(sysMessages);
+        return true;
+    }
+
+    @Override
     public boolean executeRead(List<Long> ids) {
         List<SysMessage> sysMessages = (List<SysMessage>) sysMessageRepository.findAll(ids);
+        readList(sysMessages);
+        return true;
+    }
+
+    private void readList(List<SysMessage> sysMessages) {
         sysMessages = sysMessages.stream().map(sysMessage -> {
             sysMessage.setStatus(SysConst.MessageState.READ.getCode());
             return sysMessage;
         }).collect(Collectors.toList());
         sysMessageRepository.save(sysMessages);
-        return true;
     }
 }

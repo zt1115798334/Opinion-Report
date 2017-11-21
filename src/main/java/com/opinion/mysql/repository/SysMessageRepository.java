@@ -10,7 +10,7 @@ import java.util.List;
  * @author zhangtong
  * Created by on 2017/11/21
  */
-public interface SysMessageRepository extends CrudRepository<SysMessage,Long> {
+public interface SysMessageRepository extends CrudRepository<SysMessage, Long> {
 
-    List<SysMessage> findByRelationUserIdAndStatus(Long relationUserId,String status,Sort sort);
+    List<SysMessage> findByRelationUserIdAndStatus(Long relationUserId, String status, Sort sort);
 }

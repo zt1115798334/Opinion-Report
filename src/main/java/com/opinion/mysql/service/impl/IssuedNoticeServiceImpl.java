@@ -198,6 +198,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
             issuedNotice.setReceiptState(SysConst.ReceiptState.RECEIPT.getCode());
             issuedNotice.setReceiptDatetime(currentDatetime);
         }
+
         return issuedNoticeRepository.save(issuedNotice);
     }
 }

@@ -14,9 +14,12 @@ public interface SysMessageService {
 
     Iterable<SysMessage> save(List<SysMessage> sysMessages);
 
-    List<SysMessage> findByRelationUserId(Long relationUserId,String status);
+    List<SysMessage> findByRelationUserId(Long relationUserId, String status);
+
 
     boolean executeRead(Long id);
+
+    boolean executeRead();
 
     boolean executeRead(List<Long> ids);
 }

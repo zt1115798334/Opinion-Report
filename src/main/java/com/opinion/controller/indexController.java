@@ -12,6 +12,8 @@ import com.opinion.utils.RelativeDateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -27,20 +29,49 @@ public class indexController extends BaseController {
     @Autowired
     private SysMessageService sysMessageService;
 
-    @RequestMapping
+    /**
+     * 显示通知
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchNotice", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchnotice(){
+    public AjaxResult searchNotice() {
         Long userId = new SysUserConst().getUserId();
         List<SysMessage> sysMessages = sysMessageService.findByRelationUserId(userId, SysConst.MessageState.UNREAD.getCode());
         JSONArray result = new JSONArray();
         sysMessages.stream().forEach(sysMessage -> {
             JSONObject jo = new JSONObject();
-            jo.put("title",sysMessage.getTitle());
-            jo.put("subtitle",sysMessage.getSubtitle());
+            jo.put("title", sysMessage.getTitle());
+            jo.put("subtitle", sysMessage.getSubtitle());
             jo.put("timeMsg", RelativeDateUtils.format(sysMessage.getPublishDatetime()));
             result.add(jo);
         });
         return success(result);
+    }
+
+    /**
+     * 清除通知
+     *
+     * @return
+     */
+    @RequestMapping(value = "clearNotice", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult clearNotice(@RequestParam Long id) {
+        sysMessageService.executeRead(id);
+        return success("操作成功");
+    }
+
+    /**
+     * 清除全部通知
+     *
+     * @return
+     */
+    @RequestMapping(value = "clearNoticeAll", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult clearNoticeAll() {
+        sysMessageService.executeRead();
+        return success("操作成功");
     }
 
 }
