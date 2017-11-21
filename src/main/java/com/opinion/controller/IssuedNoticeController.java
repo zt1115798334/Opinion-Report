@@ -2,7 +2,6 @@ package com.opinion.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -14,15 +13,12 @@ import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.SNUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -47,7 +43,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "issuedNoticeReceivePage",method = RequestMethod.GET)
+    @RequestMapping(value = "issuedNoticeReceivePage", method = RequestMethod.GET)
     public String issuedNoticeReceivePage() {
         return "/issued/issuedNoticeReceive";
     }
@@ -57,7 +53,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "issuedNoticeSendPage",method = RequestMethod.GET)
+    @RequestMapping(value = "issuedNoticeSendPage", method = RequestMethod.GET)
     public String issuedNoticeSendPage() {
         return "/issued/issuedNoticeSend";
     }
@@ -67,7 +63,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "issuedNoticeInfoPage",method = RequestMethod.GET)
+    @RequestMapping(value = "issuedNoticeInfoPage", method = RequestMethod.GET)
     public String issuedNoticeInfoPage(Model model,
                                        @RequestParam String noticeCode) {
         Long userId = new SysUserConst().getUserId();
@@ -130,8 +126,25 @@ public class IssuedNoticeController extends BaseController {
     @RequestMapping(value = "searchIssuedNoticeByNoticeCode", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchIssuedNoticeByNoticeCode(@RequestParam String noticeCode) {
+        Long userId = new SysUserConst().getUserId();
         IssuedNotice issuedNotice = issuedNoticeService.findOneByNoticeCode(noticeCode);
-        return success(issuedNotice);
+        IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
+
+        JSONObject result = new JSONObject();
+        result.put("id", issuedNotice.getId());
+        result.put("noticeCode", issuedNotice.getNoticeCode());
+        result.put("title", issuedNotice.getTitle());
+        result.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+        result.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
+        result.put("noticeContent", issuedNotice.getNoticeContent());
+        if (issuedNoticeLog != null) {
+            result.put("receiptState", issuedNoticeLog.getReceiptState());
+            result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getName());
+        } else {
+            result.put("receiptState", issuedNotice.getReceiptState());
+            result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+        }
+        return success(result);
     }
 
     /**

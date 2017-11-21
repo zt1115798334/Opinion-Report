@@ -20,6 +20,7 @@ public class DateUtils {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_SECOND_FORMAT_SIMPLE = "yyyy-MM-dd HH:mm";
     public static final String DATE_SECOND_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE__FORMAT_CN = "yyyy年MM月dd日 HH:mm:ss";
 
     private DateUtils() {
     }

@@ -49,7 +49,7 @@ public interface ReportArticleService {
      *
      * @return
      */
-    ReportArticle examineAndVerify(ReportArticle reportArticle);
+    boolean examineAndVerify(ReportArticle reportArticle);
 
 
     /**

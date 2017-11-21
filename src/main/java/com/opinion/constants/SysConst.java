@@ -57,6 +57,38 @@ public class SysConst {
         }
     }
 
+    public enum ReplyType {
+
+        CLICK("click", "点击"),
+        COMMENT("comment", "评论"),
+        ESTIMATE("estimate", "预估值");
+
+        private String code;
+        private String name;
+
+        ReplyType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public static ReplyType getReplyTypeByCode(String code) {
+        for (ReplyType replyType : ReplyType.values()) {
+            if (StringUtils.equals(code, replyType.getCode())) {
+                return replyType;
+            }
+        }
+        return null;
+    }
+
     public enum SourceType {
 
         NETWORK("network", "网络"),
@@ -311,6 +343,5 @@ public class SysConst {
             return name;
         }
     }
-
 
 }

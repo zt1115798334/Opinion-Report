@@ -45,7 +45,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "opinionReportPage",method = RequestMethod.GET)
+    @RequestMapping(value = "opinionReportPage", method = RequestMethod.GET)
     public String opinionReportPage() {
         return "/report/opinionReport";
     }
@@ -55,7 +55,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "opinionReportExaminePage",method = RequestMethod.GET)
+    @RequestMapping(value = "opinionReportExaminePage", method = RequestMethod.GET)
     public String opinionReportExaminePage(Model model,
                                            @RequestBody String reportCode) {
         model.addAttribute("reportCode", reportCode);
@@ -119,7 +119,20 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
         ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
-        return success(reportArticle);
+        JSONObject result = new JSONObject();
+        result.put("id", reportArticle.getId());
+        result.put("reportCode", reportArticle.getReportCode());
+        result.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
+        result.put("sourceUrl", reportArticle.getSourceUrl());
+        result.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
+        result.put("title", reportArticle.getTitle());
+        result.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+        result.put("replyType", SysConst.getReplyTypeByCode(reportArticle.getReplyType()).getName());
+        result.put("replyNumber", reportArticle.getReplyNumber());
+        result.put("reportCause", reportArticle.getReportCause());
+        result.put("adoptState", reportArticle.getAdoptState());
+        result.put("adoptStateMsg", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
+        return success(result);
     }
 
     /**
@@ -130,8 +143,14 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "examineAndVerifyReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
-        reportArticle = reportArticleService.examineAndVerify(reportArticle);
-        return success(reportArticle);
+        boolean flag = reportArticleService.examineAndVerify(reportArticle);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "审核成功");
+        } else {
+            result.put("msg", "审核失败，其他人已经审核，你慢了一步！！");
+        }
+        return success(result);
     }
 
     /**
@@ -158,7 +177,6 @@ public class ReportArticleController extends BaseController {
         return success(result);
     }
 
-
     /**
      * 对上报文章再次上报
      *
@@ -172,25 +190,25 @@ public class ReportArticleController extends BaseController {
         return success("上报成功");
     }
 
-    private JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page){
+    private JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page) {
         JSONObject result = new JSONObject();
         List<ReportArticle> list = page.getContent();
         JSONArray ja = new JSONArray();
         list.stream().forEach(reportArticle -> {
             JSONObject jo = new JSONObject();
-            jo.put("id",reportArticle.getId());
-            jo.put("reportCode",reportArticle.getReportCode());
-            jo.put("title",reportArticle.getTitle());
-            jo.put("sourceType",SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
-            jo.put("reportLevel",SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
-            jo.put("replyNumber",reportArticle.getReplyNumber());
-            jo.put("adoptState",SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
-            jo.put("replyNumber",DateUtils.formatDate(reportArticle.getPublishDatetime(),DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("id", reportArticle.getId());
+            jo.put("reportCode", reportArticle.getReportCode());
+            jo.put("title", reportArticle.getTitle());
+            jo.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
+            jo.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
+            jo.put("replyNumber", reportArticle.getReplyNumber());
+            jo.put("adoptState", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
+            jo.put("replyNumber", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
-        result.put("totalElements",page.getTotalElements());
-        result.put("totalPages",page.getTotalPages());
-        result.put("list",ja);
+        result.put("totalElements", page.getTotalElements());
+        result.put("totalPages", page.getTotalPages());
+        result.put("list", ja);
         return result;
     }
 

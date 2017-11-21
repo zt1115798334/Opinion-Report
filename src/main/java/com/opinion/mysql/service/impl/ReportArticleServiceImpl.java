@@ -29,6 +29,7 @@ import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhangtong
@@ -118,13 +119,13 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
-    public ReportArticle examineAndVerify(ReportArticle reportArticle) {
+    public boolean examineAndVerify(ReportArticle reportArticle) {
         SysUser sysUser = new SysUserConst().getSysUser();
         Long userId = sysUser.getId();
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         String reportCode = reportArticle.getReportCode();
         ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
-        if (result != null) {
+        if (result != null && Objects.equals(result.getAdoptState(), SysConst.AdoptState.REPORT.getCode())) {
             String adoptState = reportArticle.getAdoptState();
             String adoptOpinion = reportArticle.getAdoptOpinion();
 
@@ -149,8 +150,10 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             sysMessage.setSubtitle(subtitle.toString());
             sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
             sysMessageService.save(sysMessage);
+            return true;
+        }else{
+            return false;
         }
-        return result;
     }
 
     @Override
