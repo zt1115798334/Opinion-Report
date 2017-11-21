@@ -45,7 +45,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("opinionReportPage")
+    @RequestMapping(value = "opinionReportPage",method = RequestMethod.GET)
     public String opinionReportPage() {
         return "/report/opinionReport";
     }
@@ -55,7 +55,7 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("opinionReportExaminePage")
+    @RequestMapping(value = "opinionReportExaminePage",method = RequestMethod.GET)
     public String opinionReportExaminePage() {
         return "/report/opinionReportExamine";
     }

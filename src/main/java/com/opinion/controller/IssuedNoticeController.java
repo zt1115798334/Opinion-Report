@@ -47,7 +47,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("issuedNoticeReceivePage")
+    @RequestMapping(value = "issuedNoticeReceivePage",method = RequestMethod.GET)
     public String issuedNoticeReceivePage() {
         return "/issued/issuedNoticeReceive";
     }
@@ -57,7 +57,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("issuedNoticeSendPage")
+    @RequestMapping(value = "issuedNoticeSendPage",method = RequestMethod.GET)
     public String issuedNoticeSendPage() {
         return "/issued/issuedNoticeSend";
     }
@@ -67,7 +67,7 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("issuedNoticeInfoPage")
+    @RequestMapping(value = "issuedNoticeInfoPage",method = RequestMethod.GET)
     public String issuedNoticeInfoPage(Model model,
                                        @RequestParam String noticeCode) {
         Long userId = new SysUserConst().getUserId();

@@ -50,7 +50,7 @@ public class SystemController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("organizationStructurePage")
+    @RequestMapping(value = "organizationStructurePage",method = RequestMethod.GET)
     public String organizationStructurePage() {
         return "/system/organizationStructure";
     }
@@ -60,7 +60,7 @@ public class SystemController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("roleManagementPage")
+    @RequestMapping(value = "roleManagementPage",method = RequestMethod.GET)
     public String roleManagementPage() {
         return "/system/roleManagement";
     }
@@ -171,14 +171,14 @@ public class SystemController extends BaseController {
     /**
      * 根据角色id保存权限信息
      *
-     * @param codes
+     * @param code
      * @param roleId
      * @return
      */
     @RequestMapping(value = "saveSysPermission", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult saveSysPermission(@RequestParam("code") List<String> codes, @RequestParam("roleId") Long roleId) {
-        sysPermissionService.saveSysRolePermission(codes, roleId);
+    public AjaxResult saveSysPermission(@RequestParam("code") List<String> code, @RequestParam("roleId") Long roleId) {
+        sysPermissionService.saveSysRolePermission(code, roleId);
         return success("添加成功");
     }
 
@@ -204,7 +204,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchDisplayChildMenu", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchDisplayChildMenu(@RequestParam("permissionId") Long permissionId) {
+    public AjaxResult searchDisplayChildMenu(@RequestParam Long permissionId) {
         List<SysPermission> sysPermissions = sysPermissionService.findListByParentId(permissionId);
         System.out.println("sysPermissions = " + sysPermissions);
         JSONArray result = new JSONArray();

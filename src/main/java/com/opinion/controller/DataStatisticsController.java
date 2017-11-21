@@ -47,7 +47,7 @@ public class DataStatisticsController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("dataStatisticsPage")
+    @RequestMapping(value = "dataStatisticsPage",method = RequestMethod.GET)
     public String dataStatisticsPage() {
         return "/dataStatistics/dataStatistics";
     }
