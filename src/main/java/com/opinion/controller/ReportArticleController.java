@@ -74,20 +74,7 @@ public class ReportArticleController extends BaseController {
     }
 
     /**
-     * 查询当前用户上报信息 详情
-     *
-     * @param reportCode
-     * @return
-     */
-    @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
-        ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
-        return success(reportArticle);
-    }
-
-    /**
-     * 报文章分页查询
+     * 报文章分页查询 (查询自己上报的)
      *
      * @return
      */
@@ -100,8 +87,37 @@ public class ReportArticleController extends BaseController {
         }
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
-        Page<ReportArticle> reportArticles = reportArticleService.findPageByCreateUser(reportArticle);
-        return success(reportArticles);
+        Page<ReportArticle> page = reportArticleService.findPageByCreateUser(reportArticle);
+        JSONObject result = pageReportArticleToJSONObject(page);
+        return success(result);
+    }
+
+    /**
+     * 查询子级上报文章信息（查找他人上报自己的）
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
+        Long userId = new SysUserConst().getUserId();
+        reportArticle.setCreatedUserId(userId);
+        Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
+        JSONObject result = pageReportArticleToJSONObject(page);
+        return success(result);
+    }
+
+    /**
+     * 查询当前用户上报信息 详情
+     *
+     * @param reportCode
+     * @return
+     */
+    @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
+        ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
+        return success(reportArticle);
     }
 
     /**
@@ -146,21 +162,6 @@ public class ReportArticleController extends BaseController {
 
 
     /**
-     * 查询子级上报文章信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
-        Long userId = new SysUserConst().getUserId();
-        reportArticle.setCreatedUserId(userId);
-        Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
-        return success(page);
-    }
-
-
-    /**
      * 对上报文章再次上报
      *
      * @param reportCode
@@ -171,6 +172,28 @@ public class ReportArticleController extends BaseController {
     public AjaxResult saveReportArticleAgain(@RequestParam("reportCode") String reportCode) {
         reportArticleService.saveAgain(reportCode);
         return success("上报成功");
+    }
+
+    public JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page){
+        JSONObject result = new JSONObject();
+        List<ReportArticle> list = page.getContent();
+        JSONArray ja = new JSONArray();
+        list.stream().forEach(reportArticle -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id",reportArticle.getId());
+            jo.put("reportCode",reportArticle.getReportCode());
+            jo.put("title",reportArticle.getTitle());
+            jo.put("sourceType",SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
+            jo.put("reportLevel",SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
+            jo.put("replyNumber",reportArticle.getReplyNumber());
+            jo.put("adoptState",SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
+            jo.put("replyNumber",DateUtils.formatDate(reportArticle.getPublishDatetime(),DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            ja.add(jo);
+        });
+        result.put("totalElements",page.getTotalElements());
+        result.put("totalPages",page.getTotalPages());
+        result.put("list",ja);
+        return result;
     }
 
 }

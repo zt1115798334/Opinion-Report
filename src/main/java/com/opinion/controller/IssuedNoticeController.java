@@ -147,18 +147,6 @@ public class IssuedNoticeController extends BaseController {
     }
 
     /**
-     * 执行回执操作
-     *
-     * @return
-     */
-    @RequestMapping(value = "replyExecution", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult replyExecution(@RequestParam String noticeCode) {
-        issuedNoticeService.replyExecution(noticeCode);
-        return success("执行成功");
-    }
-
-    /**
      * 查询当前用户下传信息 详情
      *
      * @param noticeCode
@@ -169,6 +157,18 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult searchIssuedNoticeByNoticeCode(@RequestParam String noticeCode) {
         IssuedNotice issuedNotice = issuedNoticeService.findOneByNoticeCode(noticeCode);
         return success(issuedNotice);
+    }
+
+    /**
+     * 执行回执操作
+     *
+     * @return
+     */
+    @RequestMapping(value = "replyExecution", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult replyExecution(@RequestParam String noticeCode) {
+        issuedNoticeService.replyExecution(noticeCode);
+        return success("执行成功");
     }
 
     /**

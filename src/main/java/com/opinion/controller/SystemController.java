@@ -238,7 +238,6 @@ public class SystemController extends BaseController {
         return sysPermissions;
     }
 
-
     /**
      * 保存省市区组织信息表
      *
@@ -403,14 +402,17 @@ public class SystemController extends BaseController {
      * @param roleId 角色id
      * @return
      */
-    @RequestMapping("searchSysUserPageByRoleId")
+    @RequestMapping(value = "searchSysUserPageByRoleId",method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysUserPageByRoleId(@RequestParam("roleId") Long roleId,
-                                                @RequestParam("pageNum") int pageNum,
-                                                @RequestParam("pageSize") int pageSize) {
+    public AjaxResult searchSysUserPageByRoleId(@RequestParam Long roleId,
+                                                @RequestParam int pageNum,
+                                                @RequestParam int pageSize,
+                                                @RequestParam String userName) {
+
         logger.info("请求 searchSysUserByRoleId 方法，参数信息为：roleId:{}", roleId);
-        Page<SysUser> list = sysUserService.findPageByRoleId(roleId, pageNum, pageSize);
-        return success(list);
+        Page<SysUser> page = sysUserService.findPageByRoleId(roleId, pageNum, pageSize, userName);
+        JSONObject result = pageSysUserToJSONObject(page);
+        return success(result);
     }
 
     /**
@@ -419,14 +421,35 @@ public class SystemController extends BaseController {
      * @param cityOrganizationId 系统用户省市区组织信息id
      * @return
      */
-    @RequestMapping("searchSysUserPageByCityOrganizationId")
+    @RequestMapping(value = "searchSysUserPageByCityOrganizationId",method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysUserPageByCityOrganizationId(@RequestParam("cityOrganizationId") Long cityOrganizationId,
-                                                            @RequestParam("pageNum") int pageNum,
-                                                            @RequestParam("pageSize") int pageSize) {
+    public AjaxResult searchSysUserPageByCityOrganizationId(@RequestParam Long cityOrganizationId,
+                                                            @RequestParam int pageNum,
+                                                            @RequestParam int pageSize) {
         logger.info("请求 searchSysUserByRoleId 方法，参数信息为：roleId:{}", cityOrganizationId);
-        Page<SysUser> list = sysUserService.findPageByCityOrganizationId(cityOrganizationId, pageNum, pageSize);
-        return success(list);
+        Page<SysUser> page = sysUserService.findPageByCityOrganizationId(cityOrganizationId, pageNum, pageSize);
+        JSONObject result = pageSysUserToJSONObject(page);
+        return success(result);
+    }
+
+    public JSONObject pageSysUserToJSONObject(Page<SysUser> page){
+        JSONObject result = new JSONObject();
+        List<SysUser> list = page.getContent();
+        JSONArray ja = new JSONArray();
+        list.stream().forEach(sysUser -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id",sysUser.getId());
+            jo.put("userAccount",sysUser.getUserAccount());
+            jo.put("userName",sysUser.getUserName());
+            SysRole sysRole = sysRoleService.findListByUserId(sysUser.getId()).get(0);
+            jo.put("roleName",sysRole.getRoleName());
+            jo.put("createDatetime",DateUtils.formatDate(sysUser.getCreatedDate(),DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            ja.add(jo);
+        });
+        result.put("totalElements",page.getTotalElements());
+        result.put("totalPages",page.getTotalPages());
+        result.put("list",ja);
+        return result;
     }
 
 }

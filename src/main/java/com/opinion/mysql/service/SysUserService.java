@@ -20,7 +20,7 @@ public interface SysUserService {
 
     boolean isExistByUserAccount(String userAccount);
 
-    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize);
+    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize,String userName);
 
     Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNum, int pageSize);
 

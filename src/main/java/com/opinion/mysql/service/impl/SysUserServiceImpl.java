@@ -15,6 +15,7 @@ import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.MyDES;
 import com.opinion.utils.PageUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -120,13 +121,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize) {
+    public Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize,String userName) {
 
         List<SysRoleUser> sysRoleUsers = sysRoleUserService.findByRoleId(roleId);
         List<Long> userId = sysRoleUsers.stream()
                 .map(SysRoleUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId,userName);
         return result;
     }
 
@@ -137,7 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
         List<Long> userId = cityOrganizationSysUsers.stream()
                 .map(CityOrganizationSysUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId,null);
         return result;
     }
 
@@ -206,13 +207,16 @@ public class SysUserServiceImpl implements SysUserService {
         return cityOrganizationSysUserService.save(cityOrganizationSysUser);
     }
 
-    private Page<SysUser> getSysUsersPageInUserId(int pageNum, int pageSize, List<Long> userId) {
+    private Page<SysUser> getSysUsersPageInUserId(int pageNum, int pageSize, List<Long> userId,String userName) {
         Specification<SysUser> specification = new Specification<SysUser>() {
             @Override
             public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 CriteriaBuilder.In<Long> in = builder.in(root.get("id").as(Long.class));
                 userId.forEach(userid -> in.value(userid));
                 query.where(in);
+                if(StringUtils.isNotEmpty(userName)){
+                    query.where(builder.and(builder.like(root.get("userName").as(String.class), "%" + userName + "%")));
+                }
                 return null;
             }
         };
