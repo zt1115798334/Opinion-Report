@@ -8,10 +8,7 @@ import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.entity.SysRoleUser;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.SysUserRepository;
-import com.opinion.mysql.service.CityOrganizationService;
-import com.opinion.mysql.service.CityOrganizationSysUserService;
-import com.opinion.mysql.service.SysRoleUserService;
-import com.opinion.mysql.service.SysUserService;
+import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.MyDES;
 import com.opinion.utils.PageUtils;
@@ -51,6 +48,15 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private CityOrganizationSysUserService cityOrganizationSysUserService;
+
+    @Autowired
+    private ReportArticleService reportArticleService;
+
+    @Autowired
+    private IssuedNoticeService issuedNoticeService;
+
+    @Autowired
+    private SysMessageService sysMessageService;
 
     @Autowired
     RedisSessionDAO redisSessionDAO;
@@ -111,7 +117,10 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserRepository.delete(id);
         sysRoleUserService.delSysRoleUser(id);
         cityOrganizationSysUserService.delCityOrganizationSysUser(id);
-        return false;
+        reportArticleService.delByCreatedUserId(id);
+        issuedNoticeService.delByCreatedUserId(id);
+        sysMessageService.delInRelevantUserId(id);
+        return true;
     }
 
     @Override
@@ -121,13 +130,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize,String userName) {
+    public Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize, String userName) {
 
         List<SysRoleUser> sysRoleUsers = sysRoleUserService.findByRoleId(roleId);
         List<Long> userId = sysRoleUsers.stream()
                 .map(SysRoleUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId,userName);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId, userName);
         return result;
     }
 
@@ -138,7 +147,7 @@ public class SysUserServiceImpl implements SysUserService {
         List<Long> userId = cityOrganizationSysUsers.stream()
                 .map(CityOrganizationSysUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId,null);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId, null);
         return result;
     }
 
@@ -207,14 +216,14 @@ public class SysUserServiceImpl implements SysUserService {
         return cityOrganizationSysUserService.save(cityOrganizationSysUser);
     }
 
-    private Page<SysUser> getSysUsersPageInUserId(int pageNum, int pageSize, List<Long> userId,String userName) {
+    private Page<SysUser> getSysUsersPageInUserId(int pageNum, int pageSize, List<Long> userId, String userName) {
         Specification<SysUser> specification = new Specification<SysUser>() {
             @Override
             public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 CriteriaBuilder.In<Long> in = builder.in(root.get("id").as(Long.class));
                 userId.forEach(userid -> in.value(userid));
                 query.where(in);
-                if(StringUtils.isNotEmpty(userName)){
+                if (StringUtils.isNotEmpty(userName)) {
                     query.where(builder.and(builder.like(root.get("userName").as(String.class), "%" + userName + "%")));
                 }
                 return null;

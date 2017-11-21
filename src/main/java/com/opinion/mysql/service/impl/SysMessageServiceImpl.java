@@ -9,6 +9,7 @@ import com.opinion.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * @author zhangtong
  * Created by on 2017/11/21
  */
+@Transactional
 @Service
 public class SysMessageServiceImpl implements SysMessageService {
 
@@ -80,6 +82,13 @@ public class SysMessageServiceImpl implements SysMessageService {
     public boolean executeRead(List<Long> ids) {
         List<SysMessage> sysMessages = (List<SysMessage>) sysMessageRepository.findAll(ids);
         readList(sysMessages);
+        return true;
+    }
+
+    @Override
+    public boolean delInRelevantUserId(Long userId) {
+        sysMessageRepository.deleteByRelationUserId(userId);
+        sysMessageRepository.deleteByPublishUserId(userId);
         return true;
     }
 

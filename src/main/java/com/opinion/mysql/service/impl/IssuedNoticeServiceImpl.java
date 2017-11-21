@@ -206,9 +206,20 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     @Override
     public boolean delByIds(List<Long> ids) {
         List<IssuedNotice> issuedNotices = (List<IssuedNotice>) issuedNoticeRepository.findAll(ids);
+        delIssuedNoticeAndIssuedNoticeLog(issuedNotices);
+        return true;
+    }
+
+    @Override
+    public boolean delByCreatedUserId(Long createdUserId) {
+        List<IssuedNotice> issuedNotices = issuedNoticeRepository.findByCreatedUserId(createdUserId);
+        delIssuedNoticeAndIssuedNoticeLog(issuedNotices);
+        return true;
+    }
+
+    private void delIssuedNoticeAndIssuedNoticeLog(List<IssuedNotice> issuedNotices) {
         List<String> noticeCodes = issuedNotices.stream().map(IssuedNotice::getNoticeCode).collect(Collectors.toList());
         issuedNoticeLogService.delByNoticeCodes(noticeCodes);
         issuedNoticeRepository.delete(issuedNotices);
-        return true;
     }
 }

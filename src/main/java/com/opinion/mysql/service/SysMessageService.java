@@ -22,4 +22,12 @@ public interface SysMessageService {
     boolean executeRead();
 
     boolean executeRead(List<Long> ids);
+
+    /**
+     * 删除相关 人的信息（创建的和有关联的）
+     *
+     * @param userId
+     * @return
+     */
+    boolean delInRelevantUserId(Long userId);
 }

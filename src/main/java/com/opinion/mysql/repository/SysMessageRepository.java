@@ -13,4 +13,8 @@ import java.util.List;
 public interface SysMessageRepository extends CrudRepository<SysMessage, Long> {
 
     List<SysMessage> findByRelationUserIdAndStatus(Long relationUserId, String status, Sort sort);
+
+    void deleteByRelationUserId(Long relationUserId);
+
+    void deleteByPublishUserId(Long publishUserId);
 }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * @author zhangtong
  * Created by on 2017/11/16
@@ -15,5 +17,7 @@ public interface IssuedNoticeRepository extends CrudRepository<IssuedNotice, Lon
     Page<IssuedNotice> findAll(Specification<IssuedNotice> specification, Pageable pageable);
 
     IssuedNotice findByNoticeCode(String noticeCode);
+
+    List<IssuedNotice> findByCreatedUserId(Long createdUserId);
 
 }

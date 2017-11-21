@@ -223,12 +223,16 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Override
     public boolean delByIds(List<Long> ids) {
         List<ReportArticle> reportArticles = (List<ReportArticle>) reportArticleRepository.findAll(ids);
-        List<String> reportCodes = reportArticles.stream().map(ReportArticle::getReportCode).collect(Collectors.toList());
-        reportArticleLogService.delByReportCodes(reportCodes);
-        reportArticleRepository.delete(reportArticles);
+        delReportArticleAndReportArticleLog(reportArticles);
         return true;
     }
 
+    @Override
+    public boolean delByCreatedUserId(Long createdUserId) {
+        List<ReportArticle> reportArticles = reportArticleRepository.findByCreatedUserId(createdUserId);
+        delReportArticleAndReportArticleLog(reportArticles);
+        return true;
+    }
 
     public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
@@ -247,5 +251,11 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         reportArticleLog.setCreatedUserId(userId);
         reportArticleLogService.save(reportArticleLog);
         return reportArticleLog;
+    }
+
+    private void delReportArticleAndReportArticleLog(List<ReportArticle> reportArticles) {
+        List<String> reportCodes = reportArticles.stream().map(ReportArticle::getReportCode).collect(Collectors.toList());
+        reportArticleLogService.delByReportCodes(reportCodes);
+        reportArticleRepository.delete(reportArticles);
     }
 }

@@ -21,4 +21,6 @@ public interface ReportArticleRepository extends CrudRepository<ReportArticle, L
     List<ReportArticle> findAll(Specification<ReportArticle> specification, Sort sort);
 
     ReportArticle findByReportCode(String reportCode);
+
+    List<ReportArticle> findByCreatedUserId(Long createdUserId);
 }

@@ -65,4 +65,6 @@ public interface ReportArticleService {
     List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     boolean delByIds(List<Long> ids);
+
+    boolean delByCreatedUserId(Long createdUserId);
 }

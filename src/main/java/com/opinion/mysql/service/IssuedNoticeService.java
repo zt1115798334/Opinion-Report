@@ -28,4 +28,6 @@ public interface IssuedNoticeService {
     IssuedNotice replyExecution(String noticeCode);
 
     boolean delByIds(List<Long> ids);
+
+    boolean delByCreatedUserId(Long createdUserId);
 }
