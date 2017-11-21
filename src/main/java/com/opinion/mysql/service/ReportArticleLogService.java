@@ -13,4 +13,6 @@ public interface ReportArticleLogService {
     ReportArticleLog save(ReportArticleLog reportArticleLog);
 
     List<ReportArticleLog> findListByReportArticleId(String  reportCode);
+
+    boolean delByReportCodes(List<String> reportCodes);
 }

@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("index")
-public class indexController extends BaseController {
+public class IndexController extends BaseController {
 
     @Autowired
     private SysMessageService sysMessageService;

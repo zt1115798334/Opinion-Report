@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -30,11 +31,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
  * Created by on 2017/11/13
  */
+@Transactional
 @Service
 public class ReportArticleServiceImpl implements ReportArticleService {
 
@@ -151,7 +154,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
             sysMessageService.save(sysMessage);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -215,6 +218,15 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
         List<ReportArticle> result = reportArticleRepository.findAll(specification, sort);
         return result;
+    }
+
+    @Override
+    public boolean delByIds(List<Long> ids) {
+        List<ReportArticle> reportArticles = (List<ReportArticle>) reportArticleRepository.findAll(ids);
+        List<String> reportCodes = reportArticles.stream().map(ReportArticle::getReportCode).collect(Collectors.toList());
+        reportArticleLogService.delByReportCodes(reportCodes);
+        reportArticleRepository.delete(reportArticles);
+        return true;
     }
 
 

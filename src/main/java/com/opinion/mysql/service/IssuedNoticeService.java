@@ -26,4 +26,6 @@ public interface IssuedNoticeService {
      * @return
      */
     IssuedNotice replyExecution(String noticeCode);
+
+    boolean delByIds(List<Long> ids);
 }

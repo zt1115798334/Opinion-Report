@@ -109,6 +109,24 @@ public class ReportArticleController extends BaseController {
     }
 
     /**
+     * 删除上报文章信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "deleteReportArticle", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult deleteReportArticle(@RequestParam List<Long> id) {
+        boolean flag = reportArticleService.delByIds(id);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "删除成功");
+        } else {
+            result.put("msg", "删除失败");
+        }
+        return success(result);
+    }
+
+    /**
      * 查询当前用户上报信息 详情
      *
      * @param reportCode
@@ -119,18 +137,20 @@ public class ReportArticleController extends BaseController {
     public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
         ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
         JSONObject result = new JSONObject();
-        result.put("id", reportArticle.getId());
-        result.put("reportCode", reportArticle.getReportCode());
-        result.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
-        result.put("sourceUrl", reportArticle.getSourceUrl());
-        result.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
-        result.put("title", reportArticle.getTitle());
-        result.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
-        result.put("replyType", SysConst.getReplyTypeByCode(reportArticle.getReplyType()).getName());
-        result.put("replyNumber", reportArticle.getReplyNumber());
-        result.put("reportCause", reportArticle.getReportCause());
-        result.put("adoptState", reportArticle.getAdoptState());
-        result.put("adoptStateMsg", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
+        if (reportArticle != null) {
+            result.put("id", reportArticle.getId());
+            result.put("reportCode", reportArticle.getReportCode());
+            result.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
+            result.put("sourceUrl", reportArticle.getSourceUrl());
+            result.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
+            result.put("title", reportArticle.getTitle());
+            result.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+            result.put("replyType", SysConst.getReplyTypeByCode(reportArticle.getReplyType()).getName());
+            result.put("replyNumber", reportArticle.getReplyNumber());
+            result.put("reportCause", reportArticle.getReportCause());
+            result.put("adoptState", reportArticle.getAdoptState());
+            result.put("adoptStateMsg", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
+        }
         return success(result);
     }
 

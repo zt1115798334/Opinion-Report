@@ -1,13 +1,12 @@
 package com.opinion.mysql.service.impl;
 
 import com.opinion.mysql.entity.ReportArticleLog;
-import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.ReportArticleLogRepository;
 import com.opinion.mysql.service.ReportArticleLogService;
-import com.opinion.mysql.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,14 +14,12 @@ import java.util.List;
  * @author zhangtong
  * Created by on 2017/11/15
  */
+@Transactional
 @Service
 public class ReportArticleLogServiceImpl implements ReportArticleLogService {
 
     @Autowired
     private ReportArticleLogRepository reportArticleLogRepository;
-
-    @Autowired
-    private SysUserService sysUserService;
 
     @Override
     public ReportArticleLog save(ReportArticleLog reportArticleLog) {
@@ -34,5 +31,11 @@ public class ReportArticleLogServiceImpl implements ReportArticleLogService {
         Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
         List<ReportArticleLog> reportArticleLogs = reportArticleLogRepository.findAllByReportCode(reportCode, sort);
         return reportArticleLogs;
+    }
+
+    @Override
+    public boolean delByReportCodes(List<String> reportCodes) {
+        reportArticleLogRepository.deleteByReportCodeIn(reportCodes);
+        return true;
     }
 }

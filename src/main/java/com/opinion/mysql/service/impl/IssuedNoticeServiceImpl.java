@@ -50,7 +50,6 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     @Autowired
     private SysMessageService sysMessageService;
 
-
     @Override
     public IssuedNotice save(IssuedNotice issuedNotice) {
         SysUser sysUser = new SysUserConst().getSysUser();
@@ -105,14 +104,14 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                 .append("下发了新的通知");
         StringBuilder subtitle = new StringBuilder();
         subtitle.append("《").append(issuedNotice.getTitle()).append("》");
-       List<SysMessage> sysMessages =  childIds.stream()
-                .map(childId->{
-                   SysMessage sysMessage = new SysMessage();
-                   sysMessage.setRelationUserId(childId);
-                   sysMessage.setTitle(title.toString());
-                   sysMessage.setSubtitle(subtitle.toString());
-                   sysMessage.setUrl(SysConst.ISSUED_NOTICE_INFO_URL + noticeCode);
-                   return sysMessage;
+        List<SysMessage> sysMessages = childIds.stream()
+                .map(childId -> {
+                    SysMessage sysMessage = new SysMessage();
+                    sysMessage.setRelationUserId(childId);
+                    sysMessage.setTitle(title.toString());
+                    sysMessage.setSubtitle(subtitle.toString());
+                    sysMessage.setUrl(SysConst.ISSUED_NOTICE_INFO_URL + noticeCode);
+                    return sysMessage;
                 }).collect(Collectors.toList());
         sysMessageService.save(sysMessages);
 
@@ -200,5 +199,14 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         }
 
         return issuedNoticeRepository.save(issuedNotice);
+    }
+
+    @Override
+    public boolean delByIds(List<Long> ids) {
+        List<IssuedNotice> issuedNotices = (List<IssuedNotice>) issuedNoticeRepository.findAll(ids);
+        List<String> noticeCodes = issuedNotices.stream().map(IssuedNotice::getNoticeCode).collect(Collectors.toList());
+        issuedNoticeLogService.delByNoticeCodes(noticeCodes);
+        issuedNoticeRepository.delete(issuedNotices);
+        return true;
     }
 }

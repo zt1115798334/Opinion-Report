@@ -118,6 +118,24 @@ public class IssuedNoticeController extends BaseController {
     }
 
     /**
+     * 删除通知下传信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "deleteIssuedNotice", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult deleteIssuedNotice(@RequestParam List<Long> id) {
+        boolean flag = issuedNoticeService.delByIds(id);
+        JSONObject result = new JSONObject();
+        if (flag) {
+            result.put("msg", "删除成功");
+        } else {
+            result.put("msg", "删除失败");
+        }
+        return success(result);
+    }
+
+    /**
      * 查询当前用户下传信息 详情
      *
      * @param noticeCode
@@ -128,21 +146,22 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult searchIssuedNoticeByNoticeCode(@RequestParam String noticeCode) {
         Long userId = new SysUserConst().getUserId();
         IssuedNotice issuedNotice = issuedNoticeService.findOneByNoticeCode(noticeCode);
-        IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
-
         JSONObject result = new JSONObject();
-        result.put("id", issuedNotice.getId());
-        result.put("noticeCode", issuedNotice.getNoticeCode());
-        result.put("title", issuedNotice.getTitle());
-        result.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
-        result.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
-        result.put("noticeContent", issuedNotice.getNoticeContent());
-        if (issuedNoticeLog != null) {
-            result.put("receiptState", issuedNoticeLog.getReceiptState());
-            result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getName());
-        } else {
-            result.put("receiptState", issuedNotice.getReceiptState());
-            result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+        if (issuedNotice != null) {
+            IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
+            result.put("id", issuedNotice.getId());
+            result.put("noticeCode", issuedNotice.getNoticeCode());
+            result.put("title", issuedNotice.getTitle());
+            result.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+            result.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
+            result.put("noticeContent", issuedNotice.getNoticeContent());
+            if (issuedNoticeLog != null) {
+                result.put("receiptState", issuedNoticeLog.getReceiptState());
+                result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getName());
+            } else {
+                result.put("receiptState", issuedNotice.getReceiptState());
+                result.put("receiptStateMsg", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+            }
         }
         return success(result);
     }

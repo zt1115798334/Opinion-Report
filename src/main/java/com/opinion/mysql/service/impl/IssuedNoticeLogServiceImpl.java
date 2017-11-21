@@ -61,4 +61,10 @@ public class IssuedNoticeLogServiceImpl implements IssuedNoticeLogService {
     public long findCountByNoticeCodeAndReceiptState(String noticeCode, String receiptState) {
         return issuedNoticeLogRepository.countByNoticeCodeAndReceiptState(noticeCode, receiptState);
     }
+
+    @Override
+    public boolean delByNoticeCodes(List<String> noticeCode) {
+        issuedNoticeLogRepository.deleteByNoticeCodeIn(noticeCode);
+        return true;
+    }
 }

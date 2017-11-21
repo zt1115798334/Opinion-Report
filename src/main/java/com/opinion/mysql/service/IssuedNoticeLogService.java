@@ -23,4 +23,6 @@ public interface IssuedNoticeLogService {
     long findCountByNoticeCode(String noticeCode);
 
     long findCountByNoticeCodeAndReceiptState(String noticeCode, String receiptState);
+
+    boolean delByNoticeCodes(List<String> noticeCode);
 }

@@ -198,7 +198,7 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 查询显示的菜单
+     * 查询显示的子级菜单
      *
      * @return
      */

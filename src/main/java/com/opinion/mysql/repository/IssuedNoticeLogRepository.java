@@ -21,4 +21,6 @@ public interface IssuedNoticeLogRepository extends CrudRepository<IssuedNoticeLo
     long countByNoticeCode(String noticeCode);
 
     long countByNoticeCodeAndReceiptState(String noticeCode, String receiptState);
+
+    void deleteByNoticeCodeIn(List<String> noticeCodes);
 }

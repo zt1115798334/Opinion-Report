@@ -13,4 +13,6 @@ import java.util.List;
 public interface ReportArticleLogRepository extends CrudRepository<ReportArticleLog, Long> {
 
     List<ReportArticleLog> findAllByReportCode(String reportCode, Sort sort);
+
+    void deleteByReportCodeIn(List<String> reportCodes);
 }
