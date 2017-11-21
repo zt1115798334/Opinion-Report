@@ -111,6 +111,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                    sysMessage.setRelationUserId(childId);
                    sysMessage.setTitle(title.toString());
                    sysMessage.setSubtitle(subtitle.toString());
+                   sysMessage.setUrl(SysConst.ISSUED_NOTICE_INFO_URL + noticeCode);
                    return sysMessage;
                 }).collect(Collectors.toList());
         sysMessageService.save(sysMessages);

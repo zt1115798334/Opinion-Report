@@ -50,10 +50,16 @@ public class SysMessage implements Serializable {
     private String content;
 
     /**
-     * 状态 unread:未读，read:已读
+     * 类型
      */
     @Column(name = "type", nullable = false)
     private String type;
+
+    /**
+     * url
+     */
+    @Column(name = "url", nullable = false)
+    private String url;
 
     /**
      * 状态 unread:未读，read:已读
@@ -129,6 +135,14 @@ public class SysMessage implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getStatus() {

@@ -17,9 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -56,7 +56,9 @@ public class ReportArticleController extends BaseController {
      * @return
      */
     @RequestMapping(value = "opinionReportExaminePage",method = RequestMethod.GET)
-    public String opinionReportExaminePage() {
+    public String opinionReportExaminePage(Model model,
+                                           @RequestBody String reportCode) {
+        model.addAttribute("reportCode", reportCode);
         return "/report/opinionReportExamine";
     }
 

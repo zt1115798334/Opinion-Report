@@ -147,6 +147,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             sysMessage.setRelationUserId(result.getCreatedUserId());
             sysMessage.setTitle(title.toString());
             sysMessage.setSubtitle(subtitle.toString());
+            sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
             sysMessageService.save(sysMessage);
         }
         return result;

@@ -9,6 +9,10 @@ import org.apache.commons.lang3.StringUtils;
  * Created by on 2017/11/13
  */
 public class SysConst {
+
+    public final static String OPINION_REPORT_INFO_URL = "/reportArticle/opinionReportExaminePage?reportCode=";
+    public final static String ISSUED_NOTICE_INFO_URL = "/issuedNotice/issuedNoticeInfoPage?noticeCode=";
+
     public enum LoginStatus {
 
         EFFECTIVE("effective", "有效"),
