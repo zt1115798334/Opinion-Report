@@ -136,6 +136,19 @@ function searchExistByUserAccountFun(params) {
 }
 
 /**
+ * 验证账户密码正确
+ * @param params
+ */
+function verifyIdentityFun(params) {
+    var url = "/system/verifyIdentity";
+    execAjax(url, params, callback);
+
+    function callback() {
+
+    }
+}
+
+/**
  * 删除用户信息
  */
 function delSysUserFun(params) {

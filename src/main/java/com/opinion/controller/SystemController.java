@@ -9,6 +9,7 @@ import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.*;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.MyDES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -407,6 +408,26 @@ public class SystemController extends BaseController {
         boolean isExist = sysUserService.isExistByUserAccount(userAccount);
         JSONObject result = new JSONObject();
         result.put("isExist", isExist);
+        return success(result);
+    }
+
+    /**
+     * 验证身份 修改密码时候使用
+     *
+     * @param userAccount
+     * @param userPassword
+     * @return
+     */
+    @RequestMapping(value = "verifyIdentity", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult verifyIdentity(@RequestParam String userAccount,
+                                     @RequestParam String userPassword) {
+        String paw = userPassword + userAccount;
+        String pawDES = MyDES.encryptBasedDes(paw);
+        // 从数据库获取对应用户名密码的用户
+        SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(userAccount, pawDES);
+        JSONObject result = new JSONObject();
+        result.put("status", null != sysUser);
         return success(result);
     }
 
