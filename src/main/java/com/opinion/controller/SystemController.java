@@ -228,6 +228,13 @@ public class SystemController extends BaseController {
         List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
         System.out.println("sysPermissions = " + sysPermissions);
         JSONArray result = new JSONArray();
+        sysPermissions.stream().forEach(sysPermission -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id", sysPermission.getId());
+            jo.put("urlName", sysPermission.getUrlName());
+            jo.put("sysUrl", sysPermission.getSysUrl());
+            result.add(jo);
+        });
         return success(result);
     }
 
@@ -244,6 +251,12 @@ public class SystemController extends BaseController {
         List<SysPermission> sysPermissions = sysPermissionService.findListByParentId(permissionId);
         System.out.println("sysPermissions = " + sysPermissions);
         JSONArray result = new JSONArray();
+        sysPermissions.stream().forEach(sysPermission -> {
+            JSONObject jo = new JSONObject();
+            jo.put("urlName", sysPermission.getUrlName());
+            jo.put("sysUrl", sysPermission.getSysUrl());
+            result.add(jo);
+        });
         return success(result);
     }
 
