@@ -19,13 +19,44 @@ public interface SysRoleService {
      */
     boolean save(SysRole sysRole);
 
+    /**
+     * 查询全部
+     *
+     * @return
+     */
     List<SysRole> findList();
 
+    /**
+     * 分页查询
+     *
+     * @param keyword  关键字
+     * @param pageNum  页数
+     * @param pageSize 数量
+     * @return
+     */
     Page<SysRole> findPage(String keyword, int pageNum, int pageSize);
 
+    /**
+     * 根据用户id查询
+     *
+     * @param userId 用户id
+     * @return
+     */
     List<SysRole> findListByUserId(Long userId);
 
+    /**
+     * 根据id删除
+     *
+     * @param id id
+     * @return
+     */
     boolean delSysRole(Long id);
 
+    /**
+     * 根据角色名称判断是否存在
+     *
+     * @param roleName
+     * @return
+     */
     boolean isExistByRoleName(String roleName);
 }

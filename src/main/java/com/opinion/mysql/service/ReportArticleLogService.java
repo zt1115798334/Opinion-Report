@@ -10,9 +10,27 @@ import java.util.List;
  */
 public interface ReportArticleLogService {
 
+    /**
+     * 保存
+     *
+     * @param reportArticleLog 报文章表log
+     * @return
+     */
     ReportArticleLog save(ReportArticleLog reportArticleLog);
 
-    List<ReportArticleLog> findListByReportArticleId(String  reportCode);
+    /**
+     * 根据上传编号查询
+     *
+     * @param reportCode
+     * @return
+     */
+    List<ReportArticleLog> findListByReportArticleId(String reportCode);
 
+    /**
+     * 根据上传编号批量删除
+     *
+     * @param reportCodes 上传编号集合
+     * @return
+     */
     boolean delByReportCodes(List<String> reportCodes);
 }

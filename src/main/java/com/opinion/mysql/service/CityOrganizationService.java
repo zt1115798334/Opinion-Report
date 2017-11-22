@@ -10,17 +10,60 @@ import java.util.List;
  */
 public interface CityOrganizationService {
 
+    /**
+     * 保存 省市区组织信息
+     *
+     * @param cityOrganization 省市区组织信息
+     * @return
+     */
     boolean save(CityOrganization cityOrganization);
 
+    /**
+     * 根据id查询省市区组织信息
+     *
+     * @param id id
+     * @return
+     */
     CityOrganization findById(Long id);
 
+    /**
+     * 根据用户id查询省市区组织信息
+     *
+     * @param userId 用户id
+     * @return
+     */
     CityOrganization findByUserId(Long userId);
 
+    /**
+     * 根据父级id查询子级 省市区组织信息
+     *
+     * @param parentId 父级id
+     * @return
+     */
     List<CityOrganization> findByParentId(Long parentId);
 
+    /**
+     * 根据id删除 省市区组织信息
+     *
+     * @param id id
+     * @return
+     */
     boolean delCityOrganization(Long id);
 
+    /**
+     * 根据名称父级id查询是否存在
+     *
+     * @param name     名称
+     * @param parentId 父级id
+     * @return
+     */
     boolean isExistByNameAndParentId(String name, Long parentId);
 
+    /**
+     * 根据父级id查询子级是否存在
+     *
+     * @param parentId 父级id
+     * @return
+     */
     boolean isExistChildByParentId(Long parentId);
 }

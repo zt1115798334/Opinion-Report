@@ -12,16 +12,57 @@ import java.util.List;
  */
 public interface SysUserService {
 
+    /**
+     * 保存
+     *
+     * @param sysUser
+     * @return
+     */
     boolean save(SysUser sysUser);
 
+    /**
+     * 根据id查询
+     *
+     * @param id id
+     * @return
+     */
     SysUser findById(Long id);
 
+    /**
+     * 根据id删除
+     *
+     * @param id id
+     * @return
+     */
     boolean delSysUser(Long id);
 
+    /**
+     * 判断账户是否存在
+     *
+     * @param userAccount 账户
+     * @return
+     */
     boolean isExistByUserAccount(String userAccount);
 
-    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize,String userName);
+    /**
+     * 根据 角色id分页查询
+     *
+     * @param roleId   角色id
+     * @param pageNum  页数
+     * @param pageSize 数量
+     * @param userName 用户名称
+     * @return
+     */
+    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize, String userName);
 
+    /**
+     * 根据 机构id分页查询
+     *
+     * @param cityOrganizationId 角色id
+     * @param pageNum            页数
+     * @param pageSize           数量
+     * @return
+     */
     Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNum, int pageSize);
 
     /**
@@ -36,8 +77,8 @@ public interface SysUserService {
     /**
      * 更新最后一次登录时间
      *
-     * @param id
-     * @param localDateTime
+     * @param id            id
+     * @param localDateTime 最后一次登录时间
      * @return
      */
     SysUser updateLocalDateTime(Long id, LocalDateTime localDateTime);
@@ -45,7 +86,7 @@ public interface SysUserService {
     /**
      * 根据上级id查询下级id集合
      *
-     * @param parentId
+     * @param parentId 父级id
      * @return
      */
     List<Long> findChildIdListByParentId(Long parentId);
@@ -53,7 +94,7 @@ public interface SysUserService {
     /**
      * 根据上级id查询孙子id集合
      *
-     * @param parentId
+     * @param parentId 父级id
      * @return
      */
     List<Long> findDescendantIdListByParentId(Long parentId);
@@ -61,7 +102,7 @@ public interface SysUserService {
     /**
      * 根据上级id查询子孙全部集合
      *
-     * @param parentId
+     * @param parentId 父级id
      * @return
      */
     List<Long> findDescendantAllIdListByParentId(Long parentId);

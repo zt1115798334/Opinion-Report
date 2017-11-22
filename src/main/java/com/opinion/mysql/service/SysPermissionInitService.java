@@ -10,5 +10,10 @@ import java.util.List;
  */
 public interface SysPermissionInitService {
 
+    /**
+     * 查询全部
+     *
+     * @return
+     */
     List<SysPermissionInit> findAll();
 }

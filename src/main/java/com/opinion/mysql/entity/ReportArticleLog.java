@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * 上报文章表 entity
+ * 上报文章表log entity
  *
  * @author zhangtong
  * Created by on 2017/11/13

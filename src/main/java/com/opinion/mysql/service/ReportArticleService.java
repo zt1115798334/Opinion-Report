@@ -15,7 +15,7 @@ public interface ReportArticleService {
     /**
      * 保存 --上报文章信息
      *
-     * @param reportArticle
+     * @param reportArticle 上报文章
      * @return
      */
     ReportArticle save(ReportArticle reportArticle);
@@ -39,7 +39,7 @@ public interface ReportArticleService {
     /**
      * 根据创建人查询上报文章集合
      *
-     * @param reportArticle
+     * @param reportArticle 上报文章
      * @return
      */
     Page<ReportArticle> findPageByCreateUser(ReportArticle reportArticle);
@@ -47,6 +47,7 @@ public interface ReportArticleService {
     /**
      * 对上报文章进行审核
      *
+     * @param reportArticle 上报文章
      * @return
      */
     boolean examineAndVerify(ReportArticle reportArticle);
@@ -55,16 +56,44 @@ public interface ReportArticleService {
     /**
      * 根据创建人查询上报文章集合
      *
-     * @param reportArticle
+     * @param reportArticle 上报文章
      * @return
      */
     Page<ReportArticle> findPageByInChild(ReportArticle reportArticle);
 
+    /**
+     * 根据创建人id时间范围查询
+     *
+     * @param createdUserId 创建人id
+     * @param startDateTime 开始时间
+     * @param endDateTime   结束时间
+     * @return
+     */
     List<ReportArticle> findListByCreatedUserId(Long createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    /**
+     * 根据创建人id集合时间范围查询
+     *
+     * @param createdUserId 创建人id集合
+     * @param startDateTime 开始时间
+     * @param endDateTime   结束时间
+     * @return
+     */
     List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    /**
+     * 根据id集合删除
+     *
+     * @param ids id集合
+     * @return
+     */
     boolean delByIds(List<Long> ids);
 
+    /**
+     * 根据创建人id删除
+     *
+     * @param createdUserId 创建人id
+     * @return
+     */
     boolean delByCreatedUserId(Long createdUserId);
 }

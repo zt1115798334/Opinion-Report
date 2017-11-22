@@ -21,9 +21,15 @@ public class CityOrganizationSysUser implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
+    /**
+     * 省市区组织id
+     */
     @Column(name = "city_organization_id", nullable = false)
     private Long cityOrganizationId;
 
+    /**
+     * 用户id
+     */
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
