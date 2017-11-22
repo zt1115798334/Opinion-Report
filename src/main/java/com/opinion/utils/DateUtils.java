@@ -2,11 +2,10 @@ package com.opinion.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 /**
  * <p>Title: DateUtils</p>
@@ -35,6 +34,7 @@ public class DateUtils {
         LocalDateTime now = LocalDateTime.now();
         return now;
     }
+
     /**
      * <p>
      * Description: 解析yyyy-MM-dd HH:mm:ss格式的日期字符串，返回日期对象
@@ -108,6 +108,7 @@ public class DateUtils {
         }
         return formatDate(dateTime, DATE_FORMAT);
     }
+
     /**
      * <p>
      * Description: 使用指定的格式格式化日期对象，返回格式化后的日期字符串
@@ -146,12 +147,13 @@ public class DateUtils {
 
     /**
      * 获取相隔微秒数
+     *
      * @param dateTime
      * @return
      */
-    public static long dateTimeBeApart(LocalDateTime dateTime){
+    public static long dateTimeBeApart(LocalDateTime dateTime) {
         LocalDateTime currentDatetime = currentDatetime();
-        return Duration.between(dateTime,currentDatetime).toMillis();
+        return Duration.between(dateTime, currentDatetime).toMillis();
     }
 
     /**
@@ -206,10 +208,16 @@ public class DateUtils {
         return dateTime.plusDays(day);
     }
 
+    public static String dayOfWeek(DayOfWeek dayOfWeek) {
+        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.CHINA);
+    }
+
 //    public static void main(String[] args) {
 //        LocalDate date = LocalDate.of(2017, 11, 21);
+//        DayOfWeek dayOfWeek = date.getDayOfWeek();
 //        LocalDateTime dt3 = date.atTime(13, 45, 20);
 //        String l = RelativeDateUtils.format(dt3);
 //        System.out.println("localDateTime = " + l);
+//        System.out.println("dayOfWeek = " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.CHINA));
 //    }
 }
