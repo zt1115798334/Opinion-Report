@@ -16,8 +16,10 @@ import java.util.List;
  */
 public interface ReportArticleRepository extends CrudRepository<ReportArticle, Long>, JpaSpecificationExecutor<ReportArticle> {
 
+    @Override
     Page<ReportArticle> findAll(Specification<ReportArticle> specification, Pageable pageable);
 
+    @Override
     List<ReportArticle> findAll(Specification<ReportArticle> specification, Sort sort);
 
     ReportArticle findByReportCode(String reportCode);
