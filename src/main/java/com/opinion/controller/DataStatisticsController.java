@@ -69,13 +69,15 @@ public class DataStatisticsController extends BaseController {
 
         Map<String, Long> map = reportArticles.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+        JSONArray dateJSONArray = new JSONArray();
+        JSONArray valueJSONArray = new JSONArray();
         for (Map.Entry<String, Long> entry : map.entrySet()) {
-            JSONObject jo = new JSONObject();
-            jo.put("date", entry.getKey());
-            jo.put("val", entry.getValue());
-            result.add(jo);
+            dateJSONArray.add(entry.getKey());
+            valueJSONArray.add(entry.getValue());
         }
+        result.put("date", dateJSONArray);
+        result.put("value", valueJSONArray);
         return success(result);
     }
 
@@ -162,12 +164,11 @@ public class DataStatisticsController extends BaseController {
 
             reportJsonArray.add(reportCount);
             adoptJsonArray.add(adoptCount);
-
-            result.put("date", dateJsonArray);
-
-            result.put("reportCount", reportJsonArray);
-            result.put("adoptCount", adoptJsonArray);
         });
+        result.put("date", dateJsonArray);
+
+        result.put("reportCount", reportJsonArray);
+        result.put("adoptCount", adoptJsonArray);
         return success(result);
     }
 
@@ -196,7 +197,7 @@ public class DataStatisticsController extends BaseController {
                 String levelName = rlEnum.getName();
                 JSONObject jo = new JSONObject();
                 jo.put("name", levelName);
-                jo.put("val", entry.getValue());
+                jo.put("value", entry.getValue());
                 result.add(jo);
             }
         }
@@ -227,7 +228,7 @@ public class DataStatisticsController extends BaseController {
                 String levelName = rlEnum.getName();
                 JSONObject jo = new JSONObject();
                 jo.put("name", levelName);
-                jo.put("val", entry.getValue());
+                jo.put("value", entry.getValue());
                 result.add(jo);
             }
         }
@@ -306,18 +307,17 @@ public class DataStatisticsController extends BaseController {
             sceneSourceTypeJSONArray.add(sceneSourceTypeCount);
             otherSourceTypeJSONArray.add(otherSourceTypeCount);
 
-            result.put("date", dateJSONArray);
-
-            result.put("redReportLevelCount", redReportLevelJSONArray);
-            result.put("orangeReportLevelCount", orangeReportLevelJSONArray);
-            result.put("yellowReportLevelCount", yellowReportLevelJSONArray);
-
-            result.put("networkSourceTypeCount", networkSourceTypeJSONArray);
-            result.put("mediaSourceTypeCount", mediaSourceTypeJSONArray);
-            result.put("sceneSourceTypeCount", sceneSourceTypeJSONArray);
-            result.put("otherSourceTypeCount", otherSourceTypeJSONArray);
         });
+        result.put("date", dateJSONArray);
 
+        result.put("redReportLevelCount", redReportLevelJSONArray);
+        result.put("orangeReportLevelCount", orangeReportLevelJSONArray);
+        result.put("yellowReportLevelCount", yellowReportLevelJSONArray);
+
+        result.put("networkSourceTypeCount", networkSourceTypeJSONArray);
+        result.put("mediaSourceTypeCount", mediaSourceTypeJSONArray);
+        result.put("sceneSourceTypeCount", sceneSourceTypeJSONArray);
+        result.put("otherSourceTypeCount", otherSourceTypeJSONArray);
         return success(result);
     }
 
@@ -340,7 +340,40 @@ public class DataStatisticsController extends BaseController {
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
 
-        return success("");
+        List<String> dateList = reportArticles.stream()
+                .map(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate())).collect(Collectors.toList());
+
+        JSONObject result = new JSONObject();
+
+        JSONArray dateJSONArray = new JSONArray();
+
+        JSONArray clickJSONArray = new JSONArray();
+        JSONArray commentJSONArray = new JSONArray();
+        JSONArray estimateJSONArray = new JSONArray();
+        dateList.stream().forEach(date -> {
+            Long clickCount = 0L;
+            Long commentCount = 0L;
+            Long estimateCount = 0L;
+
+            if (replyTypeDateMap.containsKey(date)) {
+                Map<String, Long> replyTypeMap = replyTypeDateMap.get(date);
+                clickCount = replyTypeMap.get(SysConst.ReplyType.CLICK.getCode());
+                commentCount = replyTypeMap.get(SysConst.ReplyType.COMMENT.getCode());
+                estimateCount = replyTypeMap.get(SysConst.ReplyType.ESTIMATE.getCode());
+            }
+            dateJSONArray.add(date);
+
+            clickJSONArray.add(clickCount);
+            commentJSONArray.add(commentCount);
+            estimateJSONArray.add(estimateCount);
+        });
+
+        result.put("date", dateJSONArray);
+
+        result.put("clickCount", clickJSONArray);
+        result.put("commentCount", commentJSONArray);
+        result.put("estimateCount", estimateJSONArray);
+        return success(result);
     }
 
     /**
@@ -388,13 +421,12 @@ public class DataStatisticsController extends BaseController {
             clickJSONArray.add(clickCount);
             commentJSONArray.add(commentCount);
             estimateJSONArray.add(estimateCount);
-
-            result.put("date", dateJSONArray);
-
-            result.put("clickCount", clickJSONArray);
-            result.put("commentCount", commentJSONArray);
-            result.put("estimateCount", estimateJSONArray);
         });
+        result.put("date", dateJSONArray);
+
+        result.put("clickCount", clickJSONArray);
+        result.put("commentCount", commentJSONArray);
+        result.put("estimateCount", estimateJSONArray);
         return success(result);
     }
 
