@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhangtong
@@ -50,7 +51,7 @@ public class SystemController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "organizationStructurePage",method = RequestMethod.GET)
+    @RequestMapping(value = "organizationStructurePage", method = RequestMethod.GET)
     public String organizationStructurePage() {
         return "/system/organizationStructure";
     }
@@ -60,7 +61,7 @@ public class SystemController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "roleManagementPage",method = RequestMethod.GET)
+    @RequestMapping(value = "roleManagementPage", method = RequestMethod.GET)
     public String roleManagementPage() {
         return "/system/roleManagement";
     }
@@ -92,7 +93,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchExistByRoleName", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchExistByRoleName(@RequestParam("roleName") String roleName) {
+    public AjaxResult searchExistByRoleName(@RequestParam String roleName) {
         boolean isExist = sysRoleService.isExistByRoleName(roleName);
         JSONObject result = new JSONObject();
         result.put("isExist", isExist);
@@ -107,7 +108,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "delSysRole", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult delSysRole(@RequestParam("roleId") Long roleId) {
+    public AjaxResult delSysRole(@RequestParam Long roleId) {
         boolean flag = sysRoleService.delSysRole(roleId);
         JSONObject result = new JSONObject();
         if (flag) {
@@ -126,7 +127,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchSysRoleUserCount", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysRoleUserCount(@RequestParam("roleId") Long roleId) {
+    public AjaxResult searchSysRoleUserCount(@RequestParam Long roleId) {
         long count = sysRoleUserService.findCountByRoleId(roleId);
         return success(count);
     }
@@ -134,13 +135,16 @@ public class SystemController extends BaseController {
     /**
      * 查询所有的角色
      *
+     * @param keyword  关键字
+     * @param pageNum  页数
+     * @param pageSize 条数
      * @return
      */
     @RequestMapping(value = "searchSysRole", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysRole(@RequestParam("keyword") String keyword,
-                                    @RequestParam("pageNum") int pageNum,
-                                    @RequestParam("pageSize") int pageSize) {
+    public AjaxResult searchSysRole(@RequestParam String keyword,
+                                    @RequestParam int pageNum,
+                                    @RequestParam int pageSize) {
         logger.info("searchSysRole:");
         Page<SysRole> page = sysRoleService.findPage(keyword, pageNum, pageSize);
         List<SysRole> sysRoles = page.getContent();
@@ -148,6 +152,7 @@ public class SystemController extends BaseController {
         sysRoles.stream().forEach(sysRole -> {
             JSONObject jo = new JSONObject();
             jo.put("id", sysRole.getId());
+            jo.put("roleType", sysRole.getRoleType());
             jo.put("roleName", sysRole.getRoleName());
             jo.put("createdDatetime", DateUtils.formatDate(sysRole.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             result.add(jo);
@@ -155,31 +160,52 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
+
     /**
-     * 根据角色id查询权限信息
+     * 下拉菜单查询所有角色 （排除admin角色）
      *
-     * @param roleId
      * @return
      */
-    @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    @RequestMapping(value = "searchSysRoleSelect", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysPermission(@RequestParam("roleId") Long roleId) {
-        List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
-        return success(sysRolePermissions);
+    public AjaxResult searchSysRoleSelect() {
+        List<SysRole> sysRoles = sysRoleService.findList();
+        JSONArray result = new JSONArray();
+        sysRoles.stream().filter(sysRole -> !Objects.equals(sysRole.getRoleType(), SysConst.RoleType.ADMIN))
+                .forEach(sysRole -> {
+                    JSONObject jo = new JSONObject();
+                    jo.put("roleId", sysRole);
+                    jo.put("roleName", sysRole);
+                    result.add(jo);
+                });
+        return success(result);
     }
 
     /**
      * 根据角色id保存权限信息
      *
-     * @param code
-     * @param roleId
+     * @param code   编号
+     * @param roleId 角色id
      * @return
      */
     @RequestMapping(value = "saveSysPermission", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult saveSysPermission(@RequestParam("code") List<String> code, @RequestParam("roleId") Long roleId) {
+    public AjaxResult saveSysPermission(@RequestParam List<String> code, @RequestParam Long roleId) {
         sysPermissionService.saveSysRolePermission(code, roleId);
         return success("添加成功");
+    }
+
+    /**
+     * 根据角色id查询权限信息
+     *
+     * @param roleId 角色id
+     * @return
+     */
+    @RequestMapping(value = "searchSysPermission", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchSysPermission(@RequestParam Long roleId) {
+        List<SysRolePermission> sysRolePermissions = sysRolePermissionService.findByRoleId(roleId);
+        return success(sysRolePermissions);
     }
 
     /**
@@ -200,6 +226,7 @@ public class SystemController extends BaseController {
     /**
      * 查询显示的子级菜单
      *
+     * @param permissionId 系统访问认证id
      * @return
      */
     @RequestMapping(value = "searchDisplayChildMenu", method = RequestMethod.POST)
@@ -275,8 +302,8 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchExistByCityOrganizationName", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchExistByCityOrganizationName(@RequestParam("name") String name,
-                                                        @RequestParam("parentId") Long parentId) {
+    public AjaxResult searchExistByCityOrganizationName(@RequestParam String name,
+                                                        @RequestParam Long parentId) {
         boolean isExist = cityOrganizationService.isExistByNameAndParentId(name, parentId);
         JSONObject result = new JSONObject();
         result.put("isExist", isExist);
@@ -291,7 +318,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "delCityOrganization", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult delCityOrganization(@RequestParam("cityOrganizationId") Long cityOrganizationId) {
+    public AjaxResult delCityOrganization(@RequestParam Long cityOrganizationId) {
         boolean flag = cityOrganizationService.delCityOrganization(cityOrganizationId);
         JSONObject result = new JSONObject();
         if (flag) {
@@ -310,7 +337,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchCityOrganizationSysUserCount", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchCityOrganizationSysUserCount(@RequestParam("cityOrganizationId") Long cityOrganizationId) {
+    public AjaxResult searchCityOrganizationSysUserCount(@RequestParam Long cityOrganizationId) {
         long count = cityOrganizationSysUserService.findCountByCityOrganizationId(cityOrganizationId);
         return success(count);
     }
@@ -342,7 +369,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchCityOrganizationChild", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchCityOrganizationChild(@RequestParam("cityOrganizationId") Long cityOrganizationId) {
+    public AjaxResult searchCityOrganizationChild(@RequestParam Long cityOrganizationId) {
         JSONObject result = new JSONObject();
         List<CityOrganization> cityOrganizationChild = cityOrganizationService.findByParentId(cityOrganizationId);
         result.put("child", cityOrganizationChild);
@@ -375,7 +402,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchExistByUserAccount", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchExistByUserAccount(@RequestParam("userAccount") String userAccount) {
+    public AjaxResult searchExistByUserAccount(@RequestParam String userAccount) {
         logger.info("请求 isExistByUserAccount 方法，参数信息为：userAccount:{}", userAccount);
         boolean isExist = sysUserService.isExistByUserAccount(userAccount);
         JSONObject result = new JSONObject();
@@ -391,7 +418,7 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "delSysUser", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult delSysUser(@RequestParam("userId") Long userId) {
+    public AjaxResult delSysUser(@RequestParam Long userId) {
         sysUserService.delSysUser(userId);
         return success("删除成功");
     }
@@ -402,7 +429,7 @@ public class SystemController extends BaseController {
      * @param roleId 角色id
      * @return
      */
-    @RequestMapping(value = "searchSysUserPageByRoleId",method = RequestMethod.POST)
+    @RequestMapping(value = "searchSysUserPageByRoleId", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchSysUserPageByRoleId(@RequestParam Long roleId,
                                                 @RequestParam int pageNum,
@@ -421,7 +448,7 @@ public class SystemController extends BaseController {
      * @param cityOrganizationId 系统用户省市区组织信息id
      * @return
      */
-    @RequestMapping(value = "searchSysUserPageByCityOrganizationId",method = RequestMethod.POST)
+    @RequestMapping(value = "searchSysUserPageByCityOrganizationId", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchSysUserPageByCityOrganizationId(@RequestParam Long cityOrganizationId,
                                                             @RequestParam int pageNum,
@@ -432,23 +459,23 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
-    private JSONObject pageSysUserToJSONObject(Page<SysUser> page){
+    private JSONObject pageSysUserToJSONObject(Page<SysUser> page) {
         JSONObject result = new JSONObject();
         List<SysUser> list = page.getContent();
         JSONArray ja = new JSONArray();
         list.stream().forEach(sysUser -> {
             JSONObject jo = new JSONObject();
-            jo.put("id",sysUser.getId());
-            jo.put("userAccount",sysUser.getUserAccount());
-            jo.put("userName",sysUser.getUserName());
+            jo.put("id", sysUser.getId());
+            jo.put("userAccount", sysUser.getUserAccount());
+            jo.put("userName", sysUser.getUserName());
             SysRole sysRole = sysRoleService.findListByUserId(sysUser.getId()).get(0);
-            jo.put("roleName",sysRole.getRoleName());
-            jo.put("createDatetime",DateUtils.formatDate(sysUser.getCreatedDate(),DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("roleName", sysRole.getRoleName());
+            jo.put("createDatetime", DateUtils.formatDate(sysUser.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
-        result.put("totalElements",page.getTotalElements());
-        result.put("totalPages",page.getTotalPages());
-        result.put("list",ja);
+        result.put("totalElements", page.getTotalElements());
+        result.put("totalPages", page.getTotalPages());
+        result.put("list", ja);
         return result;
     }
 

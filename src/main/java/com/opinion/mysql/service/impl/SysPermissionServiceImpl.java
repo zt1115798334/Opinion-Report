@@ -42,7 +42,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
                     return sysRolePermission;
                 }).collect(Collectors.toList());
         sysRolePermissionService.save(sysRolePermissions);
-        return false;
+        return true;
     }
 
     @Override

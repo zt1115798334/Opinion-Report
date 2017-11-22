@@ -1,5 +1,6 @@
 package com.opinion.mysql.service.impl;
 
+import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.dao.CommonSearchDao;
 import com.opinion.mysql.entity.SysRole;
@@ -48,6 +49,7 @@ public class SysRoleServiceImpl implements SysRoleService {
             Long userId = new SysUserConst().getUserId();
             LocalDate currentDate = DateUtils.currentDate();
             LocalDateTime currentDatetime = DateUtils.currentDatetime();
+            sysRole.setRoleType(SysConst.RoleType.OPERATION.getCode());
             sysRole.setCreatedDate(currentDate);
             sysRole.setCreatedDatetime(currentDatetime);
             sysRole.setCreatedUserId(userId);
@@ -57,6 +59,11 @@ public class SysRoleServiceImpl implements SysRoleService {
             sysRoleRepository.save(sysRole);
             return true;
         }
+    }
+
+    @Override
+    public List<SysRole> findList() {
+        return (List<SysRole>) sysRoleRepository.findAll();
     }
 
     @Override

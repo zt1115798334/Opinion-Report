@@ -94,7 +94,7 @@ function searchCityOrganizationChildFun(params) {
  * 查询角色信息
  */
 function searchSysRoleFun() {
-    var url = "/system/searchSysRole";
+    var url = "/system/searchSysRoleSelect";
     var params = {};
     execAjax(url, params, callback);
     var html = '';
@@ -103,9 +103,9 @@ function searchSysRoleFun() {
         var data = result.data;
         for (var i in data) {
             var info = data[i];
-            var id = info.id;
+            var roleId = info.roleId;
             var roleName = info.roleName;
-            html += '<option value="' + id + '">' + roleName + '</option>';
+            html += '<option value="' + roleId + '">' + roleName + '</option>';
         }
         $(".role_select").html(html);
     }

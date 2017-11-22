@@ -35,6 +35,28 @@ public class SysConst {
         }
     }
 
+    public enum RoleType {
+
+        ADMIN("admin", "000"),
+        OPERATION("operation", "001");
+
+        private String code;
+        private String name;
+
+        RoleType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public enum ReportSource {
 
         ARTIFICIAL("artificial", "人工上报"),
