@@ -91,7 +91,6 @@ public class DataStatisticsController extends BaseController {
     public AjaxResult dataAnalysisProportion() {
         Long userId = new SysUserConst().getUserId();
 
-
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         //获取本周信息
@@ -190,7 +189,9 @@ public class DataStatisticsController extends BaseController {
         List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
         Map<String, Long> reportLevelMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting()));
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+        JSONArray infoJSONArray = new JSONArray();
+        JSONArray nameJSONArray = new JSONArray();
         for (Map.Entry<String, Long> entry : reportLevelMap.entrySet()) {
             SysConst.ReportLevel rlEnum = SysConst.getReportLevelByCode(entry.getKey());
             if (rlEnum != null) {
@@ -198,9 +199,12 @@ public class DataStatisticsController extends BaseController {
                 JSONObject jo = new JSONObject();
                 jo.put("name", levelName);
                 jo.put("value", entry.getValue());
-                result.add(jo);
+                infoJSONArray.add(jo);
+                nameJSONArray.add(levelName);
             }
         }
+        result.put("info",infoJSONArray);
+        result.put("name",nameJSONArray);
         return success(result);
     }
 
@@ -221,7 +225,9 @@ public class DataStatisticsController extends BaseController {
         List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
         Map<String, Long> sourceTypeMap = reportArticles.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting()));
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+        JSONArray infoJSONArray = new JSONArray();
+        JSONArray nameJSONArray = new JSONArray();
         for (Map.Entry<String, Long> entry : sourceTypeMap.entrySet()) {
             SysConst.SourceType rlEnum = SysConst.getSourceTypeByCode(entry.getKey());
             if (rlEnum != null) {
@@ -229,9 +235,12 @@ public class DataStatisticsController extends BaseController {
                 JSONObject jo = new JSONObject();
                 jo.put("name", levelName);
                 jo.put("value", entry.getValue());
-                result.add(jo);
+                infoJSONArray.add(jo);
+                nameJSONArray.add(levelName);
             }
         }
+        result.put("info",infoJSONArray);
+        result.put("name",nameJSONArray);
         return success(result);
     }
 
@@ -448,12 +457,11 @@ public class DataStatisticsController extends BaseController {
 
     private JSONObject calculationTrend(long num1, long num2) {
         JSONObject result = new JSONObject();
+        double num = NumberUtils.changeProportion(num1, num2);
         if (num1 > num2) {
-            double num = NumberUtils.changeProportion(num1, num2);
             result.put("type", "up");
             result.put("num", num);
         } else {
-            double num = NumberUtils.changeProportion(num1, num2);
             result.put("type", "down");
             result.put("num", num);
         }
