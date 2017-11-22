@@ -52,11 +52,14 @@ public class ReportArticleController extends BaseController {
     /**
      * 跳转上报文章(审核)页面
      *
+     * @param model
+     * @param reportCode 上报编号
      * @return
      */
     @RequestMapping(value = "opinionReportExaminePage", method = RequestMethod.GET)
     public String opinionReportExaminePage(Model model,
                                            @RequestBody String reportCode) {
+        logger.info("请求 opinionReportExaminePage 方法，reportCode:{}", reportCode);
         model.addAttribute("reportCode", reportCode);
         return "/report/opinionReportExamine";
     }
@@ -64,12 +67,13 @@ public class ReportArticleController extends BaseController {
     /**
      * 保存 --上报文章信息
      *
-     * @param reportArticle
+     * @param reportArticle 上报文章
      * @return
      */
     @RequestMapping(value = "saveReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 saveReportArticle 方法，reportArticle:{}", reportArticle);
         reportArticleService.save(reportArticle);
         return success("添加成功");
     }
@@ -82,6 +86,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchReportArticlePage", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 searchReportArticlePage 方法，reportArticle:{}", reportArticle);
         if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
             reportArticle.setSortParam("publishDatetime");
             reportArticle.setSortType("desc");
@@ -101,6 +106,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 searchReportArticleInChild 方法，reportArticle:{}", reportArticle);
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
@@ -111,11 +117,13 @@ public class ReportArticleController extends BaseController {
     /**
      * 删除上报文章信息
      *
+     * @param id id集合
      * @return
      */
     @RequestMapping(value = "deleteReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult deleteReportArticle(@RequestParam List<Long> id) {
+        logger.info("请求 deleteReportArticle 方法，id集合：{}", id);
         boolean flag = reportArticleService.delByIds(id);
         JSONObject result = new JSONObject();
         if (flag) {
@@ -135,6 +143,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
+        logger.info("请求 searchReportArticleById 方法，reportCode:{}", reportCode);
         ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
         JSONObject result = new JSONObject();
         if (reportArticle != null) {
@@ -162,6 +171,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "examineAndVerifyReportArticle", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 examineAndVerifyReportArticle 方法，reportArticle:{}", reportArticle);
         boolean flag = reportArticleService.examineAndVerify(reportArticle);
         JSONObject result = new JSONObject();
         if (flag) {
@@ -181,6 +191,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "searchReportArticleLog", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchReportArticleLog(@RequestParam("reportCode") String reportCode) {
+        logger.info("请求 searchReportArticleLog 方法，reportCode:{}", reportCode);
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
         JSONArray result = new JSONArray();
         list.stream().forEach(reportArticleLog -> {
@@ -205,6 +216,7 @@ public class ReportArticleController extends BaseController {
     @RequestMapping(value = "saveReportArticleAgain", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult saveReportArticleAgain(@RequestParam("reportCode") String reportCode) {
+        logger.info("请求 saveReportArticleAgain 方法，reportCode:{}", reportCode);
         reportArticleService.saveAgain(reportCode);
         return success("上报成功");
     }

@@ -53,11 +53,13 @@ public class IndexController extends BaseController {
     /**
      * 清除通知
      *
+     * @param id 系统消息id
      * @return
      */
     @RequestMapping(value = "clearNotice", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult clearNotice(@RequestParam Long id) {
+        logger.info("clearNotice 方法, 系统消息id：{}", id);
         sysMessageService.executeRead(id);
         return success("操作成功");
     }

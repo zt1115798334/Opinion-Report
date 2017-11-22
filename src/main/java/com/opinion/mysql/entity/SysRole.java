@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
+ * 系统角色
+ *
  * @author zhangtong
  * Created by on 2017/11/13
  */
@@ -34,7 +36,7 @@ public class SysRole implements Serializable {
      * 角色类型 角色类型 0000 超级系统管理员，1 省级 2, 市级，3 县级 99 无效
      */
     @Column(name = "role_type", nullable = false)
-    private String  roleType;
+    private String roleType;
 
     /**
      * 创建日期
