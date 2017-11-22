@@ -160,9 +160,12 @@ public class DataStatisticsController extends BaseController {
                 adoptCount = adoptCountMap.get(date);
             }
             dateJsonArray.add(date);
+
             reportJsonArray.add(reportCount);
             adoptJsonArray.add(adoptCount);
+
             result.put("date", dateJsonArray);
+
             result.put("reportCount", reportJsonArray);
             result.put("adoptCount", adoptJsonArray);
         });
