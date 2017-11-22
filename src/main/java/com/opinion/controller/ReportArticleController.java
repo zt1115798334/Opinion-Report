@@ -137,7 +137,7 @@ public class ReportArticleController extends BaseController {
     /**
      * 查询当前用户上报信息 详情
      *
-     * @param reportCode
+     * @param reportCode 上报编号
      * @return
      */
     @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)

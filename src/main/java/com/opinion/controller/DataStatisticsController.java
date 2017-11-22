@@ -47,7 +47,7 @@ public class DataStatisticsController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "dataStatisticsPage",method = RequestMethod.GET)
+    @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
         return "/dataStatistics/dataStatistics";
     }
@@ -146,9 +146,11 @@ public class DataStatisticsController extends BaseController {
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
         List<String> dateList = reportArticles.stream()
                 .map(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate())).collect(Collectors.toList());
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+        JSONArray dateJsonArray = new JSONArray();
+        JSONArray reportJsonArray = new JSONArray();
+        JSONArray adoptJsonArray = new JSONArray();
         dateList.stream().forEach(date -> {
-            JSONObject jo = new JSONObject();
             Long reportCount = 0L;
             Long adoptCount = 0L;
             if (reportCountMap.containsKey(date)) {
@@ -157,13 +159,13 @@ public class DataStatisticsController extends BaseController {
             if (adoptCountMap.containsKey(date)) {
                 adoptCount = adoptCountMap.get(date);
             }
-            jo.put("date", date);
-            jo.put("reportCount", reportCount);
-            jo.put("adoptCount", adoptCount);
-            result.add(jo);
+            dateJsonArray.add(date);
+            reportJsonArray.add(reportCount);
+            adoptJsonArray.add(adoptCount);
+            result.put("date", dateJsonArray);
+            result.put("reportCount", reportJsonArray);
+            result.put("adoptCount", adoptJsonArray);
         });
-
-
         return success(result);
     }
 
@@ -256,22 +258,65 @@ public class DataStatisticsController extends BaseController {
         List<String> dateList = reportArticles.stream()
                 .map(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate())).collect(Collectors.toList());
 
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+
+        JSONArray dateJSONArray = new JSONArray();
+
+        JSONArray redReportLevelJSONArray = new JSONArray();
+        JSONArray orangeReportLevelJSONArray = new JSONArray();
+        JSONArray yellowReportLevelJSONArray = new JSONArray();
+
+        JSONArray networkSourceTypeJSONArray = new JSONArray();
+        JSONArray mediaSourceTypeJSONArray = new JSONArray();
+        JSONArray sceneSourceTypeJSONArray = new JSONArray();
+        JSONArray otherSourceTypeJSONArray = new JSONArray();
+
         dateList.stream().forEach(date -> {
-            JSONObject jo = new JSONObject();
+            Long redReportLevelCount = 0L;
+            Long orangeReportLevelCount = 0L;
+            Long yellowReportLevelCount = 0L;
+
+            Long networkSourceTypeCount = 0L;
+            Long mediaSourceTypeCount = 0L;
+            Long sceneSourceTypeCount = 0L;
+            Long otherSourceTypeCount = 0L;
             if (reportLevelDateMap.containsKey(date)) {
                 Map<String, Long> reportLevelMap = reportLevelDateMap.get(date);
-
+                redReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.RED.getCode());
+                orangeReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.ORANGE.getCode());
+                yellowReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.YELLOW.getCode());
             }
             if (sourceTypeDateMap.containsKey(date)) {
                 Map<String, Long> sourceTypeMap = sourceTypeDateMap.get(date);
-
+                networkSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.NETWORK.getCode());
+                mediaSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.MEDIA.getCode());
+                sceneSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.SCENE.getCode());
+                otherSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.OTHER.getCode());
             }
-            jo.put("date", date);
-            result.add(jo);
+            dateJSONArray.add(date);
+
+            redReportLevelJSONArray.add(redReportLevelCount);
+            orangeReportLevelJSONArray.add(orangeReportLevelCount);
+            yellowReportLevelJSONArray.add(yellowReportLevelCount);
+
+            networkSourceTypeJSONArray.add(networkSourceTypeCount);
+            mediaSourceTypeJSONArray.add(mediaSourceTypeCount);
+            sceneSourceTypeJSONArray.add(sceneSourceTypeCount);
+            otherSourceTypeJSONArray.add(otherSourceTypeCount);
+
+            result.put("date", dateJSONArray);
+
+            result.put("redReportLevelCount", redReportLevelJSONArray);
+            result.put("orangeReportLevelCount", orangeReportLevelJSONArray);
+            result.put("yellowReportLevelCount", yellowReportLevelJSONArray);
+
+            result.put("networkSourceTypeCount", networkSourceTypeJSONArray);
+            result.put("mediaSourceTypeCount", mediaSourceTypeJSONArray);
+            result.put("sceneSourceTypeCount", sceneSourceTypeJSONArray);
+            result.put("otherSourceTypeCount", otherSourceTypeJSONArray);
         });
 
-        return success("");
+        return success(result);
     }
 
     /**
@@ -315,7 +360,40 @@ public class DataStatisticsController extends BaseController {
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
 
-        return success("");
+        List<String> dateList = reportArticles.stream()
+                .map(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate())).collect(Collectors.toList());
+
+        JSONObject result = new JSONObject();
+
+        JSONArray dateJSONArray = new JSONArray();
+
+        JSONArray clickJSONArray = new JSONArray();
+        JSONArray commentJSONArray = new JSONArray();
+        JSONArray estimateJSONArray = new JSONArray();
+        dateList.stream().forEach(date -> {
+            Long clickCount = 0L;
+            Long commentCount = 0L;
+            Long estimateCount = 0L;
+
+            if (replyTypeDateMap.containsKey(date)) {
+                Map<String, Long> replyTypeMap = replyTypeDateMap.get(date);
+                clickCount = replyTypeMap.get(SysConst.ReplyType.CLICK.getCode());
+                commentCount = replyTypeMap.get(SysConst.ReplyType.COMMENT.getCode());
+                estimateCount = replyTypeMap.get(SysConst.ReplyType.ESTIMATE.getCode());
+            }
+            dateJSONArray.add(date);
+
+            clickJSONArray.add(clickCount);
+            commentJSONArray.add(commentCount);
+            estimateJSONArray.add(estimateCount);
+
+            result.put("date", dateJSONArray);
+
+            result.put("clickCount", clickJSONArray);
+            result.put("commentCount", commentJSONArray);
+            result.put("estimateCount", estimateJSONArray);
+        });
+        return success(result);
     }
 
     private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime, Long uesrId) {
