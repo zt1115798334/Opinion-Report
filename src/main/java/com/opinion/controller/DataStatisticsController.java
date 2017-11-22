@@ -122,7 +122,6 @@ public class DataStatisticsController extends BaseController {
         return success(result);
     }
 
-
     /**
      * 舆情上报分析 -- 表信息
      *
@@ -399,16 +398,16 @@ public class DataStatisticsController extends BaseController {
         return success(result);
     }
 
-    private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime, Long uesrId) {
+    private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime, Long userId) {
         List<ReportArticle> reportArticles = Lists.newArrayList();
-        CityOrganization cityOrganization = cityOrganizationService.findByUserId(uesrId);
+        CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
         if (cityOrganization != null) {
             if (cityOrganization.getLevel().equals(SysConst.CityLevel.COUNTY.getCode())) {
                 //个人
-                reportArticles = reportArticleService.findListByCreatedUserId(uesrId, startDateTime, endDateTime);
+                reportArticles = reportArticleService.findListByCreatedUserId(userId, startDateTime, endDateTime);
             } else {
                 //查看子级
-                List<Long> childIds = sysUserService.findChildIdListByParentId(uesrId);
+                List<Long> childIds = sysUserService.findChildIdListByParentId(userId);
                 reportArticles = reportArticleService.findListInCreatedUserIds(childIds, startDateTime, endDateTime);
             }
         }
