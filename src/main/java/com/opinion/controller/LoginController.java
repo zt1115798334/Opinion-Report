@@ -1,9 +1,5 @@
 package com.opinion.controller;
 
-import com.google.common.base.Objects;
-import com.opinion.constants.SysConst;
-import com.opinion.constants.SysUserConst;
-import com.opinion.mysql.entity.SysUser;
 import com.opinion.shiro.ShiroService;
 import com.opinion.vcode.Captcha;
 import com.opinion.vcode.GifCaptcha;
