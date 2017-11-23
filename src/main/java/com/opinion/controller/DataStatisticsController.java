@@ -2,6 +2,7 @@ package com.opinion.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
@@ -77,6 +78,7 @@ public class DataStatisticsController extends BaseController {
         reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
+
         return "/dataStatistics/dataStatistics";
     }
 
@@ -124,15 +126,15 @@ public class DataStatisticsController extends BaseController {
         JSONObject allInfo = calculationTrend(thisWeekCount, lastWeekCount);
 
         long thisWeekAdoptCount = reportArticlesThisWeek.stream()
-                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.ADOPT.getCode())).count();
+                .filter(reportArticle -> Objects.equal(reportArticle.getAdoptState(), SysConst.AdoptState.ADOPT.getCode())).count();
         long lastWeekAdoptCount = reportArticlesLastWeek.stream()
-                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.ADOPT.getCode())).count();
+                .filter(reportArticle -> Objects.equal(reportArticle.getAdoptState(), SysConst.AdoptState.ADOPT.getCode())).count();
         JSONObject adoptInfo = calculationTrend(thisWeekAdoptCount, lastWeekAdoptCount);
 
         long thisWeekNotAdoptCount = reportArticlesThisWeek.stream()
-                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.NOTADOPTED.getCode())).count();
+                .filter(reportArticle -> Objects.equal(reportArticle.getAdoptState(), SysConst.AdoptState.NOTADOPTED.getCode())).count();
         long lastWeekNotAdoptCount = reportArticlesLastWeek.stream()
-                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.NOTADOPTED.getCode())).count();
+                .filter(reportArticle -> Objects.equal(reportArticle.getAdoptState(), SysConst.AdoptState.NOTADOPTED.getCode())).count();
         JSONObject notAdoptInfo = calculationTrend(thisWeekNotAdoptCount, lastWeekNotAdoptCount);
 
         JSONObject result = new JSONObject();
@@ -153,7 +155,7 @@ public class DataStatisticsController extends BaseController {
         Map<String, Long> reportCountMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
         Map<String, Long> adoptCountMap = reportArticlesThisWeek.stream()
-                .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.ADOPT.getCode()))
+                .filter(reportArticle -> Objects.equal(reportArticle.getAdoptState(), SysConst.AdoptState.ADOPT.getCode()))
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
 
         JSONObject result = new JSONObject();
@@ -416,7 +418,7 @@ public class DataStatisticsController extends BaseController {
         List<ReportArticle> reportArticles = Lists.newArrayList();
         CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
         if (cityOrganization != null) {
-            if (cityOrganization.getLevel().equals(SysConst.CityLevel.COUNTY.getCode())) {
+            if (Objects.equal(cityOrganization.getLevel(), SysConst.CityLevel.COUNTY.getCode())) {
                 //个人
                 reportArticles = reportArticleService.findListByCreatedUserId(userId, startDateTime, endDateTime);
             } else {

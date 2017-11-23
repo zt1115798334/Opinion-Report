@@ -46,6 +46,7 @@
                 items: [
                     {id: 'yqsb', text: '舆情上报', href: '/reportArticle/opinionReportPage'},
                     {id: 'yhgl', text: '用户管理', href: '/user/userPage'},
+                    {id: 'sjtj', text: '数据统计', href: '/dataStatistics/dataStatisticsPage'},
                     {id: 'qxgl', text: '权限管理', href: '/permission/permissionPage'},
                     {id: 'jsgl', text: '角色管理', href: '/system/roleManagementPage'},
                     {id: 'jsgl', text: '组织机构', href: '/system/organizationStructurePage'},

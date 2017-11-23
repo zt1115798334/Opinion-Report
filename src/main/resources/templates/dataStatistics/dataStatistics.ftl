@@ -6,5 +6,8 @@
 </head>
 <body>
 
+<script src="/lib/jquery/jquery-3.2.1.min.js"></script>
+<script src="/common/utils.js"></script>
+<script src="/common/dataStatistics/dataStatistics.js"></script>
 </body>
 </html>
