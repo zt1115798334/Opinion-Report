@@ -29,7 +29,12 @@ public class RedisController extends BaseController {
     @Autowired
     RedisService redisService;
 
-    //跳转到监控页面
+    /**
+     * 跳转到监控页面
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "redisMonitor")
     public String redisMonitor(Model model) {
         return "redisMonitor";
@@ -51,21 +56,33 @@ public class RedisController extends BaseController {
         return success(jsonObject);
     }
 
-    //清空日志按钮
+    /**
+     * 清空日志按钮
+     *
+     * @return
+     */
     @RequestMapping(value = "logEmpty")
     @ResponseBody
     public String logEmpty() {
         return redisService.logEmpty();
     }
 
-    //获取当前数据库中key的数量
+    /**
+     * 获取当前数据库中key的数量
+     *
+     * @return
+     */
     @RequestMapping(value = "getKeysSize")
     @ResponseBody
     public String getKeysSize() {
         return JSON.toJSONString(redisService.getKeysSize());
     }
 
-    //获取当前数据库内存使用大小情况
+    /**
+     * 获取当前数据库内存使用大小情况
+     *
+     * @return
+     */
     @RequestMapping(value = "getMemeryInfo")
     @ResponseBody
     public String getMemeryInfo() {
