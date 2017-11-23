@@ -432,11 +432,8 @@ public class DataStatisticsController extends BaseController {
     private JSONObject calculationTrend(long num1, long num2) {
         JSONObject result = new JSONObject();
         double num = NumberUtils.changeProportion(num1, num2);
-        if (num1 > num2) {
-            result.put("type", SysConst.Trend.UP.getCode());
-        } else {
-            result.put("type", SysConst.Trend.DOWN.getCode());
-        }
+        String type = num1 > num2 ? SysConst.Trend.UP.getCode() : SysConst.Trend.DOWN.getCode();
+        result.put("type", type);
         result.put("num", num);
         return result;
     }
