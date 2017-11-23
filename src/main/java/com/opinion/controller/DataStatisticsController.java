@@ -75,7 +75,7 @@ public class DataStatisticsController extends BaseController {
         LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
         //获取上周周信息
         reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
-
+        //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
         return "/dataStatistics/dataStatistics";
     }
@@ -88,7 +88,6 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisChart", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisChart() {
-
         Map<String, Long> map = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
 
@@ -119,7 +118,6 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisProportion", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisProportion() {
-
         long thisWeekCount = reportArticlesThisWeek.stream().count();
         long lastWeekCount = reportArticlesLastWeek.stream().count();
         JSONObject allInfo = calculationTrend(thisWeekCount, lastWeekCount);
