@@ -53,6 +53,9 @@ public class DataStatisticsController extends BaseController {
      */
     List<ReportArticle> reportArticlesLastWeek;
 
+    /**
+     * 获取本周时间范围
+     */
     List<LocalDate> thisWeekDateRange;
 
     /**
