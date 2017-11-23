@@ -31,7 +31,7 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     /**
      * 上报编号
      */
-    @Column(name = "report_code",nullable = false)
+    @Column(name = "report_code", nullable = false)
     private String reportCode;
 
     /**
@@ -114,6 +114,14 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
      */
     @Column(name = "adopt_opinion")
     private String adoptOpinion;
+
+    /**
+     * 到期日期
+     */
+    @Column(name = "expire_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate expireDate;
 
     /**
      * 创建日期
@@ -274,6 +282,14 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
 
     public void setAdoptOpinion(String adoptOpinion) {
         this.adoptOpinion = adoptOpinion;
+    }
+
+    public LocalDate getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(LocalDate expireDate) {
+        this.expireDate = expireDate;
     }
 
     public LocalDate getCreatedDate() {

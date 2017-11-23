@@ -64,6 +64,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
         reportArticle.setPublishDatetime(currentDatetime);
         reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+        reportArticle.setExpireDate(DateUtils.currentDateAfterSevenDays().toLocalDate());
         reportArticle.setCreatedDate(currentDate);
         reportArticle.setCreatedDatetime(currentDatetime);
         reportArticle.setCreatedUserId(userId);
@@ -122,6 +123,35 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
+    public Page<ReportArticle> findPageByInChild(ReportArticle reportArticle) {
+        List<Long> userId = sysUserService.findChildIdListByParentId(reportArticle.getCreatedUserId());
+        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+            @Override
+            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
+                userId.forEach(userid -> in.value(userid));
+                query.where(in);
+                if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
+                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
+                }
+                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
+                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                }
+                if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
+                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                }
+                return null;
+            }
+        };
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+                reportArticle.getPageSize(),
+                reportArticle.getSortParam(),
+                reportArticle.getSortParam());
+        Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
+        return result;
+    }
+
+    @Override
     public boolean examineAndVerify(ReportArticle reportArticle) {
         SysUser sysUser = new SysUserConst().getSysUser();
         Long userId = sysUser.getId();
@@ -157,35 +187,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public Page<ReportArticle> findPageByInChild(ReportArticle reportArticle) {
-        List<Long> userId = sysUserService.findChildIdListByParentId(reportArticle.getCreatedUserId());
-        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
-            @Override
-            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
-                userId.forEach(userid -> in.value(userid));
-                query.where(in);
-                if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
-                }
-                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
-                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
-                }
-                if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
-                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
-                }
-                return null;
-            }
-        };
-        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
-                reportArticle.getPageSize(),
-                reportArticle.getSortParam(),
-                reportArticle.getSortParam());
-        Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
-        return result;
     }
 
     @Override

@@ -45,21 +45,20 @@ public interface ReportArticleService {
     Page<ReportArticle> findPageByCreateUser(ReportArticle reportArticle);
 
     /**
-     * 对上报文章进行审核
-     *
-     * @param reportArticle 上报文章
-     * @return
-     */
-    boolean examineAndVerify(ReportArticle reportArticle);
-
-
-    /**
      * 根据创建人查询上报文章集合
      *
      * @param reportArticle 上报文章
      * @return
      */
     Page<ReportArticle> findPageByInChild(ReportArticle reportArticle);
+
+    /**
+     * 对上报文章进行审核
+     *
+     * @param reportArticle 上报文章
+     * @return
+     */
+    boolean examineAndVerify(ReportArticle reportArticle);
 
     /**
      * 根据创建人id时间范围查询

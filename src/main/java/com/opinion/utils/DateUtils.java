@@ -175,6 +175,16 @@ public class DateUtils {
      *
      * @return
      */
+    public static LocalDateTime currentDateAfterSevenDays() {
+        LocalDateTime dateTimeOfSevenDays = currentDateAddDay(6);
+        return dateTimeToZero(dateTimeOfSevenDays);
+    }
+
+    /**
+     * 当前日期前七天日期
+     *
+     * @return
+     */
     public static LocalDateTime currentDateBeforeSevenDays() {
         LocalDateTime dateTimeOfSevenDays = currentDateAddDay(-6);
         return dateTimeToZero(dateTimeOfSevenDays);
@@ -225,12 +235,6 @@ public class DateUtils {
     }
 
     public static void main(String[] args) {
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        List<LocalDate> localDateList = dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
-        localDateList.stream().map(DateUtils::formatDate).forEach(localDate -> {
-            System.out.println(localDate);
-        });
 
     }
 }

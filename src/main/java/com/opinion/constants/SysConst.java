@@ -388,6 +388,50 @@ public class SysConst {
         }
     }
 
+    public enum Sort {
+
+        ASC("asc ", "升序"),
+        DESC("desc", "降序");
+
+        private String code;
+        private String name;
+
+        Sort(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public enum ImportOrExport {
+
+        IMPORT("import ", "提交"),
+        EXPORT("export", "收到");
+
+        private String code;
+        private String name;
+
+        ImportOrExport(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 
 
 }
