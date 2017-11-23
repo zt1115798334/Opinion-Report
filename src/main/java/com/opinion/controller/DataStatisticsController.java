@@ -118,6 +118,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisProportion", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisProportion() {
+
         long thisWeekCount = reportArticlesThisWeek.stream().count();
         long lastWeekCount = reportArticlesLastWeek.stream().count();
         JSONObject allInfo = calculationTrend(thisWeekCount, lastWeekCount);
