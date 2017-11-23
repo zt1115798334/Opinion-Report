@@ -1,10 +1,12 @@
 package com.opinion.utils;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -212,12 +214,24 @@ public class DateUtils {
         return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.CHINA);
     }
 
-//    public static void main(String[] args) {
-//        LocalDate date = LocalDate.of(2017, 11, 21);
-//        DayOfWeek dayOfWeek = date.getDayOfWeek();
-//        LocalDateTime dt3 = date.atTime(13, 45, 20);
-//        String l = RelativeDateUtils.format(dt3);
-//        System.out.println("localDateTime = " + l);
-//        System.out.println("dayOfWeek = " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.CHINA));
-//    }
+    public static List<LocalDate> dateRange(LocalDate dateStart, LocalDate dateEnd) {
+        List<LocalDate> result = Lists.newArrayList();
+        while (dateStart.isBefore(dateEnd)) {
+            result.add(dateStart);
+            dateStart = dateStart.plusDays(1);
+        }
+        result.add(dateEnd);
+        return result;
+    }
+
+    public static void main(String[] args) {
+        LocalDate dateStart = LocalDate.of(2017, 11, 21);
+
+        LocalDate dateEnd = LocalDate.of(2017, 11, 30);
+        List<LocalDate> localDateList = dateRange(dateStart, dateEnd);
+        localDateList.forEach(localDate -> {
+            System.out.println(formatDate(localDate));
+        });
+
+    }
 }
