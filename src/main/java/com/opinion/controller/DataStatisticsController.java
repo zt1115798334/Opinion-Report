@@ -44,12 +44,36 @@ public class DataStatisticsController extends BaseController {
     private SysUserService sysUserService;
 
     /**
+     * 获取本周信息
+     */
+    List<ReportArticle> reportArticlesThisWeek;
+
+    /**
+     * 获取上周周信息
+     */
+    List<ReportArticle> reportArticlesLastWeek;
+
+    List<LocalDate> thisWeekDateRange;
+
+    /**
      * 跳转信息统计页面
      *
      * @return
      */
     @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
+        Long userId = new SysUserConst().getUserId();
+
+        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        //获取本周信息
+        reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, userId);
+
+        LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
+        //获取上周周信息
+        reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
+
+        thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
         return "/dataStatistics/dataStatistics";
     }
 
@@ -62,21 +86,13 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public AjaxResult dataAnalysisChart() {
 
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        Long userId = new SysUserConst().getUserId();
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-
-        Map<String, Long> map = reportArticles.stream()
+        Map<String, Long> map = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
-
-        List<LocalDate> dateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
 
         JSONObject result = new JSONObject();
         JSONArray dateJSONArray = new JSONArray();
         JSONArray valueJSONArray = new JSONArray();
-        dateRange.stream()
+        thisWeekDateRange.stream()
                 .map(DateUtils::formatDate)
                 .forEach(date -> {
                     Long value = 0L;
@@ -100,16 +116,6 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisProportion", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisProportion() {
-        Long userId = new SysUserConst().getUserId();
-
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        //获取本周信息
-        List<ReportArticle> reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, userId);
-
-        LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
-        //获取上周周信息
-        List<ReportArticle> reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
 
         long thisWeekCount = reportArticlesThisWeek.stream().count();
         long lastWeekCount = reportArticlesLastWeek.stream().count();
@@ -143,25 +149,18 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public AjaxResult dataAnalysisTable() {
 
-        Long userId = new SysUserConst().getUserId();
 
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-        Map<String, Long> reportCountMap = reportArticles.stream()
+        Map<String, Long> reportCountMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
-        Map<String, Long> adoptCountMap = reportArticles.stream()
+        Map<String, Long> adoptCountMap = reportArticlesThisWeek.stream()
                 .filter(reportArticle -> reportArticle.getAdoptState().equals(SysConst.AdoptState.ADOPT.getCode()))
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
-        List<LocalDate> dateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
 
         JSONObject result = new JSONObject();
         JSONArray dateJsonArray = new JSONArray();
         JSONArray reportJsonArray = new JSONArray();
         JSONArray adoptJsonArray = new JSONArray();
-        dateRange.stream()
+        thisWeekDateRange.stream()
                 .map(DateUtils::formatDate)
                 .forEach(date -> {
                     Long reportCount = 0L;
@@ -192,15 +191,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelDistribution() {
-
-        Long userId = new SysUserConst().getUserId();
-
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-        Map<String, Long> reportLevelMap = reportArticles.stream()
+        Map<String, Long> reportLevelMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting()));
         JSONObject result = new JSONObject();
         JSONArray infoJSONArray = new JSONArray();
@@ -229,14 +220,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataSourceDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataSourceDistribution() {
-
-        Long userId = new SysUserConst().getUserId();
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-        Map<String, Long> sourceTypeMap = reportArticles.stream()
+        Map<String, Long> sourceTypeMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting()));
         JSONObject result = new JSONObject();
         JSONArray infoJSONArray = new JSONArray();
@@ -265,23 +249,13 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelSourceTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelSourceTable() {
-
-        Long userId = new SysUserConst().getUserId();
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-
-        Map<String, Map<String, Long>> reportLevelDateMap = reportArticles.stream()
+        Map<String, Map<String, Long>> reportLevelDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting())));
 
-        Map<String, Map<String, Long>> sourceTypeDateMap = reportArticles.stream()
+        Map<String, Map<String, Long>> sourceTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting())));
-        List<LocalDate> dateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
-
 
         JSONObject result = new JSONObject();
 
@@ -296,7 +270,7 @@ public class DataStatisticsController extends BaseController {
         JSONArray sceneSourceTypeJSONArray = new JSONArray();
         JSONArray otherSourceTypeJSONArray = new JSONArray();
 
-        dateRange.stream()
+        thisWeekDateRange.stream()
                 .map(DateUtils::formatDate)
                 .forEach(date -> {
                     Long redReportLevelCount = 0L;
@@ -353,18 +327,9 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectDistribution() {
-        Long userId = new SysUserConst().getUserId();
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-
-        Map<String, Map<String, Long>> replyTypeDateMap = reportArticles.stream()
+        Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
-
-        List<LocalDate> dateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
 
         JSONObject result = new JSONObject();
 
@@ -373,7 +338,7 @@ public class DataStatisticsController extends BaseController {
         JSONArray clickJSONArray = new JSONArray();
         JSONArray commentJSONArray = new JSONArray();
         JSONArray estimateJSONArray = new JSONArray();
-        dateRange.stream()
+        thisWeekDateRange.stream()
                 .map(DateUtils::formatDate)
                 .forEach(date -> {
                     Long clickCount = 0L;
@@ -409,18 +374,9 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectTable() {
-        Long userId = new SysUserConst().getUserId();
-        //获取本周信息
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-
-        List<ReportArticle> reportArticles = getReportArticles(beforeSevenDays, currentDatetime, userId);
-
-        Map<String, Map<String, Long>> replyTypeDateMap = reportArticles.stream()
+        Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
-
-        List<LocalDate> dateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
 
         JSONObject result = new JSONObject();
 
@@ -429,7 +385,7 @@ public class DataStatisticsController extends BaseController {
         JSONArray clickJSONArray = new JSONArray();
         JSONArray commentJSONArray = new JSONArray();
         JSONArray estimateJSONArray = new JSONArray();
-        dateRange.stream()
+        thisWeekDateRange.stream()
                 .map(DateUtils::formatDate)
                 .forEach(date -> {
                     Long clickCount = 0L;

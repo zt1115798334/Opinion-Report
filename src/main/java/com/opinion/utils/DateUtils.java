@@ -224,14 +224,14 @@ public class DateUtils {
         return result;
     }
 
-    public static void main(String[] args) {
-        LocalDate dateStart = LocalDate.of(2017, 11, 21);
-
-        LocalDate dateEnd = LocalDate.of(2017, 11, 30);
-        List<LocalDate> localDateList = dateRange(dateStart, dateEnd);
-        localDateList.forEach(localDate -> {
-            System.out.println(formatDate(localDate));
-        });
-
-    }
+//    public static void main(String[] args) {
+//        LocalDate dateStart = LocalDate.of(2017, 11, 21);
+//
+//        LocalDate dateEnd = LocalDate.of(2017, 11, 30);
+//        List<LocalDate> localDateList = dateRange(dateStart, dateEnd);
+//        localDateList.stream().map(DateUtils::formatDate).forEach(localDate -> {
+//            System.out.println(localDate);
+//        });
+//
+//    }
 }
