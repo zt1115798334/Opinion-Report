@@ -66,16 +66,15 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
-        Long userId = new SysUserConst().getUserId();
 
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         //获取本周信息
-        reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime, userId);
+        reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime);
 
         LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
         //获取上周周信息
-        reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays, userId);
+        reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays);
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
 
@@ -414,7 +413,8 @@ public class DataStatisticsController extends BaseController {
         return success(result);
     }
 
-    private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime, Long userId) {
+    private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Long userId = new SysUserConst().getUserId();
         List<ReportArticle> reportArticles = Lists.newArrayList();
         CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
         if (cityOrganization != null) {
