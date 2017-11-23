@@ -53,7 +53,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Autowired
     private SysMessageService sysMessageService;
 
-
     @Override
     public ReportArticle save(ReportArticle reportArticle) {
         Long userId = new SysUserConst().getUserId();
@@ -87,7 +86,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         }
         return newReportArticle;
     }
-
 
     @Override
     public ReportArticle findOneByreportCode(String reportCode) {
@@ -175,38 +173,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         title.append("用户：").append(sysUser.getUserName())
                 .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
 
-        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
-        String reportCode = reportArticle.getReportCode();
-        ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
-        if (result != null && Objects.equals(result.getAdoptState(), SysConst.AdoptState.REPORT.getCode())) {
-            String adoptState = reportArticle.getAdoptState();
-            String adoptOpinion = reportArticle.getAdoptOpinion();
-
-            result.setAdoptDatetime(adoptDatetime);
-            result.setAdoptUserId(userId);
-            result.setAdoptState(adoptState);
-            result.setAdoptOpinion(adoptOpinion);
-            result = reportArticleRepository.save(result);
-            saveReportArticleLog(reportCode, adoptState, adoptOpinion, userId);
-
-            /**
-             * 保存系统消息
-             */
-            StringBuilder subtitle = new StringBuilder();
-            subtitle.append("《").append(result.getTitle()).append("》");
-
-            SysMessage sysMessage = new SysMessage();
-            sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
-            sysMessage.setPublishUserId(userId);
-            sysMessage.setRelationUserId(result.getCreatedUserId());
-            sysMessage.setTitle(title.toString());
-            sysMessage.setSubtitle(subtitle.toString());
-            sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
-            sysMessageService.save(sysMessage);
-            return true;
-        } else {
-            return false;
-        }
+        return saveReportArticleAndLog(reportArticle, userId, title);
     }
 
     @Override
@@ -215,38 +182,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         StringBuilder title = new StringBuilder();
         title.append("系统关闭：").append("舆情上报");
 
-        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
-        String reportCode = reportArticle.getReportCode();
-        ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
-        if (result != null && Objects.equals(result.getAdoptState(), SysConst.AdoptState.REPORT.getCode())) {
-            String adoptState = reportArticle.getAdoptState();
-            String adoptOpinion = reportArticle.getAdoptOpinion();
-
-            result.setAdoptDatetime(adoptDatetime);
-            result.setAdoptUserId(userId);
-            result.setAdoptState(adoptState);
-            result.setAdoptOpinion(adoptOpinion);
-            result = reportArticleRepository.save(result);
-            saveReportArticleLog(reportCode, adoptState, adoptOpinion, userId);
-
-            /**
-             * 保存系统消息
-             */
-            SysMessage sysMessage = new SysMessage();
-
-            StringBuilder subtitle = new StringBuilder();
-            subtitle.append("《").append(result.getTitle()).append("》");
-            sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
-            sysMessage.setPublishUserId(userId);
-            sysMessage.setRelationUserId(result.getCreatedUserId());
-            sysMessage.setTitle(title.toString());
-            sysMessage.setSubtitle(subtitle.toString());
-            sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
-            sysMessageService.save(sysMessage);
-            return true;
-        } else {
-            return false;
-        }
+        return saveReportArticleAndLog(reportArticle, userId, title);
     }
 
     @Override
@@ -294,6 +230,42 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         delReportArticleAndReportArticleLog(reportArticles);
         return true;
     }
+
+    private boolean saveReportArticleAndLog(ReportArticle reportArticle, Long userId, StringBuilder title) {
+        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
+        String reportCode = reportArticle.getReportCode();
+        ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
+        if (result != null && Objects.equals(result.getAdoptState(), SysConst.AdoptState.REPORT.getCode())) {
+            String adoptState = reportArticle.getAdoptState();
+            String adoptOpinion = reportArticle.getAdoptOpinion();
+
+            result.setAdoptDatetime(adoptDatetime);
+            result.setAdoptUserId(userId);
+            result.setAdoptState(adoptState);
+            result.setAdoptOpinion(adoptOpinion);
+            result = reportArticleRepository.save(result);
+            saveReportArticleLog(reportCode, adoptState, adoptOpinion, userId);
+
+            /**
+             * 保存系统消息
+             */
+            StringBuilder subtitle = new StringBuilder();
+            subtitle.append("《").append(result.getTitle()).append("》");
+
+            SysMessage sysMessage = new SysMessage();
+            sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
+            sysMessage.setPublishUserId(userId);
+            sysMessage.setRelationUserId(result.getCreatedUserId());
+            sysMessage.setTitle(title.toString());
+            sysMessage.setSubtitle(subtitle.toString());
+            sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
+            sysMessageService.save(sysMessage);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
