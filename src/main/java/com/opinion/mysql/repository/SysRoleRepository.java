@@ -15,7 +15,4 @@ public interface SysRoleRepository extends CrudRepository<SysRole, Long>, JpaSpe
 
     SysRole findByRoleName(String roleName);
 
-    @Override
-    Page<SysRole> findAll(Specification<SysRole> specification, Pageable pageable);
-
 }

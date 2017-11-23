@@ -13,11 +13,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SysUserRepository extends CrudRepository<SysUser, Long>, JpaSpecificationExecutor<SysUser> {
 
-    @Override
-    Page<SysUser> findAll(Specification<SysUser> specification, Pageable pageable);
-
     SysUser findByUserAccount(String userAccount);
 
     SysUser findByUserAccountAndUserPassword(String userAccount, String userPassword);
-
 }

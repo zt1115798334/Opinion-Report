@@ -15,9 +15,6 @@ import java.util.List;
  */
 public interface IssuedNoticeRepository extends CrudRepository<IssuedNotice, Long>, JpaSpecificationExecutor<IssuedNotice> {
 
-    @Override
-    Page<IssuedNotice> findAll(Specification<IssuedNotice> specification, Pageable pageable);
-
     IssuedNotice findByNoticeCode(String noticeCode);
 
     List<IssuedNotice> findByCreatedUserId(Long createdUserId);

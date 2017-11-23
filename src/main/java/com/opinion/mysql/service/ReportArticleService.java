@@ -53,12 +53,22 @@ public interface ReportArticleService {
     Page<ReportArticle> findPageByInChild(ReportArticle reportArticle);
 
     /**
+     * 根据创建人查询上报文章集合
+     *
+     * @param reportArticle 上报文章
+     * @return
+     */
+    Page<ReportArticle> findAdoptStatePage(ReportArticle reportArticle);
+
+    /**
      * 对上报文章进行审核
      *
      * @param reportArticle 上报文章
      * @return
      */
     boolean examineAndVerify(ReportArticle reportArticle);
+
+    boolean examineAndVerifyInSystem(ReportArticle reportArticle);
 
     /**
      * 根据创建人id时间范围查询

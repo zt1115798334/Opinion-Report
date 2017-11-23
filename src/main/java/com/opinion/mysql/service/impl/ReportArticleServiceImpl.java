@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 @Service
 public class ReportArticleServiceImpl implements ReportArticleService {
 
-
     @Autowired
     private ReportArticleRepository reportArticleRepository;
 
@@ -97,7 +96,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public Page<ReportArticle> findPageByCreateUser(ReportArticle reportArticle) {
-
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -152,6 +150,24 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     }
 
     @Override
+    public Page<ReportArticle> findAdoptStatePage(ReportArticle reportArticle) {
+        Specification<ReportArticle> specification = new Specification<ReportArticle>() {
+            @Override
+            public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                query.where(builder.and(builder.equal(root.get("expireDate").as(LocalDate.class), reportArticle.getExpireDate())));
+                query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                return null;
+            }
+        };
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+                reportArticle.getPageSize(),
+                reportArticle.getSortParam(),
+                reportArticle.getSortParam());
+        Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
+        return result;
+    }
+
+    @Override
     public boolean examineAndVerify(ReportArticle reportArticle) {
         SysUser sysUser = new SysUserConst().getSysUser();
         Long userId = sysUser.getId();
@@ -176,6 +192,40 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             StringBuilder title = new StringBuilder();
             title.append("用户：").append(sysUser.getUserName())
                     .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
+            StringBuilder subtitle = new StringBuilder();
+            subtitle.append("《").append(result.getTitle()).append("》");
+            sysMessage.setRelationUserId(result.getCreatedUserId());
+            sysMessage.setTitle(title.toString());
+            sysMessage.setSubtitle(subtitle.toString());
+            sysMessage.setUrl(SysConst.OPINION_REPORT_INFO_URL + reportCode);
+            sysMessageService.save(sysMessage);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean examineAndVerifyInSystem(ReportArticle reportArticle) {
+        LocalDateTime adoptDatetime = DateUtils.currentDatetime();
+        String reportCode = reportArticle.getReportCode();
+        ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
+        if (result != null && Objects.equals(result.getAdoptState(), SysConst.AdoptState.REPORT.getCode())) {
+            String adoptState = reportArticle.getAdoptState();
+            String adoptOpinion = reportArticle.getAdoptOpinion();
+
+            result.setAdoptDatetime(adoptDatetime);
+            result.setAdoptState(adoptState);
+            result.setAdoptOpinion(adoptOpinion);
+            result = reportArticleRepository.save(result);
+            saveReportArticleLog(reportCode, adoptState, adoptOpinion);
+
+            /**
+             * 保存系统消息
+             */
+            SysMessage sysMessage = new SysMessage();
+            StringBuilder title = new StringBuilder();
+            title.append("系统关闭：").append("舆情上报");
             StringBuilder subtitle = new StringBuilder();
             subtitle.append("《").append(result.getTitle()).append("》");
             sysMessage.setRelationUserId(result.getCreatedUserId());

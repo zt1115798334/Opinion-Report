@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -16,13 +18,8 @@ import java.util.List;
  */
 public interface ReportArticleRepository extends CrudRepository<ReportArticle, Long>, JpaSpecificationExecutor<ReportArticle> {
 
-    @Override
-    Page<ReportArticle> findAll(Specification<ReportArticle> specification, Pageable pageable);
-
-    @Override
-    List<ReportArticle> findAll(Specification<ReportArticle> specification, Sort sort);
-
     ReportArticle findByReportCode(String reportCode);
 
     List<ReportArticle> findByCreatedUserId(Long createdUserId);
+
 }

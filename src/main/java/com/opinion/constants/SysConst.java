@@ -10,8 +10,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class SysConst {
 
+    /**
+     * 默认每页记录数
+     */
+    public static final int DEFAULT_PAGE_NUMBER = 1;
+
+    /**
+     * 默认批处理大小
+     */
+    public static final int DEFAULT_BATCH_SIZE = 200;
+
     public final static String OPINION_REPORT_INFO_URL = "/reportArticle/opinionReportExaminePage?reportCode=";
     public final static String ISSUED_NOTICE_INFO_URL = "/issuedNotice/issuedNoticeInfoPage?noticeCode=";
+
+    public final static String DEFAULT_ADOPT_OPINION = "系统自动关闭";
 
     public enum LoginStatus {
 
