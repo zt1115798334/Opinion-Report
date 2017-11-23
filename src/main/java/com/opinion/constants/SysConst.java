@@ -366,4 +366,28 @@ public class SysConst {
         }
     }
 
+    public enum Trend {
+
+        UP("up ", "上升"),
+        DOWN("down", "下降");
+
+        private String code;
+        private String name;
+
+        Trend(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+
+
 }

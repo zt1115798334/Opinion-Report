@@ -151,8 +151,6 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisTable() {
-
-
         Map<String, Long> reportCountMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
         Map<String, Long> adoptCountMap = reportArticlesThisWeek.stream()
@@ -435,12 +433,11 @@ public class DataStatisticsController extends BaseController {
         JSONObject result = new JSONObject();
         double num = NumberUtils.changeProportion(num1, num2);
         if (num1 > num2) {
-            result.put("type", "up");
-            result.put("num", num);
+            result.put("type", SysConst.Trend.UP.getCode());
         } else {
-            result.put("type", "down");
-            result.put("num", num);
+            result.put("type", SysConst.Trend.DOWN.getCode());
         }
+        result.put("num", num);
         return result;
     }
 }
