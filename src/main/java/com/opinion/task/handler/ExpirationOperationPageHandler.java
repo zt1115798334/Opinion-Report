@@ -39,6 +39,8 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
         if (filterObject.getPageSize() == 0) {
             this.filterObject.setPageSize(SysConst.DEFAULT_BATCH_SIZE);
         }
+        this.filterObject.setAdoptState(filterObject.getAdoptState());
+        this.filterObject.setExpireDate(filterObject.getExpireDate());
     }
 
     @Override
@@ -46,7 +48,7 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
         int count = 0;
         try {
             ExpirationOperationCallableTask task =
-                    new ExpirationOperationCallableTask(list,reportArticleService);
+                    new ExpirationOperationCallableTask(list, reportArticleService);
             Future<Integer> future = executor.submit(task);
             count += future.get();
         } catch(ExecutionException | InterruptedException e) {
