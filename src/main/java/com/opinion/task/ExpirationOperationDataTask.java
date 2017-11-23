@@ -23,8 +23,8 @@ public class ExpirationOperationDataTask {
     @Qualifier("expirationOperationPageHandler")
     protected BasePageHandler expirationOperationPageHandler;
 
-    @Scheduled(fixedDelay = 3600000)
-//    @Scheduled(cron = "0 00 23 * * ?")
+//    @Scheduled(fixedDelay = 3600000)
+    @Scheduled(cron = "0 00 23 * * ?")
     public void execute() {
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setExpireDate(DateUtils.currentDate());

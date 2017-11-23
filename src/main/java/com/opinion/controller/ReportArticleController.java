@@ -2,6 +2,7 @@ package com.opinion.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Objects;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -192,9 +193,12 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult searchReportArticleLog(@RequestParam("reportCode") String reportCode) {
         logger.info("请求 searchReportArticleLog 方法，reportCode:{}", reportCode);
+        Long userId = new SysUserConst().getUserId();
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
         JSONArray result = new JSONArray();
-        list.stream().forEach(reportArticleLog -> {
+        list.stream()
+                .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
+                .forEach(reportArticleLog -> {
             JSONObject jo = new JSONObject();
             String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
             SysUser sysUser = sysUserService.findById(reportArticleLog.getCreatedUserId());

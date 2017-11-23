@@ -171,6 +171,9 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     public boolean examineAndVerify(ReportArticle reportArticle) {
         SysUser sysUser = new SysUserConst().getSysUser();
         Long userId = sysUser.getId();
+        StringBuilder title = new StringBuilder();
+        title.append("用户：").append(sysUser.getUserName())
+                .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
 
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         String reportCode = reportArticle.getReportCode();
@@ -189,12 +192,12 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             /**
              * 保存系统消息
              */
-            SysMessage sysMessage = new SysMessage();
-            StringBuilder title = new StringBuilder();
-            title.append("用户：").append(sysUser.getUserName())
-                    .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
             StringBuilder subtitle = new StringBuilder();
             subtitle.append("《").append(result.getTitle()).append("》");
+
+            SysMessage sysMessage = new SysMessage();
+            sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
+            sysMessage.setPublishUserId(userId);
             sysMessage.setRelationUserId(result.getCreatedUserId());
             sysMessage.setTitle(title.toString());
             sysMessage.setSubtitle(subtitle.toString());
@@ -209,6 +212,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Override
     public boolean examineAndVerifyInSystem(ReportArticle reportArticle) {
         Long userId = reportArticle.getCreatedUserId();
+        StringBuilder title = new StringBuilder();
+        title.append("系统关闭：").append("舆情上报");
 
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         String reportCode = reportArticle.getReportCode();
@@ -228,10 +233,11 @@ public class ReportArticleServiceImpl implements ReportArticleService {
              * 保存系统消息
              */
             SysMessage sysMessage = new SysMessage();
-            StringBuilder title = new StringBuilder();
-            title.append("系统关闭：").append("舆情上报");
+
             StringBuilder subtitle = new StringBuilder();
             subtitle.append("《").append(result.getTitle()).append("》");
+            sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
+            sysMessage.setPublishUserId(userId);
             sysMessage.setRelationUserId(result.getCreatedUserId());
             sysMessage.setTitle(title.toString());
             sysMessage.setSubtitle(subtitle.toString());

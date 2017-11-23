@@ -109,6 +109,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         List<SysMessage> sysMessages = childIds.stream()
                 .map(childId -> {
                     SysMessage sysMessage = new SysMessage();
+                    sysMessage.setType(SysConst.ImportOrExport.EXPORT.getCode());
                     sysMessage.setRelationUserId(childId);
                     sysMessage.setTitle(title.toString());
                     sysMessage.setSubtitle(subtitle.toString());

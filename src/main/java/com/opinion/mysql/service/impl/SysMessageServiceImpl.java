@@ -29,13 +29,11 @@ public class SysMessageServiceImpl implements SysMessageService {
 
     @Override
     public SysMessage save(SysMessage sysMessage) {
-        Long userId = new SysUserConst().getUserId();
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         sysMessage.setStatus(SysConst.MessageState.UNREAD.getCode());
         sysMessage.setPublishDate(currentDate);
         sysMessage.setPublishDatetime(currentDatetime);
-        sysMessage.setPublishUserId(userId);
         return sysMessageRepository.save(sysMessage);
     }
 

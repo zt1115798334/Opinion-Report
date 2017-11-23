@@ -54,14 +54,16 @@ public class IndexController extends BaseController {
         Long userId = new SysUserConst().getUserId();
         List<SysMessage> sysMessages = sysMessageService.findByRelationUserId(userId, SysConst.MessageState.UNREAD.getCode());
         JSONArray result = new JSONArray();
-        sysMessages.stream().forEach(sysMessage -> {
-            JSONObject jo = new JSONObject();
-            jo.put("title", sysMessage.getTitle());
-            jo.put("subtitle", sysMessage.getSubtitle());
-            jo.put("timeMsg", RelativeDateUtils.format(sysMessage.getPublishDatetime()));
-            jo.put("url", sysMessage.getUrl());
-            result.add(jo);
-        });
+        sysMessages.stream()
+                .filter(sysMessage -> !Objects.equal(userId, sysMessage.getPublishUserId()))
+                .forEach(sysMessage -> {
+                    JSONObject jo = new JSONObject();
+                    jo.put("title", sysMessage.getTitle());
+                    jo.put("subtitle", sysMessage.getSubtitle());
+                    jo.put("timeMsg", RelativeDateUtils.format(sysMessage.getPublishDatetime()));
+                    jo.put("url", sysMessage.getUrl());
+                    result.add(jo);
+                });
         return success(result);
     }
 
