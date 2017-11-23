@@ -71,7 +71,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         reportArticle.setModifiedDatetime(currentDatetime);
         reportArticle.setModifiedUserId(userId);
         reportArticle = reportArticleRepository.save(reportArticle);
-        saveReportArticleLog(reportArticle.getReportCode(), reportArticle.getAdoptState(), null);
+        saveReportArticleLog(reportArticle.getReportCode(), reportArticle.getAdoptState(), null, userId);
         return reportArticle;
     }
 
@@ -171,6 +171,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     public boolean examineAndVerify(ReportArticle reportArticle) {
         SysUser sysUser = new SysUserConst().getSysUser();
         Long userId = sysUser.getId();
+
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         String reportCode = reportArticle.getReportCode();
         ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
@@ -183,7 +184,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             result.setAdoptState(adoptState);
             result.setAdoptOpinion(adoptOpinion);
             result = reportArticleRepository.save(result);
-            saveReportArticleLog(reportCode, adoptState, adoptOpinion);
+            saveReportArticleLog(reportCode, adoptState, adoptOpinion, userId);
 
             /**
              * 保存系统消息
@@ -207,6 +208,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public boolean examineAndVerifyInSystem(ReportArticle reportArticle) {
+        Long userId = reportArticle.getCreatedUserId();
+
         LocalDateTime adoptDatetime = DateUtils.currentDatetime();
         String reportCode = reportArticle.getReportCode();
         ReportArticle result = reportArticleRepository.findByReportCode(reportCode);
@@ -215,10 +218,11 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             String adoptOpinion = reportArticle.getAdoptOpinion();
 
             result.setAdoptDatetime(adoptDatetime);
+            result.setAdoptUserId(userId);
             result.setAdoptState(adoptState);
             result.setAdoptOpinion(adoptOpinion);
             result = reportArticleRepository.save(result);
-            saveReportArticleLog(reportCode, adoptState, adoptOpinion);
+            saveReportArticleLog(reportCode, adoptState, adoptOpinion, userId);
 
             /**
              * 保存系统消息
@@ -287,8 +291,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     public ReportArticleLog saveReportArticleLog(String reportCode,
                                                  String adoptState,
-                                                 String adoptOpinion) {
-        Long userId = new SysUserConst().getUserId();
+                                                 String adoptOpinion,
+                                                 Long userId) {
         LocalDate currentDate = DateUtils.currentDate();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         ReportArticleLog reportArticleLog = new ReportArticleLog();
