@@ -172,7 +172,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         StringBuilder title = new StringBuilder();
         title.append("用户：").append(sysUser.getUserName())
                 .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
-
         return saveReportArticleAndLog(reportArticle, userId, title);
     }
 
@@ -181,7 +180,6 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Long userId = reportArticle.getCreatedUserId();
         StringBuilder title = new StringBuilder();
         title.append("系统关闭：").append("舆情上报");
-
         return saveReportArticleAndLog(reportArticle, userId, title);
     }
 
