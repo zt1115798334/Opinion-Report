@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class ExpirationOperationDataTask {
 
     protected final Logger logger = LoggerFactory.getLogger(ExpirationOperationDataTask.class);
+
     @Autowired
     @Qualifier("expirationOperationPageHandler")
     protected BasePageHandler expirationOperationPageHandler;
