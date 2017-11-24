@@ -107,8 +107,6 @@ public class IndexController extends BaseController {
 
         CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
 
-        List<ReportArticle> reportArticles = Lists.newArrayList();
-
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setCreatedUserId(userId);
         reportArticle.setPageNum(1);
