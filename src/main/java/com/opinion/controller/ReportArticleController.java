@@ -191,7 +191,7 @@ public class ReportArticleController extends BaseController {
      */
     @RequestMapping(value = "searchReportArticleLog", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleLog(@RequestParam("reportCode") String reportCode) {
+    public AjaxResult searchReportArticleLog(@RequestParam String reportCode) {
         logger.info("请求 searchReportArticleLog 方法，reportCode:{}", reportCode);
         Long userId = new SysUserConst().getUserId();
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
@@ -219,7 +219,7 @@ public class ReportArticleController extends BaseController {
      */
     @RequestMapping(value = "saveReportArticleAgain", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult saveReportArticleAgain(@RequestParam("reportCode") String reportCode) {
+    public AjaxResult saveReportArticleAgain(@RequestParam String reportCode) {
         logger.info("请求 saveReportArticleAgain 方法，reportCode:{}", reportCode);
         reportArticleService.saveAgain(reportCode);
         return success("上报成功");
