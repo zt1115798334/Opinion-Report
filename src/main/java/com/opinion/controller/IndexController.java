@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -125,10 +127,23 @@ public class IndexController extends BaseController {
                 //市级
                 Page<ReportArticle> pageImport = reportArticleService.findPageByCreateUser(reportArticle);
                 Page<ReportArticle> pageExport = reportArticleService.findPageByInChild(reportArticle);
-                JSONArray joImport = listReportArticleToJSONArray(pageImport.getContent(), SysConst.ImportOrExport.IMPORT.getCode());
-                JSONArray joExport = listReportArticleToJSONArray(pageExport.getContent(), SysConst.ImportOrExport.EXPORT.getCode());
-                result.addAll(joImport);
-                result.addAll(joExport);
+                List<ReportArticle> importAndExportList = Lists.newArrayList();
+
+                importAndExportList.addAll(pageImport.getContent().stream()
+                        .map(ra -> {
+                            ra.setType(SysConst.ImportOrExport.IMPORT.getCode());
+                            return ra;
+                        }).collect(Collectors.toList()));
+                importAndExportList.addAll(pageExport.getContent().stream()
+                        .map(ra -> {
+                            ra.setType(SysConst.ImportOrExport.EXPORT.getCode());
+                            return ra;
+                        }).collect(Collectors.toList()));
+                importAndExportList = importAndExportList.stream()
+                        .sorted(Comparator.comparing(ReportArticle::getPublishDatetime))
+                        .distinct().collect(Collectors.toList());
+                result = listReportArticleToJSONArray(importAndExportList, null);
+
             } else if (Objects.equal(cityOrganization.getLevel(), SysConst.CityLevel.PROVINCE.getCode())) {
                 //省级
                 Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
@@ -143,7 +158,11 @@ public class IndexController extends BaseController {
         list.stream().forEach(reportArticle -> {
             String reportCode = reportArticle.getReportCode();
             JSONObject jo = new JSONObject();
-            jo.put("type", type);
+            if (type == null) {
+                jo.put("type", type);
+            } else {
+                jo.put("type", reportArticle.getType());
+            }
             jo.put("id", reportArticle.getId());
             jo.put("reportCode", reportCode);
             jo.put("title", reportArticle.getTitle());

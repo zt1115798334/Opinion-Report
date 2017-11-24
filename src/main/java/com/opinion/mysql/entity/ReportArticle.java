@@ -164,6 +164,9 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
     @Column(name = "modified_user_id", nullable = false)
     private Long modifiedUserId;
 
+    @Transient
+    private String type;
+
     public Long getId() {
         return id;
     }
@@ -338,6 +341,14 @@ public class ReportArticle extends BaseSortRequest implements Serializable {
 
     public void setModifiedUserId(Long modifiedUserId) {
         this.modifiedUserId = modifiedUserId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
