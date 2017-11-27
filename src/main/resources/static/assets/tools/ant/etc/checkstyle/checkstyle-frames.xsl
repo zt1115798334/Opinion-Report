@@ -28,7 +28,7 @@
     <xsl:param name="basedir" select="'.'"/>
 
     <xsl:template match="checkstyle">
-        <!-- create the index.ftl -->
+        <!-- create the ueditor.ftl -->
         <redirect:write file="{$output.dir}/index.html">
             <xsl:call-template name="index.html"/>
         </redirect:write>

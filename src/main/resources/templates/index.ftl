@@ -50,6 +50,7 @@
                     {id: 'qxgl', text: '权限管理', href: '/permission/permissionPage'},
                     {id: 'jsgl', text: '角色管理', href: '/system/roleManagementPage'},
                     {id: 'jsgl', text: '组织机构', href: '/system/organizationStructurePage'},
+                    {id: 'zxbjcs', text: '在线编辑测试', href: '/ueditor/ueditor'},
                     {id: 'csqxgl', text: '初始权限管理', href: '/permissionInit/permissionInitPage'},
                     {id: 'zxyhgl', text: '在线用户管理', href: '/user/onlineUserPage'},
                     {id: 'qxcsym', text: '权限测试页面', href: '/add'},
