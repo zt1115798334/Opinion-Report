@@ -82,6 +82,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             String newReportCode = SNUtil.create15();
             reportArticle.setReportCode(newReportCode);
             reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+            reportArticle.setAdoptDatetime(null);
+            reportArticle.setAdoptUserId(null);
             newReportArticle = save(reportArticle);
         }
         return newReportArticle;
