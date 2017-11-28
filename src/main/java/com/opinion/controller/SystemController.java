@@ -404,6 +404,26 @@ public class SystemController extends BaseController {
     }
 
     /**
+     * 查询用户所在的组织机构以及自己信息结构
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchCityOrganizationAndChild", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchCityOrganizationAndChild() {
+        Long userId = new SysUserConst().getUserId();
+        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
+        JSONObject result = new JSONObject();
+        if (cityOrganizationSysUser != null) {
+            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
+            CityOrganization cityOrganization = cityOrganizationService.findAndChildById(cityOrganizationId);
+            result.put("cityOrganization", cityOrganization);
+        }
+        return success(result);
+    }
+
+
+    /**
      * 保存用户信息
      *
      * @param sysUser 用户信息

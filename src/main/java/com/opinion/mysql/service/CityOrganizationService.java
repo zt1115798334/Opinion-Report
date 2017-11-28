@@ -27,6 +27,13 @@ public interface CityOrganizationService {
     CityOrganization findById(Long id);
 
     /**
+     * 查询自己以及自己信息
+     * @param id
+     * @return
+     */
+    CityOrganization findAndChildById(Long id);
+
+    /**
      * 根据用户id查询省市区组织信息
      *
      * @param userId 用户id
@@ -66,4 +73,5 @@ public interface CityOrganizationService {
      * @return
      */
     boolean isExistChildByParentId(Long parentId);
+
 }

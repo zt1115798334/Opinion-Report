@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 省市区组织信息表
@@ -47,6 +48,9 @@ public class CityOrganization implements Serializable {
     @Column(name = "level", nullable = false)
     private Integer level;
 
+    @Transient
+    List<CityOrganization> childInfo;
+
     public Long getId() {
         return id;
     }
@@ -85,6 +89,14 @@ public class CityOrganization implements Serializable {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public List<CityOrganization> getChildInfo() {
+        return childInfo;
+    }
+
+    public void setChildInfo(List<CityOrganization> childInfo) {
+        this.childInfo = childInfo;
     }
 
     @Override

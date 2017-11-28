@@ -43,6 +43,17 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     }
 
     @Override
+    public CityOrganization findAndChildById(Long id) {
+        CityOrganization cityOrganization = this.findById(id);
+        if (this.isExistChildByParentId(id)) {
+            List<CityOrganization> cityOrganizations = this.findByParentId(id);
+            cityOrganizations.stream().forEach(co -> findAndChildById(co.getId()));
+            cityOrganization.setChildInfo(cityOrganizations);
+        }
+        return cityOrganization;
+    }
+
+    @Override
     public CityOrganization findByUserId(Long userId) {
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
         CityOrganization cityOrganization = null;

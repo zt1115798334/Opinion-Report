@@ -18,7 +18,7 @@
 <body>
 <div>
     <label for="title" class="col-md-2 control-label">新闻详情</label>
-    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+    <div><script id="editor" type="text/plain" style="width:1024px;height:500px;"></script></div>
 </div>
 <div id="btns">
     <div>
