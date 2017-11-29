@@ -28,7 +28,7 @@ $(function () {
     })
 
     var params = {
-        reportArticleId: 1
+        reportCode: reportCode
     }
     searchReportArticleLogFun(params);
 });

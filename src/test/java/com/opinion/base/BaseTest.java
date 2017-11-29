@@ -14,4 +14,5 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 public class BaseTest {
+
 }

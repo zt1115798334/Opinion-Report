@@ -9,7 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11"/>
     <#include "/public/public.ftl"/>
 
-
     <style type="text/css">
         .fixed-table-toolbar {
             display: none;
