@@ -16,14 +16,6 @@ $(function () {
     };
 
     /**
-     * 删除操作
-     */
-    $(document).on("click", ".delete", function () {
-        var id = $(this).attr("rowId");
-        deleteReportArticleFun(id);
-    });
-
-    /**
      * 查看详情操作
      */
     $(document).on("click", ".detailsBtn", function () {
@@ -114,7 +106,6 @@ function searchReportArticleInChildPageFun() {
             formatter: function (value, row, index) {
                 var _html = "";
                 _html += "<button class=\"detailsBtn\"  type=\"button\" rowReportCode=\"" + row.reportCode + "\">详情</button>";
-                _html += "<button class=\"delete\" type=\"button\" rowId=\"" + row.id + "\">删除</button>";
                 return _html;
             }
         }],
@@ -153,26 +144,4 @@ function searchReportArticleInChildPageFun() {
     };
 
     $("#table-report").bootstrapTable("destroy").bootstrapTable(options);
-}
-
-/**
- * 删除上报信息
- */
-function deleteReportArticleFun(id) {
-    var url = "/reportArticle/deleteReportArticle";
-    var params = {
-        id: id
-    };
-    execAjax(url, params, callback);
-
-    function callback(result) {
-        if (result.success) {
-            bootstrapTableRefresh();
-            alert(result.data.msg);
-        }
-    }
-}
-
-function bootstrapTableRefresh() {
-    $("#table-report").bootstrapTable('refresh');
 }
