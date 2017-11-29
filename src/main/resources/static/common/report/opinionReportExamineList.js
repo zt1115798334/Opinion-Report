@@ -1,17 +1,17 @@
 $(function () {
-    searchReportArticlePageFun();
+    searchReportArticleInChildPageFun();
 
     /**
      * 点击搜索操作
      */
     $(document).on("click", ".whiteButton", function () {
-        searchReportArticlePageFun();
+        searchReportArticleInChildPageFun();
     });
 
     document.onkeydown = function (e) {
         var ev = document.all ? window.event : e;
         if (ev.keyCode == 13) {
-            searchReportArticlePageFun();
+            searchReportArticleInChildPageFun();
         }
     };
 
@@ -28,21 +28,16 @@ $(function () {
      */
     $(document).on("click", ".detailsBtn", function () {
         var reportCode = $(this).attr("rowReportCode");
-        window.location.href = "/reportArticle/opinionReportInfoPage/" + reportCode;
+        window.location.href = "/reportArticle/opinionReportExaminePage/" + reportCode;
     });
 
-    /**
-     * 上报舆情界面操作
-     */
-    $(document).on("click", ".modalBtn", function () {
-        window.location.href = "/reportArticle/opinionReportInfoPage/0" ;
-    });
+
 });
 
 /**
  * 显示列表
  */
-function searchReportArticlePageFun() {
+function searchReportArticleInChildPageFun() {
 
     var title = $(".title").val().trim();
     var adoptState = $(".adoptState").find("option:selected").val();
@@ -134,7 +129,7 @@ function searchReportArticlePageFun() {
         pageNumber: 1,
         pageSize: 10,
         dataType: "json",
-        url: '/reportArticle/searchReportArticlePage',
+        url: '/reportArticle/searchReportArticleInChildPage',
         pageList: [10000],
         queryParamsType: '',
         formatNoMatches: function () {

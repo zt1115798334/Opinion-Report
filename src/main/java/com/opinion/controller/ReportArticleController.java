@@ -53,6 +53,16 @@ public class ReportArticleController extends BaseController {
     /**
      * 跳转上报文章(审核)页面
      *
+     * @return
+     */
+    @RequestMapping(value = "opinionReportExamineListPage", method = RequestMethod.GET)
+    public String opinionReportExamineListPage() {
+        return "/report/opinionReportExamineList";
+    }
+
+    /**
+     * 跳转上报文章(审核)页面
+     *
      * @param model
      * @param reportCode 上报编号
      * @return
@@ -63,6 +73,21 @@ public class ReportArticleController extends BaseController {
         logger.info("请求 opinionReportExaminePage 方法，reportCode:{}", reportCode);
         model.addAttribute("reportCode", reportCode);
         return "/report/opinionReportExamine";
+    }
+
+    /**
+     * 跳转上报文章详情页面
+     *
+     * @param model
+     * @param reportCode 上报编号
+     * @return
+     */
+    @RequestMapping(value = "opinionReportInfoPage/{reportCode}", method = RequestMethod.GET)
+    public String opinionReportInfoPage(Model model,
+                                        @PathVariable String reportCode) {
+        logger.info("请求 opinionReportInfoPage 方法，reportCode:{}", reportCode);
+        model.addAttribute("reportCode", reportCode);
+        return "/report/opinionReportInfo";
     }
 
     /**
@@ -104,10 +129,10 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticleInChildPage", method = RequestMethod.POST)
     @ResponseBody
-    public Object searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
-        logger.info("请求 searchReportArticleInChild 方法，reportArticle:{}", reportArticle);
+    public Object searchReportArticleInChildPage(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 searchReportArticleInChildPage 方法，reportArticle:{}", reportArticle);
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
@@ -199,15 +224,15 @@ public class ReportArticleController extends BaseController {
         list.stream()
                 .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
                 .forEach(reportArticleLog -> {
-            JSONObject jo = new JSONObject();
-            String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
-            SysUser sysUser = sysUserService.findById(reportArticleLog.getCreatedUserId());
-            StringBuilder sb = new StringBuilder();
-            sb.append("用户：").append(sysUser.getUserName()).append(adopStateVal);
-            jo.put("msg", sb.toString());
-            jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
-            result.add(jo);
-        });
+                    JSONObject jo = new JSONObject();
+                    String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
+                    SysUser sysUser = sysUserService.findById(reportArticleLog.getCreatedUserId());
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("用户：").append(sysUser.getUserName()).append(adopStateVal);
+                    jo.put("msg", sb.toString());
+                    jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
+                    result.add(jo);
+                });
         return success(result);
     }
 

@@ -9,5 +9,7 @@
 <body>
 <input id="reportCode" value="${reportCode}" type="hidden">
 
+<script src="/common/utils.js"></script>
+<script src="/common/report/opinionReportInfo.js"></script>
 </body>
 </html>

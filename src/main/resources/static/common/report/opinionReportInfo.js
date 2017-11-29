@@ -1,5 +1,12 @@
 $(function () {
 
+    var reportCode = $("#reportCode").val();
+    if (reportCode == 0) {
+        alert("添加操作");
+    }else{
+        alert("显示详情操作");
+    }
+
     $(document).on("click", ".submit", function () {
         var title = $(".title").val();
         var sourceType = $(".source_type").val();
