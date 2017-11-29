@@ -190,9 +190,9 @@ public class SysConst {
 
     public enum ReportLevel {
 
-        RED("red", "红色"),
-        ORANGE("orange", "橙色"),
-        YELLOW("yellow", "黄色");
+        RED("2red", "红色"),
+        ORANGE("1orange", "橙色"),
+        YELLOW("0yellow", "黄色");
 
         private String code;
         private String name;

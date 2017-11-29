@@ -62,7 +62,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         reportArticle.setReportCode(SNUtil.create15());
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
         reportArticle.setPublishDatetime(currentDatetime);
-        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+//        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setExpireDate(DateUtils.currentDateAfterSevenDays().toLocalDate());
         reportArticle.setCreatedDate(currentDate);
         reportArticle.setCreatedDatetime(currentDatetime);
@@ -120,8 +120,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         };
         Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
-                reportArticle.getSortParam(),
-                reportArticle.getSortParam());
+                reportArticle.getSortName(),
+                reportArticle.getSortOrder());
         Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
         return result;
     }
@@ -132,25 +132,29 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                List<Predicate> predicates = Lists.newArrayList();
                 CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
                 userId.forEach(userid -> in.value(userid));
-                query.where(in);
+                predicates.add(in);
                 if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), reportArticle.getTitle())));
+                    predicates.add(builder.like(root.get("title").as(String.class), reportArticle.getTitle()));
                 }
-                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
-                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                if (StringUtils.isNotEmpty(reportArticle.getAdoptState())) {
+                    predicates.add(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState()));
                 }
                 if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
-                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                    predicates.add(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType()));
                 }
-                return null;
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
-                reportArticle.getSortParam(),
-                reportArticle.getSortParam());
+                reportArticle.getSortName(),
+                reportArticle.getSortOrder());
         Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
         return result;
     }
@@ -167,8 +171,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         };
         Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
-                reportArticle.getSortParam(),
-                reportArticle.getSortParam());
+                reportArticle.getSortName(),
+                reportArticle.getSortOrder());
         Page<ReportArticle> result = reportArticleRepository.findAll(specification, pageable);
         return result;
     }

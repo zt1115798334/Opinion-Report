@@ -113,9 +113,9 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public Object searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 searchReportArticlePage 方法，reportArticle:{}", reportArticle);
-        if (StringUtils.isEmpty(reportArticle.getSortParam())) {
-            reportArticle.setSortParam("publishDatetime");
-            reportArticle.setSortType("desc");
+        if (StringUtils.isEmpty(reportArticle.getSortName())) {
+            reportArticle.setSortName("publishDatetime");
+            reportArticle.setSortOrder("desc");
         }
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
@@ -133,11 +133,15 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public Object searchReportArticleInChildPage(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 searchReportArticleInChildPage 方法，reportArticle:{}", reportArticle);
+        if (StringUtils.isEmpty(reportArticle.getSortName())) {
+            reportArticle.setSortName("publishDatetime");
+            reportArticle.setSortOrder("desc");
+        }
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByInChild(reportArticle);
         JSONObject result = pageReportArticleToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     /**

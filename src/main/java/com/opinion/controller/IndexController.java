@@ -111,8 +111,8 @@ public class IndexController extends BaseController {
         reportArticle.setCreatedUserId(userId);
         reportArticle.setPageNumber(1);
         reportArticle.setPageSize(10);
-        reportArticle.setSortType(SysConst.Sort.DESC.getCode());
-        reportArticle.setSortParam("publishDatetime");
+        reportArticle.setSortOrder(SysConst.Sort.DESC.getCode());
+        reportArticle.setSortName("publishDatetime");
 
         JSONArray result = new JSONArray();
         if (cityOrganization != null) {

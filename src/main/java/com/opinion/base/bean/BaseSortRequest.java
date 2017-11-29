@@ -2,7 +2,6 @@ package com.opinion.base.bean;
 
 
 import javax.persistence.Transient;
-import java.time.LocalDateTime;
 
 /**
  * @author zhangtong
@@ -13,13 +12,13 @@ public abstract class BaseSortRequest {
      * 需要排序的字段
      */
     @Transient
-    private String sortParam;
+    private String sortName;
 
     /**
      * 排序类型
      */
     @Transient
-    private String sortType;
+    private String sortOrder;
 
     /**
      * 页数
@@ -41,20 +40,20 @@ public abstract class BaseSortRequest {
 
 
 
-    public String getSortParam() {
-        return sortParam;
+    public String getSortName() {
+        return sortName;
     }
 
-    public void setSortParam(String sortParam) {
-        this.sortParam = sortParam;
+    public void setSortName(String sortName) {
+        this.sortName = sortName;
     }
 
-    public String getSortType() {
-        return sortType;
+    public String getSortOrder() {
+        return sortOrder;
     }
 
-    public void setSortType(String sortType) {
-        this.sortType = sortType;
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public int getPageNumber() {

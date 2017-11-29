@@ -144,8 +144,8 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         };
         Pageable pageable = PageUtils.buildPageRequest(issuedNotice.getPageNumber(),
                 issuedNotice.getPageSize(),
-                issuedNotice.getSortParam(),
-                issuedNotice.getSortParam());
+                issuedNotice.getSortName(),
+                issuedNotice.getSortOrder());
         Page<IssuedNotice> result = issuedNoticeRepository.findAll(specification, pageable);
         return result;
     }
@@ -174,8 +174,8 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         };
         Pageable pageable = PageUtils.buildPageRequest(issuedNotice.getPageNumber(),
                 issuedNotice.getPageSize(),
-                issuedNotice.getSortParam(),
-                issuedNotice.getSortParam());
+                issuedNotice.getSortName(),
+                issuedNotice.getSortOrder());
         Page<IssuedNotice> result = issuedNoticeRepository.findAll(specification, pageable);
         return result;
     }

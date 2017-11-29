@@ -75,12 +75,14 @@ function searchReportArticlePageFun() {
             field: 'reportLevel',
             title: "等级",
             align: "center",
+            sortable: true,
             valign: "middle",
 
         }, {
             field: 'replyNumber',
             title: "影响范围",
             align: "center",
+            sortable: true,
             valign: "middle",
 
         }, {
@@ -149,7 +151,8 @@ function searchReportArticlePageFun() {
                 title: title,
                 adoptState: adoptState,
                 sourceType: sourceType,
-                sortType: params.sortOrder,
+                sortName: params.sortName,
+                sortOrder: params.sortOrder,
                 pageSize: params.pageSize,
                 pageNumber: params.pageNumber
             }

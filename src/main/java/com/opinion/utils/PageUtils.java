@@ -12,27 +12,27 @@ public class PageUtils {
     /**
      * @param page      当前页
      * @param size      每页条数
-     * @param sortParam  排序字段
-     * @param sortType 排序方向
+     * @param sortName  排序字段
+     * @param sortOrder 排序方向
      */
-    public static PageRequest buildPageRequest(int page, int size, String sortParam, String sortType) {
+    public static PageRequest buildPageRequest(int page, int size, String sortName, String sortOrder) {
         Sort sort = null;
-        if (!StringUtils.isNotBlank(sortParam)) {
+        if (!StringUtils.isNotBlank(sortName)) {
             return new PageRequest(page - 1, size);
-        } else if (StringUtils.isNotBlank(sortType)) {
-            if (Sort.Direction.ASC.equals(sortType)) {
-                sort = new Sort(Sort.Direction.ASC, sortParam);
+        } else if (StringUtils.isNotBlank(sortOrder)) {
+            if (sortOrder.equalsIgnoreCase(Sort.Direction.ASC.toString())) {
+                sort = new Sort(Sort.Direction.ASC, sortName);
             } else {
-                sort = new Sort(Sort.Direction.DESC, sortParam);
+                sort = new Sort(Sort.Direction.DESC, sortName);
             }
             return new PageRequest(page - 1, size, sort);
         } else {
-            sort = new Sort(Sort.Direction.ASC, sortParam);
+            sort = new Sort(Sort.Direction.ASC, sortName);
             return new PageRequest(page - 1, size, sort);
         }
     }
 
-    public static PageRequest buildPageRequest(int page, int size, String sortParam) {
-        return buildPageRequest(page, size, sortParam, null);
+    public static PageRequest buildPageRequest(int page, int size, String sortName) {
+        return buildPageRequest(page, size, sortName, null);
     }
 }
