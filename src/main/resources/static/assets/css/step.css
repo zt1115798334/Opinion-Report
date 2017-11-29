@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* 办案流程步骤样式 */
+.ui-step-wrap {
+	position: relative;
+}
+
+.ui-step-wrap .ui-step-bg,
+.ui-step-wrap .ui-step-progress {
+	height: 5px;
+	border-radius: 10px;
+	position: absolute;
+	top: 31px;
+	left: 0;
+}
+
+.ui-step-wrap .ui-step-bg {
+	width: 100%;
+	background: #ddd;
+}
+
+.ui-step-wrap .ui-step-progress {
+	width: 0;
+	background: #2b93f5;
+}
+
+.ui-step-wrap .ui-step {
+	padding-left:0;
+	position: relative;
+	z-index: 1;
+	list-style: none;
+}
+
+.ui-step-wrap .ui-step:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.ui-step-wrap .ui-step .ui-step-item {
+	float: left;
+}
+
+.ui-step-wrap .ui-step .ui-step-item div {
+	text-align: center;
+	color: #625454;
+}
+
+.ui-step-wrap .ui-step .ui-step-item .ui-step-item-num {
+	margin-top: 3px;
+}
+
+.ui-step-wrap .ui-step .ui-step-item .ui-step-item-name {
+	margin-top: 3px;
+}
+.ui-step-wrap .ui-step .ui-step-item .ui-step-item-num a {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	line-height: 20px;
+	border-radius: 50%;
+	color: #333 ;
+	background: #dad9d9;
+	border: 1.5px solid #fff;
+	position: absolute;
+    left: 50%;
+    margin-left: -12px;
+	z-index: 99;
+}
+ 
+.ui-step-wrap .ui-step .ui-step-item.active .ui-step-item-num a {
+	color: #fff;
+	background: #2b93f5;
+	border: 1.5px solid #fff;
+}
+.ui-step-wrap .ui-step .ui-step-item.active .ui-step-item-title {
+	color: #2b93f5;
+}

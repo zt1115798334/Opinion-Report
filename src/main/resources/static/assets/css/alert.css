@@ -1,0 +1,111 @@
+@charset "utf-8";
+/*弹框*/
+
+.logocbg{
+    background: #2b93f6 !important;
+}
+.logocbr{
+    border: #2b93f6 !important;
+}
+.borderRadiu3{
+    border-radius: 3px !important;
+}
+.Margin{
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+.MarginX30{
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+}
+.form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: right;
+    color: #333;
+    font-size: 13px;
+    font-family: "微软雅黑";
+    font-weight: 500;
+    margin: 0 10px;
+}
+.modal-header,.modal-footer{
+    border: 0;
+}
+.modalImg{
+    float: left;
+    background: url("../images/modalImg1.png") no-repeat;
+    background-size: cover;
+    width: 19px;
+    height: 23px;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+.colorwhite{
+    color: #fff !important;
+}
+/*肯定性按钮样式*/
+.sureBtn{
+    padding: 7px 22px;
+    background-image: linear-gradient(to right, #3e92ff 0%, #2eaeff 70%) !important;
+    color: #fff !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+    font-size: 13px;
+    box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -webkit-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -moz-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -o-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -ms-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+}
+/*否定性按钮样式*/
+.denyBtn{
+    padding: 7px 22px !important;
+    background: #f6f5f5 !important;
+    color: #333 !important;
+    border: 1px solid #d5d4d4 !important;
+    border-radius: 3px !important;
+    font-size: 13px;
+    box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -webkit-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -moz-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -o-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+    -ms-box-shadow:0px 2px 4px rgba(0,0,0,.1);
+}
+
+
+.bgno{
+	background:none;
+}
+.modeltitle{
+	font-size:16px;
+	text-align:center;
+	color:#464d5c;
+	font-weight:bold;
+}
+.sentence{
+	font-size:26px;
+	text-align:center;
+	color:#fd9315;
+	margin-top:25px;
+}
+.benchmark{
+	font-size:13px;
+	text-align:center;
+	color:#bec3c9;
+	margin-top:23px;
+}
+.footerss{
+	margin-bottom:50px;
+}
+.proposal{
+	font-size:16px;
+	text-align:center;
+	color:#169BD7;
+	margin-top:25px;
+}
+.proposal span{
+	font-size:26px;	
+	text-align:center;
+	color:#169BD7;
+	font-weight:bold;
+}
