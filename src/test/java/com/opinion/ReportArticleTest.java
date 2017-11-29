@@ -48,7 +48,7 @@ public class ReportArticleTest extends BaseTest {
 
         IntStream.rangeClosed(1, 50).forEach(i -> {
             ReportArticle reportArticle = new ReportArticle();
-            reportArticle.setTitle("携程亲子园事件最新进展：更多虐童视");
+            reportArticle.setTitle("魅族开始发行MX7");
             reportArticle.setSourceType(TestUtils.randomGetString(SourceType));
             reportArticle.setReportLevel(TestUtils.randomGetString(ReportLevel));
             reportArticle.setReplyType(TestUtils.randomGetString(ReplyType));

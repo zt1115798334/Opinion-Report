@@ -3,6 +3,13 @@ $(function () {
     searchReportArticlePageFun();
 
     /**
+     * 点击搜索操作
+     */
+    $(document).on("click",".whiteButton",function () {
+        searchReportArticlePageFun();
+    });
+
+    /**
      * 删除操作
      */
     $(document).on("click", ".delete", function () {
@@ -24,6 +31,9 @@ $(function () {
  */
 function searchReportArticlePageFun() {
 
+    var title = $(".title").val().trim();
+    var adoptState = $(".adoptState").find("option:selected").val();
+    var sourceType = $(".sourceType").find("option:selected").val();
     var options = {
         columns: [{
             field: 'id',
@@ -123,7 +133,9 @@ function searchReportArticlePageFun() {
         },
         queryParams: function (params) {
             return {
-                sortParam: params.sortName,
+                title: title,
+                adoptState: adoptState,
+                sourceType: sourceType,
                 sortType: params.sortOrder,
                 pageSize: params.pageSize,
                 pageNumber: params.pageNumber
@@ -147,8 +159,12 @@ function deleteReportArticleFun(id) {
 
     function callback(result) {
         if (result.success) {
-            $("#table-report").bootstrapTable('refresh');
+            bootstrapTableRefresh();
             alert(result.data.msg);
         }
     }
+}
+
+function bootstrapTableRefresh() {
+    $("#table-report").bootstrapTable('refresh');
 }

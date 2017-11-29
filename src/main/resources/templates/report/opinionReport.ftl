@@ -26,22 +26,22 @@
                     <div class="portlet-header clearfix">
                         <div class="filterDiv">
                             <span>筛选条件：</span>
-                            <input type="text" class="inlineBlock marginX10 calendar-input" placeholder="请输入关键词">
+                            <input type="text" class="inlineBlock marginX10 calendar-input title" placeholder="请输入关键词">
                             <div class="dateDiv inlineBlock marginX10">
-                                <select class="selectpicker">
-                                    <option value="全部状态">全部状态</option>
-                                    <option value="已上报">已上报</option>
-                                    <option value="已采纳">已采纳</option>
-                                    <option value="未采纳">未采纳</option>
+                                <select class="selectpicker adoptState">
+                                    <option value="">全部状态</option>
+                                    <option value="report">已上报</option>
+                                    <option value="adopt">已采纳</option>
+                                    <option value="notAdopted">未采纳</option>
                                 </select>
                             </div>
                             <div class="dateDiv2 inlineBlock marginX10">
-                                <select class="selectpicker">
-                                    <option value="全部来源">全部来源</option>
-                                    <option value="网络">网络</option>
-                                    <option value="媒体">媒体</option>
-                                    <option value="现场">现场</option>
-                                    <option value="其他">其他</option>
+                                <select class="selectpicker sourceType">
+                                    <option value="">全部来源</option>
+                                    <option value="network">网络</option>
+                                    <option value="media">媒体</option>
+                                    <option value="scene">现场</option>
+                                    <option value="other">其他</option>
                                 </select>
                             </div>
                             <a href="javascript:void(0)" class="whiteButton">
