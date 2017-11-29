@@ -25,6 +25,10 @@ public class SysConst {
 
     public final static String DEFAULT_ADOPT_OPINION = "系统自动关闭";
 
+    public final static String REPLACE_STR = "...";
+
+    public final static Integer SPLIT_LEN = 10;
+
     public enum LoginStatus {
 
         EFFECTIVE("effective", "有效"),

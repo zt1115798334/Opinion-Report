@@ -20,7 +20,7 @@ public class PageUtils {
         if (!StringUtils.isNotBlank(sortName)) {
             return new PageRequest(page - 1, size);
         } else if (StringUtils.isNotBlank(sortOrder)) {
-            if (sortOrder.equalsIgnoreCase(Sort.Direction.ASC.toString())) {
+            if (StringUtils.equalsIgnoreCase(sortOrder, Sort.Direction.ASC.toString())) {
                 sort = new Sort(Sort.Direction.ASC, sortName);
             } else {
                 sort = new Sort(Sort.Direction.DESC, sortName);
