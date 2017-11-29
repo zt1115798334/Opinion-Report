@@ -137,7 +137,7 @@ function searchReportArticlePageFun() {
         pageSize: 10,
         dataType: "json",
         url: '/reportArticle/searchReportArticlePage',
-        pageList: [10000],
+        pageList: [10, 25, 50, 100],
         queryParamsType: '',
         formatNoMatches: function () {
             var _nodata = '<div class="text-center"><img src="../../images/no_data.png">'
