@@ -14,7 +14,8 @@ public class SysUserConst {
     }
 
     public Long getUserId() {
-        return getSysUser().getId();
+//        return getSysUser().getId();
+        return 1L;
     }
 
 }

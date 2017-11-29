@@ -411,7 +411,7 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "searchCityOrganizationAndChild", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchCityOrganizationAndChild() {
-        Long userId = new SysUserConst().getUserId();
+        Long userId = 1L;
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
         JSONObject result = new JSONObject();
         if (cityOrganizationSysUser != null) {

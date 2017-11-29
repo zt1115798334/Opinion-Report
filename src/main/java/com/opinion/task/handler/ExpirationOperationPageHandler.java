@@ -33,8 +33,8 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
             throw new IllegalArgumentException("查询对象不能为null");
         }
         this.filterObject = filterObject;
-        if (filterObject.getPageNum() == 0) {
-            this.filterObject.setPageNum(1);
+        if (filterObject.getPageNumber() == 0) {
+            this.filterObject.setPageNumber(1);
         }
         if (filterObject.getPageSize() == 0) {
             this.filterObject.setPageSize(SysConst.DEFAULT_BATCH_SIZE);
@@ -60,7 +60,7 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
 
     @Override
     protected Page<ReportArticle> getPageList(int pageNumber) {
-        filterObject.setPageNum(pageNumber);
+        filterObject.setPageNumber(pageNumber);
         return reportArticleService.findAdoptStatePage(filterObject);
     }
 }

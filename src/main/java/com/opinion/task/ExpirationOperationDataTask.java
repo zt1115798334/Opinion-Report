@@ -31,7 +31,7 @@ public class ExpirationOperationDataTask {
         reportArticle.setExpireDate(DateUtils.currentDate());
         reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setPageSize(SysConst.DEFAULT_BATCH_SIZE);
-        reportArticle.setPageNum(SysConst.DEFAULT_PAGE_NUMBER);
+        reportArticle.setPageNumber(SysConst.DEFAULT_PAGE_NUMBER);
         expirationOperationPageHandler.handle(reportArticle);
     }
 }

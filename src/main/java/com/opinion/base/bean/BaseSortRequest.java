@@ -25,7 +25,7 @@ public abstract class BaseSortRequest {
      * 页数
      */
     @Transient
-    private int pageNum;
+    private int pageNumber;
 
     /**
      * 每页显示数量
@@ -57,12 +57,12 @@ public abstract class BaseSortRequest {
         this.sortType = sortType;
     }
 
-    public int getPageNum() {
-        return pageNum;
+    public int getPageNumber() {
+        return pageNumber;
     }
 
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
     }
 
     public int getPageSize() {

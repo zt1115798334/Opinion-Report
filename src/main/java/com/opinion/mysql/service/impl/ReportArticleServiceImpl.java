@@ -1,5 +1,6 @@
 package com.opinion.mysql.service.impl;
 
+import com.google.common.collect.Lists;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
@@ -99,20 +100,25 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), reportArticle.getCreatedUserId())));
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(builder.equal(root.get("createdUserId").as(Long.class), reportArticle.getCreatedUserId()));
                 if (StringUtils.isNotEmpty(reportArticle.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), "%" + reportArticle.getTitle() + "%")));
+                    predicates.add(builder.like(root.get("title").as(String.class), "%" + reportArticle.getTitle() + "%"));
                 }
-                if (StringUtils.isEmpty(reportArticle.getAdoptState())) {
-                    query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                if (StringUtils.isNotEmpty(reportArticle.getAdoptState())) {
+                    predicates.add(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState()));
                 }
                 if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
-                    query.where(builder.and(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType())));
+                    predicates.add(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType()));
                 }
-                return null;
+
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
-        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
                 reportArticle.getSortParam(),
                 reportArticle.getSortParam());
@@ -141,7 +147,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
                 return null;
             }
         };
-        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
                 reportArticle.getSortParam(),
                 reportArticle.getSortParam());
@@ -159,7 +165,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
                 return null;
             }
         };
-        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNum(),
+        Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
                 reportArticle.getPageSize(),
                 reportArticle.getSortParam(),
                 reportArticle.getSortParam());

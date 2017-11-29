@@ -57,9 +57,9 @@ public class ReportArticleController extends BaseController {
      * @param reportCode 上报编号
      * @return
      */
-    @RequestMapping(value = "opinionReportExaminePage", method = RequestMethod.GET)
+    @RequestMapping(value = "opinionReportExaminePage/{reportCode}", method = RequestMethod.GET)
     public String opinionReportExaminePage(Model model,
-                                           @RequestBody String reportCode) {
+                                           @PathVariable String reportCode) {
         logger.info("请求 opinionReportExaminePage 方法，reportCode:{}", reportCode);
         model.addAttribute("reportCode", reportCode);
         return "/report/opinionReportExamine";
@@ -86,9 +86,9 @@ public class ReportArticleController extends BaseController {
      */
     @RequestMapping(value = "searchReportArticlePage", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
+    public Object searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 searchReportArticlePage 方法，reportArticle:{}", reportArticle);
-        if (StringUtils.isNotEmpty(reportArticle.getSortParam())) {
+        if (StringUtils.isEmpty(reportArticle.getSortParam())) {
             reportArticle.setSortParam("publishDatetime");
             reportArticle.setSortType("desc");
         }
@@ -96,7 +96,7 @@ public class ReportArticleController extends BaseController {
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByCreateUser(reportArticle);
         JSONObject result = pageReportArticleToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     /**
@@ -106,7 +106,7 @@ public class ReportArticleController extends BaseController {
      */
     @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
+    public Object searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 searchReportArticleInChild 方法，reportArticle:{}", reportArticle);
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
@@ -238,12 +238,11 @@ public class ReportArticleController extends BaseController {
             jo.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
             jo.put("replyNumber", reportArticle.getReplyNumber());
             jo.put("adoptState", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
-            jo.put("replyNumber", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
-        result.put("totalElements", page.getTotalElements());
-        result.put("totalPages", page.getTotalPages());
-        result.put("list", ja);
+        result.put("total", page.getTotalElements());
+        result.put("rows", ja);
         return result;
     }
 

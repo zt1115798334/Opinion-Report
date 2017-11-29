@@ -109,7 +109,7 @@ public class IndexController extends BaseController {
 
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setCreatedUserId(userId);
-        reportArticle.setPageNum(1);
+        reportArticle.setPageNumber(1);
         reportArticle.setPageSize(10);
         reportArticle.setSortType(SysConst.Sort.DESC.getCode());
         reportArticle.setSortParam("publishDatetime");
