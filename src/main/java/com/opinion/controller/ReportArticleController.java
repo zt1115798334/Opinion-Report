@@ -2,7 +2,6 @@ package com.opinion.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.base.Objects;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -255,8 +254,14 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult saveReportArticleAgain(@RequestParam String reportCode) {
         logger.info("请求 saveReportArticleAgain 方法，reportCode:{}", reportCode);
-        reportArticleService.saveAgain(reportCode);
-        return success("上报成功");
+        ReportArticle reportArticle = reportArticleService.saveAgain(reportCode);
+        JSONObject result = new JSONObject();
+        if (reportArticle != null) {
+            result.put("msg", "上报成功");
+        } else {
+            result.put("msg", "上报失败");
+        }
+        return success(result);
     }
 
     private JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page) {
