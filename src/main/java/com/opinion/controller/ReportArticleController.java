@@ -66,15 +66,16 @@ public class ReportArticleController extends BaseController {
      *
      * @param model
      * @param reportCode 上报编号
+     * @param type       类型  info 查看详情   examine 审核
      * @return
      */
-    @RequestMapping(value = "opinionReportExaminePage/{reportCode}/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "opinionReportExaminePage/{type}/{reportCode}", method = RequestMethod.GET)
     public String opinionReportExaminePage(Model model,
-                                           @PathVariable String reportCode,
-                                           @PathVariable String type) {
+                                           @PathVariable String type,
+                                           @PathVariable String reportCode) {
         logger.info("请求 opinionReportExaminePage 方法，reportCode:{},type:{}", reportCode, type);
-        model.addAttribute("reportCode", reportCode);
         model.addAttribute("type", type);
+        model.addAttribute("reportCode", reportCode);
         return "/report/opinionReportExamine";
     }
 
