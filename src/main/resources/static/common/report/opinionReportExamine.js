@@ -55,7 +55,6 @@ function searchReportArticleByCodeFun(params, editor) {
 
     function callback(result) {
         if (result.success) {
-            console.log(result);
             var data = result.data;
             var id = data.id;
             var reportCode = data.reportCode;
@@ -89,7 +88,6 @@ function searchReportArticleLogFun(params) {
 
     function callback(result) {
         if (result.success) {
-            console.log(result);
             var data = result.data;
             var html = "";
             for (var i in data) {
