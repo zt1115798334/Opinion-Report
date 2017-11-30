@@ -45,8 +45,8 @@ public class WangEditorController {
         List<UploadFile> files = fileUploadUtil.getFiles(request, filePath);
         JSONObject result = new JSONObject();
         result.put("errno", "0");
+        JSONArray ja = new JSONArray();
         files.stream().forEach(file -> {
-            JSONArray ja = new JSONArray();
             ImageInfo imageInfo = new ImageInfo();
             imageInfo.setFileUrl(file.file.getPath());
             imageInfo.setFileSize(file.getFileSize());
@@ -57,8 +57,8 @@ public class WangEditorController {
             imageInfo.setSuffixName(file.getSuffixName());
             imageInfo = imageInfoService.save(imageInfo);
             ja.add("/wangEditor/show/" + imageInfo.getId());
-            result.put("data", ja);
         });
+        result.put("data", ja);
         System.out.println("result = " + result.toJSONString());
         return result;
     }

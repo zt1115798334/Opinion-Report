@@ -68,6 +68,7 @@ function searchReportArticleByCodeFun(params, editor) {
             var reportCause = data.reportCause;
             var adoptState = data.adoptState;
             var adoptStateMsg = data.adoptStateMsg;
+            $(".title").html(title)
             $(".sourceType").html(sourceType);
             $(".reportLevel").html(reportLevel);
             $(".reply").html(replyType + replyNumber);
