@@ -356,7 +356,7 @@ iframe {
 }
 
 .dateDiv3 .bootstrap-select:not([class*=span]):not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-    width: 258px !important;
+    width: 260px !important;
 }
 
 .dateDiv .btn,
@@ -380,14 +380,21 @@ iframe {
 }
 
 .calendar-input {
-    width: 180px;
-    padding: 5px;
+    width: 260px;
+    padding: 6px;
     border: 1px solid #d5d5d5 !important;
     border-radius: 3px;
     color: #464d5c;
     font-size: 13px;
 }
-
+.calendar-input2{
+    width: 120px;
+    padding: 6px;
+    border: 1px solid #d5d5d5 !important;
+    border-radius: 3px;
+    color: #464d5c;
+    font-size: 13px;
+}
 .calendar-icon {
     display: none;
 }
