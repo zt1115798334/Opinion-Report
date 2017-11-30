@@ -131,15 +131,19 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         Specification<IssuedNotice> specification = new Specification<IssuedNotice>() {
             @Override
             public Predicate toPredicate(Root<IssuedNotice> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), issuedNotice.getCreatedUserId())));
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(builder.equal(root.get("createdUserId").as(Long.class), issuedNotice.getCreatedUserId()));
                 if (StringUtils.isNotEmpty(issuedNotice.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), "%" + issuedNotice.getTitle() + "%")));
+                    predicates.add(builder.like(root.get("title").as(String.class), "%" + issuedNotice.getTitle() + "%"));
 
                 }
                 if (StringUtils.isNotEmpty(issuedNotice.getReceiptState())) {
-                    query.where(builder.and(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState())));
+                    predicates.add(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState()));
                 }
-                return null;
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Pageable pageable = PageUtils.buildPageRequest(issuedNotice.getPageNumber(),
@@ -159,17 +163,21 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         Specification<IssuedNotice> specification = new Specification<IssuedNotice>() {
             @Override
             public Predicate toPredicate(Root<IssuedNotice> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                List<Predicate> predicates = Lists.newArrayList();
                 CriteriaBuilder.In<String> in = builder.in(root.get("noticeCode").as(String.class));
                 noticeCodes.forEach(noticeCode -> in.value(noticeCode));
-                query.where(in);
+                predicates.add(in);
                 if (StringUtils.isNotEmpty(issuedNotice.getTitle())) {
-                    query.where(builder.and(builder.like(root.get("title").as(String.class), "%" + issuedNotice.getTitle() + "%")));
+                    predicates.add(builder.like(root.get("title").as(String.class), "%" + issuedNotice.getTitle() + "%"));
 
                 }
                 if (StringUtils.isNotEmpty(issuedNotice.getReceiptState())) {
-                    query.where(builder.and(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState())));
+                    predicates.add(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState()));
                 }
-                return null;
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Pageable pageable = PageUtils.buildPageRequest(issuedNotice.getPageNumber(),

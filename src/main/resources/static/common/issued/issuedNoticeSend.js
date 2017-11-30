@@ -72,3 +72,7 @@ function deleteIssuedNoticeFun(id) {
         }
     }
 }
+
+function bootstrapTableRefresh() {
+    $("#table-report").bootstrapTable('refresh');
+}
