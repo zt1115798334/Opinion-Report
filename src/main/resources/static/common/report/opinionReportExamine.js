@@ -1,15 +1,28 @@
 $(function () {
 
     var reportCode = $("#reportCode").val();
-    if (reportCode == 0) {
-        alert("添加操作");
-    }else{
-        alert("显示详情操作");
+    var type = $("#type").val();
+    if (type == "info") { //详情
+        alert("详情");
+    } else if (type == "examine") {     // 审核
+        alert("审核");
     }
-
+    var params = {
+        reportCode:reportCode
+    }
+    searchReportArticleByCodeFun(params);
+    searchReportArticleLogFun(params);
 
 });
 
+function searchReportArticleByCodeFun(params) {
+    var url = "/reportArticle/searchReportArticleByCode";
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        console.log(result);
+    }
+}
 
 function searchReportArticleLogFun(params) {
     var url = "/reportArticle/searchReportArticleLog";

@@ -20,7 +20,7 @@ $(function () {
      */
     $(document).on("click", ".detailsBtn", function () {
         var reportCode = $(this).attr("rowReportCode");
-        window.location.href = "/reportArticle/opinionReportExaminePage/" + reportCode;
+        window.location.href = "/reportArticle/opinionReportExaminePage/examine/" + reportCode;
     });
 
 

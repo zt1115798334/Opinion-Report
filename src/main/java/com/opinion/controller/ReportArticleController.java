@@ -175,10 +175,10 @@ public class ReportArticleController extends BaseController {
      * @param reportCode 上报编号
      * @return
      */
-    @RequestMapping(value = "searchReportArticleById", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticleByCode", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchReportArticleById(@RequestBody String reportCode) {
-        logger.info("请求 searchReportArticleById 方法，reportCode:{}", reportCode);
+    public AjaxResult searchReportArticleByCode(@RequestParam String reportCode) {
+        logger.info("请求 searchReportArticleByCode 方法，reportCode:{}", reportCode);
         ReportArticle reportArticle = reportArticleService.findOneByreportCode(reportCode);
         JSONObject result = new JSONObject();
         if (reportArticle != null) {
@@ -231,7 +231,7 @@ public class ReportArticleController extends BaseController {
         List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
         JSONArray result = new JSONArray();
         list.stream()
-                .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
+//                .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
                 .forEach(reportArticleLog -> {
                     JSONObject jo = new JSONObject();
                     String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
@@ -239,7 +239,7 @@ public class ReportArticleController extends BaseController {
                     StringBuilder sb = new StringBuilder();
                     sb.append("用户：").append(sysUser.getUserName()).append(adopStateVal);
                     jo.put("msg", sb.toString());
-                    jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
+                    jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT));
                     result.add(jo);
                 });
         return success(result);
