@@ -38,18 +38,34 @@ function execAjaxJSON(url, params, callback) {
         type: 'post',
         contentType: 'application/json',
         dataType: 'json',
-        data : JSON.stringify(params),
-        error: function(result) {
+        data: JSON.stringify(params),
+        error: function (result) {
             return false;
         },
-        success: function(result) {
+        success: function (result) {
             //console.log(JSON.stringify(result));
             if (result && (typeof(callback) == 'function')) {
                 callback(result);
             }
         },
-        beforeSend: _arguments.length>3 ? _arguments[3] : function () {   /*请求前*/ },
-        complete: _arguments.length>3 ? _arguments[4] : function () { /*请求结束后*/ }
+        beforeSend: _arguments.length > 3 ? _arguments[3] : function () {   /*请求前*/
+        },
+        complete: _arguments.length > 3 ? _arguments[4] : function () { /*请求结束后*/
+        }
+    });
+}
+
+
+function resetForm(id) {
+    $(':input', '#' + id)
+        .not(':button, :submit, :reset, :hidden')
+        .val('')
+        .removeAttr('checked')
+        .removeAttr('selected');
+    $("select.selectpicker").each(function () {
+        $(this).selectpicker('val', $(this).find('option:first').val());    //重置bootstrap-select显示
+        $(this).find("option").attr("selected", false);                    //重置原生select的值
+        $(this).find("option:first").attr("selected", true);
     });
 }
 

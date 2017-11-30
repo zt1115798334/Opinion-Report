@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhangtong
@@ -62,17 +63,32 @@ public class IssuedNoticeController extends BaseController {
      * 跳转通知下传详情页面
      *
      * @param model
+     * @param type       类型 info 查看详情 exec
      * @param noticeCode 通知编号
      * @return
      */
-    @RequestMapping(value = "issuedNoticeInfoPage", method = RequestMethod.GET)
+    @RequestMapping(value = "issuedNoticeInfoPage/{type}/noticeCode", method = RequestMethod.GET)
     public String issuedNoticeInfoPage(Model model,
-                                       @RequestParam String noticeCode) {
-        logger.info("请求 issuedNoticeInfoPage 方法，noticeCode：{}", noticeCode);
-        Long userId = new SysUserConst().getUserId();
-        issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
+                                       @PathVariable String type,
+                                       @PathVariable String noticeCode) {
+        logger.info("请求 issuedNoticeInfoPage 方法，type：{}，noticeCode：{}", type, noticeCode);
+        if (Objects.equals(type, SysConst.NoticeSeeType.INFO.getCode())) {
+            Long userId = new SysUserConst().getUserId();
+            issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
+        }
         model.addAttribute("noticeCode", noticeCode);
+        model.addAttribute("type", type);
         return "/issued/issuedNoticeInfo";
+    }
+
+    /**
+     * 舆情编辑页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "issuedNoticeInfoEditPage", method = RequestMethod.GET)
+    public String issuedNoticeInfoEditPage() {
+        return "issuedNoticeInfoEdit";
     }
 
     /**
@@ -85,8 +101,14 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 saveIssuedNotice 方法，issuedNotice：{}", issuedNotice);
-        issuedNoticeService.save(issuedNotice);
-        return success("添加成功");
+        issuedNotice = issuedNoticeService.save(issuedNotice);
+        JSONObject result = new JSONObject();
+        if (issuedNotice != null) {
+            result.put("msg", "保存成功");
+        } else {
+            result.put("msg", "保存失败");
+        }
+        return success(result);
     }
 
     /**
@@ -149,10 +171,10 @@ public class IssuedNoticeController extends BaseController {
      * @param noticeCode 通知编号
      * @return
      */
-    @RequestMapping(value = "searchIssuedNoticeByNoticeCode", method = RequestMethod.POST)
+    @RequestMapping(value = "searchIssuedNoticeByCode", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchIssuedNoticeByNoticeCode(@RequestParam String noticeCode) {
-        logger.info("请求 searchIssuedNoticeByNoticeCode 方法，noticeCode：{}", noticeCode);
+    public AjaxResult searchIssuedNoticeByCode(@RequestParam String noticeCode) {
+        logger.info("请求 searchIssuedNoticeByCode 方法，noticeCode：{}", noticeCode);
         Long userId = new SysUserConst().getUserId();
         IssuedNotice issuedNotice = issuedNoticeService.findOneByNoticeCode(noticeCode);
         JSONObject result = new JSONObject();

@@ -1,14 +1,12 @@
 $(function () {
 
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    editor.customConfig.debug = true;
-    editor.customConfig.menus = [
-    ]
-    editor.create();
-    editor.$textElem.attr('contenteditable', false);
-
-
+    // var E = window.wangEditor;
+    // var editor = new E('#editor');
+    // editor.customConfig.debug = true;
+    // editor.customConfig.menus = [
+    // ]
+    // editor.create();
+    // editor.$textElem.attr('contenteditable', false);
 
     var reportCode = $("#reportCode").val();
     var type = $("#type").val();
@@ -19,7 +17,7 @@ $(function () {
     }
     var params = {
         reportCode: reportCode
-    }
+    };
     searchReportArticleByCodeFun(params);
     searchReportArticleLogFun(params);
 

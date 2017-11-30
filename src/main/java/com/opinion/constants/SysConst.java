@@ -448,6 +448,26 @@ public class SysConst {
         }
     }
 
+    public enum NoticeSeeType {
 
+        INFO("info ", "查看"),
+        EXEC("exec", "执行");
+
+        private String code;
+        private String name;
+
+        NoticeSeeType(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
 }

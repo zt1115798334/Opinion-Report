@@ -108,17 +108,8 @@ function saveReportArticleFun(params, editor) {
     function callback(result) {
         if (result.success) {
             alert(result.data.msg);
-            $(':input', '#opinionReportForm')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .removeAttr('checked')
-                .removeAttr('selected');
             editor.txt.html('');
-            $("select.selectpicker").each(function () {
-                $(this).selectpicker('val', $(this).find('option:first').val());    //重置bootstrap-select显示
-                $(this).find("option").attr("selected", false);                    //重置原生select的值
-                $(this).find("option:first").attr("selected", true);
-            });
+            resetForm("opinionReportForm");
         }
 
     }
