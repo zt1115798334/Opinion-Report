@@ -37,7 +37,7 @@
                                         影响范围：<span class="reply"></span>
                                     </div>
                                     <div class="col-md-6 noPaddingX">
-                                        链接网址：<a href="" class="colorfive sourceUrl"></a>
+                                        链接网址：<a href="" class="colorfive sourceUrl" target="_blank"></a>
                                     </div>
                                 </div>
                             </div>

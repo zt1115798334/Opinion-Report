@@ -97,8 +97,8 @@ public class SysConst {
 
     public enum ReplyType {
 
-        CLICK("click", "点击"),
-        COMMENT("comment", "评论"),
+        CLICK("click", "点击数"),
+        COMMENT("comment", "评论数"),
         ESTIMATE("estimate", "预估值");
 
         private String code;

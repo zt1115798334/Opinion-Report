@@ -10,10 +10,10 @@ $(function () {
     var reportCode = $("#reportCode").val();
     var type = $("#type").val();
     if (type == "info") { //详情
-        $(".adoptBtn").hide();
-        $(".report").hide();
+        $(".adoptBtn").remove();
+        $(".report").remove();
     } else if (type == "examine") {     // 审核
-        $(".return").hide();
+        $(".return").remove();
     }
     var params = {
         reportCode: reportCode
@@ -73,6 +73,7 @@ function searchReportArticleByCodeFun(params, editor) {
             $(".reportLevel").html(reportLevel);
             $(".reply").html(replyType + replyNumber);
             $(".sourceUrl").html(sourceUrl);
+            $(".sourceUrl").attr("href", sourceUrl);
             editor.txt.html(reportCause);
         }
     }
