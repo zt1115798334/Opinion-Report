@@ -235,21 +235,4 @@ public class DateUtils {
         return result;
     }
 
-    /**
-     * 获取下一天日期
-     *
-     * @return
-     */
-    public static Date getNextDay() {
-        try {
-            Thread.sleep(24 * 60 * 60 * 10000);
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-        return new Date();
-    }
-
-//    public static void main(String[] args) {
-//
-//    }
 }
