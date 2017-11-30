@@ -8,7 +8,7 @@ $(function () {
     editor.customConfig.uploadImgHeaders = {
         'Accept': 'application/json'
     }
-    editor.customConfig.debug = true
+    editor.customConfig.debug = true;
     editor.create();
 
     /**
