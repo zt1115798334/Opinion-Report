@@ -28,14 +28,14 @@ $(function () {
      */
     $(document).on("click", ".detailsBtn", function () {
         var reportCode = $(this).attr("rowReportCode");
-        window.location.href = "/reportArticle/opinionReportInfoPage/" + reportCode;
+        window.location.href = "/reportArticle/opinionReportExaminePage/" + reportCode+"/info";
     });
 
     /**
-     * 上报舆情界面操作
+     * 上报舆情添加界面操作
      */
     $(document).on("click", ".modalBtn", function () {
-        window.location.href = "/reportArticle/opinionReportInfoPage/0" ;
+        window.location.href = "/reportArticle/opinionReportEditPage" ;
     });
 });
 

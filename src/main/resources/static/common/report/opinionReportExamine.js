@@ -9,3 +9,13 @@ $(function () {
 
 
 });
+
+
+function searchReportArticleLogFun(params) {
+    var url = "/reportArticle/searchReportArticleLog";
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        console.log(result);
+    }
+}

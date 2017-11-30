@@ -68,27 +68,24 @@ public class ReportArticleController extends BaseController {
      * @param reportCode 上报编号
      * @return
      */
-    @RequestMapping(value = "opinionReportExaminePage/{reportCode}", method = RequestMethod.GET)
+    @RequestMapping(value = "opinionReportExaminePage/{reportCode}/{type}", method = RequestMethod.GET)
     public String opinionReportExaminePage(Model model,
-                                           @PathVariable String reportCode) {
-        logger.info("请求 opinionReportExaminePage 方法，reportCode:{}", reportCode);
+                                           @PathVariable String reportCode,
+                                           @PathVariable String type) {
+        logger.info("请求 opinionReportExaminePage 方法，reportCode:{},type:{}", reportCode, type);
         model.addAttribute("reportCode", reportCode);
+        model.addAttribute("type", type);
         return "/report/opinionReportExamine";
     }
 
     /**
-     * 跳转上报文章详情页面
+     * 跳转上报文章添加页面
      *
-     * @param model
-     * @param reportCode 上报编号
      * @return
      */
-    @RequestMapping(value = "opinionReportInfoPage/{reportCode}", method = RequestMethod.GET)
-    public String opinionReportInfoPage(Model model,
-                                        @PathVariable String reportCode) {
-        logger.info("请求 opinionReportInfoPage 方法，reportCode:{}", reportCode);
-        model.addAttribute("reportCode", reportCode);
-        return "/report/opinionReportInfo";
+    @RequestMapping(value = "opinionReportEditPage", method = RequestMethod.GET)
+    public String opinionReportEditPage() {
+        return "/report/opinionReportEdit";
     }
 
     /**
@@ -101,8 +98,14 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 saveReportArticle 方法，reportArticle:{}", reportArticle);
-        reportArticleService.save(reportArticle);
-        return success("添加成功");
+        reportArticle = reportArticleService.save(reportArticle);
+        JSONObject result = new JSONObject();
+        if (reportArticle != null) {
+            result.put("msg", "添加成功");
+        } else {
+            result.put("msg", "添加失败");
+        }
+        return success(result);
     }
 
     /**

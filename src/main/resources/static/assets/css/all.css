@@ -1,23 +1,12 @@
 @charset "utf-8";
-
+body,html,#wrapper{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
 /*header部分*/
-
-iframe {
-    width: 100%;
-    border: 0;
-}
-
-.iframe_top {
-    height: 70px;
-}
-
-.iframe_bottom {
-    height: 70px;
-    position: absolute;
-    bottom: 0;
-    background-color: #292f43;
-}
-
 .header {
     width: 100%;
     height: 67px;

@@ -723,3 +723,12 @@ tr:hover .textareaName {
 button:hover{
     background-color: rgba(13,121,209,.06);
 }
+.control-label{
+    padding-top: 7px;
+    text-align: right;
+    font-size: 13px;
+    color: #333;
+}
+.help-block{
+    color: #ff0000;
+}

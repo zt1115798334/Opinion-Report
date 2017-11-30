@@ -62,7 +62,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         reportArticle.setReportCode(SNUtil.create15());
         reportArticle.setReportSource(SysConst.ReportSource.ARTIFICIAL.getCode());
         reportArticle.setPublishDatetime(currentDatetime);
-//        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+        reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
         reportArticle.setExpireDate(DateUtils.currentDateAfterSevenDays().toLocalDate());
         reportArticle.setCreatedDate(currentDate);
         reportArticle.setCreatedDatetime(currentDatetime);

@@ -33,16 +33,16 @@
     //        'italic',
     //        'underline'
     //    ]
-    //    editor.customConfig.lang = {
-    //        '设置标题': 'title',
-    //        '正文': 'p',
-    //        '链接文字': 'link text',
-    //        '链接': 'link',
-    //        '上传图片': 'upload image',
-    //        '上传': 'upload',
-    //        '创建': 'init'
-    //        // 还可自定添加更多
-    //    }
+//    editor.customConfig.lang = {
+//        '设置标题': 'title',
+//        '正文': 'p',
+//        '链接文字': 'link text',
+//        '链接': 'link',
+//        '上传图片': 'upload image',
+//        '上传': 'upload',
+//        '创建': 'init'
+//        // 还可自定添加更多
+//    }
     // 关闭粘贴样式的过滤
     //    editor.customConfig.pasteFilterStyle = false
     //    // 自定义处理粘贴的文本内容
@@ -63,8 +63,7 @@
     editor.customConfig.uploadImgHeaders = {
         'Accept': 'application/json'
     }
-    editor.customConfig.length=10
-    editor.customConfig.debug=true
+    editor.customConfig.debug = true
     editor.create()
     //    editor.$textElem.attr('contenteditable', true)
     //    editor.txt.html('<p>用 JS 设置的内容</p>')
