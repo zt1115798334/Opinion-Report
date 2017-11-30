@@ -288,54 +288,6 @@ body,html,#wrapper{
     color: #134395 !important;
 }
 
-.modalBtn {
-    padding: 7px 22px;
-    background-image: linear-gradient(to right, #3e92ff 0%, #2eaeff 70%) !important;
-    color: #fff !important;
-    border-radius: 3px !important;
-    border: 1px solid transparent !important;
-    font-size: 13px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -o-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -ms-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-}
-.modalBtn:hover{
-    opacity: 0.8;
-}
-.modalBtn_red {
-    padding: 7px 22px;
-    background-image: linear-gradient(to right, #f9812a 0%, #f9b84c 70%) !important;
-    color: #fff !important;
-    border-radius: 3px !important;
-    border: 1px solid transparent !important;
-    font-size: 13px;
-    outline: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -o-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -ms-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-}
-
-.modalBtn_gray {
-    padding: 7px 22px;
-    background-image: linear-gradient(to right, #f6f5f5 0%, #f6f5f5 70%) !important;
-    color: #000;
-    border: 0;
-    border-radius: 3px !important;
-    border: 1px solid transparent !important;
-    font-size: 13px;
-    outline: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -o-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-    -ms-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
-}
-
-
 .dateDiv .bootstrap-select:not([class*=span]):not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 130px !important;
 }

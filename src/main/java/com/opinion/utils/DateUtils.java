@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -232,6 +233,20 @@ public class DateUtils {
         }
         result.add(dateEnd);
         return result;
+    }
+
+    /**
+     * 获取下一天日期
+     *
+     * @return
+     */
+    public static Date getNextDay() {
+        try {
+            Thread.sleep(24 * 60 * 60 * 10000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new Date();
     }
 
 //    public static void main(String[] args) {

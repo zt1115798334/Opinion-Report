@@ -1,0 +1,64 @@
+.flowShaft{
+	min-height: 180px;
+	padding-top: 20px;
+}
+.flowShaft .flowShaftSide{
+	margin: 10px 0;
+}
+.flowShaft .flowShaftSide i{
+	font-style: normal;
+	float: left;
+	font-size: 14px;
+	margin-right: 15px;
+}
+.flowShaft .flowShaftSide h5{
+	display: inline-block;
+}
+.flowShaft .state,.flowShaft .state_active,.flowShaft .state_no{
+	display: block;
+	width: 500px;
+	margin: 20px 0;
+	padding: 2px;
+	padding-left: 70px;
+	position: relative;
+	-webkit-border-radius: 10px;
+	        border-radius: 10px;
+	
+}
+.flowShaft .state img,.flowShaft .state_active img,.flowShaft .state_no img{
+	width: 40px;
+	position: absolute;
+}
+
+/*有渐变底色*/
+.state{
+	background-image: linear-gradient(to right, #f0f1f4 0%, #f0f1f4 100%);/*待定*/
+}
+.state_active{
+	background-image: linear-gradient(to right, #43e4a8 0%, #38d874 100%);/*肯定*/
+}
+.state_no{
+	background-image: linear-gradient(to right, #f9b84c 0%, #f9812a 100%);/*否定*/
+}
+.state h5 .flowShaftResult{
+	color: #333;
+}
+.state_active h5 .flowShaftResult,.state_no h5 .flowShaftResult{
+	color: #FFF;
+}
+.state img, .state_active img,.state_no img{
+	left: 15px;
+	top: 2px;
+}
+.flowShaft .state h5,.flowShaft .state_active h5,.flowShaft .state_no h5{
+	display: block !important;
+}
+.flowShaft .state h5 i,.flowShaft .state_active h5 i,.flowShaft .state_no h5 i{
+	font-style: normal;
+	float: right !important;
+	font-size: 12px;
+	margin-right: 15px;
+}
+.flowShaft .state_active i,.flowShaft .state_no i{
+	color: #FFF;
+}
