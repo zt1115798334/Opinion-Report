@@ -89,6 +89,16 @@ function searchReportArticleLogFun(params) {
                 var da = data[i];
                 var msg = da.msg;
                 var datetime = da.datetime;
+                var adoptState = da.adoptState;
+                var reportClass = '';
+                switch (adoptState) {
+                    case "adopt" :
+                        reportClass = "";
+                        break;
+                    case "notAdopted" :
+                        reportClass = "";
+                        break;
+                }
             }
         }
     }

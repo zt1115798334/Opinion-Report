@@ -233,12 +233,13 @@ public class ReportArticleController extends BaseController {
 //                .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
                 .forEach(reportArticleLog -> {
                     JSONObject jo = new JSONObject();
-                    String adopStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getCode();
+                    String adoptStateVal = SysConst.getAdoptStateByCode(reportArticleLog.getAdoptState()).getName();
                     SysUser sysUser = sysUserService.findById(reportArticleLog.getCreatedUserId());
                     StringBuilder sb = new StringBuilder();
-                    sb.append("用户：").append(sysUser.getUserName()).append(adopStateVal);
+                    sb.append("用户：").append(sysUser.getUserName()).append(adoptStateVal);
                     jo.put("msg", sb.toString());
                     jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT));
+                    jo.put("adoptState", reportArticleLog.getAdoptState());
                     result.add(jo);
                 });
         return success(result);
