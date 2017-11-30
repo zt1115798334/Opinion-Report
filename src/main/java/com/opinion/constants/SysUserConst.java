@@ -10,11 +10,11 @@ import org.apache.shiro.SecurityUtils;
 public class SysUserConst {
 
     public SysUser getSysUser() {
-        return (SysUser) SecurityUtils.getSubject().getPrincipal();
-//        SysUser sysUser = new SysUser();
-//        sysUser.setId(2L);
-//        sysUser.setUserName("admin2");
-//        return sysUser;
+//        return (SysUser) SecurityUtils.getSubject().getPrincipal();
+        SysUser sysUser = new SysUser();
+        sysUser.setId(2L);
+        sysUser.setUserName("admin2");
+        return sysUser;
     }
 
     public Long getUserId() {

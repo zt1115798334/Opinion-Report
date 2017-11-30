@@ -28,7 +28,7 @@ public class ReportArticleLogServiceImpl implements ReportArticleLogService {
 
     @Override
     public List<ReportArticleLog> findListByReportArticleId(String reportCode) {
-        Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
+        Sort sort = new Sort(Sort.Direction.DESC, "createdDatetime");
         List<ReportArticleLog> reportArticleLogs = reportArticleLogRepository.findAllByReportCode(reportCode, sort);
         return reportArticleLogs;
     }

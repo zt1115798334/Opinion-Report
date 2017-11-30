@@ -78,14 +78,22 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Override
     public ReportArticle saveAgain(String reportCode) {
         ReportArticle reportArticle = reportArticleRepository.findByReportCode(reportCode);
-        ReportArticle newReportArticle = null;
+        ReportArticle newReportArticle = new ReportArticle();
         if (reportArticle != null) {
-            String newReportCode = SNUtil.create15();
-            reportArticle.setReportCode(newReportCode);
-            reportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
-            reportArticle.setAdoptDatetime(null);
-            reportArticle.setAdoptUserId(null);
-            newReportArticle = save(reportArticle);
+
+            newReportArticle.setReportLevel(reportArticle.getReportLevel());
+            newReportArticle.setSourceUrl(reportArticle.getSourceUrl());
+            newReportArticle.setSourceType(reportArticle.getSourceType());
+            newReportArticle.setTitle(reportArticle.getTitle());
+            newReportArticle.setReplyType(reportArticle.getReplyType());
+            newReportArticle.setReplyNumber(reportArticle.getReplyNumber());
+            newReportArticle.setReportCause(reportArticle.getReportCause());
+
+            newReportArticle.setId(null);
+            newReportArticle.setAdoptState(SysConst.AdoptState.REPORT.getCode());
+            newReportArticle.setAdoptDatetime(null);
+            newReportArticle.setAdoptUserId(null);
+            newReportArticle = save(newReportArticle);
         }
         return newReportArticle;
     }
