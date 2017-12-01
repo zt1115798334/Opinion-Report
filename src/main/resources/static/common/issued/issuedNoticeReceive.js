@@ -19,10 +19,10 @@ $(function () {
     /**
      * 查看详情操作
      */
-    // $(document).on("click", "", function () {
-    //     var noticeCode = $(this).attr("rowNoticeCode");
-    //     window.location.href = "/issuedNotice/issuedNoticeInfoPage/exec/" + noticeCode;
-    // });
+    $(document).on("click", ".detailsBtn", function () {
+        var noticeCode = $(this).attr("rowNoticeCode");
+        window.location.href = "/issuedNotice/issuedNoticeInfoPage/exec/" + noticeCode;
+    });
 });
 
 /**
@@ -33,6 +33,7 @@ function searchIssuedNoticeReceiveFun() {
     var url = "/issuedNotice/searchIssuedNoticeReceive";
     var title = $(".title").val().trim();
     var receiptState = $(".receiptState").find("option:selected").val();
+    // var noticeRange = $(".noticeRange").find("option:selected").val();
     var options = {
         columns: [{
             field: 'id',
@@ -61,7 +62,6 @@ function searchIssuedNoticeReceiveFun() {
             field: 'receiptState',
             title: "状态",
             align: "center",
-            sortable: true,
             valign: "middle",
 
         }, {
@@ -107,6 +107,7 @@ function searchIssuedNoticeReceiveFun() {
             return {
                 title: title,
                 receiptState: receiptState,
+                // noticeRange: noticeRange,
                 sortName: params.sortName,
                 sortOrder: params.sortOrder,
                 pageSize: params.pageSize,

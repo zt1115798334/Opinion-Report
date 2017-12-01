@@ -140,6 +140,12 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                 if (StringUtils.isNotEmpty(issuedNotice.getReceiptState())) {
                     predicates.add(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState()));
                 }
+                if (StringUtils.isNotEmpty(issuedNotice.getNoticeRange())) {
+                    predicates.add(builder.equal(root.get("noticeRange").as(String.class), issuedNotice.getNoticeRange()));
+                }
+                if (StringUtils.isNotEmpty(issuedNotice.getNoticeType())) {
+                    predicates.add(builder.equal(root.get("noticeType").as(String.class), issuedNotice.getNoticeType()));
+                }
                 Predicate[] pre = new Predicate[predicates.size()];
                 query.where(predicates.toArray(pre));
 
@@ -173,6 +179,12 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                 }
                 if (StringUtils.isNotEmpty(issuedNotice.getReceiptState())) {
                     predicates.add(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState()));
+                }
+                if (StringUtils.isNotEmpty(issuedNotice.getNoticeRange())) {
+                    predicates.add(builder.equal(root.get("noticeRange").as(String.class), issuedNotice.getNoticeRange()));
+                }
+                if (StringUtils.isNotEmpty(issuedNotice.getNoticeType())) {
+                    predicates.add(builder.equal(root.get("noticeType").as(String.class), issuedNotice.getNoticeType()));
                 }
                 Predicate[] pre = new Predicate[predicates.size()];
                 query.where(predicates.toArray(pre));

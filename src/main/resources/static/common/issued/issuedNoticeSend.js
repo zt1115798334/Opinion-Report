@@ -49,6 +49,7 @@ function searchIssuedNoticeSendFun() {
     var url = "/issuedNotice/searchIssuedNoticeSend";
     var title = $(".title").val().trim();
     var receiptState = $(".receiptState").find("option:selected").val();
+    // var noticeRange = $(".noticeRange").find("option:selected").val();
     var options = {
         columns: [{
             field: 'id',
@@ -77,7 +78,6 @@ function searchIssuedNoticeSendFun() {
             field: 'receiptState',
             title: "状态",
             align: "center",
-            sortable: true,
             valign: "middle",
 
         }, {
@@ -123,6 +123,7 @@ function searchIssuedNoticeSendFun() {
             return {
                 title: title,
                 receiptState: receiptState,
+                // noticeRange: noticeRange,
                 sortName: params.sortName,
                 sortOrder: params.sortOrder,
                 pageSize: params.pageSize,
