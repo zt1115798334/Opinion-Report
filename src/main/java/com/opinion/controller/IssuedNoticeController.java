@@ -253,6 +253,7 @@ public class IssuedNoticeController extends BaseController {
             jo.put("noticeCode", issuedNotice.getNoticeCode());
             jo.put("title", issuedNotice.getTitle());
             jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
+            jo.put("noticeRange", SysConst.getNoticeRangeByCode(issuedNotice.getNoticeRange()).getName());
             jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
             jo.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);

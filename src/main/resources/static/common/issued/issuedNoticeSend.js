@@ -19,10 +19,10 @@ $(function () {
     /**
      * 删除操作
      */
-    // $(document).on("click", ".delete", function () {
-    //     var id = $(this).attr("rowId");
-    //     deleteIssuedNoticeFun(id);
-    // });
+    $(document).on("click", ".delete", function () {
+        var id = $(this).attr("rowId");
+        deleteIssuedNoticeFun(id);
+    });
 
     /**
      * 查看详情操作
@@ -63,13 +63,20 @@ function searchIssuedNoticeSendFun() {
             valign: "middle"
         }, {
             field: 'title',
-            title: "舆情标题",
+            title: "信息标题",
             align: "left",
             valign: "middle"
 
         }, {
             field: 'noticeType',
-            title: "类型",
+            title: "信息类型",
+            align: "center",
+            valign: "middle"
+
+
+        }, {
+            field: 'noticeRange',
+            title: "下发范围",
             align: "center",
             valign: "middle"
 
@@ -79,13 +86,29 @@ function searchIssuedNoticeSendFun() {
             title: "状态",
             align: "center",
             valign: "middle",
+            formatter: function (value, row, index) {
+                var _html = "";
+                switch (value) {
+                    case "未回执":
+                        _html = "<span class=\"process-circle process-circle-red\"></span>";
+                        break;
+                    case "回执中":
+                        _html = "<span class=\"process-circle process-circle-blue\"></span>";
+                        break;
+                    case "已回执":
+                        _html = "<span class=\"process-circle process-circle-green\"></span>";
+                        break;
+                }
+                _html += value;
+                return _html;
+            }
 
         }, {
             field: 'publishDatetime',
             title: "下发时间",
             align: "center",
             sortable: true,
-            valign: "middle",
+            valign: "middle"
 
         }, {
             title: "操作",
@@ -94,7 +117,7 @@ function searchIssuedNoticeSendFun() {
             formatter: function (value, row, index) {
                 var _html = "";
                 _html += "<button class=\"detailsBtn\"  type=\"button\" rowNoticeCode=\"" + row.noticeCode + "\">详情</button>";
-                // _html += "<button class=\"delete\" type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                _html += "<button class=\"delete\" type=\"button\" rowId=\"" + row.id + "\">删除</button>";
                 return _html;
             }
         }],

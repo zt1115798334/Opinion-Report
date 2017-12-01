@@ -280,6 +280,15 @@ public class SysConst {
         }
     }
 
+    public static NoticeRange getNoticeRangeByCode(String code) {
+        for (NoticeRange noticeRange : NoticeRange.values()) {
+            if (StringUtils.equals(code, noticeRange.getCode())) {
+                return noticeRange;
+            }
+        }
+        return null;
+    }
+
     public enum ReceiptState {
 
         UNRECEIPT("unreceipt", "未回执"),

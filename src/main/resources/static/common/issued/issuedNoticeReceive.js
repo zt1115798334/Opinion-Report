@@ -47,13 +47,20 @@ function searchIssuedNoticeReceiveFun() {
             valign: "middle"
         }, {
             field: 'title',
-            title: "舆情标题",
+            title: "信息标题",
             align: "left",
             valign: "middle"
 
         }, {
             field: 'noticeType',
-            title: "类型",
+            title: "信息类型",
+            align: "center",
+            valign: "middle"
+
+
+        }, {
+            field: 'noticeRange',
+            title: "下发范围",
             align: "center",
             valign: "middle"
 
@@ -63,13 +70,28 @@ function searchIssuedNoticeReceiveFun() {
             title: "状态",
             align: "center",
             valign: "middle",
-
+            formatter: function (value, row, index) {
+                var _html = "";
+                switch (value) {
+                    case "未读":
+                        _html = "<span class=\"process-circle process-circle-red\"></span>";
+                        break;
+                    case "已读":
+                        _html = "<span class=\"process-circle process-circle-blue\"></span>";
+                        break;
+                    case "已回执":
+                        _html = "<span class=\"process-circle process-circle-green\"></span>";
+                        break;
+                }
+                _html += value;
+                return _html;
+            }
         }, {
             field: 'publishDatetime',
             title: "下发时间",
             align: "center",
             sortable: true,
-            valign: "middle",
+            valign: "middle"
 
         }, {
             title: "操作",
