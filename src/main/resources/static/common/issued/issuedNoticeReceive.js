@@ -5,9 +5,9 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    // $(document).on("click", ".whiteButton", function () {
-    //     searchIssuedNoticeReceiveFun();
-    // });
+    $(document).on("click", ".whiteButton", function () {
+        searchIssuedNoticeReceiveFun();
+    });
 
     document.onkeydown = function (e) {
         var ev = document.all ? window.event : e;
@@ -33,7 +33,7 @@ function searchIssuedNoticeReceiveFun() {
     var url = "/issuedNotice/searchIssuedNoticeReceive";
     var title = $(".title").val().trim();
     var receiptState = $(".receiptState").find("option:selected").val();
-    // var noticeRange = $(".noticeRange").find("option:selected").val();
+    var noticeType = $(".noticeType").find("option:selected").val();
     var options = {
         columns: [{
             field: 'id',
@@ -129,7 +129,7 @@ function searchIssuedNoticeReceiveFun() {
             return {
                 title: title,
                 receiptState: receiptState,
-                // noticeRange: noticeRange,
+                noticeType: noticeType,
                 sortName: params.sortName,
                 sortOrder: params.sortOrder,
                 pageSize: params.pageSize,

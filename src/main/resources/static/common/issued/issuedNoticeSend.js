@@ -49,7 +49,7 @@ function searchIssuedNoticeSendFun() {
     var url = "/issuedNotice/searchIssuedNoticeSend";
     var title = $(".title").val().trim();
     var receiptState = $(".receiptState").find("option:selected").val();
-    // var noticeRange = $(".noticeRange").find("option:selected").val();
+    var noticeType = $(".noticeType").find("option:selected").val();
     var options = {
         columns: [{
             field: 'id',
@@ -146,7 +146,7 @@ function searchIssuedNoticeSendFun() {
             return {
                 title: title,
                 receiptState: receiptState,
-                // noticeRange: noticeRange,
+                noticeType: noticeType,
                 sortName: params.sortName,
                 sortOrder: params.sortOrder,
                 pageSize: params.pageSize,

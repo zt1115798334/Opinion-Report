@@ -34,6 +34,15 @@
                                     <option value="receipt">已回执</option>
                                 </select>
                             </div>
+                            <div class="dateDiv2 inlineBlock marginX10">
+                                <select class="selectpicker noticeType">
+                                    <option value="">全部类型</option>
+                                    <option value="importantNotice">重要通知</option>
+                                    <option value="workArrangement">工作安排</option>
+                                    <option value="workSuggestion">工作建议</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
                             <a href="javascript:void(0)" class="whiteButton">
                                 搜索
                             </a>
