@@ -62,8 +62,11 @@ function saveSysRoleFun(params) {
     execAjaxJSON(url, params, callback);
 
     function callback(result) {
-        var msg = result.data.msg;
-        alert(msg);
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
@@ -77,8 +80,11 @@ function delSysRoleFun(params) {
     execAjax(url, params, callback);
 
     function callback(result) {
-        var msg = result.data.msg;
-        alert(msg);
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
@@ -87,7 +93,7 @@ function delSysRoleFun(params) {
  * @param params
  */
 function searchSysPermissionFun(params) {
-    var url = "/system/delSysRole";
+    var url = "/system/searchSysPermission";
     execAjax(url, params, callback);
 
     function callback(result) {
@@ -100,7 +106,7 @@ function searchSysPermissionFun(params) {
  * @param params
  */
 function saveSysPermissionFun(params) {
-    var url = "/system/delSysRole";
+    var url = "/system/saveSysPermission";
     execAjax(url, params, callback);
 
     function callback(result) {

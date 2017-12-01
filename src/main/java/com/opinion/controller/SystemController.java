@@ -78,13 +78,11 @@ public class SystemController extends BaseController {
     public AjaxResult saveSysRole(@RequestBody SysRole sysRole) {
         logger.info("请求 saveSysRole 方法,sysRole:{}", sysRole);
         boolean flag = sysRoleService.save(sysRole);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "添加成功");
+            return success("添加成功");
         } else {
-            result.put("msg", "该角色存在，添加失败");
+            return fail("该角色存在，添加失败");
         }
-        return success(result);
     }
 
     /**
@@ -114,13 +112,11 @@ public class SystemController extends BaseController {
     public AjaxResult delSysRole(@RequestParam Long roleId) {
         logger.info("请求 delSysRole 方法，roleId：{}", roleId);
         boolean flag = sysRoleService.delSysRole(roleId);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "删除成功");
+            return success("删除成功");
         } else {
-            result.put("msg", "删除失败，角色下还存在用户");
+            return fail("删除失败，角色下还存在用户");
         }
-        return success(result);
     }
 
     /**
@@ -307,13 +303,11 @@ public class SystemController extends BaseController {
             cityOrganization.setLevel(99);
         }
         boolean flag = cityOrganizationService.save(cityOrganization);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "添加成功");
+            return success("添加成功");
         } else {
-            result.put("msg", "添加失败，该机构已存在");
+            return fail("添加失败，该机构已存在");
         }
-        return success(result);
     }
 
     /**
@@ -345,13 +339,11 @@ public class SystemController extends BaseController {
     public AjaxResult delCityOrganization(@RequestParam Long cityOrganizationId) {
         logger.info("请求 delCityOrganization 方法，cityOrganizationId：{}", cityOrganizationId);
         boolean flag = cityOrganizationService.delCityOrganization(cityOrganizationId);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "删除成功");
+            return success("删除成功");
         } else {
-            result.put("msg", "删除失败，该组织下存在其他信息");
+           return fail("删除失败，该组织下存在其他信息");
         }
-        return success(result);
     }
 
     /**
@@ -434,13 +426,11 @@ public class SystemController extends BaseController {
     public AjaxResult saveSysUserInfo(@RequestBody SysUser sysUser) {
         logger.info("请求 saveSysUserInfo 方法，sysUser:{}", sysUser);
         boolean flag = sysUserService.save(sysUser);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "添加成功");
+            return success("添加成功");
         } else {
-            result.put("msg", "添加失败，该账户已存在");
+            return fail("添加失败，该账户已存在");
         }
-        return success(result);
     }
 
     /**

@@ -29,8 +29,11 @@ function saveCityOrganizationFun(params) {
     execAjaxJSON(url, params, callback);
 
     function callback(result) {
-        var msg = result.data.msg;
-        alert(msg);
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
@@ -43,8 +46,11 @@ function searchExistByCityOrganizationNameFun(params) {
     execAjax(url, params, callback);
 
     function callback(result) {
-        var msg = result.data.msg;
-        alert(msg);
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
@@ -57,8 +63,11 @@ function delCityOrganizationFun(params) {
     execAjax(url, params, callback);
 
     function callback(result) {
-        var msg = result.data.msg;
-        alert(msg);
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
@@ -115,11 +124,15 @@ function searchSysRoleFun() {
  * 保存用户信息
  */
 function saveSysUserInfoFun(params) {
-    var url = "/system/searchSysRole";
+    var url = "/system/saveSysUserInfo";
     execAjaxJSON(url, params, callback);
 
     function callback() {
-
+        if (result.success) {
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 
