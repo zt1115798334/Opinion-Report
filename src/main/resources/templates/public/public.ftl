@@ -9,6 +9,8 @@
 <link href="/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet"/>
 <script src="/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="/assets/plugins/bootstrap-select/js/i18n/defaults-zh_CN.js" type="text/javascript"></script>
+<link href="/assets/plugins/bootstrap-dialog/css/bootstrap-dialog.min.css" type="text/css" rel="stylesheet"/>
+<script src="/assets/plugins/bootstrap-dialog/js/bootstrap-dialog.min.js" type="text/javascript"></script>
 <link href="/assets/plugins/jquery-asDatepicker/asDatepicker.css" type="text/css" rel="stylesheet"/>
 <script src="/assets/plugins/jquery-asDatepicker/jquery-asDatepicker.js" type="text/javascript"></script>
 <link href="/assets/plugins/icheck-1.x/skins/all.css" type="text/css" rel="stylesheet"/>
