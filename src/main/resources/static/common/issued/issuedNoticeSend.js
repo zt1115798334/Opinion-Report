@@ -68,7 +68,9 @@ function deleteIssuedNoticeFun(id) {
     function callback(result) {
         if (result.success) {
             bootstrapTableRefresh();
-            alert(result.data.msg);
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
         }
     }
 }

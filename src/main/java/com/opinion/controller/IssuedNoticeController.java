@@ -102,13 +102,11 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult saveIssuedNotice(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 saveIssuedNotice 方法，issuedNotice：{}", issuedNotice);
         issuedNotice = issuedNoticeService.save(issuedNotice);
-        JSONObject result = new JSONObject();
         if (issuedNotice != null) {
-            result.put("msg", "保存成功");
+            return success("保存成功");
         } else {
-            result.put("msg", "保存失败");
+            return fail("保存失败");
         }
-        return success(result);
     }
 
     /**
@@ -156,13 +154,11 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult deleteIssuedNotice(@RequestParam List<Long> id) {
         logger.info("请求 deleteIssuedNotice 方法，id集合：{}", id);
         boolean flag = issuedNoticeService.delByIds(id);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "删除成功");
+            return success("执行成功");
         } else {
-            result.put("msg", "删除失败");
+            return fail("删除失败");
         }
-        return success(result);
     }
 
     /**
@@ -207,13 +203,11 @@ public class IssuedNoticeController extends BaseController {
     public AjaxResult replyExecution(@RequestParam String noticeCode) {
         logger.info("请求 replyExecution 方法，noticeCode：{}", noticeCode);
         IssuedNotice issuedNotice = issuedNoticeService.replyExecution(noticeCode);
-        JSONObject result = new JSONObject();
         if (issuedNotice != null) {
-            result.put("msg", "执行成功");
+            return success("执行成功");
         } else {
-            result.put("msg", "执行失败");
+            return fail("执行失败");
         }
-        return success(result);
     }
 
     /**
