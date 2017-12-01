@@ -26,11 +26,11 @@ $(function () {
         var reportCauseHtml = editor.txt.html();
         var reportCauseText = editor.txt.text();
         if (reportCauseText.length == 0) {
-            alert("你还没有填写内容");
+            notify.error({title: "提示", content: "你还没有填写内容",autoClose: true});
             return false;
         }
         if (reportCauseText.length > 1000) {
-            alert("内容长度不能超过1000字");
+            notify.error({title: "提示", content: "内容长度不能超过1000字",autoClose: true});
             return false;
         }
         data.reportCause = reportCauseHtml;
@@ -108,9 +108,11 @@ function saveReportArticleFun(params, editor) {
 
     function callback(result) {
         if (result.success) {
-            alert(result.data.msg);
+            notify.success({title: "提示", content: result.data, autoClose: true});
             editor.txt.html('');
             resetForm("opinionReportForm");
+        }else {
+            notify.error({title: "提示", content: result.message});
         }
 
     }

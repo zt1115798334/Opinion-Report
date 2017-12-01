@@ -16,13 +16,29 @@ $(function () {
     };
 
     /**
-     * 删除操作
+     * 删除操作 -- 弹框显示
      */
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
-        deleteReportArticleFun(id);
+        $("#del").modal("show");
+        $("#del .sureBtn").attr("del-id", id);
     });
 
+    /**
+     * 删除操作 -- 弹框提示 -- 确认
+     */
+    $(document).on("click", "#del .sureBtn", function () {
+        var id = $("#del .sureBtn").attr("del-id");
+        deleteReportArticleFun(id);
+        $("#del").modal("hide");
+    });
+
+    /**
+     * 删除操作 -- 弹框提示 -- 关闭
+     */
+    $(document).on("hidden.bs.modal", "#del", function () {
+        $("#del .sureBtn").removeAttr("del-id");
+    });
     /**
      * 查看详情操作
      */
@@ -176,7 +192,9 @@ function deleteReportArticleFun(id) {
     function callback(result) {
         if (result.success) {
             bootstrapTableRefresh();
-            alert(result.data.msg);
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
         }
     }
 }

@@ -68,6 +68,25 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+
+<!--删除模态框-->
+<div id="del" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header logocbg">
+                <h5 class="modal-title colorwhite" id="">&nbsp;&nbsp;删除</h5>
+            </div>
+            <div class="modal-body  text-center">是否确认删除该条舆情，删除后无法恢复？</div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button id="" type="button" class="btn btn-primary sureBtn" del-id="">确认</button>
+                    <button type="button" class="btn btn-default denyBtn" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+
 <script src="/common/utils.js"></script>
 <script src="/common/report/opinionReport.js?v=1"></script>
 

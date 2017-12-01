@@ -8,6 +8,11 @@
     <link href="/assets/plugins/wangEditor-3.0.15/release/wangEditor.css" type="text/css" rel="stylesheet"><!-- 编辑器-->
     <script type="text/javascript" src="/assets/plugins/wangEditor-3.0.15/release/wangEditor.js"
             charset="utf-8"></script><!-- 编辑器-->
+    <style type="text/css">
+        .w-e-text-container{ /*编辑器文本区域高度*/
+            height: 470px !important;
+        }
+    </style>
 </head>
 <body>
 <#include "/public/header.ftl"/>
@@ -45,7 +50,7 @@
                     </div>
                     <div class="portlet-body clearfix">
                         <!-- 编辑器wangEditor-->
-                        <div id="editor">
+                        <div id="editor" style="height: 500px;">
 
                         </div>
 
@@ -77,6 +82,23 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+
+<!--成功提示模态框-->
+<div id="tipper" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header logocbg">
+                <h5 class="modal-title colorwhite" id="">&nbsp;&nbsp;提示</h5>
+            </div>
+            <div class="modal-body  text-center">已上报成功！</div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-default denyBtn" data-dismiss="modal">ok</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
 
 <script src="/common/utils.js"></script>
 <script src="/common/report/opinionReportExamine.js"></script>

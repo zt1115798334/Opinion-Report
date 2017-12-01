@@ -76,13 +76,9 @@ function searchReportArticleByCodeFun(params, editor) {
             $(".sourceUrl").html(sourceUrl);
             $(".sourceUrl").attr("href", sourceUrl);
             editor.txt.html(reportCause);
-            console.log($(".adoptBtn").length);
             if (adoptState != "report") {
                 if ($(".adoptBtn").length > 0) {
                     $(".adoptBtn").attr("disabled", true);
-                }
-                if ($(".report").length > 0) {
-                    $(".report").attr("disabled", true);
                 }
             }
         }
@@ -144,7 +140,9 @@ function examineAndVerifyReportArticleFun(params) {
 
     function callback(result) {
         if (result.success) {
-            alert(result.data.msg);
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        }else {
+            notify.error({title: "提示", content: result.message});
         }
     }
 }
@@ -158,7 +156,9 @@ function saveReportArticleAgainFun(params) {
 
     function callback(result) {
         if (result.success) {
-            alert(result.data.msg);
+            notify.success({title: "提示", content: result.data, autoClose: true});
+        }else {
+            notify.error({title: "提示", content: result.message});
         }
     }
 }

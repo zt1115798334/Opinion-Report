@@ -1,0 +1,63 @@
+.notification{
+    width: 330px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    position: fixed;
+    right: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);
+    transition: opacity .3s,transform .3s,right .3s,top .4s;
+    overflow: hidden;
+}
+.notification-group{
+    margin-left:0;
+}
+.notification-title {
+    font-weight: 400;
+    font-size: 16px;
+    color: #1f2d3d;
+    margin: 0;
+}
+.notification-content{
+    font-size: 14px;
+    line-height: 21px;
+    margin: 10px 0 0;
+    color: #8391a5;
+    text-align: justify;
+}
+.notification-closeBtn{
+    top: 20px;
+    right: 20px;
+    position: absolute;
+    cursor: pointer;
+    color: #bfcbd9;
+    font-size: 18px;
+}
+.notification-closeBtn:hover{
+    color: #97a8be;
+}
+/*带倾向的提示*/
+.notification-icon{
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    float: left;
+    position: relative;
+    top: 3px;
+}
+.notification-group.is-with-icon{
+    margin-left:55px;
+}
+.notification .glyphicon-ok-sign{
+    color:#13ce66;
+}
+.notification .glyphicon-remove-sign{
+    color:#fd3754;
+}
+.notification .glyphicon-exclamation-sign{
+    color:#f7ba2a;
+}
+.notification .glyphicon-info-sign{
+    color:#50bfff;
+}

@@ -31,15 +31,6 @@
 .modal-header,.modal-footer{
     border: 0;
 }
-.modalImg{
-    float: left;
-    background: url("../images/modalImg1.png") no-repeat;
-    background-size: cover;
-    width: 19px;
-    height: 23px;
-    margin-right: 5px;
-    margin-top: 3px;
-}
 .colorwhite{
     color: #fff !important;
 }

@@ -99,13 +99,11 @@ public class ReportArticleController extends BaseController {
     public AjaxResult saveReportArticle(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 saveReportArticle 方法，reportArticle:{}", reportArticle);
         reportArticle = reportArticleService.save(reportArticle);
-        JSONObject result = new JSONObject();
         if (reportArticle != null) {
-            result.put("msg", "添加成功");
+            return success("添加成功");
         } else {
-            result.put("msg", "添加失败");
+            return fail("添加失败");
         }
-        return success(result);
     }
 
     /**
@@ -159,13 +157,11 @@ public class ReportArticleController extends BaseController {
     public AjaxResult deleteReportArticle(@RequestParam List<Long> id) {
         logger.info("请求 deleteReportArticle 方法，id集合：{}", id);
         boolean flag = reportArticleService.delByIds(id);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "删除成功");
+            return success("删除成功");
         } else {
-            result.put("msg", "删除失败");
+            return fail("删除失败");
         }
-        return success(result);
     }
 
     /**
@@ -207,13 +203,11 @@ public class ReportArticleController extends BaseController {
     public AjaxResult examineAndVerifyReportArticle(@RequestBody ReportArticle reportArticle) {
         logger.info("请求 examineAndVerifyReportArticle 方法，reportArticle:{}", reportArticle);
         boolean flag = reportArticleService.examineAndVerify(reportArticle);
-        JSONObject result = new JSONObject();
         if (flag) {
-            result.put("msg", "审核成功");
+            return success("审核成功");
         } else {
-            result.put("msg", "审核失败，其他人已经审核，你慢了一步！！");
+            return fail("审核失败，其他人已经审核，你慢了一步！！");
         }
-        return success(result);
     }
 
     /**
@@ -256,13 +250,11 @@ public class ReportArticleController extends BaseController {
     public AjaxResult saveReportArticleAgain(@RequestParam String reportCode) {
         logger.info("请求 saveReportArticleAgain 方法，reportCode:{}", reportCode);
         ReportArticle reportArticle = reportArticleService.saveAgain(reportCode);
-        JSONObject result = new JSONObject();
         if (reportArticle != null) {
-            result.put("msg", "上报成功");
+            return success("上报成功");
         } else {
-            result.put("msg", "上报失败");
+            return fail("上报失败");
         }
-        return success(result);
     }
 
     private JSONObject pageReportArticleToJSONObject(Page<ReportArticle> page) {

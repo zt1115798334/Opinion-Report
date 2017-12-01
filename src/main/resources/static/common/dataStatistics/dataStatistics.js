@@ -50,7 +50,9 @@ function dataAnalysisChartFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -63,7 +65,9 @@ function dataAnalysisProportionFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -76,7 +80,9 @@ function dataAnalysisTableFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -89,7 +95,9 @@ function dataLevelDistributionFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -102,7 +110,9 @@ function dataSourceDistributionFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -115,7 +125,9 @@ function dataLevelSourceTableFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -128,7 +140,9 @@ function dataEffectDistributionFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }
 
@@ -141,6 +155,8 @@ function dataEffectTableFun() {
     execAjax(url, params, callback);
 
     function callback(result) {
+        if (result.success) {
 
+        }
     }
 }

@@ -137,6 +137,9 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Override
     public Page<ReportArticle> findPageByInChild(ReportArticle reportArticle) {
         List<Long> userId = sysUserService.findChildIdListByParentId(reportArticle.getCreatedUserId());
+        if (userId.size() == 0) {
+            userId.add(-1L);
+        }
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
