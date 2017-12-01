@@ -52,6 +52,7 @@ function dataAnalysisChartFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+
             var date = data.date;
             var value = data.value;
         }
@@ -69,6 +70,7 @@ function dataAnalysisProportionFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+
             var allInfo = data.allInfo;
             var adoptInfo = data.adoptInfo;
             var notAdoptInfo = data.notAdoptInfo;
@@ -87,7 +89,9 @@ function dataAnalysisTableFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+
             var date = result.date;
+
             var reportCount = result.reportCount;
             var adoptCount = result.adoptCount;
 
@@ -106,6 +110,7 @@ function dataLevelDistributionFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+
             var info = data.info;
             var name = data.name;
         }
@@ -123,6 +128,7 @@ function dataSourceDistributionFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+
             var info = data.info;
             var name = data.name;
         }
