@@ -342,7 +342,7 @@ public class SystemController extends BaseController {
         if (flag) {
             return success("删除成功");
         } else {
-           return fail("删除失败，该组织下存在其他信息");
+            return fail("删除失败，该组织下存在其他信息");
         }
     }
 

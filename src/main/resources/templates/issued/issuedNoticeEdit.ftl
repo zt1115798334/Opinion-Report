@@ -53,11 +53,8 @@
                                 <div class="col-md-6 m8 dateDiv3">
                                     <label for="" class="control-label col-md-3"><span
                                             class="require">*</span>下发范围:</label>
-                                    <select name="noticeRange" class="selectpicker">
+                                    <select id="noticeRange" name="noticeRange" class="selectpicker">
                                         <option value="">请选择范围</option>
-                                        <option value="all">全部</option>
-                                        <option value="municipal">地市级单位</option>
-                                        <option value="county">区县级单位</option>
                                     </select>
                                 </div>
                             </div>
