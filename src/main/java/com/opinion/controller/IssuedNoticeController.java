@@ -72,7 +72,7 @@ public class IssuedNoticeController extends BaseController {
                                        @PathVariable String type,
                                        @PathVariable String noticeCode) {
         logger.info("请求 issuedNoticeInfoPage 方法，type：{}，noticeCode：{}", type, noticeCode);
-        if (Objects.equals(type, SysConst.NoticeSeeType.INFO.getCode())) {
+        if (Objects.equals(type, SysConst.NoticeSeeType.EXEC.getCode())) {
             Long userId = new SysUserConst().getUserId();
             issuedNoticeLogService.readIssuedNotice(noticeCode, userId);
         }
