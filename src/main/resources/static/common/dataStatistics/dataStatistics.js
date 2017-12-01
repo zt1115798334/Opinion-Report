@@ -51,7 +51,9 @@ function dataAnalysisChartFun() {
 
     function callback(result) {
         if (result.success) {
-
+            var data = result.data;
+            var date = data.date;
+            var value = data.value;
         }
     }
 }
@@ -66,7 +68,10 @@ function dataAnalysisProportionFun() {
 
     function callback(result) {
         if (result.success) {
-
+            var data = result.data;
+            var allInfo = data.allInfo;
+            var adoptInfo = data.adoptInfo;
+            var notAdoptInfo = data.notAdoptInfo;
         }
     }
 }
@@ -81,6 +86,10 @@ function dataAnalysisTableFun() {
 
     function callback(result) {
         if (result.success) {
+            var data = result.data;
+            var date = result.date;
+            var reportCount = result.reportCount;
+            var adoptCount = result.adoptCount;
 
         }
     }
@@ -96,7 +105,9 @@ function dataLevelDistributionFun() {
 
     function callback(result) {
         if (result.success) {
-
+            var data = result.data;
+            var info = data.info;
+            var name = data.name;
         }
     }
 }
@@ -111,7 +122,9 @@ function dataSourceDistributionFun() {
 
     function callback(result) {
         if (result.success) {
-
+            var data = result.data;
+            var info = data.info;
+            var name = data.name;
         }
     }
 }
@@ -126,6 +139,18 @@ function dataLevelSourceTableFun() {
 
     function callback(result) {
         if (result.success) {
+            var data = result.data;
+
+            var date = data.date;
+
+            var redReportLevelCount = data.redReportLevelCount;
+            var orangeReportLevelCount = data.orangeReportLevelCount;
+            var orangeReportLevelCount = data.orangeReportLevelCount;
+
+            var networkSourceTypeCount = data.networkSourceTypeCount;
+            var mediaSourceTypeCount = data.mediaSourceTypeCount;
+            var sceneSourceTypeCount = data.sceneSourceTypeCount;
+            var otherSourceTypeCount = data.otherSourceTypeCount;
 
         }
     }
@@ -141,6 +166,13 @@ function dataEffectDistributionFun() {
 
     function callback(result) {
         if (result.success) {
+            var data = result.data;
+
+            var date = data.date;
+
+            var clickCount = data.clickCount;
+            var commentCount = data.commentCount;
+            var estimateCount = data.estimateCount;
 
         }
     }
@@ -156,7 +188,13 @@ function dataEffectTableFun() {
 
     function callback(result) {
         if (result.success) {
+            var data = result.data;
 
+            var date = data.date;
+
+            var clickCount = data.clickCount;
+            var commentCount = data.commentCount;
+            var estimateCount = data.estimateCount;
         }
     }
 }
