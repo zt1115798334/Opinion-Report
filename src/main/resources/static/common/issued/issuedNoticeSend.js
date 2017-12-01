@@ -47,12 +47,92 @@ $(function () {
  */
 function searchIssuedNoticeSendFun() {
     var url = "/issuedNotice/searchIssuedNoticeSend";
+    var title = $(".title").val().trim();
+    var receiptState = $(".receiptState").find("option:selected").val();
+    var options = {
+        columns: [{
+            field: 'id',
+            title: "信息ID",
+            visible: false
 
-    execAjaxJSON(url, params, callback);
+        }, {
+            field: 'noticeCode',
+            title: "信息编号",
+            align: "center",
+            valign: "middle"
+        }, {
+            field: 'title',
+            title: "舆情标题",
+            align: "left",
+            valign: "middle"
 
-    function callback(result) {
-        console.log(result);
-    }
+        }, {
+            field: 'noticeType',
+            title: "类型",
+            align: "center",
+            valign: "middle"
+
+
+        }, {
+            field: 'receiptState',
+            title: "状态",
+            align: "center",
+            sortable: true,
+            valign: "middle",
+
+        }, {
+            field: 'publishDatetime',
+            title: "下发时间",
+            align: "center",
+            sortable: true,
+            valign: "middle",
+
+        }, {
+            title: "操作",
+            align: "center",
+            valign: "middle",
+            formatter: function (value, row, index) {
+                var _html = "";
+                _html += "<button class=\"detailsBtn\"  type=\"button\" rowNoticeCode=\"" + row.noticeCode + "\">详情</button>";
+                // _html += "<button class=\"delete\" type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                return _html;
+            }
+        }],
+        paginationPreText: "<i class='glyphicon glyphicon-menu-left'></i>",
+        paginationNextText: "<i class='glyphicon glyphicon-menu-right'></i>",
+        paginationLoop: false,
+        method: 'post',
+        sortable: true,
+        sortOrder: 'desc',
+        pagination: true,
+        sidePagination: 'server',
+        pageNumber: 1,
+        pageSize: 10,
+        dataType: "json",
+        url: url,
+        pageList: [10, 25, 50, 100],
+        queryParamsType: '',
+        formatNoMatches: function () {
+            var _nodata = '<div class="text-center"><img src="../../images/no_data.png">'
+                + '<p>没有搜到任何数据</p></div>';
+            return _nodata;
+        },
+        onLoadSuccess: function () {
+        },
+        queryParams: function (params) {
+            return {
+                title: title,
+                receiptState: receiptState,
+                sortName: params.sortName,
+                sortOrder: params.sortOrder,
+                pageSize: params.pageSize,
+                pageNumber: params.pageNumber
+            }
+        }
+
+    };
+
+    $("#table-report").bootstrapTable("destroy").bootstrapTable(options);
 }
 
 /**

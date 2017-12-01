@@ -30,7 +30,7 @@ $(function () {
  * 显示列表
  */
 function searchReportArticleInChildPageFun() {
-
+    var url = "/reportArticle/searchReportArticleInChild";
     var title = $(".title").val().trim();
     var adoptState = $(".adoptState").find("option:selected").val();
     var sourceType = $(".sourceType").find("option:selected").val();
@@ -122,7 +122,7 @@ function searchReportArticleInChildPageFun() {
         pageNumber: 1,
         pageSize: 10,
         dataType: "json",
-        url: '/reportArticle/searchReportArticleInChildPage',
+        url: url,
         pageList: [10, 25, 50, 100],
         queryParamsType: '',
         formatNoMatches: function () {

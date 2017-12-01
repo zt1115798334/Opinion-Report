@@ -45,9 +45,9 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "opinionReportPage", method = RequestMethod.GET)
-    public String opinionReportPage() {
-        return "/report/opinionReport";
+    @RequestMapping(value = "opinionReportListPage", method = RequestMethod.GET)
+    public String opinionReportListPage() {
+        return "/report/opinionReportList";
     }
 
     /**
@@ -111,10 +111,10 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "searchReportArticlePage", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticle", method = RequestMethod.POST)
     @ResponseBody
-    public Object searchReportArticlePage(@RequestBody ReportArticle reportArticle) {
-        logger.info("请求 searchReportArticlePage 方法，reportArticle:{}", reportArticle);
+    public Object searchReportArticle(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 searchReportArticle 方法，reportArticle:{}", reportArticle);
         if (StringUtils.isEmpty(reportArticle.getSortName())) {
             reportArticle.setSortName("publishDatetime");
             reportArticle.setSortOrder("desc");
@@ -131,10 +131,10 @@ public class ReportArticleController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "searchReportArticleInChildPage", method = RequestMethod.POST)
+    @RequestMapping(value = "searchReportArticleInChild", method = RequestMethod.POST)
     @ResponseBody
-    public Object searchReportArticleInChildPage(@RequestBody ReportArticle reportArticle) {
-        logger.info("请求 searchReportArticleInChildPage 方法，reportArticle:{}", reportArticle);
+    public Object searchReportArticleInChild(@RequestBody ReportArticle reportArticle) {
+        logger.info("请求 searchReportArticleInChild 方法，reportArticle:{}", reportArticle);
         if (StringUtils.isEmpty(reportArticle.getSortName())) {
             reportArticle.setSortName("publishDatetime");
             reportArticle.setSortOrder("desc");
