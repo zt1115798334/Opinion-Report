@@ -187,6 +187,10 @@ public class SysUserServiceImpl implements SysUserService {
             List<Long> descendantId = findChildIdListByParentId(childId);
             descendantIds.addAll(descendantId);
         });
+        // TODO: 2017/12/1  省级单位发送 区级单位查找会有值，如果是市级单位发送 查不到值 所以返回市级子级信息
+        if (descendantIds.size() == 0) { 
+            descendantIds.addAll(childIds);
+        }
         return descendantIds;
     }
 

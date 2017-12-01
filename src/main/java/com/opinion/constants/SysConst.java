@@ -260,7 +260,7 @@ public class SysConst {
     public enum NoticeRange {
 
         ALL("all", "全部"),
-        MUNICIPAL("municipal ", "地市级单位"),
+        MUNICIPAL("municipal", "地市级单位"),
         COUNTY("county", "区县级单位");
 
         private String code;
@@ -283,9 +283,9 @@ public class SysConst {
     public enum ReceiptState {
 
         UNRECEIPT("unreceipt", "未回执"),
-        RECEIPT("receipt ", "已回执"),
-        RECEIPTING("receipting ", "回执中"),
-        UNREAD("unread ", "未读"),
+        RECEIPT("receipt", "已回执"),
+        RECEIPTING("receipting", "回执中"),
+        UNREAD("unread", "未读"),
         READ("read", "已读");
 
         private String code;
@@ -317,9 +317,9 @@ public class SysConst {
     public enum CityLevel {
 
         SYSTEM("0", "最高等级"),
-        PROVINCE("1 ", "省级"),
-        MUNICIPAL("2 ", "市级"),
-        COUNTY("3 ", "县级");
+        PROVINCE("1", "省级"),
+        MUNICIPAL("2", "市级"),
+        COUNTY("3", "县级");
 
         private String code;
         private String name;
@@ -341,7 +341,7 @@ public class SysConst {
     public enum PermissionType {
 
         DISPLAY("display", "显示权限"),
-        OPERATION("operation ", "操作权限");
+        OPERATION("operation", "操作权限");
 
         private String code;
         private String name;
@@ -362,7 +362,7 @@ public class SysConst {
 
     public enum MessageState {
 
-        UNREAD("unread ", "未读"),
+        UNREAD("unread", "未读"),
         READ("read", "已读");
 
         private String code;
@@ -384,7 +384,7 @@ public class SysConst {
 
     public enum Trend {
 
-        UP("up ", "上升"),
+        UP("up", "上升"),
         DOWN("down", "下降");
 
         private String code;
@@ -406,7 +406,7 @@ public class SysConst {
 
     public enum Sort {
 
-        ASC("asc ", "升序"),
+        ASC("asc", "升序"),
         DESC("desc", "降序");
 
         private String code;
@@ -428,7 +428,7 @@ public class SysConst {
 
     public enum ImportOrExport {
 
-        IMPORT("import ", "提交"),
+        IMPORT("import", "提交"),
         EXPORT("export", "收到");
 
         private String code;
@@ -450,7 +450,7 @@ public class SysConst {
 
     public enum NoticeSeeType {
 
-        INFO("info ", "查看"),
+        INFO("info", "查看"),
         EXEC("exec", "执行");
 
         private String code;

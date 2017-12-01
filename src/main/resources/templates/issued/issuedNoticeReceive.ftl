@@ -53,6 +53,6 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
-<script src="/common/issued/issuedNoticeSend.js?v=1"></script>
+<script src="/common/issued/issuedNoticeReceive.js?v=1"></script>
 </body>
 </html>
