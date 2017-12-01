@@ -26,7 +26,7 @@ $(function () {
      * 返回列表
      */
     $(document).on("click", ".return", function () {
-        window.location.href = "/reportArticle/opinionReportPage";
+        window.location.href = "/reportArticle/opinionReportListPage";
     });
 
     /**
