@@ -8,6 +8,7 @@ $(function () {
     editor.customConfig.uploadImgHeaders = {
         'Accept': 'application/json'
     }
+    editor.customConfig.zIndex = 100;
     editor.customConfig.debug = true;
     editor.create();
 

@@ -63,11 +63,11 @@ public class IssuedNoticeController extends BaseController {
      * 跳转通知下传详情页面
      *
      * @param model
-     * @param type       类型 info 查看详情 exec
+     * @param type       类型:info 查看详情:exec
      * @param noticeCode 通知编号
      * @return
      */
-    @RequestMapping(value = "issuedNoticeInfoPage/{type}/noticeCode", method = RequestMethod.GET)
+    @RequestMapping(value = "issuedNoticeInfoPage/{type}/{noticeCode}", method = RequestMethod.GET)
     public String issuedNoticeInfoPage(Model model,
                                        @PathVariable String type,
                                        @PathVariable String noticeCode) {
@@ -119,13 +119,13 @@ public class IssuedNoticeController extends BaseController {
      */
     @RequestMapping(value = "searchIssuedNoticeReceive", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchIssuedNoticeReceive(@RequestBody IssuedNotice issuedNotice) {
+    public Object searchIssuedNoticeReceive(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 searchIssuedNoticeReceive 方法，issuedNotice：{}", issuedNotice);
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
         Page<IssuedNotice> page = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
         JSONObject result = pageIssuedNoticeToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     /**
@@ -136,13 +136,13 @@ public class IssuedNoticeController extends BaseController {
      */
     @RequestMapping(value = "searchIssuedNoticeSend", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchIssuedNoticeSend(@RequestBody IssuedNotice issuedNotice) {
+    public Object searchIssuedNoticeSend(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 searchIssuedNoticeSend 方法，issuedNotice：{}", issuedNotice);
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setCreatedUserId(userId);
         Page<IssuedNotice> page = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
         JSONObject result = pageIssuedNoticeToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     /**
@@ -206,8 +206,14 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public AjaxResult replyExecution(@RequestParam String noticeCode) {
         logger.info("请求 replyExecution 方法，noticeCode：{}", noticeCode);
-        issuedNoticeService.replyExecution(noticeCode);
-        return success("执行成功");
+        IssuedNotice issuedNotice = issuedNoticeService.replyExecution(noticeCode);
+        JSONObject result = new JSONObject();
+        if (issuedNotice != null) {
+            result.put("msg", "执行成功");
+        } else {
+            result.put("msg", "执行失败");
+        }
+        return success(result);
     }
 
     /**

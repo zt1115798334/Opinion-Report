@@ -19,25 +19,25 @@ $(function () {
     /**
      * 删除操作
      */
-    $(document).on("click", ".delete", function () {
-        var id = $(this).attr("rowId");
-        deleteIssuedNoticeFun(id);
-    });
+    // $(document).on("click", ".delete", function () {
+    //     var id = $(this).attr("rowId");
+    //     deleteIssuedNoticeFun(id);
+    // });
 
     /**
      * 查看详情操作
      */
-    $(document).on("click", "", function () {
-        var noticeCode = $(this).attr("rowNoticeCode");
-        window.location.href = "/reportArticle/opinionReportExaminePage/info/" + noticeCode;
-    });
+    // $(document).on("click", "", function () {
+    //     var noticeCode = $(this).attr("rowNoticeCode");
+    //     window.location.href = "/issuedNotice/issuedNoticeInfoPage/info/" + noticeCode;
+    // });
 
     /**
      * 下传信息添加界面操作
      */
-    $(document).on("click", "", function () {
-        window.location.href = "/issuedNotice/issuedNoticeInfoEditPage";
-    });
+    // $(document).on("click", "", function () {
+    //     window.location.href = "/issuedNotice/issuedNoticeInfoEditPage";
+    // });
 
 });
 

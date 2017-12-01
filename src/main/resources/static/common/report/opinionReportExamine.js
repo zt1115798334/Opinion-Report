@@ -4,6 +4,7 @@ $(function () {
     var editor = new E('#editor');
     editor.customConfig.debug = true;
     editor.customConfig.menus = []
+    editor.customConfig.zIndex = 100;
     editor.create();
     editor.$textElem.attr('contenteditable', false);
 

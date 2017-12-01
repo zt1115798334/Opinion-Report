@@ -5,9 +5,9 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    $(document).on("click", ".whiteButton", function () {
-        searchIssuedNoticeReceiveFun();
-    });
+    // $(document).on("click", ".whiteButton", function () {
+    //     searchIssuedNoticeReceiveFun();
+    // });
 
     document.onkeydown = function (e) {
         var ev = document.all ? window.event : e;
@@ -19,10 +19,10 @@ $(function () {
     /**
      * 查看详情操作
      */
-    $(document).on("click", "", function () {
-        var noticeCode = $(this).attr("rowNoticeCode");
-        window.location.href = "/reportArticle/opinionReportExaminePage/exec/" + noticeCode;
-    });
+    // $(document).on("click", "", function () {
+    //     var noticeCode = $(this).attr("rowNoticeCode");
+    //     window.location.href = "/issuedNotice/issuedNoticeInfoPage/exec/" + noticeCode;
+    // });
 });
 
 /**
