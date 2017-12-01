@@ -15,8 +15,9 @@ $(function () {
     /**
      * 点击添加操作
      */
-    validateFun();
+
     $(document).on("click", ".sureBtn", function () {
+        validateFun();
         var bv = $("#issuedNoticeForm").data('bootstrapValidator');
         bv.validate();
         if (!bv.isValid()) {
@@ -39,7 +40,7 @@ $(function () {
 
 });
 function validateFun() {
-    $("#opinionReportForm").bootstrapValidator({
+    $("#issuedNoticeForm").bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             // valid: 'glyphicon glyphicon-ok',
@@ -57,43 +58,17 @@ function validateFun() {
                     }
                 }
             },
-            sourceType: {
+            noticeType: {
                 validators: {
                     notEmpty: {
-                        message: '请选择来源'
+                        message: '请选择类型'
                     }
                 }
             },
-            reportLevel: {
+            noticeRange: {
                 validators: {
                     notEmpty: {
-                        message: '请选择等级'
-                    }
-                }
-            },
-            replyType: {
-                validators: {
-                    notEmpty: {
-                        message: '请选择影响范围'
-                    }
-                }
-            },
-            replyNumber: {
-                validators: {
-                    notEmpty: {
-                        message: '请输入数值'
-                    },
-                    regexp: {
-                        regexp: /^\+?(0|[1-9][0-9]*)$/,
-                        message: '只能填写数字'
-                    }
-                }
-            },
-            sourceUrl: {
-                validators: {
-                    regexp: {
-                        regexp: /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/,
-                        message: '请填写正确的URL地址（http或者https开头）'
+                        message: '请选择范围'
                     }
                 }
             }
@@ -104,7 +79,7 @@ function validateFun() {
 function saveIssuedNoticeFun(params, editor) {
     var url = "/issuedNotice/saveIssuedNotice";
 
-    execAjax(url, params, callback);
+    execAjaxJSON(url, params, callback);
 
     function callback(result) {
         if (result.success) {

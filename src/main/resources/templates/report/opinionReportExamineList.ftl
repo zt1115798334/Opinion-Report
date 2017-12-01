@@ -64,7 +64,7 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
-<script src="/common/utils.js"></script>
+
 <script src="/common/report/opinionReportExamineList.js"></script>
 
 <script type="text/javascript">

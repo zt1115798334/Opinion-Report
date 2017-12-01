@@ -100,7 +100,6 @@
     </div>
 </div>
 
-<script src="/common/utils.js"></script>
 <script src="/common/report/opinionReportExamine.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {

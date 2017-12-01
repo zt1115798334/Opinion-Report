@@ -36,7 +36,7 @@ $(function () {
      * 下传信息添加界面操作
      */
     // $(document).on("click", "", function () {
-    //     window.location.href = "/issuedNotice/issuedNoticeInfoEditPage";
+    //     window.location.href = "/issuedNotice/issuedNoticeEditPage";
     // });
 
 });

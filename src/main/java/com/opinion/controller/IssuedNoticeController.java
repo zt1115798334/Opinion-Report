@@ -86,9 +86,9 @@ public class IssuedNoticeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "issuedNoticeInfoEditPage", method = RequestMethod.GET)
-    public String issuedNoticeInfoEditPage() {
-        return "issuedNoticeInfoEdit";
+    @RequestMapping(value = "issuedNoticeEditPage", method = RequestMethod.GET)
+    public String issuedNoticeEditPage() {
+        return "/issued/issuedNoticeEdit";
     }
 
     /**

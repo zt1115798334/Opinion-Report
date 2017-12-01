@@ -67,5 +67,7 @@ function resetForm(id) {
         $(this).find("option").attr("selected", false);                    //重置原生select的值
         $(this).find("option:first").attr("selected", true);
     });
+    $('#' + id).data('bootstrapValidator').destroy();
+    $('#' + id).data('bootstrapValidator', null);
 }
 

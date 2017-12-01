@@ -18,12 +18,8 @@
     <link href="/assets/plugins/bootstrapValidator/css/bootstrapValidator.min.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="/assets/plugins/bootstrapValidator/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript" src="/assets/plugins/jquery.serializejson.min.js"></script>
-
-    <style type="text/css">
-
-    </style>
 </head>
-<body class="">
+<body>
 <#include "/public/header.ftl"/>
 <div id="wrapper">
     <div id="page-wrapper" style="margin-left: 260px;">
@@ -107,7 +103,6 @@
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
 
-<script src="/common/utils.js"></script>
 <script src="/common/report/opinionReportEdit.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {

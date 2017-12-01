@@ -260,8 +260,8 @@ public class SysConst {
     public enum NoticeRange {
 
         ALL("all", "全部"),
-        MUNICIPAL("municipal ", "市级"),
-        COUNTY("county", "县级");
+        MUNICIPAL("municipal ", "地市级单位"),
+        COUNTY("county", "区县级单位");
 
         private String code;
         private String name;

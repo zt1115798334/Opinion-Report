@@ -15,8 +15,8 @@ $(function () {
     /**
      * 点击添加操作
      */
-    validateFun();
     $(document).on("click", ".sureBtn", function () {
+        validateFun();
         var bv = $("#opinionReportForm").data('bootstrapValidator');
         bv.validate();
         if (!bv.isValid()) {
