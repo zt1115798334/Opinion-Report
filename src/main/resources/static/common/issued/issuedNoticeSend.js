@@ -27,17 +27,17 @@ $(function () {
     /**
      * 查看详情操作
      */
-    // $(document).on("click", "", function () {
-    //     var noticeCode = $(this).attr("rowNoticeCode");
-    //     window.location.href = "/issuedNotice/issuedNoticeInfoPage/info/" + noticeCode;
-    // });
+    $(document).on("click", ".detailsBtn", function () {
+        var noticeCode = $(this).attr("rowNoticeCode");
+        window.location.href = "/issuedNotice/issuedNoticeInfoPage/info/" + noticeCode;
+    });
 
     /**
      * 下传信息添加界面操作
      */
-    // $(document).on("click", "", function () {
-    //     window.location.href = "/issuedNotice/issuedNoticeEditPage";
-    // });
+    $(document).on("click", ".modalBtn", function () {
+        window.location.href = "/issuedNotice/issuedNoticeEditPage";
+    });
 
 });
 

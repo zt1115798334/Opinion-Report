@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<body class="">
+<body>
 <#include "/public/header.ftl"/>
 <div id="wrapper">
     <div id="page-wrapper" style="margin-left: 260px;">
@@ -88,30 +88,5 @@
 </div>
 
 <script src="/common/report/opinionReportList.js?v=1"></script>
-
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('.selectpicker').selectpicker({
-            style: 'btn-info',
-            size: 5
-        });
-        /* $(".viewReportBtn").on("click",function () {
-             location.href="acceptanceReport.html";
-         });*/
-
-        //高度
-        ResizeHeight();
-        window.onresize = function () {
-            ResizeHeight();
-        }
-
-    });
-
-    function ResizeHeight() {
-        var height = $(window).height() - 67 - 40;
-        $("#wrapper").css("min-height", height);
-    }
-</script>
-
 </body>
 </html>

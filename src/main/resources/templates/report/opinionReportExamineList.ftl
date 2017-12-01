@@ -9,14 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11"/>
     <#include "/public/public.ftl"/>
 
-
     <style type="text/css">
         .fixed-table-toolbar {
             display: none;
         }
     </style>
 </head>
-<body class="">
+<body>
 <#include "/public/header.ftl"/>
 <div id="wrapper">
     <div id="page-wrapper" style="margin-left: 260px;">
@@ -64,32 +63,6 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
-
 <script src="/common/report/opinionReportExamineList.js"></script>
-
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('.selectpicker').selectpicker({
-            style: 'btn-info',
-            size: 5
-        });
-        /* $(".viewReportBtn").on("click",function () {
-             location.href="acceptanceReport.html";
-         });*/
-
-        //高度
-        ResizeHeight();
-        window.onresize = function () {
-            ResizeHeight();
-        }
-
-    });
-
-    function ResizeHeight() {
-        var height = $(window).height() - 67 - 40;
-        $("#wrapper").css("min-height", height);
-    }
-</script>
-
 </body>
 </html>

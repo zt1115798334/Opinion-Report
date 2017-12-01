@@ -227,7 +227,7 @@ public class SysConst {
     public enum NoticeType {
 
         IMPORTANTNOTICE("importantNotice", "重要通知"),
-        WORKARRANGEMENT("workArrangement ", "工作安排"),
+        WORKARRANGEMENT("workArrangement", "工作安排"),
         WORKSUGGESTION("workSuggestion", "工作建议"),
         OTHER("other", "其他");
 
@@ -283,7 +283,7 @@ public class SysConst {
     public enum ReceiptState {
 
         UNRECEIPT("unreceipt", "未回执"),
-        RECEIPT("receipt ", "以回执"),
+        RECEIPT("receipt ", "已回执"),
         RECEIPTING("receipting ", "回执中"),
         UNREAD("unread ", "未读"),
         READ("read", "已读");

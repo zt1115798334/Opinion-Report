@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="/assets/plugins/messages/messages.css" />
 <script src="/assets/plugins/messages/messages.js"></script>
 
+<script src="/common/all.js"></script>
 <script src="/common/utils.js"></script>
 <!-- 公用插件结束 -->
 <!-- css开始 -->

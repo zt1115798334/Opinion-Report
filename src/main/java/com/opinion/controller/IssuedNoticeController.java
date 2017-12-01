@@ -254,12 +254,11 @@ public class IssuedNoticeController extends BaseController {
             jo.put("title", issuedNotice.getTitle());
             jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
             jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
-            jo.put("replyNumber", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
-        result.put("totalElements", page.getTotalElements());
-        result.put("totalPages", page.getTotalPages());
-        result.put("list", ja);
+        result.put("total", page.getTotalElements());
+        result.put("rows", ja);
         return result;
     }
 
