@@ -15,6 +15,7 @@ import com.opinion.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -167,6 +168,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Cacheable(value="childId")
     public List<Long> findChildIdListByParentId(Long parentId) {
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(parentId);
         List<Long> userIds = null;
@@ -180,6 +182,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Cacheable(value="descendantId")
     public List<Long> findDescendantIdListByParentId(Long parentId) {
         List<Long> childIds = findChildIdListByParentId(parentId);
         List<Long> descendantIds = Lists.newArrayList();
@@ -195,6 +198,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @Cacheable(value="descendantAllId")
     public List<Long> findDescendantAllIdListByParentId(Long parentId) {
         List<Long> childIds = findChildIdListByParentId(parentId);
         List<Long> descendantIds = Lists.newArrayList();
