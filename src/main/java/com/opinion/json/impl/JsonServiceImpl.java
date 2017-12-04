@@ -17,8 +17,8 @@ import java.io.*;
 public class JsonServiceImpl implements JsonService {
 
     @Override
-    @Cacheable(value="cityCodeJSON")
     public JSONObject getCityCodeJSON() {
+        System.out.println("执行缓存");
         JSONObject result = new JSONObject();
         try {
             File file = ResourceUtils.getFile("classpath:cityinfo.json");

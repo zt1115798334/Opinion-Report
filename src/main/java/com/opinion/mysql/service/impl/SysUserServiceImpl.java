@@ -168,7 +168,6 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Cacheable(value="childId")
     public List<Long> findChildIdListByParentId(Long parentId) {
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(parentId);
         List<Long> userIds = null;
@@ -182,8 +181,8 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Cacheable(value="descendantId")
     public List<Long> findDescendantIdListByParentId(Long parentId) {
+        System.out.println("为id、key为:" + parentId + "数据做了缓存");
         List<Long> childIds = findChildIdListByParentId(parentId);
         List<Long> descendantIds = Lists.newArrayList();
         childIds.stream().forEach(childId -> {
@@ -191,14 +190,13 @@ public class SysUserServiceImpl implements SysUserService {
             descendantIds.addAll(descendantId);
         });
         // TODO: 2017/12/1  省级单位发送 区级单位查找会有值，如果是市级单位发送 查不到值 所以返回市级子级信息
-        if (descendantIds.size() == 0) { 
+        if (descendantIds.size() == 0) {
             descendantIds.addAll(childIds);
         }
         return descendantIds;
     }
 
     @Override
-    @Cacheable(value="descendantAllId")
     public List<Long> findDescendantAllIdListByParentId(Long parentId) {
         List<Long> childIds = findChildIdListByParentId(parentId);
         List<Long> descendantIds = Lists.newArrayList();
