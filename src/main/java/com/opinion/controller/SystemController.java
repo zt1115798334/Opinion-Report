@@ -222,40 +222,28 @@ public class SystemController extends BaseController {
     public AjaxResult searchDisplayMenu() {
         String permissionType = SysConst.PermissionType.DISPLAY.getCode();
         List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
-        System.out.println("sysPermissions = " + sysPermissions);
         JSONArray result = new JSONArray();
-        sysPermissions.stream().forEach(sysPermission -> {
-            JSONObject jo = new JSONObject();
-            jo.put("id", sysPermission.getId());
-            jo.put("urlName", sysPermission.getUrlName());
-            jo.put("sysUrl", sysPermission.getSysUrl());
-            result.add(jo);
-        });
+        sysPermissions.stream()
+                .filter(sysPermission -> sysPermission.getParentId() == 1L)
+                .forEach(sysPermission -> {
+                    Long permissionId = sysPermission.getId();
+                    List<SysPermission> sysPermissionChilds = sysPermissionService.findListByParentId(permissionId);
+                    JSONArray childJSON = new JSONArray();
+                    sysPermissionChilds.stream().forEach(child -> {
+                        JSONObject jo = new JSONObject();
+                        jo.put("urlName", child.getUrlName());
+                        jo.put("sysUrl", child.getSysUrl());
+                        childJSON.add(jo);
+                    });
+                    JSONObject jo = new JSONObject();
+                    jo.put("id", permissionId);
+                    jo.put("urlName", sysPermission.getUrlName());
+                    jo.put("sysUrl", sysPermission.getSysUrl());
+                    jo.put("child", childJSON);
+                    result.add(jo);
+                });
         return success(result);
     }
-
-    /**
-     * 查询显示的子级菜单
-     *
-     * @param permissionId 系统访问认证id
-     * @return
-     */
-    @RequestMapping(value = "searchDisplayChildMenu", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchDisplayChildMenu(@RequestParam Long permissionId) {
-        logger.info("请求 searchDisplayChildMenu 方法，permissionId：{}", permissionId);
-        List<SysPermission> sysPermissions = sysPermissionService.findListByParentId(permissionId);
-        System.out.println("sysPermissions = " + sysPermissions);
-        JSONArray result = new JSONArray();
-        sysPermissions.stream().forEach(sysPermission -> {
-            JSONObject jo = new JSONObject();
-            jo.put("urlName", sysPermission.getUrlName());
-            jo.put("sysUrl", sysPermission.getSysUrl());
-            result.add(jo);
-        });
-        return success(result);
-    }
-
 
     /**
      * 查询用户的操作权限的菜单
