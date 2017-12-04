@@ -91,6 +91,6 @@
         </div><!-- /.modal-content -->
     </div>
 </div>
-<script src="/common/issued/issuedNoticeSend.js?v=1"></script>
+<script src="/common/issued/issuedNoticeSend.js?v=12"></script>
 </body>
 </html>

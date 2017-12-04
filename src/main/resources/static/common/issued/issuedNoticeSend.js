@@ -37,7 +37,7 @@ $(function () {
      */
     $(document).on("click", "#del .execBtn", function () {
         var id = $("#del .execBtn").attr("del-id");
-        deleteReportArticleFun(id);
+        deleteIssuedNoticeFun(id);
         $("#del").modal("hide");
     });
 
