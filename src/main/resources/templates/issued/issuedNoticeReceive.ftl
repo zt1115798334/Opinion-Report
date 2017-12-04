@@ -13,6 +13,12 @@
         .fixed-table-toolbar {
             display: none;
         }
+        .p-table tbody tr td:nth-child(5){
+            text-align: left;
+        }
+        .p-table tbody tr td:nth-child(5) span{
+            margin-left: 15px;
+        }
     </style></head>
 <body>
 <#include "/public/header.ftl"/>
@@ -42,7 +48,7 @@
                                     <option value="other">其他</option>
                                 </select>
                             </div>
-                            <a href="javascript:void(0)" class="whiteButton">
+                            <a href="javascript:void(0)" class="button_red searchButton">
                                 搜索
                             </a>
                         </div>

@@ -1,7 +1,5 @@
 package com.opinion.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.*;
@@ -15,7 +13,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class NetworkUtil {
 
-    public static final String IPINFO="http://int.dpool.sina.com.cn/iplookup/iplookup.php";
+    public static final String IPINFO = "http://int.dpool.sina.com.cn/iplookup/iplookup.php";
 
     /**
      * 从Request对象中获得客户端IP，处理了HTTP代理服务器和Nginx的反向代理截取了ip
@@ -25,20 +23,16 @@ public class NetworkUtil {
      */
     public static String getLocalIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            //多次反向代理后会有多个ip值，第一个ip才是真实ip
-            int index = ip.indexOf(",");
-            if (index != -1) {
-                return ip.substring(0, index);
-            } else {
-                return ip;
-            }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
         }
-        ip = request.getHeader("X-Real-IP");
-        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            return ip;
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        return request.getRemoteAddr();
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 
     /**

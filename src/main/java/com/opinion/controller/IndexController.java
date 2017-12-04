@@ -10,6 +10,7 @@ import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
+import com.opinion.json.JsonService;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.ReportArticle;
 import com.opinion.mysql.entity.SysMessage;
@@ -53,6 +54,9 @@ public class IndexController extends BaseController {
 
     @Autowired
     private CityOrganizationService cityOrganizationService;
+
+    @Autowired
+    private JsonService jsonService;
 
     /**
      * 显示通知
@@ -160,6 +164,12 @@ public class IndexController extends BaseController {
         return success(result);
     }
 
+    /**
+     * 获取天气信息
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "searchWeatherInfo", method = RequestMethod.GET)
     @ResponseBody
     public AjaxResult searchWeatherInfo(HttpServletRequest request) {
@@ -169,7 +179,10 @@ public class IndexController extends BaseController {
         String province = ipJSON.getString("province");
         String city = ipJSON.getString("city");
         IndexController indexController = new IndexController();
-        JSONObject cityCodeJSON = indexController.getCityCodeJSON();
+        long startTime = System.currentTimeMillis();
+        JSONObject cityCodeJSON = jsonService.getCityCodeJSON();
+        long startTime00 = System.currentTimeMillis();
+        logger.info("查询数据过程0耗时{}毫秒", (startTime00 - startTime));
         String code = indexController.getCityCode(cityCodeJSON, province, city);
         Map<String, Object> map = Maps.newHashMap();
         try {
@@ -182,7 +195,6 @@ public class IndexController extends BaseController {
         }
         return success(map);
     }
-
 
     public JSONArray listReportArticleToJSONArray(List<ReportArticle> list, String type) {
         JSONArray result = new JSONArray();
@@ -205,27 +217,6 @@ public class IndexController extends BaseController {
     }
 
 
-    public JSONObject getCityCodeJSON() {
-        JSONObject result = new JSONObject();
-        try {
-            File file = ResourceUtils.getFile("classpath:cityinfo.json");
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            StringBuffer message = new StringBuffer();
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                message.append(line);
-            }
-            String defaultString = message.toString();
-            String defaultMenu;
-            defaultMenu = defaultString.replace("\r\n", "").replaceAll(" +", "");
-            result = JSON.parseObject(defaultMenu);
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     public String getCityCode(JSONObject cityCodeJSON, String province, String city) {
         String result = null;
@@ -255,21 +246,4 @@ public class IndexController extends BaseController {
         return result;
     }
 
-    public static void main(String[] args) {
-        String ipInfo = NetworkUtil.sendGet(NetworkUtil.IPINFO, "format=json&ip=123.123.123.123");
-        JSONObject ipJSON = JSONObject.parseObject(ipInfo);
-        String province = ipJSON.getString("province");
-        String city = ipJSON.getString("city");
-        IndexController indexController = new IndexController();
-        JSONObject cityCodeJSON = indexController.getCityCodeJSON();
-        String code = indexController.getCityCode(cityCodeJSON, province, city);
-        try {
-            Map<String, Object> map = WeatherUtils.getTodayWeather1(code);
-            System.out.println(map.get("city") + "\t" + map.get("temp")
-                    + "\t" + map.get("WD") + "\t" + map.get("WS")
-                    + "\t" + map.get("SD") + "\t" + map.get("time"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

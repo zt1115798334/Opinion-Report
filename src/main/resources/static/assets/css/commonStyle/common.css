@@ -210,21 +210,23 @@ textarea {
 }
 
 .colorblue {
-    color: #6da9ef !important;
+    color: #00afff !important;
 }
 
 .colorred {
-    color: #bb0404 !important;
+    color: #fd696a !important;
 }
 
 .colorgreen {
-    color: #38d874 !important;
+    color: #00d8d4 !important;
 }
 
-.colorsix {
-    color: #f38806 !important;
+.colororange {
+    color: #ff8a01 !important;
 }
-
+.coloryellow{
+    color: #fcd004 !important;
+}
 .colorwhite {
     color: #fff !important;
 }
@@ -598,6 +600,8 @@ textarea {
 }
 
 /*按钮*/
+
+/*渐变风格按钮*/
 .modalBtn {
     padding: 7px 22px;
     background-image: linear-gradient(to right, #3e92ff 0%, #2eaeff 70%) !important;
@@ -647,14 +651,31 @@ textarea {
     font-size: 13px;
     color: #3199fe;
 }
-.modalBtn:hover,.modalBtn_orange:hover,.modalBtn_lingtgray:hover{
+
+/*普通风格按钮*/
+.button_red{
+    border: 1px solid #fd696a !important;
+    background-color: #fd696a !important;
+    padding: 6px 20px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #fff !important;
+}
+.button_green{
+    border: 1px solid #00d8d4 !important;
+    background-color: #00d8d4 !important;
+    padding: 6px 20px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #fff !important;
+}
+.modalBtn:hover,.modalBtn_orange:hover,.modalBtn_lingtgray:hover,.button_red:hover,.button_green:hover{
     opacity: 0.8;
 }
 
 button:hover{
     background-color: rgba(13,121,209,.06);
 }
-
 
 /*空心圆*/
 .circle {
@@ -679,19 +700,19 @@ button:hover{
 }
 
 .process-circle-blue {
-    background: #2b93f5;
+    background: #00afff;
 }
 .process-circle-green {
-    background: #38d874;
+    background: #00d8d4;
 }
 .process-circle-orange {
-    background: #f38806;
+    background: #fd696a;
 }
 .process-circle-grey {
     background: #cccccc;
 }
 .process-circle-red {
-    background: #f38806;
+    background: #fd696a;
 }
 
 .require {

@@ -43,7 +43,7 @@
                                     <option value="other">其他</option>
                                 </select>
                             </div>
-                            <a href="javascript:void(0)" class="whiteButton">
+                            <a href="javascript:void(0)" class="button_red searchButton">
                                 搜索
                             </a>
                         </div>

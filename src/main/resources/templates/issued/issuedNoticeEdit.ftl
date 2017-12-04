@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 text-center  padding20 clearfix" id="showButton">
-                        <input id="" type="button" class="btn btn-primary sureBtn" onclick="" value="提交">
+                        <input id="" type="button" class="btn btn-primary button_green submitBtn" onclick="" value="提交">
                     </div>
                 </div>
             </form>

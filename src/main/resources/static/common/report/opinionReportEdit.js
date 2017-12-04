@@ -15,7 +15,7 @@ $(function () {
     /**
      * 点击添加操作
      */
-    $(document).on("click", ".sureBtn", function () {
+    $(document).on("click", ".execBtn", function () {
         validateFun();
         var bv = $("#opinionReportForm").data('bootstrapValidator');
         bv.validate();

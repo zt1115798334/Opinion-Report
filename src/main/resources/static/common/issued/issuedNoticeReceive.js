@@ -5,7 +5,7 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    $(document).on("click", ".whiteButton", function () {
+    $(document).on("click", ".searchButton", function () {
         searchIssuedNoticeReceiveFun();
     });
 
@@ -68,7 +68,7 @@ function searchIssuedNoticeReceiveFun() {
         }, {
             field: 'receiptState',
             title: "状态",
-            align: "center",
+            align: "left",
             valign: "middle",
             formatter: function (value, row, index) {
                 var _html = "";

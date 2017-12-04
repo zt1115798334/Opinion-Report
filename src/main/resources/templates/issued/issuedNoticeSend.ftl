@@ -13,6 +13,12 @@
         .fixed-table-toolbar {
             display: none;
         }
+        .p-table tbody tr td:nth-child(5){
+            text-align: left;
+        }
+        .p-table tbody tr td:nth-child(5) span{
+            margin-left: 15px;
+        }
     </style>
 </head>
 <body>
@@ -43,11 +49,11 @@
                                     <option value="other">其他</option>
                                 </select>
                             </div>
-                            <a href="javascript:void(0)" class="whiteButton">
+                            <a href="javascript:void(0)" class="button_red searchButton">
                                 搜索
                             </a>
                             <div class="tools">
-                                <a href="javascript:void(0)" class="modalBtn">
+                                <a href="javascript:void(0)" class="button_green issuedBtn">
                                     下发信息
                                 </a>
                             </div>
@@ -78,8 +84,8 @@
             <div class="modal-body  text-center">是否确认删除该条舆情，删除后无法恢复？</div>
             <div class="modal-footer">
                 <div class="col-sm-12">
-                    <button id="" type="button" class="btn btn-primary sureBtn" del-id="">确认</button>
-                    <button type="button" class="btn btn-default denyBtn" data-dismiss="modal">取消</button>
+                    <button id="" type="button" class="btn btn-primary sureBtn_green execBtn" del-id="">确认</button>
+                    <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
                 </div>
             </div>
         </div><!-- /.modal-content -->

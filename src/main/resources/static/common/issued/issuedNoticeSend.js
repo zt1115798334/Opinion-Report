@@ -5,7 +5,7 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    $(document).on("click", ".whiteButton", function () {
+    $(document).on("click", ".searchButton", function () {
         searchIssuedNoticeSendFun();
     });
 
@@ -17,11 +17,28 @@ $(function () {
     };
 
     /**
-     * 删除操作
+     * 删除操作 -- 弹框显示
      */
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
-        deleteIssuedNoticeFun(id);
+        $("#del").modal("show");
+        $("#del .execBtn").attr("del-id", id);
+    });
+
+    /**
+     * 删除操作 -- 弹框提示 -- 关闭
+     */
+    $(document).on("hidden.bs.modal", "#del", function () {
+        $("#del .execBtn").removeAttr("del-id");
+    });
+
+    /**
+     * 删除操作 -- 弹框提示 -- 确认
+     */
+    $(document).on("click", "#del .execBtn", function () {
+        var id = $("#del .execBtn").attr("del-id");
+        deleteReportArticleFun(id);
+        $("#del").modal("hide");
     });
 
     /**
@@ -35,7 +52,7 @@ $(function () {
     /**
      * 下传信息添加界面操作
      */
-    $(document).on("click", ".modalBtn", function () {
+    $(document).on("click", ".issuedBtn", function () {
         window.location.href = "/issuedNotice/issuedNoticeEditPage";
     });
 
@@ -84,7 +101,7 @@ function searchIssuedNoticeSendFun() {
         }, {
             field: 'receiptState',
             title: "状态",
-            align: "center",
+            align: "left",
             valign: "middle",
             formatter: function (value, row, index) {
                 var _html = "";

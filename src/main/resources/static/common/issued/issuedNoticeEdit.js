@@ -18,7 +18,7 @@ $(function () {
      * 点击添加操作
      */
 
-    $(document).on("click", ".sureBtn", function () {
+    $(document).on("click", ".submitBtn", function () {
         validateFun();
         var bv = $("#issuedNoticeForm").data('bootstrapValidator');
         bv.validate();

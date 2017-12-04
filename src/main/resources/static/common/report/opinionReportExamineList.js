@@ -4,7 +4,7 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    $(document).on("click", ".whiteButton", function () {
+    $(document).on("click", ".searchButton", function () {
         searchReportArticleInChildPageFun();
     });
 
@@ -64,7 +64,21 @@ function searchReportArticleInChildPageFun() {
             align: "center",
             sortable: true,
             valign: "middle",
-
+            formatter: function (value, row, index) {
+                var _html = "";
+                switch (value) {
+                    case "红色":
+                        _html = "<span class=\"colorred\">红色</span>";
+                        break;
+                    case "橙色":
+                        _html = "<span class=\"colororange\">橙色</span>";
+                        break;
+                    case "黄色":
+                        _html = "<span class=\"coloryellow\">黄色</span>";
+                        break;
+                }
+                return _html;
+            }
         }, {
             field: 'replyNumber',
             title: "影响范围",

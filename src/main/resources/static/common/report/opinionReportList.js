@@ -4,7 +4,7 @@ $(function () {
     /**
      * 点击搜索操作
      */
-    $(document).on("click", ".whiteButton", function () {
+    $(document).on("click", ".searchButton", function () {
         searchReportArticlePageFun();
     });
 
@@ -21,14 +21,14 @@ $(function () {
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
         $("#del").modal("show");
-        $("#del .sureBtn").attr("del-id", id);
+        $("#del .execBtn").attr("del-id", id);
     });
 
     /**
      * 删除操作 -- 弹框提示 -- 确认
      */
-    $(document).on("click", "#del .sureBtn", function () {
-        var id = $("#del .sureBtn").attr("del-id");
+    $(document).on("click", "#del .execBtn", function () {
+        var id = $("#del .execBtn").attr("del-id");
         deleteReportArticleFun(id);
         $("#del").modal("hide");
     });
@@ -37,7 +37,7 @@ $(function () {
      * 删除操作 -- 弹框提示 -- 关闭
      */
     $(document).on("hidden.bs.modal", "#del", function () {
-        $("#del .sureBtn").removeAttr("del-id");
+        $("#del .execBtn").removeAttr("del-id");
     });
     /**
      * 查看详情操作
@@ -50,7 +50,7 @@ $(function () {
     /**
      * 上报舆情添加界面操作
      */
-    $(document).on("click", ".modalBtn", function () {
+    $(document).on("click", ".reportBtn", function () {
         window.location.href = "/reportArticle/opinionReportEditPage";
     });
 });
@@ -93,7 +93,21 @@ function searchReportArticlePageFun() {
             align: "center",
             sortable: true,
             valign: "middle",
-
+            formatter: function (value, row, index) {
+                var _html = "";
+                switch (value) {
+                    case "红色":
+                        _html = "<span class=\"colorred\">红色</span>";
+                        break;
+                    case "橙色":
+                        _html = "<span class=\"colororange\">橙色</span>";
+                        break;
+                    case "黄色":
+                        _html = "<span class=\"coloryellow\">黄色</span>";
+                        break;
+                }
+                return _html;
+            }
         }, {
             field: 'replyNumber',
             title: "影响范围",

@@ -16,10 +16,10 @@
     background: #ff3600 !important;
     font-weight: 500 !important;
 }
- button,.modalBtn_gray{
+ button{
     margin: 0 5px;
     background: transparent;
-    color: #2b93f5;
+    color: #00d8d4;
     border: 0;
     font-size: 12px;
     border-radius: 3px;
@@ -39,11 +39,15 @@ button[disabled], html input[disabled] {
 .form-control{
     font-size: 13px;
 }
-.table-striped>tbody>tr:nth-of-type(even) {
+/*隔行换色*/
+/*.table-striped>tbody>tr:nth-of-type(even) {
     background-color: #f4f6f8;
 }
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #fff;
+}*/
+.table-striped>tbody>tr{
+    background-color: #fff !important;
 }
 .table-hover>tbody>tr:hover>td,
 .table-hover>tbody>tr:hover>th {
@@ -53,17 +57,17 @@ button[disabled], html input[disabled] {
     z-index: 3;
     color: #fff;
     cursor: default;
-    background-color: #2b93f5;
-    border-color: #2b93f5;
+    background-color: #00d8d4;
+    border-color: #00d8d4;
 }
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
     background-image: none;
 }
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-    background-color: #2b93f5;
+    background-color: #00d8d4;
 }
 .modal-header{
-    background-color: #2b93f6;
+    background-color: #00d8d4;
 }
 .modal-header>h4,.modal-header>button{
     color: #fff;

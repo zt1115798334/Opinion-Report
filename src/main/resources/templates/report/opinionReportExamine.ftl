@@ -42,7 +42,7 @@
                                         影响范围：<span class="reply"></span>
                                     </div>
                                     <div class="col-md-6 noPaddingX">
-                                        链接网址：<a href="" class="colorfive sourceUrl" target="_blank"></a>
+                                        链接网址：<a href="" class="colorgreen sourceUrl" target="_blank"></a>
                                     </div>
                                 </div>
                             </div>
@@ -64,14 +64,14 @@
 
                 <!--处理按钮-->
                 <div class="col-md-12 text-center  padding20 clearfix" id="showButton">
-                    <input id="ddddd" type="button" class="btn btn-primary modalBtn_orange adoptBtn" adoptState="notAdopted"
+                    <input id="ddddd" type="button" class="btn btn-primary button_red adoptBtn" adoptState="notAdopted"
                            value="不予采纳">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="button" class="btn btn-primary modalBtn adoptBtn" adoptState="adopt" value="采纳">
+                    <input type="button" class="btn btn-primary button_green adoptBtn" adoptState="adopt" value="采纳">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="button" class="btn btn-primary modalBtn_lingtgray report" value="上报">
+                    <input type="button" class="btn btn-primary denyBtn_green report" value="上报">
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="button" class="btn btn-primary modalBtn_lingtgray return" value="返回">
+                    <input type="button" class="btn btn-primary denyBtn_green return" value="返回">
                 </div>
 
             </div>
