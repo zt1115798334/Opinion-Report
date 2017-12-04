@@ -1,9 +1,11 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -15,17 +17,24 @@ import com.opinion.mysql.service.CityOrganizationService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysMessageService;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.NetworkUtil;
 import com.opinion.utils.RelativeDateUtils;
+import com.opinion.utils.WeatherUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -151,6 +160,30 @@ public class IndexController extends BaseController {
         return success(result);
     }
 
+    @RequestMapping(value = "searchWeatherInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public AjaxResult searchWeatherInfo(HttpServletRequest request) {
+        String ip = NetworkUtil.getLocalIp(request);
+        String ipInfo = NetworkUtil.sendGet(NetworkUtil.IPINFO, "format=json&ip=123.123.123.123");
+        JSONObject ipJSON = JSONObject.parseObject(ipInfo);
+        String province = ipJSON.getString("province");
+        String city = ipJSON.getString("city");
+        IndexController indexController = new IndexController();
+        JSONObject cityCodeJSON = indexController.getCityCodeJSON();
+        String code = indexController.getCityCode(cityCodeJSON, province, city);
+        Map<String, Object> map = Maps.newHashMap();
+        try {
+            map = WeatherUtils.getTodayWeather2(code);
+            System.out.println(map.get("city") + "\t" + map.get("temp")
+                    + "\t" + map.get("WD") + "\t" + map.get("WS")
+                    + "\t" + map.get("SD") + "\t" + map.get("time"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return success(map);
+    }
+
+
     public JSONArray listReportArticleToJSONArray(List<ReportArticle> list, String type) {
         JSONArray result = new JSONArray();
         list.stream().forEach(reportArticle -> {
@@ -171,4 +204,72 @@ public class IndexController extends BaseController {
         return result;
     }
 
+
+    public JSONObject getCityCodeJSON() {
+        JSONObject result = new JSONObject();
+        try {
+            File file = ResourceUtils.getFile("classpath:cityinfo.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            StringBuffer message = new StringBuffer();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                message.append(line);
+            }
+            String defaultString = message.toString();
+            String defaultMenu;
+            defaultMenu = defaultString.replace("\r\n", "").replaceAll(" +", "");
+            result = JSON.parseObject(defaultMenu);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String getCityCode(JSONObject cityCodeJSON, String province, String city) {
+        String result = null;
+        JSONArray zone = cityCodeJSON.getJSONArray("zone");
+        for (Iterator iterator = zone.iterator(); iterator.hasNext(); ) {
+            JSONObject provinceObject = (JSONObject) iterator.next();
+            String provinceName = provinceObject.getString("name");
+            if (Objects.equal(provinceName, province)) {
+                JSONArray cityArray = provinceObject.getJSONArray("zone");
+                for (Iterator iteratorCity = cityArray.iterator(); iterator.hasNext(); ) {
+                    JSONObject cityJSON = (JSONObject) iteratorCity.next();
+                    String cityName = cityJSON.getString("name");
+                    if (Objects.equal(cityName, city)) {
+                        JSONArray areaArray = cityJSON.getJSONArray("zone");
+                        for (Iterator iteratorArea = areaArray.iterator(); iterator.hasNext(); ) {
+                            JSONObject areaJSON = (JSONObject) iteratorArea.next();
+                            String areaName = areaJSON.getString("name");
+                            if (Objects.equal(areaName, city)) {
+                                result = areaJSON.getString("code");
+                                return result;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String ipInfo = NetworkUtil.sendGet(NetworkUtil.IPINFO, "format=json&ip=123.123.123.123");
+        JSONObject ipJSON = JSONObject.parseObject(ipInfo);
+        String province = ipJSON.getString("province");
+        String city = ipJSON.getString("city");
+        IndexController indexController = new IndexController();
+        JSONObject cityCodeJSON = indexController.getCityCodeJSON();
+        String code = indexController.getCityCode(cityCodeJSON, province, city);
+        try {
+            Map<String, Object> map = WeatherUtils.getTodayWeather1(code);
+            System.out.println(map.get("city") + "\t" + map.get("temp")
+                    + "\t" + map.get("WD") + "\t" + map.get("WS")
+                    + "\t" + map.get("SD") + "\t" + map.get("time"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
