@@ -45,4 +45,5 @@ public class IssuedNoticeTest extends BaseTest {
             issuedNoticeService.save(issuedNotice);
         });
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhangtong
@@ -30,7 +31,7 @@ public class IssuedNoticeLogServiceImpl implements IssuedNoticeLogService {
     @Override
     public IssuedNoticeLog readIssuedNotice(String noticeCode, Long receiptUserId) {
         IssuedNoticeLog issuedNoticeLog = findByNoticeCodeAndReceiptUserId(noticeCode, receiptUserId);
-        if (issuedNoticeLog != null) {
+        if (issuedNoticeLog != null && Objects.equals(issuedNoticeLog.getReceiptState(), SysConst.ReceiptState.UNREAD.getCode())) {
             issuedNoticeLog.setReceiptState(SysConst.ReceiptState.READ.getCode());
             issuedNoticeLogRepository.save(issuedNoticeLog);
         }

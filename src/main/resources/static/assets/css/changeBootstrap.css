@@ -55,7 +55,7 @@ button[disabled], html input[disabled] {
 }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;
-    color: #fff;
+    color: #fff !important;
     cursor: default;
     background-color: #00d8d4;
     border-color: #00d8d4;
@@ -65,6 +65,9 @@ button[disabled], html input[disabled] {
 }
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
     background-color: #00d8d4;
+}
+.fixed-table-pagination .pagination a,.fixed-table-pagination .pagination a:hover,.fixed-table-pagination .pagination a:focus {
+    color: #00d8d4;
 }
 .modal-header{
     background-color: #00d8d4;

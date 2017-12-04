@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -121,8 +123,10 @@ public class IssuedNoticeController extends BaseController {
         logger.info("请求 searchIssuedNoticeReceive 方法，issuedNotice：{}", issuedNotice);
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
+        List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(userId);
+        Map<String, IssuedNoticeLog> issuedNoticeLogMap = issuedNoticeLogs.stream().collect(Collectors.toMap(IssuedNoticeLog::getNoticeCode, in -> in));
         Page<IssuedNotice> page = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
-        JSONObject result = pageIssuedNoticeToJSONObject(page);
+        JSONObject result = pageIssuedNoticeToJSONObject(page, issuedNoticeLogMap);
         return result;
     }
 
@@ -139,7 +143,7 @@ public class IssuedNoticeController extends BaseController {
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setCreatedUserId(userId);
         Page<IssuedNotice> page = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
-        JSONObject result = pageIssuedNoticeToJSONObject(page);
+        JSONObject result = pageIssuedNoticeToJSONObject(page, null);
         return result;
     }
 
@@ -222,16 +226,18 @@ public class IssuedNoticeController extends BaseController {
         logger.info("请求 searchIssuedNoticeLog 方法，noticeCode：{}", noticeCode);
         List<IssuedNoticeLog> list = issuedNoticeLogService.findListByNoticeCode(noticeCode);
         JSONArray ja = new JSONArray();
-        list.stream().forEach(issuedNoticeLog -> {
-            JSONObject jo = new JSONObject();
-            String RReceiptStateVal = SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getCode();
-            SysUser sysUser = sysUserService.findById(issuedNoticeLog.getCreatedUserId());
-            StringBuilder sb = new StringBuilder();
-            sb.append("用户：").append(sysUser.getUserName()).append(RReceiptStateVal);
-            jo.put("msg", sb.toString());
-            jo.put("datetime", DateUtils.formatDate(issuedNoticeLog.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT));
-            ja.add(jo);
-        });
+        list.stream()
+                .filter(issuedNoticeLog -> Objects.equals(issuedNoticeLog.getReceiptState(), SysConst.ReceiptState.RECEIPT.getCode()))
+                .forEach(issuedNoticeLog -> {
+                    JSONObject jo = new JSONObject();
+                    String RReceiptStateVal = SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getName();
+                    SysUser sysUser = sysUserService.findById(issuedNoticeLog.getCreatedUserId());
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("用户：").append(sysUser.getUserName()).append(RReceiptStateVal);
+                    jo.put("msg", sb.toString());
+                    jo.put("datetime", DateUtils.formatDate(issuedNoticeLog.getReceiptDatetime(), DateUtils.DATE_SECOND_FORMAT));
+                    ja.add(jo);
+                });
 
         long allIssuedNoticeLogCount = issuedNoticeLogService.findCountByNoticeCode(noticeCode);
         long receiptIssuedNoticeLogCount = issuedNoticeLogService
@@ -243,7 +249,8 @@ public class IssuedNoticeController extends BaseController {
         return success(result);
     }
 
-    private JSONObject pageIssuedNoticeToJSONObject(Page<IssuedNotice> page) {
+    private JSONObject pageIssuedNoticeToJSONObject(Page<IssuedNotice> page, Map<String, IssuedNoticeLog> issuedNoticeLogMap) {
+
         JSONObject result = new JSONObject();
         List<IssuedNotice> list = page.getContent();
         JSONArray ja = new JSONArray();
@@ -254,7 +261,11 @@ public class IssuedNoticeController extends BaseController {
             jo.put("title", issuedNotice.getTitle());
             jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
             jo.put("noticeRange", SysConst.getNoticeRangeByCode(issuedNotice.getNoticeRange()).getName());
-            jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+            if (issuedNoticeLogMap != null) {
+                jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNoticeLogMap.get(issuedNotice.getNoticeCode()).getReceiptState()).getName());
+            } else {
+                jo.put("receiptState", SysConst.getReceiptStateByCode(issuedNotice.getReceiptState()).getName());
+            }
             jo.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
@@ -262,7 +273,6 @@ public class IssuedNoticeController extends BaseController {
         result.put("rows", ja);
         return result;
     }
-
 
 
 }

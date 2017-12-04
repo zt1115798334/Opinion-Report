@@ -30,7 +30,6 @@ import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -166,7 +165,9 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         Long receiptUserId = issuedNotice.getReceiptUserId();
         List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(receiptUserId);
         List<String> noticeCodes = issuedNoticeLogs.stream().map(IssuedNoticeLog::getNoticeCode).collect(Collectors.toList());
-        Map<String, IssuedNoticeLog> issuedNoticeLogMap = issuedNoticeLogs.stream().collect(Collectors.toMap(IssuedNoticeLog::getNoticeCode, in -> in));
+        if (noticeCodes.size() == 0) {
+            noticeCodes.add("-1");
+        }
         Specification<IssuedNotice> specification = new Specification<IssuedNotice>() {
             @Override
             public Predicate toPredicate(Root<IssuedNotice> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -198,9 +199,6 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                 issuedNotice.getSortName(),
                 issuedNotice.getSortOrder());
         Page<IssuedNotice> result = issuedNoticeRepository.findAll(specification, pageable);
-        result.getContent().forEach(in -> {
-            in.setReceiptState(issuedNoticeLogMap.get(in.getNoticeCode()).getReceiptState());
-        });
         return result;
     }
 
@@ -211,6 +209,8 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         IssuedNoticeLog issuedNoticeLog = issuedNoticeLogService.findByNoticeCodeAndReceiptUserId(noticeCode, userId);
         if (issuedNoticeLog != null) {
             issuedNoticeLog.setReceiptUserId(userId);
+            issuedNoticeLog.setReceiptDate(currentDatetime.toLocalDate());
+            issuedNoticeLog.setReceiptDatetime(currentDatetime);
             issuedNoticeLog.setReceiptState(SysConst.ReceiptState.RECEIPT.getCode());
         }
 

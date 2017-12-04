@@ -35,10 +35,10 @@
 	background-image: linear-gradient(to right, #f0f1f4 0%, #f0f1f4 100%);/*待定*/
 }
 .state_active{
-	background-image: linear-gradient(to right, #43e4a8 0%, #38d874 100%);/*肯定*/
+	background-image: linear-gradient(to right, #43e4a8 0%, #00d8d4 100%);/*肯定*/
 }
 .state_no{
-	background-image: linear-gradient(to right, #f9b84c 0%, #f9812a 100%);/*否定*/
+	background-image: linear-gradient(to right, #f9b84c 0%, #fd696a 100%);/*否定*/
 }
 .state h5 .flowShaftResult{
 	color: #333;

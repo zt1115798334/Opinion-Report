@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>舆情上报详情</title>
-<#include "/public/public.ftl"/>
+    <#include "/public/public.ftl"/>
     <link href="/assets/css/flowShaft.css" type="text/css" rel="stylesheet"><!--流程轴样式-->
     <link href="/assets/plugins/wangEditor-3.0.15/release/wangEditor.css" type="text/css" rel="stylesheet"><!-- 编辑器-->
     <script type="text/javascript" src="/assets/plugins/wangEditor-3.0.15/release/wangEditor.js"
@@ -56,7 +56,7 @@
 
                         <!--流程轴-->
                         <div class="bgf flowShaft">
-                            <h5 style="padding: 10px 5px;font-weight: 600;">处理记录</h5>
+                            <h5  class="fs16 bold" style="padding: 10px 5px;">处理记录</h5>
 
                         </div>
                     </div>
@@ -82,23 +82,6 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
-
-<!--成功提示模态框-->
-<div id="tipper" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header logocbg">
-                <h5 class="modal-title colorwhite" id="">&nbsp;&nbsp;提示</h5>
-            </div>
-            <div class="modal-body  text-center">已上报成功！</div>
-            <div class="modal-footer">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-default denyBtn" data-dismiss="modal">ok</button>
-                </div>
-            </div>
-        </div><!-- /.modal-content -->
-    </div>
-</div>
 <script src="/common/report/opinionReportExamine.js"></script>
 </body>
 </html>

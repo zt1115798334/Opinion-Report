@@ -13,7 +13,8 @@ import java.util.List;
  * @author zhangtong
  * Created by on 2017/11/16
  */
-public interface IssuedNoticeRepository extends CrudRepository<IssuedNotice, Long>, JpaSpecificationExecutor<IssuedNotice> {
+
+public interface IssuedNoticeRepository extends CrudRepository<IssuedNotice, Long>, JpaSpecificationExecutor<IssuedNotice>{
 
     IssuedNotice findByNoticeCode(String noticeCode);
 

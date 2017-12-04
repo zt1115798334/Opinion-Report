@@ -37,12 +37,20 @@ public class IssuedNoticeLog extends BaseSortRequest implements Serializable {
      */
     @Column(name = "receipt_state", nullable = false)
     private String receiptState;
+
+    /**
+     * 回执日期
+     */
+    @Column(name = "receipt_date")
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate receiptDate;
+
     /**
      * 回执时间
      */
-    @Column(name = "receipt_date")
+    @Column(name = "receipt_datetime")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private String receiptDate;
+    private LocalDateTime receiptDatetime;
 
     /**
      * 回执人id
@@ -95,12 +103,20 @@ public class IssuedNoticeLog extends BaseSortRequest implements Serializable {
         this.receiptState = receiptState;
     }
 
-    public String getReceiptDate() {
+    public LocalDate getReceiptDate() {
         return receiptDate;
     }
 
-    public void setReceiptDate(String receiptDate) {
+    public void setReceiptDate(LocalDate receiptDate) {
         this.receiptDate = receiptDate;
+    }
+
+    public LocalDateTime getReceiptDatetime() {
+        return receiptDatetime;
+    }
+
+    public void setReceiptDatetime(LocalDateTime receiptDatetime) {
+        this.receiptDatetime = receiptDatetime;
     }
 
     public Long getReceiptUserId() {

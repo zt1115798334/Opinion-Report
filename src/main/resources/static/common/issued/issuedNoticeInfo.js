@@ -11,29 +11,29 @@ $(function () {
     var noticeCode = $("#noticeCode").val();
     var type = $("#type").val();
     if (type == "info") { //详情
-        alert("详情");
+            $(".execBtn").remove();
     } else if (type == "exec") {     // 审核
-        alert("执行");
+
     }
     var params = {
         noticeCode: noticeCode
     };
-    searchIssuedNoticeByCodeFun(params);
+    searchIssuedNoticeByCodeFun(params, editor);
     searchIssuedNoticeLogFun(params);
 
-    // /**
-    //  * 返回事件
-    //  */
-    // $(document).on("click", "", function () {
-    //     window.location.href = "/issuedNotice/issuedNoticeSendPage";
-    // });
+    /**
+     * 返回事件
+     */
+    $(document).on("click", ".return", function () {
+        window.location.href = "/issuedNotice/issuedNoticeSendPage";
+    });
 
-    // /**
-    //  * 执行回执操作
-    //  */
-    // $(document).on("click", "", function () {
-    //     replyExecutionFun(params);
-    // });
+    /**
+     * 执行回执操作
+     */
+    $(document).on("click", ".execBtn", function () {
+        replyExecutionFun(params);
+    });
 
 });
 
@@ -42,8 +42,7 @@ $(function () {
  */
 function searchIssuedNoticeByCodeFun(params, editor) {
     var url = "/issuedNotice/searchIssuedNoticeByCode";
-
-    execAjaxJSON(url, params, callback);
+    execAjax(url, params, callback);
 
     function callback(result) {
         if (result.success) {
@@ -56,6 +55,15 @@ function searchIssuedNoticeByCodeFun(params, editor) {
             var noticeContent = data.noticeContent;
             var receiptState = data.receiptState;
             var receiptStateMsg = data.receiptStateMsg;
+            $(".title").html(title);
+            $(".noticeType").html(noticeType);
+            $(".publishDatetime").html(publishDatetime);
+            editor.txt.html(noticeContent);
+            if (receiptState == "receipt") {
+                if ($(".execBtn").length > 0) {
+                    $(".execBtn").attr("disabled", true);
+                }
+            }
         }
     }
 }
@@ -67,19 +75,29 @@ function searchIssuedNoticeByCodeFun(params, editor) {
 function searchIssuedNoticeLogFun(params) {
     var url = "/issuedNotice/searchIssuedNoticeLog";
 
-    execAjaxJSON(url, params, callback);
+    execAjax(url, params, callback);
 
     function callback(result) {
         if (result.success) {
             var data = result.data;
             var allCount = data.allCount;
             var noticeCount = data.noticeCount;
-            var da = data.da;
+            var da = data.data;
+            var html = '<h5 class="fs16 bold" style="padding: 10px 5px;">处理记录 <span class="fs12 colorgreen">已回执' + noticeCount + '/' + allCount + '</span></h5>\n';
             for (var i in da) {
                 var m = da[i];
                 var msg = m.msg;
                 var datetime = m.datetime;
+                html += '<div class="flowShaftSide state_active">\n' +
+                    '                                <img src="/assets/images/state_waite.png" alt="">\n' +
+                    '                                <h5 >\n' +
+                    '                                    <i id="">' + datetime + '</i>\n' +
+                    '                                    <span class="flowShaftResult">' + msg + '</span>\n' +
+                    '                                </h5>\n' +
+                    '                            </div>';
             }
+
+            $(".flowShaft").html(html);
         }
     }
 }
@@ -90,7 +108,7 @@ function searchIssuedNoticeLogFun(params) {
 function replyExecutionFun(params) {
     var url = "/issuedNotice/replyExecution";
 
-    execAjaxJSON(url, params, callback);
+    execAjax(url, params, callback);
 
     function callback(result) {
         if (result.success) {
