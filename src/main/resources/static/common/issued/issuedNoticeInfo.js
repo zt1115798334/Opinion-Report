@@ -13,7 +13,7 @@ $(function () {
     if (type == "info") { //详情
             $(".execBtn").remove();
     } else if (type == "exec") {     // 审核
-
+        $(".return").remove();
     }
     var params = {
         noticeCode: noticeCode
@@ -113,6 +113,10 @@ function replyExecutionFun(params) {
     function callback(result) {
         if (result.success) {
             notify.success({title: "提示", content: result.data, autoClose: true});
+            searchIssuedNoticeLogFun(params);
+            if ($(".execBtn").length > 0) {
+                $(".execBtn").attr("disabled", true);
+            }
         } else {
             notify.error({title: "提示", content: result.message});
         }

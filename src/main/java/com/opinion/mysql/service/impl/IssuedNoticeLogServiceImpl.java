@@ -40,7 +40,7 @@ public class IssuedNoticeLogServiceImpl implements IssuedNoticeLogService {
 
     @Override
     public List<IssuedNoticeLog> findListByNoticeCode(String noticeCode) {
-        Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
+        Sort sort = new Sort(Sort.Direction.DESC, "receiptDatetime");
         return issuedNoticeLogRepository.findByNoticeCode(noticeCode, sort);
     }
 

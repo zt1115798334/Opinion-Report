@@ -13,6 +13,7 @@ import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -121,6 +122,10 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public Object searchIssuedNoticeReceive(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 searchIssuedNoticeReceive 方法，issuedNotice：{}", issuedNotice);
+        if (StringUtils.isEmpty(issuedNotice.getSortName())) {
+            issuedNotice.setSortName("publishDatetime");
+            issuedNotice.setSortOrder("desc");
+        }
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
         List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(userId);
@@ -140,6 +145,10 @@ public class IssuedNoticeController extends BaseController {
     @ResponseBody
     public Object searchIssuedNoticeSend(@RequestBody IssuedNotice issuedNotice) {
         logger.info("请求 searchIssuedNoticeSend 方法，issuedNotice：{}", issuedNotice);
+        if (StringUtils.isEmpty(issuedNotice.getSortName())) {
+            issuedNotice.setSortName("publishDatetime");
+            issuedNotice.setSortOrder("desc");
+        }
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setCreatedUserId(userId);
         Page<IssuedNotice> page = issuedNoticeService.findPageByCreatedUserId(issuedNotice);
