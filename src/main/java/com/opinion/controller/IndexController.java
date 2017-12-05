@@ -1,11 +1,9 @@
 package com.opinion.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -18,24 +16,19 @@ import com.opinion.mysql.service.CityOrganizationService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysMessageService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.NetworkUtil;
 import com.opinion.utils.RelativeDateUtils;
-import com.opinion.utils.WeatherUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -213,7 +206,6 @@ public class IndexController extends BaseController {
         });
         return result;
     }
-
 
 
     public String getCityCode(JSONObject cityCodeJSON, String province, String city) {
