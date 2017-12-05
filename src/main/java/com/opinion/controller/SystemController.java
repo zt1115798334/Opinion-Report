@@ -544,9 +544,8 @@ public class SystemController extends BaseController {
             jo.put("createDatetime", DateUtils.formatDate(sysUser.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
-        result.put("totalElements", page.getTotalElements());
-        result.put("totalPages", page.getTotalPages());
-        result.put("list", ja);
+        result.put("total", page.getTotalElements());
+        result.put("rows", ja);
         return result;
     }
 
