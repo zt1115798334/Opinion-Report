@@ -36,8 +36,8 @@ public class RedisController extends BaseController {
      * @return
      */
     @RequestMapping(value = "redisMonitor")
-    public String redisMonitor(Model model) {
-        return "redisMonitor";
+    public String redisMonitor() {
+        return "/redis/redisMonitor";
     }
 
     @RequestMapping(value = "getRedisMonitor", method = RequestMethod.POST)
