@@ -12,10 +12,6 @@ body {
     min-width: 1200px;
     overflow: auto;
     background-color: #ededed;
-    height: 100%;
-    position: relative;
-    padding-bottom: 40px;
-    padding-top: 67px;
 }
 
 h1,
@@ -43,7 +39,7 @@ a:visited {
 a:hover,
 a:focus,
 a:visited {
-    color: #134395;
+    color: #00d8d4;
 }
 textarea {
     resize: none;
@@ -248,8 +244,8 @@ textarea {
     font-size: 18px !important;
 }
 
-.fs24 {
-    font-size: 24px !important;
+.fs28 {
+    font-size: 28px !important;
 }
 
 .fs20 {

@@ -19,6 +19,7 @@
 <input id="type" value="${type}" type="hidden">
 <input id="reportCode" value="${reportCode}" type="hidden">
 <div id="wrapper">
+    <#include "/public/menu.ftl"/>
     <div id="page-wrapper" style="margin-left: 260px;">
         <div class="page-content clearfix">
             <div class="bgf clearfix">

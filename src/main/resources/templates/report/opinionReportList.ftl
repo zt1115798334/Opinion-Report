@@ -18,6 +18,7 @@
 <body>
 <#include "/public/header.ftl"/>
 <div id="wrapper">
+    <#include "/public/menu.ftl"/>
     <div id="page-wrapper" style="margin-left: 260px;">
         <div class="page-content clearfix">
             <div class="bgf">
@@ -86,7 +87,7 @@
         </div><!-- /.modal-content -->
     </div>
 </div>
-
+<script src="/assets/plugins/time/time.js" type="text/javascript"></script>
 <script src="/common/report/opinionReportList.js?v=2"></script>
 </body>
 </html>

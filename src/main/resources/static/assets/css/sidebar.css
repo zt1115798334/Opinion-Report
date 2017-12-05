@@ -1,0 +1,88 @@
+/*导航*/
+#localtime {
+    width: 220px;
+    padding: 15px 30px 15px 36px;
+    border-bottom: 1px solid #1d2328;
+}
+#localtime span{
+    color: #fff;
+}
+ul{
+    padding: 0;
+}
+#sidebar{
+     width: 220px;
+     height: 100%;
+     background:#242a2f;
+    position: absolute;
+    left: 0;
+    top:0;
+    padding-top: 20px;
+}
+#sidebar #side-menu{
+    border-top: 1px solid #303a43;
+}
+ #sidebar #side-menu li a {
+     display: block;
+     margin: 15px 0;
+     padding:12px 0px 12px 32px;
+}
+ #sidebar #side-menu li a:hover,
+ #sidebar #side-menu li a:focus {
+    background-color: #1d2328;
+     color:#fff;
+}
+ #sidebar #side-menu  li a:hover span.menu-title,
+ #sidebar #side-menu  li a:focus span.menu-title{
+    color:#fff;
+}
+#sidebar #side-menu li a span.menu-title{
+    color: #888888;
+    font-size: 14px;
+}
+#sidebar #side-menu li a i {
+    display: inline-block;
+    margin-right: 5px;
+}
+/*图标*/
+ #sidebar #side-menu  li a i.icon{
+    background:url(../images/navIcon_03.png) no-repeat;
+    background-position:0 0;
+    background-size:cover;
+    width:30px;
+    height:20px;
+     margin-bottom: -3px;
+}
+ #sidebar #side-menu  li a i.icon.icon2{
+    background-position:0px -54px;
+     height: 25px;
+     margin-bottom: -8px;
+}
+ #sidebar #side-menu  li a i.icon.icon3{
+    background-position:0px -102px;
+     height: 23px;
+     margin-bottom: -5px;
+}
+ #sidebar #side-menu  li a i.icon.icon4{
+    background-position:0px -153px;
+     height: 23px;
+     margin-bottom: -5px;
+}
+#sidebar #side-menu  li a i.icon.icon5{
+    background-position:0px -205px;
+    height: 23px;
+    margin-bottom: -5px;
+}
+
+/*选中状态下*/
+#sidebar #side-menu li.active a {
+    background: #1d2328;
+    outline: none;
+    border-right:4px solid #00d8d4;
+}
+#sidebar #side-menu  li.active a span.menu-title{
+    color:#fff;
+}
+.lineblock{
+    display: inline-block;
+}

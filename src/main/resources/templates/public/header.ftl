@@ -1,15 +1,19 @@
 <div class="header clearfix">
-    <div class="header-left col-md-8">
-        <a href="" class="col-md-6 clearfix" id="">
-            <img src="" class="logo pull-left" alt="">
-            <div class="logoDiv pull-left">
+    <a href="" class="pull-left clearfix" id="">
+        <div class="logoDiv pull-left">
+            <img src="/assets/images/logo_03.png" class="logoText" alt="">
+        </div>
+    </a>
 
-                <img src="" class="logoText" alt="">
-            </div>
-        </a>
+    <div class="header-left col-md-6">
+        <ol class="breadcrumb">
+            <li class="active">舆情上报</li>
+        </ol>
     </div>
-    <div class="header-right col-md-4 text-right" style="padding-top: 20px;">
-        <div class="roleDiv">您好，<span class="role">admin </span></div>
-        <a href="" class="quitBtn"><i class="quit"></i>退出</a>
+    <div class="header-right text-right pull-right" style="padding-top: 20px;">
+        <div class="roleDiv">
+            您好，<span class="role">admin </span>
+            <a href="" class="quitBtn"><b>&nbsp;|&nbsp;&nbsp;&nbsp;</b>退出</a>
+        </div>
     </div>
 </div>

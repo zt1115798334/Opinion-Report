@@ -62,6 +62,9 @@ public class SysPermission implements Serializable {
     @Column(name = "code", nullable = false)
     private String code;
 
+    @Column(name = "icon")
+    private String icon;
+
     public Long getId() {
         return id;
     }
@@ -124,6 +127,14 @@ public class SysPermission implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @Override

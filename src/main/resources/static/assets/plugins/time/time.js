@@ -14,9 +14,9 @@ function showLocale(objD){
     var ss = objD.getSeconds();
     if(ss<10) ss = '0' + ss;
     var ww = objD.getDay();
-    if  ( ww==0 )  colorhead="<font color=\"#000\">";
-    if  ( ww > 0 && ww < 6 )  colorhead="<font color=\"#000\">";
-    if  ( ww==6 )  colorhead="<font color=\"#000\">";
+    if  ( ww==0 )  colorhead="<font color=\"#fff\">";
+    if  ( ww > 0 && ww < 6 )  colorhead="<font color=\"#fff\">";
+    if  ( ww==6 )  colorhead="<font color=\"#fff\">";
     if  (ww==0)  ww="星期日";
     if  (ww==1)  ww="星期一"; 
     if  (ww==2)  ww="星期二";
@@ -25,8 +25,9 @@ function showLocale(objD){
     if  (ww==5)  ww="星期五";
     if  (ww==6)  ww="星期六";
     colorfoot="</font>"
-    str = colorhead + "<span class='fs16 '>"+ ww +"</span>"+"<br>"+"<span class='fs16 inlineBlock ' style='margin-top: 6px;'>"+ yy + "-" + MM + "-" + dd +"</span>"+ "  "+ "<span class='text-right pull-right fs24 ' style='margin-top: -15px;'>" + hh + ":" + mm +" </span> "+ "  "  + colorfoot;
-    return(str);
+/*       str = colorhead + "<span class='fs16 '>"+ ww +"</span>"+"<br>"+"<span class='fs16 inlineBlock ' style='margin-top: 6px;'>"+ yy + "-" + MM + "-" + dd +"</span>"+ "  "+ "<span class='text-right pull-right fs28 ' style='margin-top: -15px;'>" + hh + ":" + mm +" </span> "+ "  "  + colorfoot;*/
+    str = colorhead + "<span class='fs14 '>"+ ww +"</span>"+"<br>"+"<span class='fs14 inlineBlock ' style='margin-top: 6px;'>"+ MM + "/" + dd +"</span>"+ "  "+ "<span class='text-right pull-right fs28 ' style='margin-top: -15px;'>" + hh + ":" + mm +" </span> " + colorfoot;
+return(str);
 }
 
 function tick(){

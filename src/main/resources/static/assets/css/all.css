@@ -1,120 +1,83 @@
 @charset "utf-8";
-body,html,#wrapper{
+body{
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
+    height: 100%;
+    position: relative;
+    padding-bottom: 40px;
+    padding-top: 60px;
 }
 /*header部分*/
 .header {
     width: 100%;
-    height: 67px;
-    padding: 0 15px;
-    background-image: linear-gradient(to right, #2747ce 0%, #329bff 100%);
+    height: 60px;
+    padding: 0 15px 0 0;
+    background:#fff;
     position: absolute;
     top: 0;
 }
-
-.logo {
-    width: 43px;
-    height: 43px;
-    margin: 12px 5px 12px 0;
-}
-
 .logoText {
-    width: 280px;
+    width: 200px;
 }
-
-.account {
-    display: block;
-    color: #fff;
-    font-size: 15px;
-    margin-top: 15px;
-}
-
 .logoDiv {
-    padding: 8px;
-    margin-top: 5px;
+    padding:14.6px 10px 8px 10px;
+    background-image: linear-gradient(to bottom, #2ee2c5 0%, #00bdbb 90%);
 }
 
 .roleDiv {
     display: inline-block;
     padding: 3px 10px 13px 10px;
+
 }
 
 .roleDiv,
 .role {
-    color: #fff;
+    color: #242a2f;
+    font-size: 14px;
 }
 
 .quitBtn,
 .quitBtn:hover,
 .quitBtn:focus,
-.quitBtn:visited,
-.newsBtn,
-.newsBtn:hover,
-.newsBtn:focus,
-.newsBtn:visited {
+.quitBtn:visited{
     display: inline-block;
-    width: 66px;
-    color: #fff; 
+    width: 50px;
+    color: #242a2f;
+    font-size: 14px;
 }
-
-.newsDiv {
-    display: inline-block;
-    position: relative;
+/*面包屑*/
+.breadcrumb {
+    padding: 21px 30px;
+     margin-bottom: 0;
+    list-style: none;
+    border-radius:0;
+    background: transparent;
 }
-
-.newsBadge {
-    height: 18px;
-    position: absolute;
-    top: -12px !important;
-    right: 37px !important;
+.breadcrumb li a{
+   color: #00d8d4;
+    font-size: 14px;
 }
-
-.news {
-    display: inline-block;
-    background: url("../images/news.png") no-repeat;
-    background-size: 100% 100%;
-    width: 15px;
-    height: 17px;
-    margin-bottom: -4px;
-    margin-right: 4px;
+.breadcrumb li.active{
+    color: #242a2f;
+    font-size: 14px;
 }
-
-.quit {
-    display: inline-block;
-    background: url("../images/quit.png") no-repeat;
-    background-size: 100% 100%;
-    width: 15px;
-    height: 17px;
-    margin-bottom: -5px;
-    margin-right: 5px;
-}
-
-
 /*footer部分*/
 
 #footer {
+    width: 100%;
     height: 40px;
-    background: #292f43;
+    background: #fff;
     line-height: 40px;
-    color: #fff;
+    color: #242a2f;
     position: absolute;
     bottom: 0;
-    width: 100%;
-    opacity: 0.8;
 }
 
 
 /*首页部分*/
-
-#localtime {
-    padding: 15px;
-    border-bottom: 2px solid #dadada;
-}
-
 .p-nav .w33 {
     float: left;
     width: 33.3%;
@@ -229,7 +192,7 @@ body,html,#wrapper{
 }
 
 .p-table tbody tr td a {
-    color: #134395;
+    color: #00d8d4;
 }
 
 .fixed-table-container {
