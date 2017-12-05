@@ -92,7 +92,7 @@
         </div><!-- /.modal-content -->
     </div>
 </div>
-<script src="/assets/plugins/time/time.js" type="text/javascript"></script>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/issued/issuedNoticeSend.js?v=12"></script>
 </body>
 </html>

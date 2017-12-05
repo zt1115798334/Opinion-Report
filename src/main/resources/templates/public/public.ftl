@@ -15,13 +15,9 @@
 <script src="/assets/plugins/jquery-asDatepicker/jquery-asDatepicker.js" type="text/javascript"></script>
 <link href="/assets/plugins/icheck-1.x/skins/all.css" type="text/css" rel="stylesheet"/>
 <script src="/assets/plugins/icheck-1.x/icheck.min.js" type="text/javascript"></script>
-
 <link rel="stylesheet" href="/assets/plugins/messages/messages.css" />
 <script src="/assets/plugins/messages/messages.js"></script>
 
-
-<script src="/common/all.js"></script>
-<script src="/common/utils.js"></script>
 <!-- 公用插件结束 -->
 <!-- css开始 -->
 <link href="/assets/css/commonStyle/common.css" rel="stylesheet">

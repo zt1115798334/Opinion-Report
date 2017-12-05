@@ -86,6 +86,7 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/issued/issuedNoticeEdit.js"></script>
 </body>
 </html>

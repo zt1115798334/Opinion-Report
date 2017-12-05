@@ -69,6 +69,7 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/issued/issuedNoticeReceive.js?v=1"></script>
 </body>
 </html>

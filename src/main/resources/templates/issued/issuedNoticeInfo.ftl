@@ -78,6 +78,7 @@
     <!--page-wrapper结束-->
 </div>
 <#include "/public/footer.ftl"/>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/issued/issuedNoticeInfo.js?v=2"></script>
 </body>
 </html>

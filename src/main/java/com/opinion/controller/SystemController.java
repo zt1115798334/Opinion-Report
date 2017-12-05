@@ -404,6 +404,20 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
+    /**
+     * 查看登录者信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "searchLoginUserInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchLoginUserInfo() {
+        SysUser sysUser = new SysUserConst().getSysUser();
+        JSONObject result = new JSONObject();
+        result.put("userName", sysUser.getUserName());
+        return success(result);
+    }
+
 
     /**
      * 保存用户信息

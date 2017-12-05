@@ -8,7 +8,12 @@ jQuery(document).ready(function ($) {
     ResizeHeight();
     window.onresize = function () {
         ResizeHeight();
-    }
+    };
+
+    /**
+     * 显示登录者名称
+     */
+    searchLoginUserInfoFun();
 
 });
 
@@ -17,6 +22,9 @@ function ResizeHeight() {
     $("#wrapper").css("min-height", height);
 }
 
+/**
+ * 显示菜单
+ */
 function searchDisplayMenuFun() {
     var params = {};
     var url = "/system/searchDisplayMenu";
@@ -39,6 +47,23 @@ function searchDisplayMenuFun() {
                     var childIcon = child.icon;
                 }
             }
+        }
+    }
+}
+
+/**
+ * 显示登录者名称
+ */
+function searchLoginUserInfoFun() {
+    var params = {};
+    var url = "/system/searchLoginUserInfo";
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        if (result.success) {
+            var sysUser = result.data;
+            var userName = sysUser.userName;
+            $(".role").html(userName);
         }
     }
 }

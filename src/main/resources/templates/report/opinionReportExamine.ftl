@@ -83,6 +83,7 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/report/opinionReportExamine.js"></script>
 </body>
 </html>

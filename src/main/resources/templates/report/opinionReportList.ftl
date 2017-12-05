@@ -87,7 +87,7 @@
         </div><!-- /.modal-content -->
     </div>
 </div>
-<script src="/assets/plugins/time/time.js" type="text/javascript"></script>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/report/opinionReportList.js?v=2"></script>
 </body>
 </html>

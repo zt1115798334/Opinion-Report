@@ -103,6 +103,7 @@
 </div>
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/report/opinionReportEdit.js"></script>
 </body>
 </html>

@@ -12,8 +12,8 @@
     </div>
     <div class="header-right text-right pull-right" style="padding-top: 20px;">
         <div class="roleDiv">
-            您好，<span class="role">admin </span>
-            <a href="" class="quitBtn"><b>&nbsp;|&nbsp;&nbsp;&nbsp;</b>退出</a>
+            您好，<span class="role"> </span>
+            <a href="/logout" title="退出系统" class="quitBtn"><b>&nbsp;|&nbsp;&nbsp;&nbsp;</b>退出</a>
         </div>
     </div>
 </div>

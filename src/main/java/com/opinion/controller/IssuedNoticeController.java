@@ -169,7 +169,7 @@ public class IssuedNoticeController extends BaseController {
         logger.info("请求 deleteIssuedNotice 方法，id集合：{}", id);
         boolean flag = issuedNoticeService.delByIds(id);
         if (flag) {
-            return success("执行成功");
+            return success("删除成功");
         } else {
             return fail("删除失败");
         }
