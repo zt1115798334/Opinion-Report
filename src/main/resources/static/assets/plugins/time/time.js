@@ -26,7 +26,7 @@ function showLocale(objD){
     if  (ww==6)  ww="星期六";
     colorfoot="</font>"
 /*       str = colorhead + "<span class='fs16 '>"+ ww +"</span>"+"<br>"+"<span class='fs16 inlineBlock ' style='margin-top: 6px;'>"+ yy + "-" + MM + "-" + dd +"</span>"+ "  "+ "<span class='text-right pull-right fs28 ' style='margin-top: -15px;'>" + hh + ":" + mm +" </span> "+ "  "  + colorfoot;*/
-    str = colorhead + "<span class='fs14 '>"+ ww +"</span>"+"<br>"+"<span class='fs14 inlineBlock ' style='margin-top: 6px;'>"+ MM + "/" + dd +"</span>"+ "  "+ "<span class='text-right pull-right fs28 ' style='margin-top: -15px;'>" + hh + ":" + mm +" </span> " + colorfoot;
+    str = colorhead + "<span class='text-right pull-left fs28 ' style='margin: 0 30px 0 0;'>" + hh + ":" + mm +" </span> "+ "<span class='fs14 '>"+ ww +"</span>"+"<br>"+"<span class='fs14 inlineBlock ' style='margin-top: 6px;'>"+ MM + "/" + dd +"</span>"+ "  " + colorfoot;
 return(str);
 }
 

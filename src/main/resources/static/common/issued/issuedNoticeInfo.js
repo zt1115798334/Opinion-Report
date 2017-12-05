@@ -112,7 +112,7 @@ function replyExecutionFun(params) {
 
     function callback(result) {
         if (result.success) {
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            notify.success({title: "提示", content: result.message, autoClose: true});
             searchIssuedNoticeLogFun(params);
             if ($(".execBtn").length > 0) {
                 $(".execBtn").attr("disabled", true);

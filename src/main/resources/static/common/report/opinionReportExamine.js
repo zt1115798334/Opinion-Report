@@ -140,7 +140,7 @@ function examineAndVerifyReportArticleFun(params) {
 
     function callback(result) {
         if (result.success) {
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            notify.success({title: "提示", content: result.message, autoClose: true});
         }else {
             notify.error({title: "提示", content: result.message});
         }
@@ -156,7 +156,7 @@ function saveReportArticleAgainFun(params) {
 
     function callback(result) {
         if (result.success) {
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            notify.success({title: "提示", content: result.message, autoClose: true});
         }else {
             notify.error({title: "提示", content: result.message});
         }

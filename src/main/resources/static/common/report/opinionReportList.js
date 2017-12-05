@@ -206,7 +206,7 @@ function deleteReportArticleFun(id) {
     function callback(result) {
         if (result.success) {
             bootstrapTableRefresh();
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            notify.success({title: "提示", content: result.message, autoClose: true});
             // BootstrapDialog.show({
             //     title: "提示",
             //     message: result.data,

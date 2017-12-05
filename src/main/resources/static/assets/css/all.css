@@ -30,7 +30,6 @@ body{
 .roleDiv {
     display: inline-block;
     padding: 3px 10px 13px 10px;
-
 }
 
 .roleDiv,
@@ -268,7 +267,7 @@ body{
 .dateDiv3 .btn {
     font-size: 13px;
     border: 1px solid #d5d5d5;
-    text-shadow: 0 0px 0 rgba(0, 0, 0, 0); 
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .filterDiv>span {
@@ -311,42 +310,6 @@ body{
     border-radius: 5px;
     color: #990000;
 }
-
-.first,
-.second,
-.third {
-    padding: 20px 0;
-}
-
-.third {
-    padding-top: 0;
-}
-
-.first {
-    padding-top: 0;
-}
-
-.recognitionNum,
-.unrecognizedNum,
-.sum,
-.unrecognizedSum {
-    color: #fff;
-}
-
-.showHide {
-    float: right;
-    background: url("../images/show.png") no-repeat;
-    background-size: cover;
-    width: 21px;
-    height: 23px;
-    margin-top: 6px;
-    margin-right: 10px;
-}
-
-.showHide-h {
-    background: url("../images/hide.png") no-repeat;
-}
-
 .imgs {
     padding: 10px 5px;
     background: #fff;
@@ -649,21 +612,4 @@ li {
 .iradio_minimal-blue {
 
     margin-right: 5px;
-}
-
-/* 灰色  未处理 */
-.signGray{
-    background-color: #ccc;
-} 
-/* 青色  yes */
-.signCyan{
-    background-color: #38d874;
-}
-/*橘色  no*/
-.signOrange{
-    background-color: #f38806;
-}
-/*蓝色  等待*/
-.signBlue{
-    background-color: #2b93f5;
 }

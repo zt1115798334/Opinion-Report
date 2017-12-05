@@ -18,6 +18,10 @@ public abstract class BaseController {
 	protected AjaxResult success(Object data){
 		return AjaxResult.success(data);
 	}
+
+	protected AjaxResult success(String  message){
+		return AjaxResult.success(message);
+	}
 	
 	protected AjaxResult fail(String message){
 		return AjaxResult.fail(message);
