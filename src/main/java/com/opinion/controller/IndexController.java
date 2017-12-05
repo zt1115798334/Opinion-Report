@@ -170,30 +170,28 @@ public class IndexController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "searchWeatherInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "searchHeaderInfo", method = RequestMethod.GET)
     @ResponseBody
-    public AjaxResult searchWeatherInfo(HttpServletRequest request) {
-        String ip = NetworkUtil.getLocalIp(request);
-        String ipInfo = NetworkUtil.sendGet(NetworkUtil.IPINFO, "format=json&ip=123.123.123.123");
-        JSONObject ipJSON = JSONObject.parseObject(ipInfo);
-        String province = ipJSON.getString("province");
-        String city = ipJSON.getString("city");
-        IndexController indexController = new IndexController();
-        long startTime = System.currentTimeMillis();
-        JSONObject cityCodeJSON = jsonService.getCityCodeJSON();
-        long startTime00 = System.currentTimeMillis();
-        logger.info("查询数据过程0耗时{}毫秒", (startTime00 - startTime));
-        String code = indexController.getCityCode(cityCodeJSON, province, city);
-        Map<String, Object> map = Maps.newHashMap();
-        try {
-            map = WeatherUtils.getTodayWeather2(code);
-            System.out.println(map.get("city") + "\t" + map.get("temp")
-                    + "\t" + map.get("WD") + "\t" + map.get("WS")
-                    + "\t" + map.get("SD") + "\t" + map.get("time"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        return success(map);
+    public AjaxResult searchHeaderInfo(HttpServletRequest request) {
+//        String ip = NetworkUtil.getLocalIp(request);
+//        String ipInfo = NetworkUtil.sendGet(NetworkUtil.IPINFO, "format=json&ip=123.123.123.123");
+//        JSONObject ipJSON = JSONObject.parseObject(ipInfo);
+//        String province = ipJSON.getString("province");
+//        String city = ipJSON.getString("city");
+//        IndexController indexController = new IndexController();
+//        JSONObject cityCodeJSON = jsonService.getCityCodeJSON();
+//        String code = indexController.getCityCode(cityCodeJSON, province, city);
+//        Map<String, Object> map = Maps.newHashMap();
+//        try {
+//            map = WeatherUtils.getTodayWeather2(code);
+//            System.out.println(map.get("city") + "\t" + map.get("temp")
+//                    + "\t" + map.get("WD") + "\t" + map.get("WS")
+//                    + "\t" + map.get("SD") + "\t" + map.get("time"));
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+        JSONObject result = new JSONObject();
+        return success(result);
     }
 
     public JSONArray listReportArticleToJSONArray(List<ReportArticle> list, String type) {
