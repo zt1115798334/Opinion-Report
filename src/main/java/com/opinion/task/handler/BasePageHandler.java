@@ -9,7 +9,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Created by lenovo on 2017/8/19.
+ * @author zhangtong
+ * Created by on 2017/11/23
  */
 public abstract class BasePageHandler<T> {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());

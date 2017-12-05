@@ -26,7 +26,7 @@ public class ExpirationOperationCallableTask implements Callable<Integer> {
     }
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         list.parallelStream().forEach(ra -> {
             ra.setAdoptState(SysConst.AdoptState.NOTADOPTED.getCode());
             ra.setAdoptOpinion(SysConst.DEFAULT_ADOPT_OPINION);

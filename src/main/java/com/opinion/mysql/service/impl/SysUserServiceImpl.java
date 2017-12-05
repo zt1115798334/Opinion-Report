@@ -182,7 +182,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<Long> findDescendantIdListByParentId(Long parentId) {
-        System.out.println("为id、key为:" + parentId + "数据做了缓存");
         List<Long> childIds = findChildIdListByParentId(parentId);
         List<Long> descendantIds = Lists.newArrayList();
         childIds.stream().forEach(childId -> {

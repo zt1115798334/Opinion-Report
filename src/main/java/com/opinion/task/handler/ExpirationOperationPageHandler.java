@@ -14,7 +14,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Created by lenovo on 2017/8/19.
+ * @author zhangtong
+ * Created by on 2017/11/23
  */
 @Component("expirationOperationPageHandler")
 public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticle> {
@@ -52,7 +53,7 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
             Future<Integer> future = executor.submit(task);
             count += future.get();
         } catch(ExecutionException | InterruptedException e) {
-            logger.error("同步文章信息到舆情详情快照表，获取执行结果时发生异常，异常信息：{}", e);
+            logger.error("获取执行结果时发生异常，异常信息：{}", e);
         }
 
         return count;
