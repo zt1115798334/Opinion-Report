@@ -23,7 +23,7 @@
 <#include "/public/header.ftl"/>
 <div id="wrapper">
     <#include "/public/menu.ftl"/>
-    <div id="page-wrapper" style="margin-left: 260px;">
+    <div id="page-wrapper" style="margin-left: 220px;">
         <div class="page-content clearfix">
             <form role="form" id="issuedNoticeForm">
                 <div class="bgf clearfix">

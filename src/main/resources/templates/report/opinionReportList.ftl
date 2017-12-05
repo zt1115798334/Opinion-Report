@@ -19,7 +19,7 @@
 <#include "/public/header.ftl"/>
 <div id="wrapper">
     <#include "/public/menu.ftl"/>
-    <div id="page-wrapper" style="margin-left: 260px;">
+    <div id="page-wrapper" style="margin-left: 220px;">
         <div class="page-content clearfix">
             <div class="bgf">
                 <div class="portlet box clearfix">
@@ -88,6 +88,6 @@
     </div>
 </div>
 <#include "/public/publicJs.ftl"/>
-<script src="/common/report/opinionReportList.js?v=2"></script>
+<script src="/common/report/opinionReportList.js?v=112"></script>
 </body>
 </html>
