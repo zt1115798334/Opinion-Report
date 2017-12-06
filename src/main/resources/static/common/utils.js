@@ -55,7 +55,6 @@ function execAjaxJSON(url, params, callback) {
     });
 }
 
-
 function resetForm(id) {
     $(':input', '#' + id)
         .not(':button, :submit, :reset, :hidden')
@@ -70,4 +69,29 @@ function resetForm(id) {
     $('#' + id).data('bootstrapValidator').destroy();
     $('#' + id).data('bootstrapValidator', null);
 }
+
+
+function showBootstrapDialog(msg, callback) {
+    BootstrapDialog.show({
+        title: '确认',
+        message: msg,
+        onshow: function (dialog) {
+        },
+        buttons: [{
+            label: '确认',
+            action: function (dialogItself) {
+                callback();
+                dialogItself.close();
+                return true;
+            }
+        }, {
+            label: '取消',
+            action: function (dialogItself) {
+                dialogItself.close();
+                return false;
+            }
+        }]
+    });
+}
+
 

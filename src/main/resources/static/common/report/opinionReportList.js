@@ -207,11 +207,6 @@ function deleteReportArticleFun(id) {
         if (result.success) {
             bootstrapTableRefresh();
             notify.success({title: "提示", content: result.message, autoClose: true});
-            // BootstrapDialog.show({
-            //     title: "提示",
-            //     message: result.data,
-            //     draggable: true
-            // });
         } else {
             notify.error({title: "提示", content: result.message});
         }

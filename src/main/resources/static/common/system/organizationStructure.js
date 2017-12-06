@@ -8,6 +8,17 @@ $(function () {
     $(document).on("click", ".searchButton", function () {
         searchSysUserPageByCityOrganizationIdFun();
     });
+
+    /**
+     * 删除
+     */
+    $(document).on("click", ".delete", function () {
+        var userId = $(this).attr("rowId");
+        showBootstrapDialog("确认删除该用户信息？该用户信息全部删除，该操作不可恢复！！", callback);
+        function callback() {
+            delSysUserFun(userId);
+        }
+    });
 });
 
 /**
@@ -41,29 +52,39 @@ function beforeRemove(treeId, treeNode) {
     className = (className === "dark" ? "" : "dark");
     var zTree = $.fn.zTree.getZTreeObj("organizationTree");
     zTree.selectNode(treeNode);
-    BootstrapDialog.show({
-        title: '确认',
-        message: '你确认要删除机构[' + treeNode.name + ']吗？',
-        onshow: function (dialog) {
-        },
-        buttons: [{
-            label: '确认',
-            action: function (dialogItself) {
-                var params = {
-                    id: treeNode.id
-                }
-                delCityOrganizationFun(params);
-                dialogItself.close();
-                return true;
-            }
-        }, {
-            label: '取消',
-            action: function (dialogItself) {
-                dialogItself.close();
-                return false;
-            }
-        }]
-    });
+    // BootstrapDialog.show({
+    //     title: '确认',
+    //     message: '你确认要删除机构[' + treeNode.name + ']吗？',
+    //     onshow: function (dialog) {
+    //     },
+    //     buttons: [{
+    //         label: '确认',
+    //         action: function (dialogItself) {
+    //             var params = {
+    //                 id: treeNode.id
+    //             }
+    //             delCityOrganizationFun(params);
+    //             dialogItself.close();
+    //             flag = true;
+    //             return true;
+    //         }
+    //     }, {
+    //         label: '取消',
+    //         action: function (dialogItself) {
+    //             dialogItself.close();
+    //             flag = false;
+    //             return false;
+    //         }
+    //     }]
+    // });
+    if (confirm("确认删除节点--" + treeNode.name + "--吗?")) {
+        var params = {
+            id: treeNode.id
+        }
+        delCityOrganizationFun(params);
+    } else {
+        return false;
+    }
 }
 
 function onRemove(e, treeId, treeNode) {
@@ -398,13 +419,25 @@ function verifyIdentityFun(params) {
 /**
  * 删除用户信息
  */
-function delSysUserFun(params) {
+function delSysUserFun(userId) {
     var url = "/system/delSysUser";
+    var params = {
+        userId: userId
+    };
     execAjax(url, params, callback);
 
-    function callback() {
-
+    function callback(result) {
+        if (result.success) {
+            bootstrapTableRefresh();
+            notify.success({title: "提示", content: result.message, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
+}
+
+function bootstrapTableRefresh() {
+    $("#table-user").bootstrapTable('refresh');
 }
 
 
