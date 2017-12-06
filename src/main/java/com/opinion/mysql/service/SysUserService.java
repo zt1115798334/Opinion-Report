@@ -48,22 +48,23 @@ public interface SysUserService {
      * 根据 角色id分页查询
      *
      * @param roleId   角色id
-     * @param pageNum  页数
+     * @param pageNumber  页数
      * @param pageSize 数量
      * @param userName 用户名称
      * @return
      */
-    Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize, String userName);
+    Page<SysUser> findPageByRoleId(Long roleId, int pageNumber, int pageSize, String userName);
 
     /**
      * 根据 机构id分页查询
      *
      * @param cityOrganizationId 角色id
-     * @param pageNum            页数
+     * @param pageNumber            页数
      * @param pageSize           数量
+     * @param userName           用户名称
      * @return
      */
-    Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNum, int pageSize);
+    Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNumber, int pageSize, String userName);
 
     /**
      * 根据账户密码查询账户信息

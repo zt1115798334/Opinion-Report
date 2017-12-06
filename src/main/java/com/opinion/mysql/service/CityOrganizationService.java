@@ -16,7 +16,7 @@ public interface CityOrganizationService {
      * @param cityOrganization 省市区组织信息
      * @return
      */
-    boolean save(CityOrganization cityOrganization);
+    CityOrganization save(CityOrganization cityOrganization);
 
     /**
      * 根据id查询省市区组织信息
@@ -28,10 +28,11 @@ public interface CityOrganizationService {
 
     /**
      * 查询自己以及自己信息
+     *
      * @param id
      * @return
      */
-    CityOrganization findAndChildById(Long id);
+    CityOrganization findParentAndChildrenById(Long id);
 
     /**
      * 根据用户id查询省市区组织信息
@@ -50,6 +51,20 @@ public interface CityOrganizationService {
     List<CityOrganization> findByParentId(Long parentId);
 
     /**
+     *
+     * @param cityOrganization
+     * @return
+     */
+    List<CityOrganization> findParentAndChildrenByEntity(CityOrganization cityOrganization);
+
+    /**
+     *
+     * @param cityOrganization
+     * @return
+     */
+    List<Long> findParentIdAndChildrenIdByEntity(CityOrganization cityOrganization);
+
+    /**
      * 根据id删除 省市区组织信息
      *
      * @param id id
@@ -62,9 +77,10 @@ public interface CityOrganizationService {
      *
      * @param name     名称
      * @param parentId 父级id
+     * @param id       id
      * @return
      */
-    boolean isExistByNameAndParentId(String name, Long parentId);
+    boolean isExistByNameAndParentIdNotId(String name, Long parentId, Long id);
 
     /**
      * 根据父级id查询子级是否存在

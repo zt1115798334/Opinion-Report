@@ -292,43 +292,21 @@ public class SystemController extends BaseController {
         } else {
             cityOrganization.setLevel(99);
         }
-        boolean flag = cityOrganizationService.save(cityOrganization);
-        if (flag) {
-            return success("添加成功");
-        } else {
-            return fail("添加失败，该机构已存在");
-        }
-    }
-
-    /**
-     * 查询省市区组织信息名称是否存在
-     *
-     * @param name     组织机构名称
-     * @param parentId 上级id
-     * @return
-     */
-    @RequestMapping(value = "searchExistByCityOrganizationName", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchExistByCityOrganizationName(@RequestParam String name,
-                                                        @RequestParam Long parentId) {
-        logger.info("请求 searchExistByCityOrganizationName 方法，name：{},parentId:{}", name, parentId);
-        boolean isExist = cityOrganizationService.isExistByNameAndParentId(name, parentId);
-        JSONObject result = new JSONObject();
-        result.put("isExist", isExist);
-        return success(result);
+        cityOrganization = cityOrganizationService.save(cityOrganization);
+        return success(cityOrganization);
     }
 
     /**
      * 删除组织机构
      *
-     * @param cityOrganizationId 组织机构id
+     * @param id 组织机构id
      * @return
      */
     @RequestMapping(value = "delCityOrganization", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult delCityOrganization(@RequestParam Long cityOrganizationId) {
-        logger.info("请求 delCityOrganization 方法，cityOrganizationId：{}", cityOrganizationId);
-        boolean flag = cityOrganizationService.delCityOrganization(cityOrganizationId);
+    public AjaxResult delCityOrganization(@RequestParam Long id) {
+        logger.info("请求 delCityOrganization 方法，cityOrganizationId：{}", id);
+        boolean flag = cityOrganizationService.delCityOrganization(id);
         if (flag) {
             return success("删除成功");
         } else {
@@ -359,50 +337,13 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult searchCityOrganization() {
         Long userId = new SysUserConst().getUserId();
-        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
         JSONObject result = new JSONObject();
-        if (cityOrganizationSysUser != null) {
-            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
-            CityOrganization cityOrganization = cityOrganizationService.findById(cityOrganizationId);
-            result.put("parent", cityOrganization);
-        }
+        Long cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
+        CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);
+        result.put("cityOrganization", cityOrganization);
         return success(result);
     }
 
-    /**
-     * 查询组织机构子级信息
-     *
-     * @param cityOrganizationId 组织机构id
-     * @return
-     */
-    @RequestMapping(value = "searchCityOrganizationChild", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchCityOrganizationChild(@RequestParam Long cityOrganizationId) {
-        logger.info("请求 searchCityOrganizationChild 方法，cityOrganizationId：{}", cityOrganizationId);
-        List<CityOrganization> cityOrganizationChild = cityOrganizationService.findByParentId(cityOrganizationId);
-        JSONObject result = new JSONObject();
-        result.put("child", cityOrganizationChild);
-        return success(result);
-    }
-
-    /**
-     * 查询用户所在的组织机构以及自己信息结构
-     *
-     * @return
-     */
-    @RequestMapping(value = "searchCityOrganizationAndChild", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchCityOrganizationAndChild() {
-        Long userId = 1L;
-        CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
-        JSONObject result = new JSONObject();
-        if (cityOrganizationSysUser != null) {
-            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
-            CityOrganization cityOrganization = cityOrganizationService.findAndChildById(cityOrganizationId);
-            result.put("cityOrganization", cityOrganization);
-        }
-        return success(result);
-    }
 
     /**
      * 查看登录者信息
@@ -491,43 +432,45 @@ public class SystemController extends BaseController {
     /**
      * 根据角色id查看用户列表
      *
-     * @param roleId   角色id
-     * @param userName 用户名称
-     * @param pageNum  页数
-     * @param pageSize 数量
+     * @param roleId     角色id
+     * @param userName   用户名称
+     * @param pageNumber 页数
+     * @param pageSize   数量
      * @return
      */
     @RequestMapping(value = "searchSysUserPageByRoleId", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysUserPageByRoleId(@RequestParam Long roleId,
-                                                @RequestParam String userName,
-                                                @RequestParam int pageNum,
-                                                @RequestParam int pageSize) {
-        logger.info("请求 searchSysUserPageByRoleId 方法，roleId:{},userName:{},pageNum:{},pageSize:{}",
-                roleId, userName, pageNum, pageSize);
-        Page<SysUser> page = sysUserService.findPageByRoleId(roleId, pageNum, pageSize, userName);
+    public Object searchSysUserPageByRoleId(@RequestParam Long roleId,
+                                            @RequestParam String userName,
+                                            @RequestParam int pageNumber,
+                                            @RequestParam int pageSize) {
+        logger.info("请求 searchSysUserPageByRoleId 方法，roleId:{},userName:{},pageNumber:{},pageSize:{}",
+                roleId, userName, pageNumber, pageSize);
+        Page<SysUser> page = sysUserService.findPageByRoleId(roleId, pageNumber, pageSize, userName);
         JSONObject result = pageSysUserToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     /**
      * 根据系统用户省市区组织信息id查看用户列表
      *
      * @param cityOrganizationId 系统用户省市区组织信息id
-     * @param pageNum            页数
+     * @param userName           用户名称
+     * @param pageNumber         页数
      * @param pageSize           数量
      * @return
      */
     @RequestMapping(value = "searchSysUserPageByCityOrganizationId", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysUserPageByCityOrganizationId(@RequestParam Long cityOrganizationId,
-                                                            @RequestParam int pageNum,
-                                                            @RequestParam int pageSize) {
-        logger.info("请求 searchSysUserPageByRoleId 方法，cityOrganizationId:{},pageNum:{},pageSize:{}",
-                cityOrganizationId, pageNum, pageSize);
-        Page<SysUser> page = sysUserService.findPageByCityOrganizationId(cityOrganizationId, pageNum, pageSize);
+    public Object searchSysUserPageByCityOrganizationId(@RequestParam Long cityOrganizationId,
+                                                        @RequestParam String userName,
+                                                        @RequestParam int pageNumber,
+                                                        @RequestParam int pageSize) {
+        logger.info("请求 searchSysUserPageByRoleId 方法，cityOrganizationId:{},userName:{},pageNumber:{},pageSize:{}",
+                cityOrganizationId, userName, pageNumber, pageSize);
+        Page<SysUser> page = sysUserService.findPageByCityOrganizationId(cityOrganizationId, pageNumber, pageSize, userName);
         JSONObject result = pageSysUserToJSONObject(page);
-        return success(result);
+        return result;
     }
 
     private JSONObject pageSysUserToJSONObject(Page<SysUser> page) {
@@ -541,7 +484,7 @@ public class SystemController extends BaseController {
             jo.put("userName", sysUser.getUserName());
             SysRole sysRole = sysRoleService.findListByUserId(sysUser.getId()).get(0);
             jo.put("roleName", sysRole.getRoleName());
-            jo.put("createDatetime", DateUtils.formatDate(sysUser.getCreatedDate(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
+            jo.put("createDatetime", DateUtils.formatDate(sysUser.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
             ja.add(jo);
         });
         result.put("total", page.getTotalElements());

@@ -13,5 +13,5 @@ public interface CityOrganizationRepository extends CrudRepository<CityOrganizat
 
     List<CityOrganization> findByParentId(Long parentId);
 
-    CityOrganization findByNameAndParentId(String name, Long parentId);
+    CityOrganization findByNameAndParentIdAndIdNot(String name, Long parentId, Long id);
 }

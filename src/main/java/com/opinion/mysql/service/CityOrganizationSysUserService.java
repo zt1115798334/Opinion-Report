@@ -27,6 +27,14 @@ public interface CityOrganizationSysUserService {
     CityOrganizationSysUser findOneByUserId(Long userId);
 
     /**
+     * 根据用户id查询
+     *
+     * @param userId 用户id
+     * @return
+     */
+    Long findCityOrganizationIdByUserId(Long userId);
+
+    /**
      * 根据省市区组织id查询
      *
      * @param cityOrganizationId 省市区组织id

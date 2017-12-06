@@ -1,4 +1,7 @@
 @charset "utf-8";
+li {
+    list-style: none;
+}
 body{
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -115,7 +118,6 @@ body{
     margin-bottom: 0px;
     border-top: 0;
     overflow: auto;
-    /*padding-left: 0;*/
 }
 
 .p-navTabs {
@@ -408,7 +410,7 @@ body{
 }
 
 .ztree li {
-    padding: 5px 10px;
+    padding:10px !important;
 }
 
 .ztree li ul {
@@ -424,7 +426,7 @@ body{
 }
 
 .ztree li a.curSelectedNode span {
-    color: #2b93f5 !important;
+    color: #00d8d4 !important;
 }
 
 .ztree li a:hover {
@@ -432,7 +434,7 @@ body{
 }
 
 .ztree li a:hover span {
-    color: #2b93f5;
+    color: #00d8d4;
 }
 
 .newTreeBtn,
@@ -442,8 +444,8 @@ body{
     display: inline-block;
     padding: 5px 70px;
     margin-top: 10px;
-    color: #2b93f5;
-    border: 1px solid #2b93f5;
+    color: #00d8d4;
+    border: 1px solid #00d8d4;
 }
 
 
@@ -468,26 +470,6 @@ body{
     overflow: auto;
     overflow-x: hidden;
 }
-
-#flag {
-    width: 10px;
-    height: 10px;
-    float: right;
-    font-style: normal;
-    cursor: pointer;
-}
-
-li {
-    list-style: none;
-}
-
-#ToWho {
-    padding: 10px;
-}
-
-
-/*追捕案件评查*/
-
 .circle1 {
     display: inline-block;
     width: 13px;
@@ -499,39 +481,6 @@ li {
     margin-bottom: 0px;
     margin-left: 2px;
 }
-
-.PL36 {
-    padding-left: 36px;
-}
-
-.icon-search {
-    width: 16px;
-    height: 16px;
-}
-
-#freshen {
-    margin-bottom: 3px;
-}
-
-.notable input {
-    border: none !important;
-    background: none;
-    outline: none;
-}
-
-.right input {
-    width: 45px;
-    text-align: center;
-}
-
-.tborder {
-    border-top: 2px #399cff solid;
-}
-
-.fontB {
-    font-weight: bold !important;
-}
-
 /*图标圆*/
 
 .titles {
@@ -548,11 +497,6 @@ li {
     background: transparent;
     margin-bottom: -3px;
 }
-
-.padding {
-    padding: 15px; 
-}
-
 .imgWH {
     width: 48px;
     height: 51px;
@@ -602,14 +546,4 @@ li {
     border: 1px solid transparent;
     color: #fff;
     background-image: linear-gradient(to right, #2eaeff 0%, #3e92ff 100%) !important;
-}
-
-.orange_text {
-    color: #ff9a01;
-}
-
-.icheckbox_minimal-blue,
-.iradio_minimal-blue {
-
-    margin-right: 5px;
 }

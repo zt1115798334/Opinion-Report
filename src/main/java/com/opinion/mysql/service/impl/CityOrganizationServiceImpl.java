@@ -1,5 +1,6 @@
 package com.opinion.mysql.service.impl;
 
+import com.google.common.collect.Lists;
 import com.opinion.mysql.entity.CityOrganization;
 import com.opinion.mysql.entity.CityOrganizationSysUser;
 import com.opinion.mysql.repository.CityOrganizationRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -24,16 +26,22 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     private CityOrganizationSysUserService cityOrganizationSysUserService;
 
     @Override
-    public boolean save(CityOrganization cityOrganization) {
-        String name = cityOrganization.getName();
-        Long parentId = cityOrganization.getParentId();
-        boolean isExist = isExistByNameAndParentId(name, parentId);
-        if (isExist) {
-            return false;
-
+    public CityOrganization save(CityOrganization cityOrganization) {
+        Long id = cityOrganization.getId();
+        if (id != null) {
+            //更新
+            boolean isExist = isExistByNameAndParentIdNotId(cityOrganization.getName(), cityOrganization.getParentId(), id);
+            if (isExist) {
+                //存在
+                return null;
+            } else {
+                //不存在
+                CityOrganization oldCityOrganization = cityOrganizationRepository.findOne(id);
+                oldCityOrganization.setName(cityOrganization.getName());
+                return cityOrganizationRepository.save(oldCityOrganization);
+            }
         } else {
-            cityOrganizationRepository.save(cityOrganization);
-            return true;
+            return cityOrganizationRepository.save(cityOrganization);
         }
     }
 
@@ -43,12 +51,12 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     }
 
     @Override
-    public CityOrganization findAndChildById(Long id) {
+    public CityOrganization findParentAndChildrenById(Long id) {
         CityOrganization cityOrganization = this.findById(id);
         if (this.isExistChildByParentId(id)) {
             List<CityOrganization> cityOrganizations = this.findByParentId(id);
-            cityOrganizations.stream().forEach(co -> findAndChildById(co.getId()));
-            cityOrganization.setChildInfo(cityOrganizations);
+            cityOrganizations.stream().forEach(co -> findParentAndChildrenById(co.getId()));
+            cityOrganization.setChildren(cityOrganizations);
         }
         return cityOrganization;
     }
@@ -69,6 +77,24 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     }
 
     @Override
+    public List<CityOrganization> findParentAndChildrenByEntity(CityOrganization cityOrganization) {
+        List<CityOrganization> result = Lists.newArrayList();
+        List<CityOrganization> childrens = cityOrganization.getChildren();
+        if (childrens != null && childrens.size() != 0) {
+            childrens.stream().forEach(child -> result.addAll(this.findParentAndChildrenByEntity(child)));
+        }
+        result.add(cityOrganization);
+        return result;
+    }
+
+    @Override
+    public List<Long> findParentIdAndChildrenIdByEntity(CityOrganization cityOrganization) {
+        List<CityOrganization> parentAndChildren = this.findParentAndChildrenByEntity(cityOrganization);
+        List<Long> result = parentAndChildren.stream().map(CityOrganization::getId).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
     public boolean delCityOrganization(Long id) {
         long userCount = cityOrganizationSysUserService.findCountByCityOrganizationId(id);
         boolean isExistChild = isExistChildByParentId(id);
@@ -81,8 +107,8 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
     }
 
     @Override
-    public boolean isExistByNameAndParentId(String name, Long parentId) {
-        CityOrganization isExist = cityOrganizationRepository.findByNameAndParentId(name, parentId);
+    public boolean isExistByNameAndParentIdNotId(String name, Long parentId, Long id) {
+        CityOrganization isExist = cityOrganizationRepository.findByNameAndParentIdAndIdNot(name, parentId, id);
         return isExist != null;
     }
 

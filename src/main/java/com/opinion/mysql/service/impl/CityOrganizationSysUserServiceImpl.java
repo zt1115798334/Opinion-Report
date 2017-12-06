@@ -32,6 +32,16 @@ public class CityOrganizationSysUserServiceImpl implements CityOrganizationSysUs
     }
 
     @Override
+    public Long findCityOrganizationIdByUserId(Long userId) {
+        Long cityOrganizationId = 0L;
+        CityOrganizationSysUser cityOrganizationSysUser = this.findOneByUserId(userId);
+        if (cityOrganizationSysUser != null) {
+            cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
+        }
+        return cityOrganizationId;
+    }
+
+    @Override
     public List<CityOrganizationSysUser> findListByCityOrganizationId(Long cityOrganizationId) {
         return cityOrganizationSysUserRepository.findByCityOrganizationId(cityOrganizationId);
     }

@@ -49,7 +49,7 @@ public class CityOrganization implements Serializable {
     private Integer level;
 
     @Transient
-    List<CityOrganization> childInfo;
+    List<CityOrganization> children;
 
     public Long getId() {
         return id;
@@ -91,12 +91,12 @@ public class CityOrganization implements Serializable {
         this.level = level;
     }
 
-    public List<CityOrganization> getChildInfo() {
-        return childInfo;
+    public List<CityOrganization> getChildren() {
+        return children;
     }
 
-    public void setChildInfo(List<CityOrganization> childInfo) {
-        this.childInfo = childInfo;
+    public void setChildren(List<CityOrganization> children) {
+        this.children = children;
     }
 
     @Override

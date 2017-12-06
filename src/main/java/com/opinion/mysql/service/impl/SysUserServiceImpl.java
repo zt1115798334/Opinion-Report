@@ -15,7 +15,6 @@ import com.opinion.utils.PageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -131,24 +130,33 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Page<SysUser> findPageByRoleId(Long roleId, int pageNum, int pageSize, String userName) {
-
+    public Page<SysUser> findPageByRoleId(Long roleId, int pageNumber, int pageSize, String userName) {
         List<SysRoleUser> sysRoleUsers = sysRoleUserService.findByRoleId(roleId);
         List<Long> userId = sysRoleUsers.stream()
                 .map(SysRoleUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId, userName);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNumber, pageSize, userId, userName);
         return result;
     }
 
     @Override
-    public Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNum, int pageSize) {
-        List<CityOrganizationSysUser> cityOrganizationSysUsers = cityOrganizationSysUserService
-                .findListByCityOrganizationId(cityOrganizationId);
+    public Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNumber, int pageSize, String userName) {
+        List<CityOrganizationSysUser> cityOrganizationSysUsers = Lists.newArrayList();
+        if (cityOrganizationId == null) {
+            Long userId = new SysUserConst().getUserId();
+            cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
+            CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);
+            List<Long> parentIdAndChildrenid = cityOrganizationService.findParentIdAndChildrenIdByEntity(cityOrganization);
+            cityOrganizationSysUsers = cityOrganizationSysUserService.findListByCityOrganizationIds(parentIdAndChildrenid);
+        } else {
+            cityOrganizationSysUsers = cityOrganizationSysUserService
+                    .findListByCityOrganizationId(cityOrganizationId);
+        }
+
         List<Long> userId = cityOrganizationSysUsers.stream()
                 .map(CityOrganizationSysUser::getUserId)
                 .collect(Collectors.toList());
-        Page<SysUser> result = getSysUsersPageInUserId(pageNum, pageSize, userId, null);
+        Page<SysUser> result = getSysUsersPageInUserId(pageNumber, pageSize, userId, userName);
         return result;
     }
 
@@ -221,7 +229,10 @@ public class SysUserServiceImpl implements SysUserService {
         return cityOrganizationSysUserService.save(cityOrganizationSysUser);
     }
 
-    private Page<SysUser> getSysUsersPageInUserId(int pageNum, int pageSize, List<Long> userId, String userName) {
+    private Page<SysUser> getSysUsersPageInUserId(int pageNumber, int pageSize, List<Long> userId, String userName) {
+        if (userId.size() == 0) {
+            userId.add(-1L);
+        }
         Specification<SysUser> specification = new Specification<SysUser>() {
             @Override
             public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -234,7 +245,7 @@ public class SysUserServiceImpl implements SysUserService {
                 return null;
             }
         };
-        Pageable pageable = PageUtils.buildPageRequest(pageNum,
+        Pageable pageable = PageUtils.buildPageRequest(pageNumber,
                 pageSize,
                 "createdDatetime");
         return sysUserRepository.findAll(specification, pageable);
