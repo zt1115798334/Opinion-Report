@@ -136,29 +136,32 @@ public class SystemController extends BaseController {
     /**
      * 查询所有的角色
      *
-     * @param keyword  关键字
-     * @param pageNum  页数
+     * @param roleName  关键字
+     * @param pageNumber  页数
      * @param pageSize 数量
      * @return
      */
     @RequestMapping(value = "searchSysRole", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchSysRole(@RequestParam String keyword,
-                                    @RequestParam int pageNum,
-                                    @RequestParam int pageSize) {
-        logger.info("请求 searchSysRole 方法，keyword：{}，pageNum，{}，pageSize:{}", keyword, pageNum, pageSize);
-        Page<SysRole> page = sysRoleService.findPage(keyword, pageNum, pageSize);
+    public Object searchSysRole(@RequestParam String roleName,
+                                @RequestParam int pageNumber,
+                                @RequestParam int pageSize) {
+        logger.info("请求 searchSysRole 方法，roleName：{}，pageNumber，{}，pageSize:{}", roleName, pageNumber, pageSize);
+        Page<SysRole> page = sysRoleService.findPage(roleName, pageNumber, pageSize);
         List<SysRole> sysRoles = page.getContent();
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
+        JSONArray ja = new JSONArray();
         sysRoles.stream().forEach(sysRole -> {
             JSONObject jo = new JSONObject();
             jo.put("id", sysRole.getId());
             jo.put("roleType", sysRole.getRoleType());
             jo.put("roleName", sysRole.getRoleName());
             jo.put("createdDatetime", DateUtils.formatDate(sysRole.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT_SIMPLE));
-            result.add(jo);
+            ja.add(jo);
         });
-        return success(result);
+        result.put("total", page.getTotalElements());
+        result.put("rows", ja);
+        return result;
     }
 
 

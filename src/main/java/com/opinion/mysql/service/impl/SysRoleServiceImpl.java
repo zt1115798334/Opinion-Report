@@ -1,5 +1,6 @@
 package com.opinion.mysql.service.impl;
 
+import com.google.common.collect.Lists;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.dao.CommonSearchDao;
@@ -67,15 +68,19 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public Page<SysRole> findPage(String keyword, int pageNum, int pageSize) {
+    public Page<SysRole> findPage(String roleName, int pageNumber, int pageSize) {
         Specification<SysRole> specification = new Specification<SysRole>() {
             @Override
             public Predicate toPredicate(Root<SysRole> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                query.where(builder.and(builder.like(root.get("roleName").as(String.class), "%" + keyword + "%")));
-                return null;
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(builder.like(root.get("roleName").as(String.class), "%" + roleName + "%"));
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
-        Pageable pageable = PageUtils.buildPageRequest(pageNum,
+        Pageable pageable = PageUtils.buildPageRequest(pageNumber,
                 pageSize,
                 "id");
         return sysRoleRepository.findAll(specification, pageable);

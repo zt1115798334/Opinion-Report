@@ -30,11 +30,11 @@ public interface SysRoleService {
      * 分页查询
      *
      * @param keyword  关键字
-     * @param pageNum  页数
+     * @param pageNumber  页数
      * @param pageSize 数量
      * @return
      */
-    Page<SysRole> findPage(String keyword, int pageNum, int pageSize);
+    Page<SysRole> findPage(String keyword, int pageNumber, int pageSize);
 
     /**
      * 根据用户id查询
