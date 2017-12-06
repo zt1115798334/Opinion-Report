@@ -35,6 +35,11 @@ public class SysRoleUserServiceImpl implements SysRoleUserService {
     }
 
     @Override
+    public SysRoleUser findByRoleIdAndUserId(Long roleId, Long userId) {
+        return sysRoleUserRepository.findByRoleIdAndUserId(roleId, userId);
+    }
+
+    @Override
     public void delSysRoleUser(Long userId) {
         sysRoleUserRepository.deleteByUserId(userId);
     }

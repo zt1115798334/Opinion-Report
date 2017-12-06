@@ -381,9 +381,9 @@ public class SystemController extends BaseController {
         logger.info("请求 saveSysUserInfo 方法，sysUser:{}", sysUser);
         boolean flag = sysUserService.save(sysUser);
         if (flag) {
-            return success("添加成功");
+            return success("保存成功");
         } else {
-            return fail("添加失败，该账户已存在");
+            return fail("保存成功，该账户已存在");
         }
     }
 
@@ -412,16 +412,17 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "verifyIdentity", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult verifyIdentity(@RequestParam String userAccount,
-                                     @RequestParam String userPassword) {
+    public Object verifyIdentity(@RequestParam String userAccount,
+                                 @RequestParam String userPassword) {
         logger.info("请求 verifyIdentity 方法，userAccount:{}，userPassword：{}", userAccount, userPassword);
         String paw = userPassword + userAccount;
         String pawDES = MyDES.encryptBasedDes(paw);
         // 从数据库获取对应用户名密码的用户
         SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(userAccount, pawDES);
         JSONObject result = new JSONObject();
-        result.put("status", null != sysUser);
-        return success(result);
+        boolean flag = null == sysUser;
+        result.put("valid", flag);
+        return result;
     }
 
     /**
@@ -436,6 +437,20 @@ public class SystemController extends BaseController {
         logger.info("请求 delSysUser 方法，userId:{}", userId);
         sysUserService.delSysUser(userId);
         return success("删除成功");
+    }
+
+    /**
+     * 删除用户信息
+     *
+     * @param userId 用户id
+     * @return
+     */
+    @RequestMapping(value = "searchSysUserById", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchSysUserById(@RequestParam Long userId) {
+        logger.info("请求 searchSysUserById 方法，userId:{}", userId);
+        SysUser sysUser = sysUserService.findById(userId);
+        return success(sysUser);
     }
 
     /**

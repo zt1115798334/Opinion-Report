@@ -78,9 +78,12 @@ public class SysUserServiceImpl implements SysUserService {
             su.setModifiedDatetime(currentDatetime);
             su.setModifiedUserId(userId);
             su.setUserPassword(pawDES);
+            su.setUserName(sysUser.getUserName());
             Long roleId = sysUser.getRoleId();
             su.setRoleId(roleId);
             sysUserRepository.save(su);
+            SysRoleUser odlRoleUser = sysRoleUserService.findByUserId(userId);
+            odlRoleUser.setRoleId(roleId);
             return true;
         } else {
             String userAccount = sysUser.getUserAccount();

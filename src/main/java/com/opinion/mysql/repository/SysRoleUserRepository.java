@@ -15,7 +15,9 @@ public interface SysRoleUserRepository extends CrudRepository<SysRoleUser, Long>
 
     SysRoleUser findByUserId(Long userId);
 
-    void  deleteByUserId(Long userId);
+    SysRoleUser findByRoleIdAndUserId(Long roleId, Long userId);
+
+    void deleteByUserId(Long userId);
 
     long countByRoleId(Long roleId);
 }

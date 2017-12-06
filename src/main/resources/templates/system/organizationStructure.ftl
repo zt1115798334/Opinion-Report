@@ -98,9 +98,76 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-2 control-label">确认密码<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="confirmPassword" id="confirmPassword" type="password"
+                                           placeholder="请输入确认密码" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-2 control-label">用户角色<span class="require">*</span></label>
                                 <div class="col-md-6 dateDiv3">
                                     <select id="roleId" name="roleId" class="selectpicker">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12">
+                        <button id="" type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                        <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="editUser" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form role="form" id="userInfoEditForm">
+            <div class="modal-content">
+                <div class="modal-header logocbg">
+                    <h5 class="modal-title colorwhite" id="">编辑用户</h5>
+                </div>
+                <div class="modal-body  text-center">
+                    <div class="form-horizontal Margin">
+                        <div class="form-body">
+                            <input type="hidden" name="userAccount" id="userAccount">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">用户名称<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="userName" id="userName" type="text" placeholder="请输入用户名称(20字以内)"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">旧密码<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="oldPassword" id="oldPassword" type="password"
+                                           placeholder="请输入旧密码密码" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">密码<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="userPassword" id="userPassword" type="password"
+                                           placeholder="请输入6-20位密码" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">确认密码<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="confirmPassword" id="confirmPassword" type="password"
+                                           placeholder="请输入确认密码" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">用户角色<span class="require">*</span></label>
+                                <div class="col-md-6 dateDiv3">
+                                    <select id="roleIdE" name="roleId" class="selectpicker">
 
                                     </select>
                                 </div>

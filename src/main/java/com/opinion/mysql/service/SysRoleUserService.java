@@ -35,6 +35,15 @@ public interface SysRoleUserService {
     SysRoleUser findByUserId(Long userId);
 
     /**
+     * 根据用户id和角色id查询
+     *
+     * @param roleId 角色id
+     * @param userId 用户id
+     * @return
+     */
+    SysRoleUser findByRoleIdAndUserId(Long roleId, Long userId);
+
+    /**
      * 根据用户id删除
      *
      * @param userId 用户id

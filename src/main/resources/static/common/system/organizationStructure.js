@@ -25,7 +25,7 @@ $(function () {
     /**
      * 新建用户 -- 保存操作
      */
-    $(document).on("click", ".saveBtn", function () {
+    $(document).on("click", "#newUser .saveBtn", function () {
         validateFun();
         var bv = $("#userInfoForm").data('bootstrapValidator');
         bv.validate();
@@ -34,6 +34,33 @@ $(function () {
         }
         var data = $("#userInfoForm").serializeJSON();
         data.cityOrganizationId = cityOrganizationId;
+        saveSysUserInfoFun(data);
+    });
+
+    /**
+     * 编辑用户
+     */
+    $(document).on("click", ".revise", function () {
+        var userId = $(this).attr("rowId");
+        searchSysUserFun(userId);
+        $("#editUser .saveBtn").attr("userId", userId);
+        $("#editUser").modal("show");
+    });
+
+    /**
+     * 编辑用户 -- 保存操作
+     */
+    $(document).on("click", "#editUser .saveBtn", function () {
+        validateEditFun();
+        var bv = $("#userInfoEditForm").data('bootstrapValidator');
+        bv.validate();
+        if (!bv.isValid()) {
+            return false;
+        }
+        var id = $("#editUser .saveBtn").attr("userId");
+        ;
+        var data = $("#userInfoEditForm").serializeJSON();
+        data.id = id;
         saveSysUserInfoFun(data);
     });
 
@@ -335,7 +362,7 @@ function searchSysUserPageByCityOrganizationIdFun() {
             valign: "middle",
             formatter: function (value, row, index) {
                 var _html = "";
-                _html += "<button class=\"viewBtn\"  type=\"button\" rowId=\"" + row.id + "\">查看</button>";
+                // _html += "<button class=\"viewBtn\"  type=\"button\" rowId=\"" + row.id + "\">查看</button>";
                 _html += "<button class=\"revise\"  type=\"button\" rowId=\"" + row.id + "\">修改</button>";
                 _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
                 return _html;
@@ -393,6 +420,7 @@ function searchSysRoleFun() {
             html += '<option value="' + roleId + '">' + roleName + '</option>';
         }
         $("#roleId").append(html).selectpicker('refresh');
+        $("#roleIdE").append(html).selectpicker('refresh');
     }
 }
 
@@ -445,6 +473,103 @@ function validateFun() {
                     }
                 }
             },
+            confirmPassword: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户密码',
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 20,
+                        message: '密码长度必须在6到30之间'
+                    },
+                    identical: {
+                        field: 'userPassword',
+                        message: '两次密码不一致'
+                    }
+                }
+            },
+            roleId: {
+                validators: {
+                    notEmpty: {
+                        message: '请选择角色'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function validateEditFun() {
+    $("#userInfoEditForm").bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            // valid: 'glyphicon glyphicon-ok',
+            // invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            userName: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户名称'
+                    },
+                    stringLength: {
+                        max: 20,
+                        message: '用户名称不能大于20个字符'
+                    }
+                }
+            },
+            oldPassword: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户密码',
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 20,
+                        message: '密码长度必须在6到30之间'
+                    },
+                    remote: {
+                        url: "/system/verifyIdentity",
+                        type: "post",
+                        delay: 200,
+                        data: {
+                            userAccount: $("#userInfoEditForm #userAccount").val(),
+                            userPassword: $("#userInfoEditForm #oldPassword").val()
+                        },
+                        message: '密码错误，请重新输入'
+                    }
+                }
+            },
+            userPassword: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户密码',
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 20,
+                        message: '密码长度必须在6到30之间'
+                    }
+                }
+            },
+            confirmPassword: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户密码',
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 20,
+                        message: '密码长度必须在6到30之间'
+                    },
+                    identical: {
+                        field: 'userPassword',
+                        message: '两次密码不一致'
+                    }
+                }
+            },
             roleId: {
                 validators: {
                     notEmpty: {
@@ -466,25 +591,13 @@ function saveSysUserInfoFun(params) {
     function callback(result) {
         if (result.success) {
             $("#newUser").modal("hide");
+            $("#editUser").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
             bootstrapTableRefresh();
             resetForm("newUser");
         } else {
             notify.error({title: "提示", content: result.message});
         }
-    }
-}
-
-/**
- * 验证账户密码正确
- * @param params
- */
-function verifyIdentityFun(params) {
-    var url = "/system/verifyIdentity";
-    execAjax(url, params, callback);
-
-    function callback() {
-
     }
 }
 
@@ -502,6 +615,28 @@ function delSysUserFun(userId) {
         if (result.success) {
             bootstrapTableRefresh();
             notify.success({title: "提示", content: result.message, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
+    }
+}
+
+/**
+ * 根据用户id查看用户信息
+ * @param userId
+ */
+function searchSysUserFun(userId) {
+    var url = "/system/searchSysUserById";
+    var params = {
+        userId: userId
+    };
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        if (result.success) {
+            var data = result.data;
+            var userAccount = data.userAccount;
+            $("#editUser #userAccount").val(userAccount);
         } else {
             notify.error({title: "提示", content: result.message});
         }
