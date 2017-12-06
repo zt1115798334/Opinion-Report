@@ -10,6 +10,20 @@ $(function () {
     });
 
     /**
+     * 新建用户
+     */
+    $(document).on("click", ".create", function () {
+        $("#newUser").modal("show");
+    });
+
+    /**
+     * 新建用户 -- 保存操作
+     */
+    $(document).on("click", ".saveBtn", function () {
+
+    });
+
+    /**
      * 删除
      */
     $(document).on("click", ".delete", function () {
@@ -366,6 +380,55 @@ function searchSysRoleFun() {
         }
         $(".role_select").html(html);
     }
+}
+
+function validateFun() {
+    $("#userInfoForm").bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            // valid: 'glyphicon glyphicon-ok',
+            // invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            userAccount: {
+                validators: {
+                    notEmpty: {
+                        message: '用户账户'
+                    },
+                    stringLength: {
+                        max: 10,
+                        message: '用户账户不能大于10个字符'
+                    }
+                }
+            },
+            userName: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户名称'
+                    },
+                    stringLength: {
+                        max: 20,
+                        message: '用户名称不能大于20个字符'
+                    }
+                }
+            },
+            userPassword: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入用户密码'
+                    }
+                }
+            },
+            role: {
+                validators: {
+                    notEmpty: {
+                        message: '请选择角色'
+                    }
+                }
+            }
+        }
+    });
 }
 
 /**

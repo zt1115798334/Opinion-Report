@@ -447,7 +447,9 @@ body{
     color: #00d8d4;
     border: 1px solid #00d8d4;
 }
-
+.bootstrap-dialog.type-primary .modal-header {
+    background-color: #00d8d4 !important;
+}
 
 /*权限管理*/
 
