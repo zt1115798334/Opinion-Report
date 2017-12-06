@@ -39,8 +39,8 @@ public class CityOrganization implements Serializable {
     /**
      * 父id
      */
-    @Column(name = "parent_id", nullable = false)
-    private Long parentId;
+    @Column(name = "p_id", nullable = false)
+    private Long pId;
 
     /**
      * 城市等级 0 全部， 1 省级 2 市级 3 县级 99 无效
@@ -75,12 +75,12 @@ public class CityOrganization implements Serializable {
         this.name = name;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getpId() {
+        return pId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setpId(Long pId) {
+        this.pId = pId;
     }
 
     public Integer getLevel() {

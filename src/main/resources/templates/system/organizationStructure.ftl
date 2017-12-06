@@ -65,6 +65,6 @@
 <!--wrapper结束-->
 <#include "/public/footer.ftl"/>
 <#include "/public/publicJs.ftl"/>
-<script src="/common/system/organizationStructure.js?v=1"></script>
+<script src="/common/system/organizationStructure.js?v=111"></script>
 </body>
 </html>

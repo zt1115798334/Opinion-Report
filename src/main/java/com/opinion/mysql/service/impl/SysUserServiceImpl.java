@@ -142,7 +142,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Page<SysUser> findPageByCityOrganizationId(Long cityOrganizationId, int pageNumber, int pageSize, String userName) {
         List<CityOrganizationSysUser> cityOrganizationSysUsers = Lists.newArrayList();
-        if (cityOrganizationId == null) {
+        if (cityOrganizationId == null || cityOrganizationId == 0L) {
             Long userId = new SysUserConst().getUserId();
             cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
             CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);

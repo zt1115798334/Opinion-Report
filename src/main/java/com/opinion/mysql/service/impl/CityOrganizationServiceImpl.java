@@ -30,7 +30,7 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
         Long id = cityOrganization.getId();
         if (id != null) {
             //更新
-            boolean isExist = isExistByNameAndParentIdNotId(cityOrganization.getName(), cityOrganization.getParentId(), id);
+            boolean isExist = isExistByNameAndParentIdNotId(cityOrganization.getName(), cityOrganization.getpId(), id);
             if (isExist) {
                 //存在
                 return null;
@@ -73,7 +73,7 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
 
     @Override
     public List<CityOrganization> findByParentId(Long parentId) {
-        return cityOrganizationRepository.findByParentId(parentId);
+        return cityOrganizationRepository.findByPId(parentId);
     }
 
     @Override
@@ -108,13 +108,13 @@ public class CityOrganizationServiceImpl implements CityOrganizationService {
 
     @Override
     public boolean isExistByNameAndParentIdNotId(String name, Long parentId, Long id) {
-        CityOrganization isExist = cityOrganizationRepository.findByNameAndParentIdAndIdNot(name, parentId, id);
+        CityOrganization isExist = cityOrganizationRepository.findByNameAndPIdAndIdNot(name, parentId, id);
         return isExist != null;
     }
 
     @Override
     public boolean isExistChildByParentId(Long parentId) {
-        List<CityOrganization> cityOrganizations = cityOrganizationRepository.findByParentId(parentId);
+        List<CityOrganization> cityOrganizations = cityOrganizationRepository.findByPId(parentId);
         return cityOrganizations.size() != 0;
     }
 }

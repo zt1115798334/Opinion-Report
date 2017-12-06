@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface CityOrganizationRepository extends CrudRepository<CityOrganization, Long> {
 
-    List<CityOrganization> findByParentId(Long parentId);
+    List<CityOrganization> findByPId(Long parentId);
 
-    CityOrganization findByNameAndParentIdAndIdNot(String name, Long parentId, Long id);
+    CityOrganization findByNameAndPIdAndIdNot(String name, Long parentId, Long id);
 }

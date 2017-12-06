@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -337,11 +338,10 @@ public class SystemController extends BaseController {
     @ResponseBody
     public AjaxResult searchCityOrganization() {
         Long userId = new SysUserConst().getUserId();
-        JSONObject result = new JSONObject();
         Long cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
         CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);
-        result.put("cityOrganization", cityOrganization);
-        return success(result);
+        List<CityOrganization> cityOrganizations = cityOrganizationService.findParentAndChildrenByEntity(cityOrganization);
+        return success(cityOrganizations);
     }
 
 
