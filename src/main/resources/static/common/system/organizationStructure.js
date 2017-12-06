@@ -64,6 +64,15 @@ $(function () {
         saveSysUserInfoFun(data);
     });
 
+    //清除弹窗原数据
+    $("#newUser").on("hidden.bs.modal", function () {
+        $(this).removeData("bs.modal");
+    });
+
+    $("#editUser").on("hidden.bs.modal", function () {
+        $(this).removeData("bs.modal");
+    });
+
     /**
      * 删除
      */
@@ -446,6 +455,7 @@ function validateFun() {
                         url: "/system/searchExistByUserAccount",
                         type: "post",
                         delay: 1000,
+                        // async: false, //改为同步
                         message: '该账户已被注册请使用其他账户'
                     }
                 }
@@ -535,11 +545,9 @@ function validateEditFun() {
                         url: "/system/verifyIdentity",
                         type: "post",
                         delay: 1000,
-                        data: function (validator) {
-                            return {
-                                userAccount: $("#userInfoEditForm #userAccount").val(),
-                                userPassword: $("#userInfoEditForm #oldPassword").val()
-                            }
+                        data: {
+                            userAccount: $("#userInfoEditForm #userAccount").val(),
+                            userPassword: $("#userInfoEditForm #oldPassword").val()
                         },
                         message: '密码错误，请重新输入'
                     }
@@ -584,6 +592,24 @@ function validateEditFun() {
     });
 }
 
+function onUserNameBlurHandler() {
+    $('#userInfoForm').bootstrapValidator();
+    var bv = $('#userInfoForm').data("bootstrapValidator");
+    var bool = bv.validateField("userAccount");
+    var bool2 = bv.isValid();
+    console.log(bool)
+    console.log(bool2)
+}
+
+function onOldPasswordBlurHandler() {
+    $('#userInfoEditForm').bootstrapValidator();
+    var bv = $('#userInfoEditForm').data("bootstrapValidator");
+    var bool = bv.validateField("oldPassword");
+    var bool2 = bv.isValid();
+    console.log(bool)
+    console.log(bool2)
+}
+
 /**
  * 保存用户信息
  */
@@ -593,11 +619,12 @@ function saveSysUserInfoFun(params) {
 
     function callback(result) {
         if (result.success) {
+            resetForm("userInfoForm");
+            resetForm("userInfoEditForm");
             $("#newUser").modal("hide");
             $("#editUser").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
             bootstrapTableRefresh();
-            resetForm("newUser");
         } else {
             notify.error({title: "提示", content: result.message});
         }

@@ -383,7 +383,7 @@ public class SystemController extends BaseController {
         if (flag) {
             return success("保存成功");
         } else {
-            return fail("保存成功，该账户已存在");
+            return fail("保存失败，该账户已存在");
         }
     }
 

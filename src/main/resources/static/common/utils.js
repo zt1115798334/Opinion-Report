@@ -56,18 +56,23 @@ function execAjaxJSON(url, params, callback) {
 }
 
 function resetForm(id) {
-    $(':input', '#' + id)
-        .not(':button, :submit, :reset, :hidden')
-        .val('')
-        .removeAttr('checked')
-        .removeAttr('selected');
-    $("select.selectpicker").each(function () {
-        $(this).selectpicker('val', $(this).find('option:first').val());    //重置bootstrap-select显示
-        $(this).find("option").attr("selected", false);                    //重置原生select的值
-        $(this).find("option:first").attr("selected", true);
-    });
-    $('#' + id).data('bootstrapValidator').destroy();
-    $('#' + id).data('bootstrapValidator', null);
+    if ($("#" + id).length != 0) {
+        $(':input', '#' + id)
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
+        $("select.selectpicker").each(function () {
+            $(this).selectpicker('val', $(this).find('option:first').val());    //重置bootstrap-select显示
+            $(this).find("option").attr("selected", false);                    //重置原生select的值
+            $(this).find("option:first").attr("selected", true);
+        });
+        var xia = $('#' + id).data('bootstrapValidator');
+        if(xia!=undefined){
+            $('#' + id).data('bootstrapValidator').destroy();
+            $('#' + id).data('bootstrapValidator', null);
+        }
+    }
 }
 
 function showBootstrapDialog(msg, callback) {

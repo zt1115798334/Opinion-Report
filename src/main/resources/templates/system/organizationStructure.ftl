@@ -147,7 +147,7 @@
                                 <label class="col-md-2 control-label">旧密码<span class="require">*</span></label>
                                 <div class="col-md-6">
                                     <input name="oldPassword" id="oldPassword" type="password"
-                                           placeholder="请输入旧密码密码" class="form-control">
+                                           placeholder="请输入旧密码密码" class="form-control" >
                                 </div>
                             </div>
                             <div class="form-group">
