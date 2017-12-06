@@ -11,7 +11,9 @@
 
     <link href="/assets/plugins/zTree/metroStyle/metroStyle.css" rel="stylesheet">
     <script src="/assets/plugins/zTree/js/jquery.ztree.all.js" type="text/javascript"></script>
-
+    <link href="/assets/plugins/bootstrapValidator/css/bootstrapValidator.min.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="/assets/plugins/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery.serializejson.min.js"></script>
 </head>
 <body>
 <#include "/public/header.ftl"/>
@@ -92,14 +94,13 @@
                                 <label class="col-md-2 control-label">密码<span class="require">*</span></label>
                                 <div class="col-md-6">
                                     <input name="userPassword" id="userPassword" type="password"
-                                           placeholder="请输入6-20位密码，不支持特殊字符" class="form-control">
+                                           placeholder="请输入6-20位密码" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">用户角色<span class="require">*</span></label>
                                 <div class="col-md-6 dateDiv3">
-                                    <select name="role" class="selectpicker">
-                                        <option value="">请选择用户角色</option>
+                                    <select id="roleId" name="roleId" class="selectpicker">
 
                                     </select>
                                 </div>
@@ -118,6 +119,6 @@
     </div>
 </div>
 <#include "/public/publicJs.ftl"/>
-<script src="/common/system/organizationStructure.js?v=111"></script>
+<script src="/common/system/organizationStructure.js?v=11"></script>
 </body>
 </html>

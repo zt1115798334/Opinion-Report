@@ -70,7 +70,6 @@ function resetForm(id) {
     $('#' + id).data('bootstrapValidator', null);
 }
 
-
 function showBootstrapDialog(msg, callback) {
     BootstrapDialog.show({
         title: '删除',

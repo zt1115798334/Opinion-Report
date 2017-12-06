@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -176,8 +175,8 @@ public class SystemController extends BaseController {
         sysRoles.stream().filter(sysRole -> !Objects.equals(sysRole.getRoleType(), SysConst.RoleType.ADMIN))
                 .forEach(sysRole -> {
                     JSONObject jo = new JSONObject();
-                    jo.put("roleId", sysRole);
-                    jo.put("roleName", sysRole);
+                    jo.put("roleId", sysRole.getId());
+                    jo.put("roleName", sysRole.getRoleName());
                     result.add(jo);
                 });
         return success(result);
@@ -344,11 +343,11 @@ public class SystemController extends BaseController {
         JSONArray result = new JSONArray();
         cityOrganizations.forEach(co -> {
             JSONObject jo = new JSONObject();
-            jo.put("id",co.getId());
-            jo.put("code",co.getCode());
-            jo.put("name",co.getName());
-            jo.put("pId",co.getpId());
-            jo.put("level",co.getLevel());
+            jo.put("id", co.getId());
+            jo.put("code", co.getCode());
+            jo.put("name", co.getName());
+            jo.put("pId", co.getpId());
+            jo.put("level", co.getLevel());
             result.add(jo);
         });
         return success(result);
@@ -396,12 +395,12 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchExistByUserAccount", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchExistByUserAccount(@RequestParam String userAccount) {
+    public Object searchExistByUserAccount(@RequestParam String userAccount) {
         logger.info("请求 searchExistByUserAccount 方法，userAccount:{}", userAccount);
         boolean isExist = sysUserService.isExistByUserAccount(userAccount);
         JSONObject result = new JSONObject();
-        result.put("isExist", isExist);
-        return success(result);
+        result.put("valid", !isExist);
+        return result;
     }
 
     /**

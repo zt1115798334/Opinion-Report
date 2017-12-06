@@ -98,8 +98,8 @@ public class SysUserServiceImpl implements SysUserService {
                 sysUser = sysUserRepository.save(sysUser);
                 Long roleId = sysUser.getRoleId();
                 Long cityOrganizationId = sysUser.getCityOrganizationId();
-                saveSysRoleUser(roleId, userId);
-                saveCityOrganizationSysUser(cityOrganizationId, userId);
+                saveSysRoleUser(roleId, sysUser.getId());
+                saveCityOrganizationSysUser(cityOrganizationId, sysUser.getId());
                 return true;
             } else {
                 return false;

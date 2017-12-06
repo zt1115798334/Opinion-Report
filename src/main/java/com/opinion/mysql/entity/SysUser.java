@@ -39,7 +39,7 @@ public class SysUser implements Serializable {
     /**
      * 手机号
      */
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone")
     private String phone;
 
     /**

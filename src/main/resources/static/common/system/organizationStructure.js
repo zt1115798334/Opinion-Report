@@ -2,6 +2,8 @@ $(function () {
 
     searchCityOrganizationFun();
     searchSysUserPageByCityOrganizationIdFun();
+    searchSysRoleFun();
+
     /**
      * 点击搜索操作
      */
@@ -13,6 +15,10 @@ $(function () {
      * 新建用户
      */
     $(document).on("click", ".create", function () {
+        if (cityOrganizationId == undefined || cityOrganizationId == "") {
+            notify.error({title: "提示", content: "请选择组织机构", autoClose: true});
+            return false;
+        }
         $("#newUser").modal("show");
     });
 
@@ -20,7 +26,15 @@ $(function () {
      * 新建用户 -- 保存操作
      */
     $(document).on("click", ".saveBtn", function () {
-
+        validateFun();
+        var bv = $("#userInfoForm").data('bootstrapValidator');
+        bv.validate();
+        if (!bv.isValid()) {
+            return false;
+        }
+        var data = $("#userInfoForm").serializeJSON();
+        data.cityOrganizationId = cityOrganizationId;
+        saveSysUserInfoFun(data);
     });
 
     /**
@@ -368,7 +382,7 @@ function searchSysRoleFun() {
     var url = "/system/searchSysRoleSelect";
     var params = {};
     execAjax(url, params, callback);
-    var html = '';
+    var html = '<option value="">请选择用户角色</option>';
 
     function callback(result) {
         var data = result.data;
@@ -378,7 +392,7 @@ function searchSysRoleFun() {
             var roleName = info.roleName;
             html += '<option value="' + roleId + '">' + roleName + '</option>';
         }
-        $(".role_select").html(html);
+        $("#roleId").append(html).selectpicker('refresh');
     }
 }
 
@@ -399,6 +413,12 @@ function validateFun() {
                     stringLength: {
                         max: 10,
                         message: '用户账户不能大于10个字符'
+                    },
+                    remote: {
+                        url: "/system/searchExistByUserAccount",
+                        type: "post",
+                        delay: 200,
+                        message: '该账户已被注册请使用其他账户'
                     }
                 }
             },
@@ -416,11 +436,16 @@ function validateFun() {
             userPassword: {
                 validators: {
                     notEmpty: {
-                        message: '请输入用户密码'
+                        message: '请输入用户密码',
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 20,
+                        message: '密码长度必须在6到30之间'
                     }
                 }
             },
-            role: {
+            roleId: {
                 validators: {
                     notEmpty: {
                         message: '请选择角色'
@@ -438,24 +463,15 @@ function saveSysUserInfoFun(params) {
     var url = "/system/saveSysUserInfo";
     execAjaxJSON(url, params, callback);
 
-    function callback() {
+    function callback(result) {
         if (result.success) {
+            $("#newUser").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
+            bootstrapTableRefresh();
+            resetForm("newUser");
         } else {
             notify.error({title: "提示", content: result.message});
         }
-    }
-}
-
-/**
- * 查询用户账户信息
- */
-function searchExistByUserAccountFun(params) {
-    var url = "/system/searchExistByUserAccount";
-    execAjax(url, params, callback);
-
-    function callback() {
-
     }
 }
 
