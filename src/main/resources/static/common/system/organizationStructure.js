@@ -53,39 +53,33 @@ function beforeRemove(treeId, treeNode) {
     className = (className === "dark" ? "" : "dark");
     var zTree = $.fn.zTree.getZTreeObj("organizationTree");
     zTree.selectNode(treeNode);
-    // BootstrapDialog.show({
-    //     title: '确认',
-    //     message: '你确认要删除机构[' + treeNode.name + ']吗？',
-    //     onshow: function (dialog) {
-    //     },
-    //     buttons: [{
-    //         label: '确认',
-    //         action: function (dialogItself) {
-    //             var params = {
-    //                 id: treeNode.id
-    //             }
-    //             delCityOrganizationFun(params);
-    //             dialogItself.close();
-    //             flag = true;
-    //             return true;
-    //         }
-    //     }, {
-    //         label: '取消',
-    //         action: function (dialogItself) {
-    //             dialogItself.close();
-    //             flag = false;
-    //             return false;
-    //         }
-    //     }]
-    // });
-    if (confirm("确认删除节点--" + treeNode.name + "--吗?")) {
-        var params = {
-            id: treeNode.id
-        }
-        delCityOrganizationFun(params);
-    } else {
-        return false;
-    }
+    BootstrapDialog.show({
+        title: '确认',
+        message: '你确认要删除机构[' + treeNode.name + ']吗？',
+        onshow: function (dialog) {
+        },
+        buttons: [{
+            label: '确认',
+            action: function (dialogItself) {
+                var params = {
+                    id: treeNode.id
+                }
+                delCityOrganizationFun(params);
+                dialogItself.close();
+                var zTree = $.fn.zTree.getZTreeObj(treeId);
+                zTree.removeNode(treeNode);
+                return true;
+            }
+        }, {
+            label: '取消',
+            action: function (dialogItself) {
+                dialogItself.close();
+                flag = false;
+                return false;
+            }
+        }]
+    });
+    return false;
 }
 
 function onRemove(e, treeId, treeNode) {

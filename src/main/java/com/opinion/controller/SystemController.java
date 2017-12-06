@@ -341,7 +341,17 @@ public class SystemController extends BaseController {
         Long cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
         CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);
         List<CityOrganization> cityOrganizations = cityOrganizationService.findParentAndChildrenByEntity(cityOrganization);
-        return success(cityOrganizations);
+        JSONArray result = new JSONArray();
+        cityOrganizations.forEach(co -> {
+            JSONObject jo = new JSONObject();
+            jo.put("id",co.getId());
+            jo.put("code",co.getCode());
+            jo.put("name",co.getName());
+            jo.put("pId",co.getpId());
+            jo.put("level",co.getLevel());
+            result.add(jo);
+        });
+        return success(result);
     }
 
 

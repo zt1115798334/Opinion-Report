@@ -28,8 +28,6 @@
                         <div id="organizationTree" class="ztree padding20">
 
                         </div>
-                        <!--新建-->
-                        <a href="###" class="newTreeBtn"><b>+</b>&nbsp;新建</a>
                     </div>
                     <!--右侧-->
                     <div class="col-md-9">
