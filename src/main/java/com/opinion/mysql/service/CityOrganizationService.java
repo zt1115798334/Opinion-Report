@@ -27,7 +27,7 @@ public interface CityOrganizationService {
     CityOrganization findById(Long id);
 
     /**
-     * 查询自己以及自己信息
+     * 查询自己以及子级信息
      *
      * @param id
      * @return
@@ -51,6 +51,7 @@ public interface CityOrganizationService {
     List<CityOrganization> findByParentId(Long parentId);
 
     /**
+     * 将父级信息一节父级信息中包含的自己信息转换为一个集合
      *
      * @param cityOrganization
      * @return
@@ -58,6 +59,7 @@ public interface CityOrganizationService {
     List<CityOrganization> findParentAndChildrenByEntity(CityOrganization cityOrganization);
 
     /**
+     * 将父级信息一节父级信息中包含的自己信息的id转换为一个集合
      *
      * @param cityOrganization
      * @return

@@ -144,7 +144,7 @@ function addHoverDom(treeId, treeNode) {
     if (btn) btn.bind("click", function () {
 
         var params = {
-            parentId: treeNode.id,
+            pId: treeNode.id,
             name: "新的机构",
             level: treeNode.level + 1
         };
@@ -353,7 +353,6 @@ function searchSysUserPageByCityOrganizationIdFun() {
     $("#table-user").bootstrapTable("destroy").bootstrapTable(options);
 }
 
-
 /**
  * 查询角色信息
  */
@@ -384,7 +383,7 @@ function saveSysUserInfoFun(params) {
 
     function callback() {
         if (result.success) {
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
             notify.error({title: "提示", content: result.message});
         }

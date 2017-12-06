@@ -15,10 +15,4 @@ public class CityOrganizationTest extends BaseTest {
     @Autowired
     private CityOrganizationService cityOrganizationService;
 
-    @Test
-    public void test1() {
-        CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(1L);
-        System.out.println("cityOrganization = " + cityOrganization);
-//        List<CityOrganization> cityOrganizations = cityOrganizationService.findParentAndChildren(cityOrganization);
-    }
 }

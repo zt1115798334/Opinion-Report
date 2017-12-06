@@ -236,13 +236,17 @@ public class SysUserServiceImpl implements SysUserService {
         Specification<SysUser> specification = new Specification<SysUser>() {
             @Override
             public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                List<Predicate> predicates = Lists.newArrayList();
                 CriteriaBuilder.In<Long> in = builder.in(root.get("id").as(Long.class));
                 userId.forEach(userid -> in.value(userid));
-                query.where(in);
+                predicates.add(in);
                 if (StringUtils.isNotEmpty(userName)) {
-                    query.where(builder.and(builder.like(root.get("userName").as(String.class), "%" + userName + "%")));
+                    predicates.add(builder.like(root.get("userName").as(String.class), "%" + userName + "%"));
                 }
-                return null;
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Pageable pageable = PageUtils.buildPageRequest(pageNumber,
