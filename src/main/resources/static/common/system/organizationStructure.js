@@ -445,7 +445,7 @@ function validateFun() {
                     remote: {
                         url: "/system/searchExistByUserAccount",
                         type: "post",
-                        delay: 200,
+                        delay: 1000,
                         message: '该账户已被注册请使用其他账户'
                     }
                 }
@@ -530,13 +530,16 @@ function validateEditFun() {
                         max: 20,
                         message: '密码长度必须在6到30之间'
                     },
+                    threshold: 6,
                     remote: {
                         url: "/system/verifyIdentity",
                         type: "post",
-                        delay: 200,
-                        data: {
-                            userAccount: $("#userInfoEditForm #userAccount").val(),
-                            userPassword: $("#userInfoEditForm #oldPassword").val()
+                        delay: 1000,
+                        data: function (validator) {
+                            return {
+                                userAccount: $("#userInfoEditForm #userAccount").val(),
+                                userPassword: $("#userInfoEditForm #oldPassword").val()
+                            }
                         },
                         message: '密码错误，请重新输入'
                     }

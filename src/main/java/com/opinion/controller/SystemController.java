@@ -420,7 +420,7 @@ public class SystemController extends BaseController {
         // 从数据库获取对应用户名密码的用户
         SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(userAccount, pawDES);
         JSONObject result = new JSONObject();
-        boolean flag = null == sysUser;
+        boolean flag = null != sysUser;
         result.put("valid", flag);
         return result;
     }
