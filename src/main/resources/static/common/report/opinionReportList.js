@@ -20,25 +20,12 @@ $(function () {
      */
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
-        $("#del").modal("show");
-        $("#del .execBtn").attr("del-id", id);
+        showBootstrapDialog("是否确认删除该条舆情，删除后无法恢复？", callback);
+        function callback() {
+            deleteReportArticleFun(id);
+        }
     });
 
-    /**
-     * 删除操作 -- 弹框提示 -- 确认
-     */
-    $(document).on("click", "#del .execBtn", function () {
-        var id = $("#del .execBtn").attr("del-id");
-        deleteReportArticleFun(id);
-        $("#del").modal("hide");
-    });
-
-    /**
-     * 删除操作 -- 弹框提示 -- 关闭
-     */
-    $(document).on("hidden.bs.modal", "#del", function () {
-        $("#del .execBtn").removeAttr("del-id");
-    });
     /**
      * 查看详情操作
      */

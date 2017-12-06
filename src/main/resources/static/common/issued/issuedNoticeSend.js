@@ -21,24 +21,10 @@ $(function () {
      */
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
-        $("#del").modal("show");
-        $("#del .execBtn").attr("del-id", id);
-    });
-
-    /**
-     * 删除操作 -- 弹框提示 -- 关闭
-     */
-    $(document).on("hidden.bs.modal", "#del", function () {
-        $("#del .execBtn").removeAttr("del-id");
-    });
-
-    /**
-     * 删除操作 -- 弹框提示 -- 确认
-     */
-    $(document).on("click", "#del .execBtn", function () {
-        var id = $("#del .execBtn").attr("del-id");
-        deleteIssuedNoticeFun(id);
-        $("#del").modal("hide");
+        showBootstrapDialog("是否确认删除该条信息，删除后无法恢复？", callback);
+        function callback() {
+            deleteIssuedNoticeFun(id);
+        }
     });
 
     /**

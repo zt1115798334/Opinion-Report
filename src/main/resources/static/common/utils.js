@@ -73,12 +73,13 @@ function resetForm(id) {
 
 function showBootstrapDialog(msg, callback) {
     BootstrapDialog.show({
-        title: '确认',
+        title: '删除',
         message: msg,
         onshow: function (dialog) {
         },
         buttons: [{
             label: '确认',
+            cssClass: "btn btn-primary sureBtn_green",
             action: function (dialogItself) {
                 callback();
                 dialogItself.close();
@@ -86,6 +87,7 @@ function showBootstrapDialog(msg, callback) {
             }
         }, {
             label: '取消',
+            cssClass: "btn btn-default denyBtn_green",
             action: function (dialogItself) {
                 dialogItself.close();
                 return false;
