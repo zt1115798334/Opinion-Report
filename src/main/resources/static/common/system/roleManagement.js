@@ -31,6 +31,20 @@ $(function () {
     });
 
     /**
+     * 权限管理
+     */
+    $(document).on("click", ".jurisdiction", function () {
+        var roleId = $(this).attr("rowId");
+        var roleName = $(this).attr("rowRoleName");
+        $("#span_roleName").html(roleName);
+        $("#jurisdiction").modal("show");
+        var params = {
+            roleId: roleId
+        };
+        searchSysPermissionFun(params);
+    });
+
+    /**
      * 删除
      */
     $(document).on("click", ".delete", function () {
@@ -41,7 +55,6 @@ $(function () {
             delSysRoleFun(roleId);
         }
     });
-
 });
 
 /**
@@ -56,6 +69,10 @@ function searchSysRoleFun() {
             title: "角色ID",
             align: "center",
             valign: "middle"
+        }, {
+            field: 'roleType',
+            title: "角色类型",
+            visible: false
         }, {
             field: 'roleName',
             title: "角色名称",
@@ -73,8 +90,11 @@ function searchSysRoleFun() {
             valign: "middle",
             formatter: function (value, row, index) {
                 var _html = "";
-                _html += "<button class=\"Jurisdiction\"  type=\"button\" rowId=\"" + row.id + "\">权限管理</button>";
-                _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                var roleType = row.roleType;
+                if (roleType != "admin") {
+                    _html += "<button class=\"jurisdiction\"  type=\"button\" rowId=\"" + row.id + "\" rowRoleName=\"" + row.roleName + "\">权限管理</button>";
+                    _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                }
                 return _html;
             }
         }],
@@ -192,7 +212,9 @@ function searchSysPermissionFun(params) {
     execAjax(url, params, callback);
 
     function callback(result) {
-        console.log(result);
+        if (result.success) {
+
+        }
     }
 }
 

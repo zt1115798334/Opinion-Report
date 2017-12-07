@@ -82,12 +82,12 @@
     </div>
 </div>
 <!--权限管理模态框-->
-<div id="Jurisdiction" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div id="jurisdiction" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" style="width: 880px;">
         <div class="modal-content clearfix">
             <div class="modal-header logocbg">
-                <h5 class="modal-title colorwhite">权限分配给【<span id="span_roleName" class="colorglay">管理员</span>】</h5>
+                <h5 class="modal-title colorwhite">权限分配给【<span id="span_roleName" class="colorglay"></span>】</h5>
             </div>
             <div class="modal-body clearfix">
                 <div class="form-horizontal clearfix">
@@ -180,6 +180,6 @@
 </div>
 
 <#include "/public/publicJs.ftl"/>
-<script src="/common/system/roleManagement.js?v=1"></script>
+<script src="/common/system/roleManagement.js?v=22"></script>
 </body>
 </html>
