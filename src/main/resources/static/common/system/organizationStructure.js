@@ -128,17 +128,14 @@ function beforeRemove(treeId, treeNode) {
                 var params = {
                     id: treeNode.id
                 }
-                delCityOrganizationFun(params);
+                delCityOrganizationFun(params, treeId, treeNode);
                 dialogItself.close();
-                var zTree = $.fn.zTree.getZTreeObj(treeId);
-                zTree.removeNode(treeNode);
                 return true;
             }
         }, {
             label: '取消',
             action: function (dialogItself) {
                 dialogItself.close();
-                flag = false;
                 return false;
             }
         }]
@@ -318,15 +315,17 @@ function updateCityOrganizationFun(params, treeNode, isCancel) {
  * 删除子级机构信息
  * @param params
  */
-function delCityOrganizationFun(params) {
+function delCityOrganizationFun(params, treeId, treeNode) {
     var url = "/system/delCityOrganization";
     execAjax(url, params, callback);
 
     function callback(result) {
         if (result.success) {
             notify.success({title: "提示", content: result.message, autoClose: true});
+            var zTree = $.fn.zTree.getZTreeObj(treeId);
+            zTree.removeNode(treeNode);
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }
