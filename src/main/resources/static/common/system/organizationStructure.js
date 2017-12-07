@@ -113,7 +113,6 @@ function beforeDrag(treeId, treeNodes) {
 
 function beforeEditName(treeId, treeNode) {
     className = (className === "dark" ? "" : "dark");
-    showLog("[ " + getTime() + " beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
     var zTree = $.fn.zTree.getZTreeObj("organizationTree");
     zTree.selectNode(treeNode);
     setTimeout(function () {
@@ -153,12 +152,10 @@ function beforeRemove(treeId, treeNode) {
 }
 
 function onRemove(e, treeId, treeNode) {
-    showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 }
 
 function beforeRename(treeId, treeNode, newName, isCancel) {
     className = (className === "dark" ? "" : "dark");
-    showLog((isCancel ? "<span style='color:red'>" : "") + "[ " + getTime() + " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>" : ""));
     if (newName.length == 0) {
         setTimeout(function () {
             var zTree = $.fn.zTree.getZTreeObj("organizationTree");
@@ -177,14 +174,6 @@ function onRename(e, treeId, treeNode, isCancel) {
         name: treeNode.name
     };
     updateCityOrganizationFun(params, treeNode, isCancel);
-}
-
-function showLog(str) {
-    if (!log) log = $("#log");
-    log.append("<li class='" + className + "'>" + str + "</li>");
-    if (log.children("li").length > 8) {
-        log.get(0).removeChild(log.children("li")[0]);
-    }
 }
 
 function getTime() {
