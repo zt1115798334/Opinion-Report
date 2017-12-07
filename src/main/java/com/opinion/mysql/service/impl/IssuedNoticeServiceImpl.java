@@ -86,6 +86,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
 
         String noticeCode = issuedNotice.getNoticeCode();
         List<IssuedNoticeLog> issuedNoticeLogs = childIds.stream()
+                .distinct()
                 .map(childId -> {
                     IssuedNoticeLog issuedNoticeLog = new IssuedNoticeLog();
                     issuedNoticeLog.setNoticeCode(noticeCode);
@@ -107,6 +108,7 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
         StringBuilder subtitle = new StringBuilder();
         subtitle.append("《").append(issuedNotice.getTitle()).append("》");
         List<SysMessage> sysMessages = childIds.stream()
+                .distinct()
                 .map(childId -> {
                     SysMessage sysMessage = new SysMessage();
                     sysMessage.setType(SysConst.ImportOrExport.EXPORT.getCode());
