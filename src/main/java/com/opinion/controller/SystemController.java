@@ -306,7 +306,7 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 查询用户所在的组织机构
+     * 查询用户所在的组织机构以及子级组织机构
      *
      * @return
      */
@@ -330,6 +330,10 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
+    /**
+     * 查询当前用户的组织信息
+     * @return
+     */
     @RequestMapping(value = "searchCityOrganizationInfo", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchCityOrganizationInfo() {
