@@ -269,7 +269,7 @@ function searchCityOrganizationFun() {
 
     function callback(result) {
         var zNode = result.data;
-        zNode.push({id: 0, pid: -1, name: "::组织机构::", open: true, noRemoveBtn: true, noEditBtn: true});
+        // zNode.push({id: 0, pid: -1, name: "::组织机构::", open: true, noRemoveBtn: true, noEditBtn: true});
         $.fn.zTree.init($("#organizationTree"), setting, zNode);
         $("#selectAll").bind("click", selectAll);
     }

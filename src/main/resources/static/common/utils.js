@@ -68,7 +68,7 @@ function resetForm(id) {
             $(this).find("option:first").attr("selected", true);
         });
         var xia = $(id).data('bootstrapValidator');
-        if(xia!=undefined){
+        if (xia != undefined) {
             $(id).data('bootstrapValidator').destroy();
             $(id).data('bootstrapValidator', null);
         }
