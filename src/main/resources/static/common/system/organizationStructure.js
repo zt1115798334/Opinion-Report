@@ -559,9 +559,11 @@ function validateEditFun() {
                         type: "post",
                         delay: 1000,
                         async: false, //改为同步
-                        data: {
-                            userAccount: $("#userInfoEditForm #userAccount").val(),
-                            userPassword: $("#userInfoEditForm #oldPassword").val()
+                        data: function (validator) {
+                            return {
+                                userAccount: $("#userInfoEditForm #userAccount").val(),
+                                userPassword: $("#userInfoEditForm #oldPassword").val()
+                            }
                         },
                         message: '密码错误，请重新输入'
                     }
