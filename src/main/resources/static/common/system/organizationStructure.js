@@ -231,7 +231,7 @@ function selectAll() {
  * 根据当前用户显示最所在组织机构
  */
 function searchCityOrganizationFun() {
-    /*ztree交互配置*/
+    /*  ztree交互配置*/
     var setting = {
         view: {
             addHoverDom: addHoverDom,

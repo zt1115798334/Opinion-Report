@@ -417,7 +417,7 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 删除用户信息
+     * 根据用户id查询用户信息
      *
      * @param userId 用户id
      * @return
