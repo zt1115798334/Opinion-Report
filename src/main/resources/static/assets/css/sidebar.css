@@ -17,15 +17,19 @@ ul{
     position: absolute;
     left: 0;
     top:0;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 #sidebar #side-menu{
     border-top: 1px solid #303a43;
+    padding-top: 10px;
+}
+#sidebar #side-menu li{
+    position: relative;
 }
  #sidebar #side-menu li a {
      display: block;
-     margin: 15px 0;
-     padding:12px 0px 12px 32px;
+    /* margin: 8px 0;*/
+     padding:20px 0px 20px 32px;
 }
  #sidebar #side-menu li a:hover,
  #sidebar #side-menu li a:focus {
@@ -85,4 +89,27 @@ ul{
 }
 .lineblock{
     display: inline-block;
+}
+
+
+
+
+/*新增 二级菜单*/
+#sidebar #side-menu li .side-list li a span{
+    padding-left: 36px;
+}
+#side-menu li b{
+    display: inline-block;
+    background:url(../images/down_03.png) no-repeat;
+    background-size:cover;
+    width: 16px;
+    height: 12px;
+    margin-left:30px;
+    margin-bottom: -2px;
+    position: absolute;
+    right:30px;
+    top:28px;
+}
+#side-menu li b.up{
+    background:url(../images/up_03.png) no-repeat;
 }

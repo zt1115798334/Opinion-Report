@@ -170,10 +170,10 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
 function onRename(e, treeId, treeNode, isCancel) {
     var params = {
         id: treeNode.id,
-        parentId: treeNode.parentId,
+        pId: treeNode.pId,
         name: treeNode.name
     };
-    updateCityOrganizationFun(params, treeNode, isCancel);
+    updateCityOrganizationFun(params, treeId, treeNode, isCancel);
 }
 
 function getTime() {
@@ -195,6 +195,15 @@ function addHoverDom(treeId, treeNode) {
     sObj.after(addStr);
     var btn = $("#addBtn_" + treeNode.tId);
     if (btn) btn.bind("click", function () {
+
+        var children = treeNode.children;
+        for (var i in children) {
+            var child = children[i];
+            if (child.name == "新的机构") {
+                beforeEditName(treeId, child);
+                return false;
+            }
+        }
 
         var params = {
             pId: treeNode.id,
@@ -287,7 +296,7 @@ function saveCityOrganizationFun(params, treeNode) {
  * 保存子级组织机构
  * @param params
  */
-function updateCityOrganizationFun(params, treeNode, isCancel) {
+function updateCityOrganizationFun(params, treeId, treeNode, isCancel) {
     var url = "/system/saveCityOrganization";
     execAjaxJSON(url, params, callback);
 
@@ -297,8 +306,9 @@ function updateCityOrganizationFun(params, treeNode, isCancel) {
             if (data != null) {
 
             } else {
-                notify.error({title: "提示", content: "该机构名称已存在"});
+                notify.error({title: "提示", content: "该机构名称已存在", autoClose: true});
                 isCancel = true;
+                beforeEditName(treeId, treeNode);
                 return false;
             }
             return true;
