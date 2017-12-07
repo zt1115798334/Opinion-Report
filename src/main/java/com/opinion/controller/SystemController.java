@@ -122,20 +122,6 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 查询角色下有多少用户
-     *
-     * @param roleId 角色id
-     * @return
-     */
-    @RequestMapping(value = "searchSysRoleUserCount", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchSysRoleUserCount(@RequestParam Long roleId) {
-        logger.info("请求 searchSysRoleUserCount 方法，roleId：{}", roleId);
-        long count = sysRoleUserService.findCountByRoleId(roleId);
-        return success(count);
-    }
-
-    /**
      * 查询所有的角色
      *
      * @param roleName   关键字
@@ -317,20 +303,6 @@ public class SystemController extends BaseController {
         } else {
             return fail("删除失败，该组织下存在其他信息");
         }
-    }
-
-    /**
-     * 查询组织机构有多少用户
-     *
-     * @param cityOrganizationId 组织机构id
-     * @return
-     */
-    @RequestMapping(value = "searchCityOrganizationSysUserCount", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult searchCityOrganizationSysUserCount(@RequestParam Long cityOrganizationId) {
-        logger.info("请求 searchCityOrganizationSysUserCount 方法，cityOrganizationId：{}", cityOrganizationId);
-        long count = cityOrganizationSysUserService.findCountByCityOrganizationId(cityOrganizationId);
-        return success(count);
     }
 
     /**
