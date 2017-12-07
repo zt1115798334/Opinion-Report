@@ -448,8 +448,13 @@ function validateFun() {
                         message: '请输入用户账户'
                     },
                     stringLength: {
+                        min: 6,
                         max: 10,
-                        message: '用户账户不能大于10个字符'
+                        message: '用户账户长度必须在6到10之间'
+                    },
+                    regexp: {
+                        regexp: /^[A-Za-z0-9]{4,40}$/,
+                        message: '账户只能包含大写、小写、数字'
                     },
                     remote: {
                         url: "/system/searchExistByUserAccount",
@@ -478,20 +483,20 @@ function validateFun() {
                     },
                     stringLength: {
                         min: 6,
-                        max: 20,
-                        message: '密码长度必须在6到30之间'
+                        max: 12,
+                        message: '密码长度必须在6到12之间'
                     }
                 }
             },
             confirmPassword: {
                 validators: {
                     notEmpty: {
-                        message: '请输入用户密码',
+                        message: '请输入确认密码',
                     },
                     stringLength: {
                         min: 6,
-                        max: 20,
-                        message: '密码长度必须在6到30之间'
+                        max: 12,
+                        message: '密码长度必须在6到12之间'
                     },
                     identical: {
                         field: 'userPassword',
@@ -537,8 +542,8 @@ function validateEditFun() {
                     },
                     stringLength: {
                         min: 6,
-                        max: 20,
-                        message: '密码长度必须在6到30之间'
+                        max: 12,
+                        message: '密码长度必须在6到12之间'
                     },
                     threshold: 6,
                     remote: {
@@ -560,8 +565,8 @@ function validateEditFun() {
                     },
                     stringLength: {
                         min: 6,
-                        max: 20,
-                        message: '密码长度必须在6到30之间'
+                        max: 12,
+                        message: '密码长度必须在6到12之间'
                     }
                 }
             },
@@ -572,8 +577,8 @@ function validateEditFun() {
                     },
                     stringLength: {
                         min: 6,
-                        max: 20,
-                        message: '密码长度必须在6到30之间'
+                        max: 12,
+                        message: '密码长度必须在6到12之间'
                     },
                     identical: {
                         field: 'userPassword',
