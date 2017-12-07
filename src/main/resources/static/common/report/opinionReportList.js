@@ -21,6 +21,7 @@ $(function () {
     $(document).on("click", ".delete", function () {
         var id = $(this).attr("rowId");
         showBootstrapDialog("是否确认删除该条舆情，删除后无法恢复？", callback);
+
         function callback() {
             deleteReportArticleFun(id);
         }
@@ -40,6 +41,15 @@ $(function () {
     $(document).on("click", ".reportBtn", function () {
         window.location.href = "/reportArticle/opinionReportEditPage";
     });
+
+    searchOperationAuthorityFun(callbackResult);
+
+    function callbackResult(result) {
+        var data = result.data;
+        if ($.inArray("007001", data) == -1) {
+            $(".reportBtn").remove();
+        }
+    }
 });
 
 /**

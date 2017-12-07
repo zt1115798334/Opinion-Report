@@ -51,6 +51,16 @@ function searchDisplayMenuFun() {
     }
 }
 
+function searchOperationAuthorityFun(callbackResult) {
+    var params = {};
+    var url = "/system/searchOperationAuthority";
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        callbackResult(result);
+    }
+}
+
 /**
  * 显示登录者名称
  */

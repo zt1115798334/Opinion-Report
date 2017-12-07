@@ -42,6 +42,15 @@ $(function () {
         window.location.href = "/issuedNotice/issuedNoticeEditPage";
     });
 
+    searchOperationAuthorityFun(callbackResult);
+
+    function callbackResult(result) {
+        var data = result.data;
+        if ($.inArray("009001", data) == -1) {
+            $(".issuedBtn").remove();
+        }
+    }
+
 });
 
 /**

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -262,9 +263,8 @@ public class SystemController extends BaseController {
     public AjaxResult searchOperationAuthority() {
         String permissionType = SysConst.PermissionType.OPERATION.getCode();
         List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
-        System.out.println("sysPermissions = " + sysPermissions);
-        JSONArray result = new JSONArray();
-        return success(result);
+        List<String> code = sysPermissions.stream().map(SysPermission::getCode).collect(Collectors.toList());
+        return success(code);
     }
 
     private List<SysPermission> getSysPermissionsByType(String permissionType) {
