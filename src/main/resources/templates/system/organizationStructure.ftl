@@ -80,7 +80,7 @@
                                 <label class="col-md-2 control-label">用户账户<span class="require">*</span></label>
                                 <div class="col-md-6">
                                     <input name="userAccount" id="userAccount" type="text" placeholder="请输入用户账户(10字以内)"
-                                           class="form-control">
+                                           class="form-control" onblur="onUserNameBlurHandler()">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -147,7 +147,8 @@
                                 <label class="col-md-2 control-label">旧密码<span class="require">*</span></label>
                                 <div class="col-md-6">
                                     <input name="oldPassword" id="oldPassword" type="password"
-                                           placeholder="请输入旧密码密码" class="form-control" >
+                                           placeholder="请输入旧密码密码" class="form-control"
+                                           onblur="onOldPasswordBlurHandler()">
                                 </div>
                             </div>
                             <div class="form-group">

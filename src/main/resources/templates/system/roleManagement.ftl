@@ -65,7 +65,7 @@
                                 <label class="col-md-2 control-label">角色名称<span class="require">*</span></label>
                                 <div class="col-md-6">
                                     <input name="roleName" id="roleName" type="text" placeholder="请输入角色名称(20字以内)"
-                                           class="form-control">
+                                           class="form-control" onblur="onRoleNameBlurHandler()">
                                 </div>
                             </div>
                         </div>

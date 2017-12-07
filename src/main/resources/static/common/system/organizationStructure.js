@@ -73,10 +73,12 @@ $(function () {
 
     //清除弹窗原数据
     $("#newUser").on("hidden.bs.modal", function () {
+        resetForm("#userInfoForm");
         $(this).removeData("bs.modal");
     });
 
     $("#editUser").on("hidden.bs.modal", function () {
+        resetForm("#userInfoEditForm");
         $(this).removeData("bs.modal");
     });
 
@@ -466,7 +468,7 @@ function validateFun() {
                         url: "/system/searchExistByUserAccount",
                         type: "post",
                         delay: 1000,
-                        // async: false, //改为同步
+                        async: false, //改为同步
                         message: '该账户已被注册请使用其他账户'
                     }
                 }
@@ -556,6 +558,7 @@ function validateEditFun() {
                         url: "/system/verifyIdentity",
                         type: "post",
                         delay: 1000,
+                        async: false, //改为同步
                         data: {
                             userAccount: $("#userInfoEditForm #userAccount").val(),
                             userPassword: $("#userInfoEditForm #oldPassword").val()
@@ -604,21 +607,15 @@ function validateEditFun() {
 }
 
 function onUserNameBlurHandler() {
-    $('#userInfoForm').bootstrapValidator();
-    var bv = $('#userInfoForm').data("bootstrapValidator");
-    var bool = bv.validateField("userAccount");
-    var bool2 = bv.isValid();
-    console.log(bool)
-    console.log(bool2)
+    validateFun();
+    var bv = $("#userInfoForm").data('bootstrapValidator');
+    bv.validate();
 }
 
 function onOldPasswordBlurHandler() {
-    $('#userInfoEditForm').bootstrapValidator();
-    var bv = $('#userInfoEditForm').data("bootstrapValidator");
-    var bool = bv.validateField("oldPassword");
-    var bool2 = bv.isValid();
-    console.log(bool)
-    console.log(bool2)
+    validateEditFun();
+    var bv = $("#userInfoEditForm").data('bootstrapValidator');
+    bv.validate();
 }
 
 /**

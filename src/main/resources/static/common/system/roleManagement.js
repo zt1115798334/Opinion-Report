@@ -1,9 +1,9 @@
 $(function () {
 
     $('input').iCheck({
-        checkboxClass : 'icheckbox_minimal-grey',
-        radioClass : 'iradio_minimal-grey',
-        increaseArea : '20%'
+        checkboxClass: 'icheckbox_minimal-grey',
+        radioClass: 'iradio_minimal-grey',
+        increaseArea: '20%'
     });
 
     searchSysRoleFun();
@@ -181,13 +181,19 @@ function validateFun() {
                         url: "/system/searchExistByRoleName",
                         type: "post",
                         delay: 1000,
-                        // async: false, //改为同步
+                        async: false, //改为同步
                         message: '该角色已存在'
                     }
                 }
             }
         }
     });
+}
+
+function onRoleNameBlurHandler() {
+    validateFun();
+    var bv = $("#roleForm").data('bootstrapValidator');
+    bv.validate();
 }
 
 /**
