@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -197,8 +198,9 @@ public class SystemController extends BaseController {
     public AjaxResult saveSysPermission(@RequestParam List<String> code,
                                         @RequestParam Long roleId) {
         logger.info("请求 saveSysPermission 方法，code{},roleId：{}", code, roleId);
+        code.addAll(Arrays.asList("001", "002", "003", "004", "005", "006"));
         sysPermissionService.saveSysRolePermission(code, roleId);
-        return success("添加成功");
+        return success("保存成功");
     }
 
     /**

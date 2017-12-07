@@ -111,11 +111,11 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="" >
+                                                <input type="checkbox" name="jurisdiction_code" value="007">
                                                 查看
                                             </label>
                                             <label>
-                                                <input type="checkbox" name="">
+                                                <input type="checkbox" name="jurisdiction_code" value="007001">
                                                 上报舆情
                                             </label>
                                         </div>
@@ -126,7 +126,7 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="" >
+                                                <input type="checkbox" name="jurisdiction_code" value="008">
                                                 查看
                                             </label>
                                         </div>
@@ -139,11 +139,11 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="" >
+                                                <input type="checkbox" name="jurisdiction_code" value="009">
                                                 查看
                                             </label>
                                             <label>
-                                                <input type="checkbox" name="">
+                                                <input type="checkbox" name="jurisdiction_code" value="009001">
                                                 下发信息
                                             </label>
                                         </div>
@@ -154,7 +154,7 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="" >
+                                                <input type="checkbox" name="jurisdiction_code" value="010">
                                                 查看
                                             </label>
                                         </div>
@@ -167,7 +167,7 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="" >
+                                                <input type="checkbox" name="jurisdiction_code" value="011">
                                                 查看
                                             </label>
                                         </div>
@@ -180,7 +180,7 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="">
+                                                <input type="checkbox" name="jurisdiction_code" value="012">
                                                 查看
                                             </label>
                                         </div>
@@ -191,7 +191,7 @@
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="">
+                                                <input type="checkbox" name="jurisdiction_code" value="013">
                                                 查看
                                             </label>
                                         </div>

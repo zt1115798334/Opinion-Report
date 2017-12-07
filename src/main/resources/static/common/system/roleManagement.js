@@ -51,10 +51,10 @@ $(function () {
     $(document).on("click", "#jurisdiction .saveBtn", function () {
 
         var roleId = $("#jurisdiction .saveBtn").attr("rolId");
-        var code = {};
-        $("[name=juris]").each(function (index, item) {
+        var code = "";
+        $("[name=jurisdiction_code]").each(function (index, item) {
             if ($(item).is(':checked')) {
-                code.push($(item).val());
+                code += $(item).val() + ",";
             }
 
         });
@@ -237,7 +237,7 @@ function searchSysPermissionFun(params) {
         if (result.success) {
             var data = result.data;
             $.each(data, function (index, value) {
-                $("[name='juris'][value='" + value.permissionCode + "']").iCheck('check');
+                $("[name='jurisdiction_code'][value='" + value.permissionCode + "']").iCheck('check');
             });
         }
     }
@@ -250,8 +250,10 @@ function searchSysPermissionFun(params) {
 function saveSysPermissionFun(params) {
     var url = "/system/saveSysPermission";
     execAjax(url, params, callback);
+
     function callback(result) {
         if (result.success) {
+            $("#jurisdiction").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
             notify.error({title: "提示", content: result.message});
