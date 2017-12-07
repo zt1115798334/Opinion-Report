@@ -20,8 +20,8 @@ public class SysConst {
      */
     public static final int DEFAULT_BATCH_SIZE = 200;
 
-    public final static String OPINION_REPORT_INFO_URL = "/reportArticle/opinionReportExaminePage?reportCode=";
-    public final static String ISSUED_NOTICE_INFO_URL = "/issuedNotice/issuedNoticeInfoPage?noticeCode=";
+    public final static String OPINION_REPORT_INFO_URL = "/reportArticle/opinionReportExaminePage/examine/";
+    public final static String ISSUED_NOTICE_INFO_URL = "/issuedNotice/issuedNoticeInfoPage/exec/";
 
     public final static String DEFAULT_ADOPT_OPINION = "系统自动关闭";
 
@@ -325,20 +325,20 @@ public class SysConst {
 
     public enum CityLevel {
 
-        SYSTEM("0", "最高等级"),
-        PROVINCE("1", "省级"),
-        MUNICIPAL("2", "市级"),
-        COUNTY("3", "县级");
+        SYSTEM(0, "最高等级"),
+        PROVINCE(1, "省级"),
+        MUNICIPAL(2, "市级"),
+        COUNTY(3, "县级");
 
-        private String code;
+        private Integer code;
         private String name;
 
-        CityLevel(String code, String name) {
+        CityLevel(Integer code, String name) {
             this.code = code;
             this.name = name;
         }
 
-        public String getCode() {
+        public Integer getCode() {
             return code;
         }
 

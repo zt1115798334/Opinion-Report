@@ -192,7 +192,7 @@ public class IndexController extends BaseController {
         list.stream().forEach(reportArticle -> {
             String reportCode = reportArticle.getReportCode();
             JSONObject jo = new JSONObject();
-            if (type == null) {
+            if (type != null) {
                 jo.put("type", type);
             } else {
                 jo.put("type", reportArticle.getType());
