@@ -110,7 +110,7 @@ function saveReportArticleFun(params, editor) {
         if (result.success) {
             notify.success({title: "提示", content: result.message, autoClose: true});
             editor.txt.html('');
-            resetForm("opinionReportForm");
+            resetForm("#opinionReportForm");
         }else {
             notify.error({title: "提示", content: result.message});
         }

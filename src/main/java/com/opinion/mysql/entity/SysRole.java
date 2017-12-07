@@ -33,7 +33,7 @@ public class SysRole implements Serializable {
     private String roleName;
 
     /**
-     * 角色类型 角色类型 0000 超级系统管理员，1 省级 2, 市级，3 县级 99 无效
+     * 角色类型  admin 超级系统管理员 operation操作员
      */
     @Column(name = "role_type", nullable = false)
     private String roleType;

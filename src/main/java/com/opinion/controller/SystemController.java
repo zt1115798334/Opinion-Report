@@ -93,12 +93,12 @@ public class SystemController extends BaseController {
      */
     @RequestMapping(value = "searchExistByRoleName", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult searchExistByRoleName(@RequestParam String roleName) {
+    public Object searchExistByRoleName(@RequestParam String roleName) {
         logger.info("请求 searchExistByRoleName方法，roleName：{}", roleName);
         boolean isExist = sysRoleService.isExistByRoleName(roleName);
         JSONObject result = new JSONObject();
-        result.put("isExist", isExist);
-        return success(result);
+        result.put("valid", !isExist);
+        return result;
     }
 
     /**
@@ -136,9 +136,9 @@ public class SystemController extends BaseController {
     /**
      * 查询所有的角色
      *
-     * @param roleName  关键字
-     * @param pageNumber  页数
-     * @param pageSize 数量
+     * @param roleName   关键字
+     * @param pageNumber 页数
+     * @param pageSize   数量
      * @return
      */
     @RequestMapping(value = "searchSysRole", method = RequestMethod.POST)

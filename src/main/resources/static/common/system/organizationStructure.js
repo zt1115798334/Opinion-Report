@@ -445,7 +445,7 @@ function validateFun() {
             userAccount: {
                 validators: {
                     notEmpty: {
-                        message: '用户账户'
+                        message: '请输入用户账户'
                     },
                     stringLength: {
                         max: 10,
@@ -619,8 +619,8 @@ function saveSysUserInfoFun(params) {
 
     function callback(result) {
         if (result.success) {
-            resetForm("userInfoForm");
-            resetForm("userInfoEditForm");
+            resetForm("#userInfoForm");
+            resetForm("#userInfoEditForm");
             $("#newUser").modal("hide");
             $("#editUser").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});

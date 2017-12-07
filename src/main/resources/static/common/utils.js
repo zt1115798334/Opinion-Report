@@ -56,8 +56,8 @@ function execAjaxJSON(url, params, callback) {
 }
 
 function resetForm(id) {
-    if ($("#" + id).length != 0) {
-        $(':input', '#' + id)
+    if ($(id).length != 0) {
+        $(':input', id)
             .not(':button, :submit, :reset, :hidden')
             .val('')
             .removeAttr('checked')
@@ -67,10 +67,10 @@ function resetForm(id) {
             $(this).find("option").attr("selected", false);                    //重置原生select的值
             $(this).find("option:first").attr("selected", true);
         });
-        var xia = $('#' + id).data('bootstrapValidator');
+        var xia = $(id).data('bootstrapValidator');
         if(xia!=undefined){
-            $('#' + id).data('bootstrapValidator').destroy();
-            $('#' + id).data('bootstrapValidator', null);
+            $(id).data('bootstrapValidator').destroy();
+            $(id).data('bootstrapValidator', null);
         }
     }
 }

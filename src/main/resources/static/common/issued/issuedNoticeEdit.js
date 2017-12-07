@@ -123,7 +123,7 @@ function saveIssuedNoticeFun(params, editor) {
         if (result.success) {
             notify.success({title: "提示", content: result.message, autoClose: true});
             editor.txt.html('');
-            resetForm("issuedNoticeForm");
+            resetForm("#issuedNoticeForm");
         } else {
             notify.error({title: "提示", content: result.message});
         }

@@ -9,6 +9,26 @@ $(function () {
         searchSysRoleFun();
     });
 
+    /**
+     * 新建用户
+     */
+    $(document).on("click", ".create", function () {
+        $("#newRole").modal("show");
+    });
+
+    /**
+     * 新建用户 -- 保存操作
+     */
+    $(document).on("click", "#newRole .saveBtn", function () {
+        validateFun();
+        var bv = $("#roleForm").data('bootstrapValidator');
+        bv.validate();
+        if (!bv.isValid()) {
+            return false;
+        }
+        var data = $("#roleForm").serializeJSON();
+        saveSysRoleFun(data);
+    });
 
     /**
      * 删除
@@ -91,6 +111,37 @@ function searchSysRoleFun() {
     $("#table-role").bootstrapTable("destroy").bootstrapTable(options);
 }
 
+function validateFun() {
+    $("#roleForm").bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            // valid: 'glyphicon glyphicon-ok',
+            // invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            roleName: {
+                validators: {
+                    notEmpty: {
+                        message: '请输入角色名称'
+                    },
+                    stringLength: {
+                        max: 20,
+                        message: '角色名称不能大于20个字符'
+                    },
+                    remote: {
+                        url: "/system/searchExistByRoleName",
+                        type: "post",
+                        delay: 1000,
+                        // async: false, //改为同步
+                        message: '该角色已存在'
+                    }
+                }
+            }
+        }
+    });
+}
+
 /**
  * 保存角色
  */
@@ -100,7 +151,10 @@ function saveSysRoleFun(params) {
 
     function callback(result) {
         if (result.success) {
-            notify.success({title: "提示", content: result.data, autoClose: true});
+            resetForm("#roleForm");
+            $("#newRole").modal("hide");
+            notify.success({title: "提示", content: result.message, autoClose: true});
+            bootstrapTableRefresh();
         } else {
             notify.error({title: "提示", content: result.message});
         }
@@ -121,8 +175,8 @@ function delSysRoleFun(roleId) {
 
     function callback(result) {
         if (result.success) {
-            bootstrapTableRefresh();
             notify.success({title: "提示", content: result.message, autoClose: true});
+            bootstrapTableRefresh();
         } else {
             notify.error({title: "提示", content: result.message});
         }
