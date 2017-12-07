@@ -330,6 +330,14 @@ public class SystemController extends BaseController {
         return success(result);
     }
 
+    @RequestMapping(value = "searchCityOrganizationInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchCityOrganizationInfo() {
+        Long userId = new SysUserConst().getUserId();
+        Long cityOrganizationId = cityOrganizationSysUserService.findCityOrganizationIdByUserId(userId);
+        CityOrganization cityOrganization = cityOrganizationService.findParentAndChildrenById(cityOrganizationId);
+        return success(cityOrganization);
+    }
 
     /**
      * 查看登录者信息

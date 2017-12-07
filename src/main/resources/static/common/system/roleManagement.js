@@ -30,6 +30,7 @@ $(function () {
         var bv = $("#roleForm").data('bootstrapValidator');
         bv.validate();
         if (!bv.isValid()) {
+            bv.resetForm();
             return false;
         }
         var data = $("#roleForm").serializeJSON();
@@ -62,7 +63,6 @@ $(function () {
             if ($(item).is(':checked')) {
                 code += $(item).val() + ",";
             }
-
         });
         var params = {
             roleId: roleId,
@@ -180,7 +180,7 @@ function validateFun() {
                     remote: {
                         url: "/system/searchExistByRoleName",
                         type: "post",
-                        delay: 1000,
+                        delay: 2000,
                         async: false, //改为同步
                         message: '该角色已存在'
                     }
@@ -210,7 +210,7 @@ function saveSysRoleFun(params) {
             notify.success({title: "提示", content: result.message, autoClose: true});
             bootstrapTableRefresh();
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }

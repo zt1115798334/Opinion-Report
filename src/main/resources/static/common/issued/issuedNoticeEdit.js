@@ -80,15 +80,14 @@ function validateFun() {
 }
 
 function searchNoticeRangeSelectFun() {
-    var url = "/system/searchCityOrganization";
+    var url = "/system/searchCityOrganizationInfo";
 
     var params = {};
     execAjax(url, params, callback);
 
     function callback(result) {
         if (result.success) {
-            var data = result.data;
-            var cityOrganization = data.parent;
+            var cityOrganization = result.data;
             var level = cityOrganization.level;
             var optionHtml = '';
             switch (level) {
