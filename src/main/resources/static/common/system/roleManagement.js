@@ -37,11 +37,33 @@ $(function () {
         var roleId = $(this).attr("rowId");
         var roleName = $(this).attr("rowRoleName");
         $("#span_roleName").html(roleName);
+        $("#jurisdiction .saveBtn").attr("rolId", roleId);
         $("#jurisdiction").modal("show");
         var params = {
             roleId: roleId
         };
         searchSysPermissionFun(params);
+    });
+
+    /**
+     * 权限管理 -- 保存
+     */
+    $(document).on("click", "#jurisdiction .saveBtn", function () {
+
+        var roleId = $("#jurisdiction .saveBtn").attr("rolId");
+        var code = {};
+        $("[name=juris]").each(function (index, item) {
+            if ($(item).is(':checked')) {
+                code.push($(item).val());
+            }
+
+        });
+        var params = {
+            roleId: roleId,
+            code: code
+        };
+        saveSysPermissionFun(params);
+
     });
 
     /**
@@ -213,7 +235,10 @@ function searchSysPermissionFun(params) {
 
     function callback(result) {
         if (result.success) {
-
+            var data = result.data;
+            $.each(data, function (index, value) {
+                $("[name='juris'][value='" + value.permissionCode + "']").iCheck('check');
+            });
         }
     }
 }
@@ -225,9 +250,12 @@ function searchSysPermissionFun(params) {
 function saveSysPermissionFun(params) {
     var url = "/system/saveSysPermission";
     execAjax(url, params, callback);
-
     function callback(result) {
-        console.log(result);
+        if (result.success) {
+            notify.success({title: "提示", content: result.message, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message});
+        }
     }
 }
 

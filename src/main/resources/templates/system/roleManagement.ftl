@@ -99,38 +99,63 @@
                                 <tr>
                                     <th data-field="sort">序号</th>
                                     <th data-field="moduleAuthority">模块权限</th>
+                                    <th data-field="moduleAuthority2">子模块名称</th>
                                     <th data-field="operationAuthority">操作权限</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>1</td>
-                                    <td>舆情上报</td>
+                                    <td rowspan="2">1</td>
+                                    <td rowspan="2">舆情上报</td>
+                                    <td>舆情上报(发出)</td>
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="quux[1]" checked>
+                                                <input type="checkbox" name="" >
                                                 查看
                                             </label>
                                             <label>
-                                                <input type="checkbox" name="quux[1]">
+                                                <input type="checkbox" name="">
                                                 上报舆情
                                             </label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
-                                    <td>信息下发</td>
+                                    <td>舆情上报（接收）</td>
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="quux[2]" checked>
+                                                <input type="checkbox" name="" >
+                                                查看
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">2</td>
+                                    <td rowspan="2">信息下发</td>
+                                    <td>信息下发（发出）</td>
+                                    <td>
+                                        <div class="authority text-left">
+                                            <label>
+                                                <input type="checkbox" name="" >
                                                 查看
                                             </label>
                                             <label>
-                                                <input type="checkbox" name="quux[2]">
+                                                <input type="checkbox" name="">
                                                 下发信息
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>信息下发（接收）</td>
+                                    <td>
+                                        <div class="authority text-left">
+                                            <label>
+                                                <input type="checkbox" name="" >
+                                                查看
                                             </label>
                                         </div>
                                     </td>
@@ -138,27 +163,36 @@
                                 <tr>
                                     <td>3</td>
                                     <td>数据统计</td>
+                                    <td>数据统计</td>
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="quux[1]" checked>
+                                                <input type="checkbox" name="" >
                                                 查看
                                             </label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>4</td>
-                                    <td>系统管理</td>
+                                    <td rowspan="2">4</td>
+                                    <td rowspan="2">系统管理</td>
+                                    <td>组织用户管理</td>
                                     <td>
                                         <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="quux[1]">
+                                                <input type="checkbox" name="">
                                                 查看
                                             </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>角色权限管理</td>
+                                    <td>
+                                        <div class="authority text-left">
                                             <label>
-                                                <input type="checkbox" name="quux[1]">
-                                                系统管理
+                                                <input type="checkbox" name="">
+                                                查看
                                             </label>
                                         </div>
                                     </td>
@@ -171,7 +205,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-sm-12">
-                    <button id="" type="button" class="btn btn-primary sureBtn_green">确认</button>
+                    <button id="" type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
                     <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
                 </div>
             </div>

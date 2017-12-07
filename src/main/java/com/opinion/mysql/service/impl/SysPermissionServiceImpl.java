@@ -38,6 +38,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
                 .map(sysPermission -> {
                     SysRolePermission sysRolePermission = new SysRolePermission();
                     sysRolePermission.setPermissionId(sysPermission.getId());
+                    sysRolePermission.setPermissionCode(sysPermission.getCode());
                     sysRolePermission.setRoleId(roleId);
                     return sysRolePermission;
                 }).collect(Collectors.toList());

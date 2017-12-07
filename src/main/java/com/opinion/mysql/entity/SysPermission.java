@@ -57,7 +57,7 @@ public class SysPermission implements Serializable {
     private Long parentId;
 
     /**
-     * display：显示权限   operation 操作权限
+     * 编号
      */
     @Column(name = "code", nullable = false)
     private String code;

@@ -25,6 +25,12 @@ public class SysRolePermission implements Serializable {
     @Column(name = "permission_id", nullable = false)
     private Long permissionId;
 
+    /**
+     * 编号
+     */
+    @Column(name = "permission_code", nullable = false)
+    private String permissionCode;
+
     public Long getId() {
         return id;
     }
@@ -47,6 +53,14 @@ public class SysRolePermission implements Serializable {
 
     public void setPermissionId(Long permissionId) {
         this.permissionId = permissionId;
+    }
+
+    public String getPermissionCode() {
+        return permissionCode;
+    }
+
+    public void setPermissionCode(String permissionCode) {
+        this.permissionCode = permissionCode;
     }
 
     @Override
