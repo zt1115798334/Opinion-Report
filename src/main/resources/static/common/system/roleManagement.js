@@ -261,7 +261,6 @@ function saveSysPermissionFun(params) {
     }
 }
 
-
 function bootstrapTableRefresh() {
     $("#table-role").bootstrapTable('refresh');
 }
