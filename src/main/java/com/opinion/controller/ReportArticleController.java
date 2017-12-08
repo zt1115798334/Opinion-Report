@@ -183,7 +183,7 @@ public class ReportArticleController extends BaseController {
             result.put("sourceUrl", reportArticle.getSourceUrl());
             result.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
             result.put("title", reportArticle.getTitle());
-            result.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+            result.put("publishDatetime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.DATE_TIME__FORMAT_CN));
             result.put("replyType", SysConst.getReplyTypeByCode(reportArticle.getReplyType()).getName());
             result.put("replyNumber", reportArticle.getReplyNumber());
             result.put("reportCause", reportArticle.getReportCause());

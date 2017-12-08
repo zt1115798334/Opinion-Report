@@ -204,7 +204,9 @@ public class IndexController extends BaseController {
             jo.put("reportCode", reportCode);
             jo.put("title", reportArticle.getTitle());
             jo.put("url", SysConst.OPINION_REPORT_INFO_URL + reportCode);
-            jo.put("expireDate", DateUtils.formatDate(reportArticle.getExpireDate()));
+            jo.put("publishDate", DateUtils.formatDate(reportArticle.getPublishDatetime()));
+            jo.put("publishTime", DateUtils.formatDate(reportArticle.getPublishDatetime(),DateUtils.TIME_FORMAT_SIMPLE));
+            jo.put("expireDate", DateUtils.formatDate(reportArticle.getExpireDate(),DateUtils.DATE__FORMAT_CN));
             result.add(jo);
         });
         return result;

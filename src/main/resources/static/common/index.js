@@ -223,8 +223,26 @@ function reportArticleDetailedFun() {
                 var title = da.title;
                 var url = da.url;
                 var reportCode = da.reportCode;
+                var publishDate = da.publishDate;
+                var publishTime = da.publishTime;
                 var expireDate = da.expireDate;
+                html += '<div class="homePage_content_list">\n' +
+                    '                                <div class="homePage_content_list_left">\n' +
+                    '                                    <p>' + publishDate + '</p>\n' +
+                    '                                    <p>' + publishTime + '</p>\n' +
+                    '                                    <b></b>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="homePage_content_list_right">\n' +
+                    '                                    <h5><i>舆情上报</i></h5>\n' +
+                    '                                    <p>\n' +
+                    '                                        ' + title + '\n' +
+                    '                                        <button class="whiteButton" vlaue="立即处理" onclick="">立即查看</button>\n' +
+                    '                                    </p>\n' +
+                    '                                    <i><img src="../../assets/images/watch.png">截止到' + expireDate + '</i>\n' +
+                    '                                </div>\n' +
+                    '                            </div>';
             }
+            $("#div_work_items").html(html);
         } else {
             notify.error({title: "提示", content: result.message, autoClose: true});
         }

@@ -193,7 +193,7 @@ public class IssuedNoticeController extends BaseController {
             result.put("id", issuedNotice.getId());
             result.put("noticeCode", issuedNotice.getNoticeCode());
             result.put("title", issuedNotice.getTitle());
-            result.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE__FORMAT_CN));
+            result.put("publishDatetime", DateUtils.formatDate(issuedNotice.getPublishDatetime(), DateUtils.DATE_TIME__FORMAT_CN));
             result.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
             result.put("noticeContent", issuedNotice.getNoticeContent());
             if (issuedNoticeLog != null) {
