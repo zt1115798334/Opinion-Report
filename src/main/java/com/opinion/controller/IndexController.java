@@ -66,11 +66,13 @@ public class IndexController extends BaseController {
                 .filter(sysMessage -> !Objects.equal(userId, sysMessage.getPublishUserId()))
                 .forEach(sysMessage -> {
                     JSONObject jo = new JSONObject();
+                    jo.put("id", sysMessage.getId());
                     jo.put("title", sysMessage.getTitle());
                     jo.put("subtitle", sysMessage.getSubtitle());
                     jo.put("timeMsg", RelativeDateUtils.format(sysMessage.getPublishDatetime()));
                     jo.put("url", sysMessage.getUrl());
                     jo.put("type", sysMessage.getType());
+                    jo.put("adoptState", sysMessage.getAdoptState());
                     result.add(jo);
                 });
         return success(result);
@@ -87,7 +89,7 @@ public class IndexController extends BaseController {
     public AjaxResult clearNotice(@RequestParam Long id) {
         logger.info("clearNotice 方法, 系统消息id：{}", id);
         sysMessageService.executeRead(id);
-        return success("操作成功");
+        return success("清除消息成功");
     }
 
     /**
@@ -99,7 +101,7 @@ public class IndexController extends BaseController {
     @ResponseBody
     public AjaxResult clearNoticeAll() {
         sysMessageService.executeRead();
-        return success("操作成功");
+        return success("清除消息成功");
     }
 
     /**

@@ -194,7 +194,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Long userId = sysUser.getId();
         StringBuilder title = new StringBuilder();
         title.append("用户：").append(sysUser.getUserName())
-                .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState())).append("舆情上报");
+                .append(SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName()).append("舆情上报");
         return saveReportArticleAndLog(reportArticle, userId, title);
     }
 
@@ -275,6 +275,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
             SysMessage sysMessage = new SysMessage();
             sysMessage.setType(SysConst.ImportOrExport.IMPORT.getCode());
+            sysMessage.setAdoptState(adoptState);
             sysMessage.setPublishUserId(userId);
             sysMessage.setRelationUserId(result.getCreatedUserId());
             sysMessage.setTitle(title.toString());

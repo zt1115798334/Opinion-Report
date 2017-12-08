@@ -31,11 +31,17 @@ $(function () {
     $("#clearAllBtn").on("click", function () {
         var clearDiv = $(".notificationBody").find(".noticeSide");
         clearDiv.remove();
+        clearNoticeAllFun();
     });
     //通知中心-删除
-    $(".clearBtn").on("click", function () {
+    $(document).on("click", ".clearBtn", function () {
         var clearSide = $(this).parents(".noticeSide");
         clearSide.remove();
+        var id = $(this).attr("msgId");
+        var params = {
+            id: id
+        };
+        clearNoticeFun(params);
     });
 });
 
@@ -116,13 +122,47 @@ function searchNoticeFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+            var html = '';
             for (var i in data) {
                 var da = data[i];
+                var id = da.id;
                 var title = da.title;
                 var subtitle = da.subtitle;
                 var timeMsg = da.timeMsg;
                 var url = da.url;
+                var type = da.type;
+                var adoptState = da.adoptState;
+                var imgUrl = '';
+                if (type == "import") {    //提交
+                    if (adoptState = "report") {    //已上报
+                        imgUrl = '/assets/images/inform.png';
+                    }
+                    if (adoptState = "adopt") {     //已采纳
+                        imgUrl = '/assets/images/inform_03.png';
+                    }
+                    if (adoptState = "notAdopted") {    //未采纳
+                        imgUrl = '/assets/images/inform2_03.png';
+                    }
+                }
+                if (type == "export") {     //收到
+                    imgUrl = '/assets/images/inform2_03.png';
+                }
+
+
+                html += '<div class="noticeSide">\n' +
+                    '                                <div class="sideTop clearfix">\n' +
+                    '                                    <img src="' + imgUrl + '" class="pull-left" alt="">\n' +
+                    '                                    <a href="javascript:void(0)" class="slh noticeTitle" style="width: 180px" onclick="">\n' +
+                    '                                        <div id="titleMessage">' + title + '</div>\n' +
+                    '                                    </a>\n' +
+                    '                                    <a href="javascript:void(0)" class="clearBtn pull-right" msgId="' + id + '"></a>\n' +
+                    '                                </div>\n' +
+                    '                                <div class="sideBottom">\n' +
+                    '                                    <span class="noticeTime" id="messageTime">' + timeMsg + '</span>\n' +
+                    '                                </div>\n' +
+                    '                            </div>';
             }
+            $("#messageDiv").html(html);
         } else {
             notify.error({title: "提示", content: result.message});
         }
@@ -176,6 +216,7 @@ function reportArticleDetailedFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+            var html = '';
             for (var i in data) {
                 var da = data[i];
                 var id = da.id;

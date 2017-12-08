@@ -56,6 +56,12 @@ public class SysMessage implements Serializable {
     private String type;
 
     /**
+     * 状态
+     */
+    @Column(name = "adopt_state", nullable = false)
+    private String adoptState;
+
+    /**
      * url
      */
     @Column(name = "url", nullable = false)
@@ -135,6 +141,14 @@ public class SysMessage implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getAdoptState() {
+        return adoptState;
+    }
+
+    public void setAdoptState(String adoptState) {
+        this.adoptState = adoptState;
     }
 
     public String getUrl() {
