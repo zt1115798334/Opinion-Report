@@ -1,5 +1,7 @@
 $(function () {
 
+    showMenuTitle("信息下发");
+
     var E = window.wangEditor;
     var editor = new E('#editor');
     editor.customConfig.debug = true;

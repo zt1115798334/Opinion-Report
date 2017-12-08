@@ -2,6 +2,8 @@ $(function () {
 
     searchDisplayMenuFun("#li_004","#lli_010");
 
+    showMenuTitle("信息下发");
+
     searchIssuedNoticeReceiveFun();
 
     /**

@@ -1,6 +1,8 @@
 $(function () {
 
-    searchDisplayMenuFun("#li_003","#lli_007");
+    searchDisplayMenuFun("#li_003", "#lli_007");
+
+    showMenuTitle("舆情上报");
 
     searchReportArticlePageFun();
 

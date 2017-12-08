@@ -2,6 +2,8 @@ $(function () {
 
     searchDisplayMenuFun("#li_004","#lli_009");
 
+    showMenuTitle("信息下发");
+
     //实例化编辑器
     var E = window.wangEditor;
     var editor = new E('#editor');

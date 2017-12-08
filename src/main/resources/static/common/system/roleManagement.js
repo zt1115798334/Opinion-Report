@@ -2,6 +2,8 @@ $(function () {
 
     searchDisplayMenuFun("#li_006","#lli_013");
 
+    showMenuTitle("系统管理/角色管理");
+
     $('input').iCheck({
         checkboxClass: 'icheckbox_minimal-grey',
         radioClass: 'iradio_minimal-grey',

@@ -2,6 +2,8 @@ $(function () {
 
     searchDisplayMenuFun("#li_006","#lli_012");
 
+    showMenuTitle("系统管理/组织机构");
+
     searchCityOrganizationFun();
     searchSysUserPageByCityOrganizationIdFun();
     searchSysRoleFun();

@@ -75,6 +75,10 @@ function searchDisplayMenuFun(p1, p2) {
     }
 }
 
+function showMenuTitle(title) {
+    $(".breadcrumb li.active").html(title);
+}
+
 function searchOperationAuthorityFun(callbackResult) {
     var params = {};
     var url = "/system/searchOperationAuthority";

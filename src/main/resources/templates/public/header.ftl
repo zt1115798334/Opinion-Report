@@ -7,7 +7,7 @@
 
     <div class="header-left col-md-6">
         <ol class="breadcrumb">
-            <li class="active">舆情上报</li>
+            <li class="active"></li>
         </ol>
     </div>
     <div class="header-right text-right pull-right" style="padding-top: 20px;">
