@@ -11,8 +11,10 @@ $(function () {
     var noticeCode = $("#noticeCode").val();
     var type = $("#type").val();
     if (type == "info") { //详情
-            $(".execBtn").remove();
+        searchDisplayMenuFun("#li_004","#lli_009");
+        $(".execBtn").remove();
     } else if (type == "exec") {     // 审核
+        searchDisplayMenuFun("#li_004","#lli_010");
         $(".return").remove();
     }
     var params = {

@@ -226,6 +226,7 @@ public class SystemController extends BaseController {
                         jo.put("urlName", child.getUrlName());
                         jo.put("sysUrl", child.getSysUrl());
                         jo.put("icon", child.getIcon());
+                        jo.put("code", child.getCode());
                         childJSON.add(jo);
                     });
                     JSONObject jo = new JSONObject();
@@ -233,6 +234,7 @@ public class SystemController extends BaseController {
                     jo.put("urlName", sysPermission.getUrlName());
                     jo.put("sysUrl", sysPermission.getSysUrl());
                     jo.put("icon", sysPermission.getIcon());
+                    jo.put("code", sysPermission.getCode());
                     jo.put("childs", childJSON);
                     result.add(jo);
                 });

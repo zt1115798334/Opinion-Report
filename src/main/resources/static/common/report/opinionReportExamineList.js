@@ -1,4 +1,7 @@
 $(function () {
+
+    searchDisplayMenuFun("#li_003", "#lli_008");
+
     searchReportArticleInChildPageFun();
 
     /**

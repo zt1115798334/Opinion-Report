@@ -13,8 +13,10 @@ $(function () {
     if (type == "info") { //详情
         $(".adoptBtn").remove();
         $(".report").remove();
+        searchDisplayMenuFun("#li_003", "#lli_007");
     } else if (type == "examine") {     // 审核
         $(".return").remove();
+        searchDisplayMenuFun("#li_003", "#lli_008");
     }
     var params = {
         reportCode: reportCode
@@ -141,7 +143,7 @@ function examineAndVerifyReportArticleFun(params) {
     function callback(result) {
         if (result.success) {
             notify.success({title: "提示", content: result.message, autoClose: true});
-        }else {
+        } else {
             notify.error({title: "提示", content: result.message});
         }
     }
@@ -157,7 +159,7 @@ function saveReportArticleAgainFun(params) {
     function callback(result) {
         if (result.success) {
             notify.success({title: "提示", content: result.message, autoClose: true});
-        }else {
+        } else {
             notify.error({title: "提示", content: result.message});
         }
     }

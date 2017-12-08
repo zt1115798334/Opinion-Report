@@ -10,16 +10,14 @@ jQuery(document).ready(function ($) {
         ResizeHeight();
     };
 
+});
+$(function () {
     /**
      * 显示登录者名称
      */
     searchLoginUserInfoFun();
 
-    /**
-     * 显示菜单
-     */
-    searchDisplayMenuFun();
-
+    // searchDisplayMenuFun();
 });
 
 function ResizeHeight() {
@@ -30,7 +28,7 @@ function ResizeHeight() {
 /**
  * 显示菜单
  */
-function searchDisplayMenuFun() {
+function searchDisplayMenuFun(p1, p2) {
     var params = {};
     var url = "/system/searchDisplayMenu";
     execAjax(url, params, callback);
@@ -45,22 +43,24 @@ function searchDisplayMenuFun() {
                 var parentUrlName = parent.urlName;
                 var parentSysUrl = parent.sysUrl;
                 var parentIcon = parent.icon;
+                var parentCode = parent.code;
                 var childs = parent.childs;
-                html += ' <li class="level1">\n' +
-                    '            <a  href="javascript:void(0)">\n' +
+                html += '<li id="li_' + parentCode + '" class="level1">\n' +
+                    '            <a href="javascript:void(0)">\n' +
                     '                <i class="' + parentIcon + '"></i>\n' +
                     '                <span class="menu-title lineblock">' + parentUrlName + '</span>\n' +
-                    '            </a>\n';
+                    '            </a>';
                 if (childs.length != 0) {
-                    html += '<b></b>';
-                    html += ' <ul class="side-list">';
+                    html += '<b></b>\n' +
+                        '            <ul class="side-list" style="display: none">';
                     for (var ii in childs) {
                         var child = childs[ii];
                         var childUrlName = child.urlName;
                         var childSysUrl = child.sysUrl;
                         var childIcon = child.icon;
-                        html += '<li>\n' +
-                            '       <a  href="' + childSysUrl + '"><span class="menu-title lineblock">' + childUrlName + '</span></a>\n' +
+                        var childCode = child.code;
+                        html += '<li id="lli_' + childCode + '">\n' +
+                            '                    <a href="' + childSysUrl + '"><span class="menu-title lineblock">' + childUrlName + '</span></a>\n' +
                             '                </li>';
                     }
                     html += '</ul>';
@@ -69,7 +69,8 @@ function searchDisplayMenuFun() {
             }
             console.log(html);
             $("#side-menu").html(html);
-            menuFun();
+            sidebarSelectFun(p1, p2);
+            sidebar();
         }
     }
 }
@@ -99,4 +100,11 @@ function searchLoginUserInfoFun() {
             $(".role").html(userName);
         }
     }
+}
+
+function sidebarSelectFun(p1, p2) {
+    var _this = $(p1);
+    _this.addClass("current");
+    _this.children(".side-list").show();
+    $(p2).addClass("active");
 }

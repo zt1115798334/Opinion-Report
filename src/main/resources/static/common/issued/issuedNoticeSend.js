@@ -1,5 +1,7 @@
 $(function () {
 
+    searchDisplayMenuFun("#li_004","#lli_009");
+
     searchIssuedNoticeSendFun();
 
     /**
