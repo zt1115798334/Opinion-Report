@@ -1,5 +1,7 @@
 $(function () {
 
+    searchDisplayMenuFun("#li_006","#lli_012");
+
     searchCityOrganizationFun();
     searchSysUserPageByCityOrganizationIdFun();
     searchSysRoleFun();
