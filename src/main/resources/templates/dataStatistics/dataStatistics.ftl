@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>数据统计</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+    <#include "/public/public.ftl"/>
+
+    <style type="text/css">
+        .fixed-table-toolbar {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<#include "/public/header.ftl"/>
+<div id="wrapper">
+    <#include "/public/menu.ftl"/>
+</div>
+<!--wrapper结束-->
+<#include "/public/footer.ftl"/>
 
-<script src="/lib/jquery/jquery-3.2.1.min.js"></script>
-<script src="/common/utils.js"></script>
+<#include "/public/publicJs.ftl"/>
 <script src="/common/dataStatistics/dataStatistics.js"></script>
 </body>
 </html>

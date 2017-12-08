@@ -1,5 +1,9 @@
 $(function () {
 
+    searchDisplayMenuFun("#li_005","#lli_011");
+
+    showMenuTitle("数据统计");
+
     /**
      * 舆情上报分析 -- 折线图信息
      */

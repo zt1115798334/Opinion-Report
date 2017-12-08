@@ -67,8 +67,8 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
 
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         //获取本周信息
         reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime);
 
@@ -77,7 +77,6 @@ public class DataStatisticsController extends BaseController {
         reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays);
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
-
         return "/dataStatistics/dataStatistics";
     }
 
