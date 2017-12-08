@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -214,21 +215,24 @@ public class SystemController extends BaseController {
     public AjaxResult searchDisplayMenu() {
         String permissionType = SysConst.PermissionType.DISPLAY.getCode();
         List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
+        Map<Long, List<SysPermission>> childs = sysPermissions.stream().collect(Collectors.groupingBy(SysPermission::getParentId));
         JSONArray result = new JSONArray();
         sysPermissions.stream()
                 .filter(sysPermission -> sysPermission.getParentId() == 1L)
                 .forEach(sysPermission -> {
                     Long permissionId = sysPermission.getId();
-                    List<SysPermission> sysPermissionChilds = sysPermissionService.findListByParentId(permissionId);
                     JSONArray childJSON = new JSONArray();
-                    sysPermissionChilds.stream().forEach(child -> {
-                        JSONObject jo = new JSONObject();
-                        jo.put("urlName", child.getUrlName());
-                        jo.put("sysUrl", child.getSysUrl());
-                        jo.put("icon", child.getIcon());
-                        jo.put("code", child.getCode());
-                        childJSON.add(jo);
-                    });
+                    if (childs.containsKey(permissionId)) {
+                        List<SysPermission> sysPermissionChilds = childs.get(permissionId);
+                        sysPermissionChilds.stream().forEach(child -> {
+                            JSONObject jo = new JSONObject();
+                            jo.put("urlName", child.getUrlName());
+                            jo.put("sysUrl", child.getSysUrl());
+                            jo.put("icon", child.getIcon());
+                            jo.put("code", child.getCode());
+                            childJSON.add(jo);
+                        });
+                    }
                     JSONObject jo = new JSONObject();
                     jo.put("id", permissionId);
                     jo.put("urlName", sysPermission.getUrlName());
@@ -334,6 +338,7 @@ public class SystemController extends BaseController {
 
     /**
      * 查询当前用户的组织信息
+     *
      * @return
      */
     @RequestMapping(value = "searchCityOrganizationInfo", method = RequestMethod.POST)
