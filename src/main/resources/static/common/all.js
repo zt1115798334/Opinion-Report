@@ -45,8 +45,9 @@ function searchDisplayMenuFun(p1, p2) {
                 var parentIcon = parent.icon;
                 var parentCode = parent.code;
                 var childs = parent.childs;
+                parentSysUrl = parentSysUrl == undefined || parentSysUrl == "" ? "javascript:void(0)" : parentSysUrl;
                 html += '<li id="li_' + parentCode + '" class="level1">\n' +
-                    '            <a href="javascript:void(0)">\n' +
+                    '            <a href="' + parentSysUrl + '">\n' +
                     '                <i class="' + parentIcon + '"></i>\n' +
                     '                <span class="menu-title lineblock">' + parentUrlName + '</span>\n' +
                     '            </a>';

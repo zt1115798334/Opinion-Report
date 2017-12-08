@@ -1,68 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-    <link href="/assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <title>舆情工作平台</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=11"/>
+    <#include "/public/public.ftl"/>
+
+    <style type="text/css">
+        .fixed-table-toolbar {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div class="header">
-    <div class="dl-title">
-        <span class="lp-title-port">z77z</span><span class="dl-title-text">后台管理系统</span>
-    </div>
-    <div class="dl-log">
-        欢迎您，<span class="dl-log-user">王二</span> <span class="admin">（管理员）</span>
-        <a href="logout" title="退出系统" class="dl-log-quit">[退出]</a>
-    </div>
+<#include "/public/header.ftl"/>
+<div id="wrapper">
+    <#include "/public/menu.ftl"/>
 </div>
-<div class="content">
-    <div class="dl-main-nav">
-        <ul id="J_Nav" class="nav-list ks-clear">
-            <li class="nav-item dl-selected">
-                <div
-                        class="nav-item-inner nav-storage">首页
-                </div>
-            </li>
-        </ul>
-    </div>
-    <ul id="J_NavContent" class="dl-tab-conten">
-    </ul>
-</div>
-<script src="/assets/js/jquery-1.8.1.min.js"></script>
-<script src="/lib/layer/1.9.3/layer.js"></script>
-<script src="/assets/js/bui-min.js"></script>
-<script src="/assets/js/config-min.js"></script>
-<script src="/js/barrage.js"></script>
-<script src="/common/utils.js"></script>
-<script>
-    //学生登录
-    BUI.use('common/main', function () {
-        var config = [{
-            id: 'system',
-            menu: [{
-                text: '系统管理',
-                items: [
-                    {id: 'yqsb', text: '舆情上报', href: '/reportArticle/opinionReportPage'},
-                    {id: 'yhgl', text: '用户管理', href: '/user/userPage'},
-                    {id: 'sjtj', text: '数据统计', href: '/dataStatistics/dataStatisticsPage'},
-                    {id: 'qxgl', text: '权限管理', href: '/permission/permissionPage'},
-                    {id: 'jsgl', text: '角色管理', href: '/system/roleManagementPage'},
-                    {id: 'jsgl', text: '组织机构', href: '/system/organizationStructurePage'},
-                    {id: 'zxbjcs', text: '在线编辑测试', href: '/ueditor/ueditor'},
-                    {id: 'csqxgl', text: '初始权限管理', href: '/permissionInit/permissionInitPage'},
-                    {id: 'zxyhgl', text: '在线用户管理', href: '/user/onlineUserPage'},
-                    {id: 'qxcsym', text: '权限测试页面', href: '/add'},
-                    {id: 'rjk', text: 'Redis监控', href: '/redis/redisMonitor'},
-                    {id: 'djk', text: 'Druid监控', href: '/druid'}
-                ]
-            }]
-        }];
-        new PageUtil.MainPage({
-            modulesConfig: config
-        });
-    });
-</script>
+<!--wrapper结束-->
+<#include "/public/footer.ftl"/>
+
+<#include "/public/publicJs.ftl"/>
+<script src="/common/index.js"></script>
 </body>
 </html>
