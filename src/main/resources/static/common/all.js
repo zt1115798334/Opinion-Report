@@ -68,7 +68,6 @@ function searchDisplayMenuFun(p1, p2) {
                 }
                 html += '</li>';
             }
-            console.log(html);
             $("#side-menu").html(html);
             sidebarSelectFun(p1, p2);
             sidebar();

@@ -358,7 +358,7 @@ function searchSysUserPageByCityOrganizationIdFun() {
         }, {
             field: 'userAccount',
             title: "用户账户",
-            align: "left",
+            align: "center",
             valign: "middle"
 
         }, {

@@ -115,7 +115,7 @@ function searchSysRoleFun() {
         }, {
             field: 'roleName',
             title: "角色名称",
-            align: "left",
+            align: "center",
             valign: "middle"
 
         }, {
