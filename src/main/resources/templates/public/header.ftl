@@ -1,5 +1,5 @@
 <div class="header clearfix">
-    <a href="" class="pull-left clearfix" id="">
+    <a href="/index" class="pull-left clearfix" id="">
         <div class="logoDiv pull-left">
             <img src="/assets/images/logo_03.png" class="logoText" alt="">
         </div>
