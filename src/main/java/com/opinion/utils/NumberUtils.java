@@ -19,7 +19,7 @@ public class NumberUtils {
         BigDecimal numBig1 = new BigDecimal(String.valueOf(num1));
         BigDecimal numBig2 = new BigDecimal(String.valueOf(num2));
         if (numBig2.compareTo(BigDecimal.ZERO) == 1) {
-            BigDecimal calcResult = numBig1.divide(numBig2, 2, BigDecimal.ROUND_HALF_DOWN)
+            BigDecimal calcResult = numBig1.divide(numBig2, 5, BigDecimal.ROUND_HALF_DOWN)
                     .subtract(BigDecimal.ONE)
                     .abs()
                     .multiply(new BigDecimal(100));

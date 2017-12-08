@@ -70,6 +70,7 @@ public class IndexController extends BaseController {
                     jo.put("subtitle", sysMessage.getSubtitle());
                     jo.put("timeMsg", RelativeDateUtils.format(sysMessage.getPublishDatetime()));
                     jo.put("url", sysMessage.getUrl());
+                    jo.put("type", sysMessage.getType());
                     result.add(jo);
                 });
         return success(result);

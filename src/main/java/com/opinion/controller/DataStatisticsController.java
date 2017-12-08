@@ -76,7 +76,7 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping(value = "searchData", method = RequestMethod.POST)
     @ResponseBody
-    public void searchData() {
+    public AjaxResult searchData() {
 
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
@@ -89,6 +89,7 @@ public class DataStatisticsController extends BaseController {
         reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays);
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
+        return success("查询成功");
     }
 
     /**
@@ -446,6 +447,7 @@ public class DataStatisticsController extends BaseController {
         String type = num1 > num2 ? SysConst.Trend.UP.getCode() : SysConst.Trend.DOWN.getCode();
         result.put("type", type);
         result.put("num", num);
+        result.put("weekCount", num1);
         return result;
     }
 }

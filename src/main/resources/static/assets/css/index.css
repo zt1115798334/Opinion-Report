@@ -1,0 +1,192 @@
+.homePage_data{
+    padding: 20px 5px;
+    margin: 0 0 15px 0;
+}
+.homePage_data_report{
+    width: 31%;
+    margin: 0 1%;
+    padding:15px 20px;
+    border: 1px solid #ededed;
+    border-top: 2px solid #00bcf3;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+}
+.homePage_data_disAgree{
+    width: 31%;
+    margin: 0 1%;
+    padding:15px 20px;
+    border: 1px solid #ededed;
+    border-top: 2px solid #fb8f32;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+}
+.homePage_data_agree{
+    width: 31%;
+    margin: 0 1%;
+    padding:15px 20px;
+    border: 1px solid #ededed;
+    border-top: 2px solid #00d8d4;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0px 2px 4px rgba(0, 0, 0, .1);
+}
+.colorful_num_blue{
+    font-weight: 900;
+    background: -webkit-linear-gradient(top,#00e1ff,#00a0e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.colorful_num_orange{
+    font-weight: 900;
+    background: -webkit-linear-gradient(top,#ffc042,#f57b34);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.colorful_num_green{
+    font-weight: 900;
+    background: -webkit-linear-gradient(top,#2ee0b0,#06dfdc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.homePage_content_list {
+    padding-top: 20px;
+    position: relative;
+}
+
+.homePage_content_list:first-child {
+    margin-top: 0px;
+    padding-top: 0;
+}
+
+.homePage_content_list::before {
+    content: "";
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    left: 96px;
+    top: 0;
+    background-color: #ededed;
+}
+
+.homePage_content_list>div {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 14px;
+}
+
+.homePage_content_list>div:nth-child(2) {
+    width: 78%;
+}
+
+.homePage_content_list_left {
+    margin-right: 48px;
+    position: relative;
+    text-align: center;
+}
+
+.homePage_content_list_left>p {
+    margin-bottom: 5px;
+}
+
+.homePage_content_list_left>p:nth-child(2) {
+    font-size: 14px;
+}
+
+.homePage_content_list_left>b {
+    position: absolute;
+    right: -21px;
+    top: 37%;
+    width: 10px;
+    height: 10px;
+    background-color: #00d8d4;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.homePage_content_list_right>h5 {
+    margin: 5px 0;
+}
+
+.homePage_content_list_right>p {
+    padding-right: 110px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.homePage_content_list_right>p>button {
+    position: absolute;
+    right: 0px;
+    top: -7px;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+.homePage_content_list_right>h5>i {
+    font-style: normal;
+    display: inline-block;
+    padding: 5px 18px;
+    background-color: #00d8d4;
+    -webkit-border-radius: 0 15px 15px 0;
+    border-radius: 0 15px 15px 0;
+    color: #FFF;
+    margin-left: -14px;
+    font-size: 12px;
+}
+
+.homePage_content_list_right>i {
+    color: #868e9a;
+    font-style: normal;
+}
+
+.homePage_content_list_right>i>img {
+    margin-right: 10px;
+}
+
+.homePage_content_list_right {
+    border: 1px solid #ededed;
+    padding: 10px;
+}
+#page-wrapper-div>div {
+    padding: 0;
+    border-right: 1px solid #ededed;
+    height: 100%;
+    overflow: auto;
+}
+
+.page-wrapper-div-div {
+    height: 100%;
+    background-color: #fff;
+}
+
+.page-content>div:last-child {
+    border-right: 0;
+}
+
+.notificationCenter {
+    height: 100%;
+    background-color: #ededed;
+}
+
+#messageDiv {
+    padding: 0 20px;
+}
+
+.sideBottom {
+    margin-top: -6px;
+}
+.sideTop>img{
+    margin-top: 10px;
+    width: 36px;
+}
+#notificationHeader_img img{
+    width: 20px;
+}

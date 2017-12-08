@@ -4,7 +4,7 @@
 
 #localtime {
     width: 220px;
-    padding: 15px 30px 15px 36px;
+    padding: 20px 30px 20px 36px;
     border-bottom: 1px solid #1d2328;
 }
 #localtime span{
@@ -24,7 +24,7 @@ ul{
 }
 #sidebar #side-menu{
     border-top: 1px solid #303a43;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 #sidebar #side-menu li{
     position: relative;
@@ -32,7 +32,7 @@ ul{
  #sidebar #side-menu li a {
      display: block;
     /* margin: 8px 0;*/
-     padding:20px 0px 20px 32px;
+     padding:22px 0px 22px 32px;
 }
  #sidebar #side-menu li a:hover,
  #sidebar #side-menu li a:focus {
