@@ -15,6 +15,11 @@ jQuery(document).ready(function ($) {
      */
     searchLoginUserInfoFun();
 
+    /**
+     * 显示菜单
+     */
+    searchDisplayMenuFun();
+
 });
 
 function ResizeHeight() {
@@ -33,6 +38,7 @@ function searchDisplayMenuFun() {
     function callback(result) {
         if (result.success) {
             var parents = result.data;
+            var html = '';
             for (var i in parents) {
                 var parent = parents[i];
                 var parentId = parent.id;
@@ -40,13 +46,30 @@ function searchDisplayMenuFun() {
                 var parentSysUrl = parent.sysUrl;
                 var parentIcon = parent.icon;
                 var childs = parent.childs;
-                for (var ii in childs) {
-                    var child = childs[ii];
-                    var childUrlName = child.urlName;
-                    var childSysUrl = child.sysUrl;
-                    var childIcon = child.icon;
+                html += ' <li class="level1">\n' +
+                    '            <a  href="javascript:void(0)">\n' +
+                    '                <i class="' + parentIcon + '"></i>\n' +
+                    '                <span class="menu-title lineblock">' + parentUrlName + '</span>\n' +
+                    '            </a>\n';
+                if (childs.length != 0) {
+                    html += '<b></b>';
+                    html += ' <ul class="side-list">';
+                    for (var ii in childs) {
+                        var child = childs[ii];
+                        var childUrlName = child.urlName;
+                        var childSysUrl = child.sysUrl;
+                        var childIcon = child.icon;
+                        html += '<li>\n' +
+                            '       <a  href="' + childSysUrl + '"><span class="menu-title lineblock">' + childUrlName + '</span></a>\n' +
+                            '                </li>';
+                    }
+                    html += '</ul>';
                 }
+                html += '</li>';
             }
+            console.log(html);
+            $("#side-menu").html(html);
+            menuFun();
         }
     }
 }

@@ -26,3 +26,4 @@
 <link href="/assets/css/changeBootstrap.css" rel="stylesheet">
 <link href="/assets/css/alert.css" rel="stylesheet">
 <!-- css结束 -->
+<script src="/assets/js/sidebar.js" type="text/javascript"></script>
