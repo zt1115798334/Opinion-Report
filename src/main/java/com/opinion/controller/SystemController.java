@@ -283,9 +283,9 @@ public class SystemController extends BaseController {
         Long userId = new SysUserConst().getUserId();
         CityOrganizationSysUser cityOrganizationSysUser = cityOrganizationSysUserService.findOneByUserId(userId);
         if (cityOrganizationSysUser != null) {
-            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
-            CityOrganization parentCityOrganization = cityOrganizationService.findById(cityOrganizationId);
-            cityOrganization.setLevel(parentCityOrganization.getLevel() + 1);
+//            Long cityOrganizationId = cityOrganizationSysUser.getCityOrganizationId();
+//            CityOrganization parentCityOrganization = cityOrganizationService.findById(cityOrganizationId);
+//            cityOrganization.setLevel(parentCityOrganization.getLevel() + 1);
         } else {
             cityOrganization.setLevel(99);
         }

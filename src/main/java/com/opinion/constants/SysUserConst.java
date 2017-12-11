@@ -12,14 +12,14 @@ public class SysUserConst {
     public SysUser getSysUser() {
 //        return (SysUser) SecurityUtils.getSubject().getPrincipal();
         SysUser sysUser = new SysUser();
-        sysUser.setId(3L);
-        sysUser.setUserName("admin3");
+        sysUser.setId(1L);
+        sysUser.setUserName("admin");
         return sysUser;
     }
 
     public Long getUserId() {
 //        return getSysUser().getId();
-        return 3L;
+        return 1L;
     }
 
 }
