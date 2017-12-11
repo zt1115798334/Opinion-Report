@@ -147,8 +147,8 @@ public class IndexController extends BaseController {
                             return ra;
                         }).collect(Collectors.toList()));
                 importAndExportList = importAndExportList.stream()
-                        .sorted(Comparator.comparing(ReportArticle::getPublishDatetime))
-                        .distinct().collect(Collectors.toList());
+                        .sorted(Comparator.comparing(ReportArticle::getPublishDatetime).reversed())
+                        .collect(Collectors.toList());
                 result = listReportArticleToJSONArray(importAndExportList, null);
 
             } else if (Objects.equal(cityOrganization.getLevel(), SysConst.CityLevel.PROVINCE.getCode())) {
@@ -196,15 +196,18 @@ public class IndexController extends BaseController {
             String reportCode = reportArticle.getReportCode();
             JSONObject jo = new JSONObject();
             String url = "";
+            String setType;
             if (type == null) {
-                type = reportArticle.getType();
+                setType = reportArticle.getType();
+            } else {
+                setType = type;
             }
-            if (Objects.equal(type, SysConst.ImportOrExport.IMPORT.getCode())) {
+            if (Objects.equal(setType, SysConst.ImportOrExport.IMPORT.getCode())) {
                 url = SysConst.OPINION_REPORT_INFO_URL_INFO;
-            } else if (Objects.equal(type, SysConst.ImportOrExport.EXPORT.getCode())) {
+            } else if (Objects.equal(setType, SysConst.ImportOrExport.EXPORT.getCode())) {
                 url = SysConst.OPINION_REPORT_INFO_URL_EXAMINE;
             }
-            jo.put("type", type);
+            jo.put("type", setType);
             jo.put("id", reportArticle.getId());
             jo.put("reportCode", reportCode);
             jo.put("title", reportArticle.getTitle());

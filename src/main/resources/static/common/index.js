@@ -158,7 +158,7 @@ function searchNoticeFun() {
                 html += '<div class="noticeSide">\n' +
                     '                                <div class="sideTop clearfix">\n' +
                     '                                    <img src="' + imgUrl + '" class="pull-left" alt="">\n' +
-                    '                                    <a href="javascript:void(0)" class="slh noticeTitle" style="width: 180px" onclick="">\n' +
+                    '                                    <a href="' + url + '" class="slh noticeTitle" style="width: 180px" onclick="">\n' +
                     '                                        <div id="titleMessage">' + title + '</div>\n' +
                     '                                    </a>\n' +
                     '                                    <a href="javascript:void(0)" class="clearBtn pull-right" msgId="' + id + '"></a>\n' +
