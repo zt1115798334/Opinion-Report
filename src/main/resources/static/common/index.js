@@ -236,7 +236,7 @@ function reportArticleDetailedFun() {
                     '                                    <h5><i>舆情上报</i></h5>\n' +
                     '                                    <p>\n' +
                     '                                        ' + title + '\n' +
-                    '                                        <button class="whiteButton" vlaue="立即处理" onclick="">立即查看</button>\n' +
+                    '                                        <button class="whiteButton" vlaue="立即处理" onclick="window.location=\'' + url + '\'">立即查看</button>\n' +
                     '                                    </p>\n' +
                     '                                    <i><img src="../../assets/images/watch.png">截止到' + expireDate + '</i>\n' +
                     '                                </div>\n' +
