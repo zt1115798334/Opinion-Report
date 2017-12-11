@@ -30,6 +30,7 @@ import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -166,7 +167,17 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
     public Page<IssuedNotice> findPageByReceiptUserId(IssuedNotice issuedNotice) {
         Long receiptUserId = issuedNotice.getReceiptUserId();
         List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(receiptUserId);
-        List<String> noticeCodes = issuedNoticeLogs.stream().map(IssuedNoticeLog::getNoticeCode).collect(Collectors.toList());
+        List<String> noticeCodes;
+        if (StringUtils.isNotBlank(issuedNotice.getReceiptState())) {
+            noticeCodes = issuedNoticeLogs.stream()
+                    .filter(issuedNoticeLog -> Objects.equals(issuedNotice.getReceiptState(), issuedNoticeLog.getReceiptState()))
+                    .map(IssuedNoticeLog::getNoticeCode)
+                    .collect(Collectors.toList());
+        } else {
+            noticeCodes = issuedNoticeLogs.stream()
+                    .map(IssuedNoticeLog::getNoticeCode)
+                    .collect(Collectors.toList());
+        }
         if (noticeCodes.size() == 0) {
             noticeCodes.add("-1");
         }
@@ -179,10 +190,6 @@ public class IssuedNoticeServiceImpl implements IssuedNoticeService {
                 predicates.add(in);
                 if (StringUtils.isNotEmpty(issuedNotice.getTitle())) {
                     predicates.add(builder.like(root.get("title").as(String.class), "%" + issuedNotice.getTitle() + "%"));
-
-                }
-                if (StringUtils.isNotEmpty(issuedNotice.getReceiptState())) {
-                    predicates.add(builder.equal(root.get("receiptState").as(String.class), issuedNotice.getReceiptState()));
                 }
                 if (StringUtils.isNotEmpty(issuedNotice.getNoticeRange())) {
                     predicates.add(builder.equal(root.get("noticeRange").as(String.class), issuedNotice.getNoticeRange()));

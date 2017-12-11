@@ -35,8 +35,9 @@
                             <div class="dateDiv inlineBlock marginX10">
                                 <select class="selectpicker receiptState">
                                     <option value="">全部状态</option>
+                                    <option value="unread">未读</option>
+                                    <option value="read">已读</option>
                                     <option value="unreceipt">未回执</option>
-                                    <option value="receipting">回执中</option>
                                     <option value="receipt">已回执</option>
                                 </select>
                             </div>

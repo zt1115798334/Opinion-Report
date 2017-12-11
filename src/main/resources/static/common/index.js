@@ -140,13 +140,13 @@ function searchNoticeFun() {
                 var adoptState = da.adoptState;
                 var imgUrl = '';
                 if (type == "import") {    //提交
-                    if (adoptState = "report") {    //已上报
+                    if (adoptState == "report") {    //已上报
                         imgUrl = '/assets/images/inform.png';
                     }
-                    if (adoptState = "adopt") {     //已采纳
+                    if (adoptState == "adopt") {     //已采纳
                         imgUrl = '/assets/images/inform_03.png';
                     }
-                    if (adoptState = "notAdopted") {    //未采纳
+                    if (adoptState == "notAdopted") {    //未采纳
                         imgUrl = '/assets/images/inform2_03.png';
                     }
                 }
