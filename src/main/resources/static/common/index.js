@@ -29,9 +29,15 @@ $(function () {
 
     //通知中心-清空消息
     $("#clearAllBtn").on("click", function () {
-        var clearDiv = $(".notificationBody").find(".noticeSide");
-        clearDiv.remove();
-        clearNoticeAllFun();
+
+        showBootstrapDialog("是否清空全部消息？", callback);
+
+        function callback() {
+            var clearDiv = $(".notificationBody").find(".noticeSide");
+            clearDiv.remove();
+            clearNoticeAllFun();
+        }
+
     });
     //通知中心-删除
     $(document).on("click", ".clearBtn", function () {

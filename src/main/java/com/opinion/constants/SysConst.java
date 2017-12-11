@@ -20,8 +20,9 @@ public class SysConst {
      */
     public static final int DEFAULT_BATCH_SIZE = 200;
 
-    public final static String OPINION_REPORT_INFO_URL = "/reportArticle/opinionReportExaminePage/examine/";
-    public final static String ISSUED_NOTICE_INFO_URL = "/issuedNotice/issuedNoticeInfoPage/exec/";
+    public final static String OPINION_REPORT_INFO_URL_EXAMINE = "/reportArticle/opinionReportExaminePage/examine/";
+    public final static String OPINION_REPORT_INFO_URL_INFO = "/reportArticle/opinionReportExaminePage/info/";
+    public final static String ISSUED_NOTICE_INFO_URL_EXEC = "/issuedNotice/issuedNoticeInfoPage/exec/";
 
     public final static String DEFAULT_ADOPT_OPINION = "系统自动关闭";
 

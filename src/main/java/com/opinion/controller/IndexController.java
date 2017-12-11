@@ -192,23 +192,29 @@ public class IndexController extends BaseController {
 
     public JSONArray listReportArticleToJSONArray(List<ReportArticle> list, String type) {
         JSONArray result = new JSONArray();
-        list.stream().forEach(reportArticle -> {
+        for (ReportArticle reportArticle : list) {
             String reportCode = reportArticle.getReportCode();
             JSONObject jo = new JSONObject();
-            if (type != null) {
-                jo.put("type", type);
-            } else {
-                jo.put("type", reportArticle.getType());
+            String url = "";
+            if (type == null) {
+                type = reportArticle.getType();
             }
+            if (Objects.equal(type, SysConst.ImportOrExport.IMPORT.getCode())) {
+                url = SysConst.OPINION_REPORT_INFO_URL_INFO;
+            } else if (Objects.equal(type, SysConst.ImportOrExport.EXPORT.getCode())) {
+                url = SysConst.OPINION_REPORT_INFO_URL_EXAMINE;
+            }
+            jo.put("type", type);
             jo.put("id", reportArticle.getId());
             jo.put("reportCode", reportCode);
             jo.put("title", reportArticle.getTitle());
-            jo.put("url", SysConst.OPINION_REPORT_INFO_URL + reportCode);
+            jo.put("url", url + reportCode);
             jo.put("publishDate", DateUtils.formatDate(reportArticle.getPublishDatetime()));
-            jo.put("publishTime", DateUtils.formatDate(reportArticle.getPublishDatetime(),DateUtils.TIME_FORMAT_SIMPLE));
-            jo.put("expireDate", DateUtils.formatDate(reportArticle.getExpireDate(),DateUtils.DATE__FORMAT_CN));
+            jo.put("publishTime", DateUtils.formatDate(reportArticle.getPublishDatetime(), DateUtils.TIME_FORMAT_SIMPLE));
+            jo.put("expireDate", DateUtils.formatDate(reportArticle.getExpireDate(), DateUtils.DATE__FORMAT_CN));
             result.add(jo);
-        });
+        }
+        ;
         return result;
     }
 
