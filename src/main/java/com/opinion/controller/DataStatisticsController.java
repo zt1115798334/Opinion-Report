@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
@@ -15,12 +16,27 @@ import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.NumberUtils;
+import com.opinion.utils.module.CommonModel;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +52,9 @@ import java.util.stream.Collectors;
 public class DataStatisticsController extends BaseController {
 
     @Autowired
+    private CommonModel commonModel;
+
+    @Autowired
     private ReportArticleService reportArticleService;
 
     @Autowired
@@ -43,6 +62,10 @@ public class DataStatisticsController extends BaseController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+
 
     /**
      * 获取本周信息
@@ -429,11 +452,43 @@ public class DataStatisticsController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "downloadPresentation", method = RequestMethod.POST)
+    @RequestMapping(value = "downloadPresentation", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public AjaxResult downloadPresentation() {
+    public void downloadPresentation(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, TemplateException {
 
-        return success("下载成功");
+        String downFileName = "测试文件下载.doc";
+        String header = request.getHeader("User-Agent").toUpperCase();
+        try {
+            if (header.contains("MSIE") || header.contains("TRIDENT") || header.contains("EDGE")) {
+                //IE下载文件名空格变+号问题
+                downFileName = URLEncoder.encode(downFileName, "utf-8");
+                downFileName = downFileName.replace("+", "%20");
+            } else {
+                downFileName = new String(downFileName.getBytes("utf-8"), "iso-8859-1");
+            }
+        } catch(UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/ms-word;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; fileName=" + downFileName);
+
+
+        freeMarkerConfigurer.getConfiguration().setClassForTemplateLoading(getClass(),
+                File.separator + commonModel.getReportTemplatePath() + File.separator);
+        Template template = freeMarkerConfigurer.getConfiguration().getTemplate(commonModel.getReportTemplateFile());
+
+
+        Map<String, Object> dataMap = Maps.newHashMap();
+        dataMap.put("organizationName", "seawater");
+        dataMap.put("publishDate", "seawater");
+        dataMap.put("analysisTimeStart", "seawater");
+        dataMap.put("analysisTimeEnd", "seawater");
+        dataMap.put("analysisRange", "seawater");
+        dataMap.put("analysisOutline", "seawater");
+        template.process(dataMap, new OutputStreamWriter(response.getOutputStream()));
     }
 
     private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime) {
@@ -462,4 +517,20 @@ public class DataStatisticsController extends BaseController {
         result.put("weekCount", num1);
         return result;
     }
+
+    private String readFileContent(String path) {
+        List<String> lines = null;
+        try {
+            File file = ResourceUtils.getFile("classpath:" + path);
+            lines = Files.readAllLines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        StringBuilder result = new StringBuilder();
+        for (String line : lines) {
+            result.append(line);
+        }
+        return result.toString();
+    }
+
 }
