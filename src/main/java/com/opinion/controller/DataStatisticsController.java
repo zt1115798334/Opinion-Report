@@ -496,8 +496,10 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public void downloadPresentation(HttpServletRequest request, HttpServletResponse response)
             throws IOException, TemplateException {
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
         judgeNull();
-        String downFileName = "测试文件下载.doc";
+        String downFileName = publishDate + "报告.doc";
         String header = request.getHeader("User-Agent").toUpperCase();
         try {
             if (header.contains("MSIE") || header.contains("TRIDENT") || header.contains("EDGE")) {
@@ -524,8 +526,7 @@ public class DataStatisticsController extends BaseController {
             level = cityOrganization.getLevel();
         }
 
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
+
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         String analysisTimeStart = DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_SECOND_FORMAT);
         String analysisTimeEnd = DateUtils.formatDate(currentDatetime, DateUtils.DATE_SECOND_FORMAT);
