@@ -191,7 +191,7 @@ function validateFun() {
                     remote: {
                         url: "/system/searchExistByRoleName",
                         type: "post",
-                        delay: 2000,
+                        delay: 1000,
                         async: false, //改为同步
                         message: '该角色已存在'
                     }
