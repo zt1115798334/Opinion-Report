@@ -144,6 +144,9 @@ function examineAndVerifyReportArticleFun(params) {
 
     function callback(result) {
         if (result.success) {
+            if ($(".adoptBtn").length > 0) {
+                $(".adoptBtn").attr("disabled", true);
+            }
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
             notify.error({title: "提示", content: result.message});
@@ -160,6 +163,9 @@ function saveReportArticleAgainFun(params) {
 
     function callback(result) {
         if (result.success) {
+            if ($(".report").length > 0) {
+                $(".report").attr("disabled", true);
+            }
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
             notify.error({title: "提示", content: result.message});
