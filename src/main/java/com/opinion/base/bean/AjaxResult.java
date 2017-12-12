@@ -1,5 +1,9 @@
 package com.opinion.base.bean;
 
+/**
+ * @author zhangtong
+ * Created by on 2017/11/17
+ */
 public class AjaxResult extends BaseAjaxResult {
 
     /**

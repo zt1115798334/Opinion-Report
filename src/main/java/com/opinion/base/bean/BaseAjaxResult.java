@@ -2,36 +2,40 @@ package com.opinion.base.bean;
 
 import java.io.Serializable;
 
+/**
+ * @author zhangtong
+ * Created by on 2017/11/17
+ */
 public class BaseAjaxResult implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7732195625549348333L;
-	private int status;
-	private String message;
-	
-	public BaseAjaxResult() {
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7732195625549348333L;
+    private int status;
+    private String message;
 
-	public int getStatus() {
-		return status;
-	}
+    public BaseAjaxResult() {
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	public boolean isSuccess(){
-		return (getStatus() == 0);
-	}
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return (getStatus() == 0);
+    }
 
 }

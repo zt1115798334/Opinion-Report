@@ -46,7 +46,7 @@ public class ReportArticleTest extends BaseTest {
                 SysConst.AdoptState.REPORT.getCode()
         );
 
-        IntStream.rangeClosed(1, 50).forEach(i -> {
+        IntStream.rangeClosed(1, 500000).forEach(i -> {
             ReportArticle reportArticle = new ReportArticle();
             reportArticle.setTitle("魅族开始发行MX7");
             reportArticle.setSourceType(TestUtils.randomGetString(SourceType));
