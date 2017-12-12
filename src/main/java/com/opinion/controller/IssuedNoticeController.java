@@ -13,7 +13,7 @@ import com.opinion.mysql.service.IssuedNoticeLogService;
 import com.opinion.mysql.service.IssuedNoticeService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.MStringUtils;
+import com.opinion.utils.TStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -268,7 +268,7 @@ public class IssuedNoticeController extends BaseController {
             JSONObject jo = new JSONObject();
             jo.put("id", issuedNotice.getId());
             jo.put("noticeCode", issuedNotice.getNoticeCode());
-            jo.put("title", MStringUtils.substr(issuedNotice.getTitle(), SysConst.SPLIT_LEN, SysConst.REPLACE_STR));
+            jo.put("title", TStringUtils.substr(issuedNotice.getTitle(), SysConst.SPLIT_LEN, SysConst.REPLACE_STR));
             jo.put("noticeType", SysConst.getNoticeTypeByCode(issuedNotice.getNoticeType()).getName());
             jo.put("noticeRange", SysConst.getNoticeRangeByCode(issuedNotice.getNoticeRange()).getName());
             if (issuedNoticeLogMap != null) {

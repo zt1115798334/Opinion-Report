@@ -17,6 +17,7 @@ import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.NumberUtils;
+import com.opinion.utils.TStringUtils;
 import com.opinion.utils.module.CommonModel;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -547,6 +548,12 @@ public class DataStatisticsController extends BaseController {
         JSONObject allInfo = dataAnalysisProportionJSON.getJSONObject("allInfo");
         JSONObject adoptInfo = dataAnalysisProportionJSON.getJSONObject("adoptInfo");
 
+        String allInfoType = allInfo.getString("type");
+        String adoptInfoType = adoptInfo.getString("type");
+        allInfoType = TStringUtils.StringEqual(allInfoType, "up", "+", "-");
+        adoptInfoType = TStringUtils.StringEqual(adoptInfoType, "up", "+", "-");
+
+
         StringBuilder analysisOutlineSB = new StringBuilder();
         analysisOutlineSB.append(DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_TIME__FORMAT_CN))
                 .append("至")
@@ -554,12 +561,12 @@ public class DataStatisticsController extends BaseController {
                 .append("期间,累计上报舆情数")
                 .append(allInfo.get("weekCount"))
                 .append(",同比上周")
-                .append(allInfo.get("type"))
+                .append(allInfoType)
                 .append(allInfo.get("num"))
                 .append("%。本周累计上报采纳数")
                 .append(adoptInfo.get("weekCount"))
                 .append("，同比上周")
-                .append(adoptInfo.get("type"))
+                .append(adoptInfoType)
                 .append(adoptInfo.get("num"))
                 .append("%。");
         String analysisOutline = analysisOutlineSB.toString();

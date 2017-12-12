@@ -13,7 +13,7 @@ import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.MStringUtils;
+import com.opinion.utils.TStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -265,7 +265,7 @@ public class ReportArticleController extends BaseController {
             JSONObject jo = new JSONObject();
             jo.put("id", reportArticle.getId());
             jo.put("reportCode", reportArticle.getReportCode());
-            jo.put("title", MStringUtils.substr(reportArticle.getTitle(), SysConst.SPLIT_LEN, SysConst.REPLACE_STR));
+            jo.put("title", TStringUtils.substr(reportArticle.getTitle(), SysConst.SPLIT_LEN, SysConst.REPLACE_STR));
             jo.put("sourceType", SysConst.getSourceTypeByCode(reportArticle.getSourceType()).getName());
             jo.put("reportLevel", SysConst.getReportLevelByCode(reportArticle.getReportLevel()).getName());
             jo.put("replyNumber", reportArticle.getReplyNumber());

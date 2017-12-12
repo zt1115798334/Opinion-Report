@@ -1,12 +1,14 @@
 package com.opinion.utils;
 
+import com.google.common.base.Objects;
 import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * @author zhangtong
  * Created by on 2017/11/29
  */
-public class MStringUtils {
+public class TStringUtils {
 
     /**
      * 截取字符串
@@ -21,6 +23,14 @@ public class MStringUtils {
             return content.length() > splitLen ? content.substring(0, splitLen) + replaceStr : content;
         } else {
             return "";
+        }
+    }
+
+    public static String StringEqual(String str, String equalStr, String def, String elDef) {
+        if (Objects.equal(str, equalStr)) {
+            return def;
+        } else {
+            return elDef;
         }
     }
 }
