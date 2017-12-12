@@ -235,10 +235,10 @@ public class DataStatisticsController extends BaseController {
                     Long reportCount = 0L;
                     Long adoptCount = 0L;
                     if (reportCountMap.containsKey(date)) {
-                        reportCount = reportCountMap.getOrDefault(date,0L);
+                        reportCount = reportCountMap.getOrDefault(date, 0L);
                     }
                     if (adoptCountMap.containsKey(date)) {
-                        adoptCount = adoptCountMap.getOrDefault(date,0L);
+                        adoptCount = adoptCountMap.getOrDefault(date, 0L);
                     }
                     dateJsonArray.add(date);
 
@@ -468,9 +468,9 @@ public class DataStatisticsController extends BaseController {
 
                     if (replyTypeDateMap.containsKey(date)) {
                         Map<String, Long> replyTypeMap = replyTypeDateMap.get(date);
-                        clickCount = replyTypeMap.getOrDefault(SysConst.ReplyType.CLICK.getCode(),0L);
-                        commentCount = replyTypeMap.getOrDefault(SysConst.ReplyType.COMMENT.getCode(),0L);
-                        estimateCount = replyTypeMap.getOrDefault(SysConst.ReplyType.ESTIMATE.getCode(),0L);
+                        clickCount = replyTypeMap.getOrDefault(SysConst.ReplyType.CLICK.getCode(), 0L);
+                        commentCount = replyTypeMap.getOrDefault(SysConst.ReplyType.COMMENT.getCode(), 0L);
+                        estimateCount = replyTypeMap.getOrDefault(SysConst.ReplyType.ESTIMATE.getCode(), 0L);
                     }
                     dateJSONArray.add(date);
 
@@ -514,6 +514,55 @@ public class DataStatisticsController extends BaseController {
         response.setContentType("application/ms-word;charset=utf-8");
         response.setHeader("Content-Disposition", "attachment; fileName=" + downFileName);
 
+        Long userId = new SysUserConst().getUserId();
+        CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
+        String organizationName = "该机构已被刪除";
+        Integer level = 0;
+        if (cityOrganization != null) {
+            organizationName = cityOrganization.getName();
+            level = cityOrganization.getLevel();
+        }
+
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
+        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        String analysisTimeStart = DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_SECOND_FORMAT);
+        String analysisTimeEnd = DateUtils.formatDate(currentDatetime, DateUtils.DATE_SECOND_FORMAT);
+        String analysisRange;
+        switch (level) {
+            case 1:
+                analysisRange = "本省全部上报数据";
+                break;
+            case 2:
+                analysisRange = "本市全部上报数据";
+                break;
+            case 3:
+                analysisRange = "本人全部上报数据";
+                break;
+            default:
+                analysisRange = "全部范围上报数据";
+        }
+
+        JSONObject dataAnalysisProportionJSON = JSON.parseObject(JSONObject.toJSONString(dataAnalysisProportion().getData()));
+        JSONObject allInfo = dataAnalysisProportionJSON.getJSONObject("allInfo");
+        JSONObject adoptInfo = dataAnalysisProportionJSON.getJSONObject("adoptInfo");
+
+        StringBuilder analysisOutlineSB = new StringBuilder();
+        analysisOutlineSB.append(DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_TIME__FORMAT_CN))
+                .append("至")
+                .append(DateUtils.formatDate(currentDatetime, DateUtils.DATE_TIME__FORMAT_CN))
+                .append("期间,累计上报舆情数")
+                .append(allInfo.get("weekCount"))
+                .append(",同比上周")
+                .append(allInfo.get("type"))
+                .append(allInfo.get("num"))
+                .append("%。本周累计上报采纳数")
+                .append(adoptInfo.get("weekCount"))
+                .append("，同比上周")
+                .append(adoptInfo.get("type"))
+                .append(adoptInfo.get("num"))
+                .append("%。");
+        String analysisOutline = analysisOutlineSB.toString();
 
         freeMarkerConfigurer.getConfiguration().setClassForTemplateLoading(getClass(),
                 File.separator + commonModel.getReportTemplatePath() + File.separator);
@@ -524,12 +573,12 @@ public class DataStatisticsController extends BaseController {
                 .collect(Collectors.toList());
 
         Map<String, Object> dataMap = Maps.newHashMap();
-        dataMap.put("organizationName", "seawater");
-        dataMap.put("publishDate", "seawater");
-        dataMap.put("analysisTimeStart", "seawater");
-        dataMap.put("analysisTimeEnd", "seawater");
-        dataMap.put("analysisRange", "seawater");
-        dataMap.put("analysisOutline", "seawater");
+        dataMap.put("organizationName", organizationName);
+        dataMap.put("publishDate", publishDate);
+        dataMap.put("analysisTimeStart", analysisTimeStart);
+        dataMap.put("analysisTimeEnd", analysisTimeEnd);
+        dataMap.put("analysisRange", analysisRange);
+        dataMap.put("analysisOutline", analysisOutline);
         dataMap.put("dateList", dataList);
 
         JSONObject dataAnalysisTableJSON = JSON.parseObject(JSONObject.toJSONString(dataAnalysisTable().getData()));
