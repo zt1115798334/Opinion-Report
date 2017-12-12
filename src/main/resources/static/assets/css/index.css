@@ -40,29 +40,32 @@
 }
 .colorful_num_blue{
     font-weight: 900;
+    color:#00a0e9;/*ie预留底色*/
     background: -webkit-linear-gradient(top,#00e1ff,#00a0e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .colorful_num_orange{
     font-weight: 900;
+    color:#f57b34;/*ie预留底色*/
     background: -webkit-linear-gradient(top,#ffc042,#f57b34);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .colorful_num_green{
     font-weight: 900;
+    color:#06dfdc;/*ie预留底色*/
     background: -webkit-linear-gradient(top,#2ee0b0,#06dfdc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .homePage_content_list {
-    padding-top: 20px;
+    padding: 20px 0;
     position: relative;
 }
 
 .homePage_content_list:first-child {
-    margin-top: 0px;
+    margin-top: 0;
     padding-top: 0;
 }
 

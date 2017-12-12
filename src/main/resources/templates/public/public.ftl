@@ -20,11 +20,7 @@
 
 <!-- 公用插件结束 -->
 <!-- css开始 -->
-<link href="/assets/css/commonStyle/common.css" rel="stylesheet">
-<link href="/assets/css/sidebar.css" rel="stylesheet" >
-<link href="/assets/css/all.css" rel="stylesheet">
-<link href="/assets/css/changeBootstrap.css" rel="stylesheet">
-<link href="/assets/css/alert.css" rel="stylesheet">
+<link href="/assets/css/publicStyle.css" rel="stylesheet"><!--一些常用css文件引入-->
 <link href="/assets/css/index.css" rel="stylesheet" >
 <!-- css结束 -->
 <script src="/assets/js/sidebar.js" type="text/javascript"></script>

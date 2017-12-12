@@ -424,6 +424,18 @@ public class DataStatisticsController extends BaseController {
         return success(result);
     }
 
+    /**
+     * 下载报告
+     *
+     * @return
+     */
+    @RequestMapping(value = "downloadPresentation", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult downloadPresentation() {
+
+        return success("下载成功");
+    }
+
     private List<ReportArticle> getReportArticles(LocalDateTime startDateTime, LocalDateTime endDateTime) {
         Long userId = new SysUserConst().getUserId();
         List<ReportArticle> reportArticles = Lists.newArrayList();
