@@ -32,13 +32,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 首页控制器
+ *
  * @author zhangtong
  * Created by on 2017/11/21
  */
 @Controller
 @RequestMapping("index")
 public class IndexController extends BaseController {
-
     @Autowired
     private SysMessageService sysMessageService;
 
@@ -114,14 +115,14 @@ public class IndexController extends BaseController {
     public AjaxResult reportArticleDetailed() {
         Long userId = new SysUserConst().getUserId();
 
-        CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
-
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setCreatedUserId(userId);
         reportArticle.setPageNumber(1);
         reportArticle.setPageSize(10);
         reportArticle.setSortOrder(SysConst.Sort.DESC.getCode());
         reportArticle.setSortName("publishDatetime");
+
+        CityOrganization cityOrganization = cityOrganizationService.findByUserId(userId);
 
         JSONArray result = new JSONArray();
         if (cityOrganization != null) {
@@ -217,7 +218,6 @@ public class IndexController extends BaseController {
             jo.put("expireDate", DateUtils.formatDate(reportArticle.getExpireDate(), DateUtils.DATE__FORMAT_CN));
             result.add(jo);
         }
-        ;
         return result;
     }
 
