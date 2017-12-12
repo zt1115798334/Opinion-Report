@@ -1,5 +1,6 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
@@ -100,20 +101,50 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "searchData", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult searchData() {
+        getReportArticlesThisWeekData();
+        getReportArticlesLastWeekData();
+        getThisWeekDateRangeData();
+        return success("查询成功");
+    }
 
+    private void getReportArticlesThisWeekData() {
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         //获取本周信息
         reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime);
+    }
+
+    private void getReportArticlesLastWeekData() {
+        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+
 
         LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
         //获取上周周信息
         reportArticlesLastWeek = getReportArticles(beforeFourteenDays, beforeSevenDays);
+    }
+
+    private void getThisWeekDateRangeData() {
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+
+        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
-        return success("查询成功");
     }
+
+    private void judgeNull() {
+        if (reportArticlesThisWeek == null) {
+            getReportArticlesThisWeekData();
+        }
+        if (reportArticlesLastWeek == null) {
+            getReportArticlesLastWeekData();
+        }
+        if (thisWeekDateRange == null) {
+            getThisWeekDateRangeData();
+        }
+    }
+
 
     /**
      * 舆情上报分析 -- 折线图信息
@@ -123,6 +154,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisChart", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisChart() {
+        judgeNull();
         Map<String, Long> map = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
 
@@ -153,6 +185,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisProportion", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisProportion() {
+        judgeNull();
 
         long thisWeekCount = reportArticlesThisWeek.stream().count();
         long lastWeekCount = reportArticlesLastWeek.stream().count();
@@ -185,6 +218,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataAnalysisTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataAnalysisTable() {
+        judgeNull();
         Map<String, Long> reportCountMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()), Collectors.counting()));
         Map<String, Long> adoptCountMap = reportArticlesThisWeek.stream()
@@ -201,10 +235,10 @@ public class DataStatisticsController extends BaseController {
                     Long reportCount = 0L;
                     Long adoptCount = 0L;
                     if (reportCountMap.containsKey(date)) {
-                        reportCount = reportCountMap.get(date);
+                        reportCount = reportCountMap.getOrDefault(date,0L);
                     }
                     if (adoptCountMap.containsKey(date)) {
-                        adoptCount = adoptCountMap.get(date);
+                        adoptCount = adoptCountMap.getOrDefault(date,0L);
                     }
                     dateJsonArray.add(date);
 
@@ -226,6 +260,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelDistribution() {
+        judgeNull();
         Map<String, Long> reportLevelMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting()));
         JSONObject result = new JSONObject();
@@ -255,6 +290,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataSourceDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataSourceDistribution() {
+        judgeNull();
         Map<String, Long> sourceTypeMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting()));
         JSONObject result = new JSONObject();
@@ -284,6 +320,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataLevelSourceTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataLevelSourceTable() {
+        judgeNull();
         Map<String, Map<String, Long>> reportLevelDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting())));
@@ -318,16 +355,16 @@ public class DataStatisticsController extends BaseController {
                     Long otherSourceTypeCount = 0L;
                     if (reportLevelDateMap.containsKey(date)) {
                         Map<String, Long> reportLevelMap = reportLevelDateMap.get(date);
-                        redReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.RED.getCode());
-                        orangeReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.ORANGE.getCode());
-                        yellowReportLevelCount = reportLevelMap.get(SysConst.ReportLevel.YELLOW.getCode());
+                        redReportLevelCount = reportLevelMap.getOrDefault(SysConst.ReportLevel.RED.getCode(), 0L);
+                        orangeReportLevelCount = reportLevelMap.getOrDefault(SysConst.ReportLevel.ORANGE.getCode(), 0L);
+                        yellowReportLevelCount = reportLevelMap.getOrDefault(SysConst.ReportLevel.YELLOW.getCode(), 0L);
                     }
                     if (sourceTypeDateMap.containsKey(date)) {
                         Map<String, Long> sourceTypeMap = sourceTypeDateMap.get(date);
-                        networkSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.NETWORK.getCode());
-                        mediaSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.MEDIA.getCode());
-                        sceneSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.SCENE.getCode());
-                        otherSourceTypeCount = sourceTypeMap.get(SysConst.SourceType.OTHER.getCode());
+                        networkSourceTypeCount = sourceTypeMap.getOrDefault(SysConst.SourceType.NETWORK.getCode(), 0L);
+                        mediaSourceTypeCount = sourceTypeMap.getOrDefault(SysConst.SourceType.MEDIA.getCode(), 0L);
+                        sceneSourceTypeCount = sourceTypeMap.getOrDefault(SysConst.SourceType.SCENE.getCode(), 0L);
+                        otherSourceTypeCount = sourceTypeMap.getOrDefault(SysConst.SourceType.OTHER.getCode(), 0L);
                     }
                     dateJSONArray.add(date);
 
@@ -362,6 +399,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectDistribution", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectDistribution() {
+        judgeNull();
         Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
@@ -382,9 +420,9 @@ public class DataStatisticsController extends BaseController {
 
                     if (replyTypeDateMap.containsKey(date)) {
                         Map<String, Long> replyTypeMap = replyTypeDateMap.get(date);
-                        clickCount = replyTypeMap.get(SysConst.ReplyType.CLICK.getCode());
-                        commentCount = replyTypeMap.get(SysConst.ReplyType.COMMENT.getCode());
-                        estimateCount = replyTypeMap.get(SysConst.ReplyType.ESTIMATE.getCode());
+                        clickCount = replyTypeMap.getOrDefault(SysConst.ReplyType.CLICK.getCode(), 0L);
+                        commentCount = replyTypeMap.getOrDefault(SysConst.ReplyType.COMMENT.getCode(), 0L);
+                        estimateCount = replyTypeMap.getOrDefault(SysConst.ReplyType.ESTIMATE.getCode(), 0L);
                     }
                     dateJSONArray.add(date);
 
@@ -409,6 +447,7 @@ public class DataStatisticsController extends BaseController {
     @RequestMapping(value = "dataEffectTable", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult dataEffectTable() {
+        judgeNull();
         Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
@@ -429,9 +468,9 @@ public class DataStatisticsController extends BaseController {
 
                     if (replyTypeDateMap.containsKey(date)) {
                         Map<String, Long> replyTypeMap = replyTypeDateMap.get(date);
-                        clickCount = replyTypeMap.get(SysConst.ReplyType.CLICK.getCode());
-                        commentCount = replyTypeMap.get(SysConst.ReplyType.COMMENT.getCode());
-                        estimateCount = replyTypeMap.get(SysConst.ReplyType.ESTIMATE.getCode());
+                        clickCount = replyTypeMap.getOrDefault(SysConst.ReplyType.CLICK.getCode(),0L);
+                        commentCount = replyTypeMap.getOrDefault(SysConst.ReplyType.COMMENT.getCode(),0L);
+                        estimateCount = replyTypeMap.getOrDefault(SysConst.ReplyType.ESTIMATE.getCode(),0L);
                     }
                     dateJSONArray.add(date);
 
@@ -456,7 +495,7 @@ public class DataStatisticsController extends BaseController {
     @ResponseBody
     public void downloadPresentation(HttpServletRequest request, HttpServletResponse response)
             throws IOException, TemplateException {
-
+        judgeNull();
         String downFileName = "测试文件下载.doc";
         String header = request.getHeader("User-Agent").toUpperCase();
         try {
@@ -480,6 +519,9 @@ public class DataStatisticsController extends BaseController {
                 File.separator + commonModel.getReportTemplatePath() + File.separator);
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate(commonModel.getReportTemplateFile());
 
+        List<String> dataList = thisWeekDateRange.stream()
+                .map(date -> DateUtils.formatDate(date, DateUtils.DATE_FORMAT))
+                .collect(Collectors.toList());
 
         Map<String, Object> dataMap = Maps.newHashMap();
         dataMap.put("organizationName", "seawater");
@@ -488,6 +530,41 @@ public class DataStatisticsController extends BaseController {
         dataMap.put("analysisTimeEnd", "seawater");
         dataMap.put("analysisRange", "seawater");
         dataMap.put("analysisOutline", "seawater");
+        dataMap.put("dateList", dataList);
+
+        JSONObject dataAnalysisTableJSON = JSON.parseObject(JSONObject.toJSONString(dataAnalysisTable().getData()));
+        JSONArray reportJsonArray = dataAnalysisTableJSON.getJSONArray("reportCount");
+        JSONArray adoptJsonArray = dataAnalysisTableJSON.getJSONArray("adoptCount");
+        dataMap.put("reportCount", reportJsonArray);
+        dataMap.put("adoptCount", adoptJsonArray);
+
+        JSONObject dataLevelSourceTableJSON = JSON.parseObject(JSONObject.toJSONString(dataLevelSourceTable().getData()));
+        JSONArray redReportLevelJSONArray = dataLevelSourceTableJSON.getJSONArray("redReportLevelCount");
+        JSONArray orangeReportLevelJSONArray = dataLevelSourceTableJSON.getJSONArray("orangeReportLevelCount");
+        JSONArray yellowReportLevelJSONArray = dataLevelSourceTableJSON.getJSONArray("yellowReportLevelCount");
+
+        JSONArray networkSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("networkSourceTypeCount");
+        JSONArray mediaSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("mediaSourceTypeCount");
+        JSONArray sceneSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("sceneSourceTypeCount");
+        JSONArray otherSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("otherSourceTypeCount");
+        dataMap.put("redReportLevelCount", redReportLevelJSONArray);
+        dataMap.put("orangeReportLevelCount", orangeReportLevelJSONArray);
+        dataMap.put("yellowReportLevelCount", yellowReportLevelJSONArray);
+
+        dataMap.put("networkSourceTypeCount", networkSourceTypeJSONArray);
+        dataMap.put("mediaSourceTypeCount", mediaSourceTypeJSONArray);
+        dataMap.put("sceneSourceTypeCount", sceneSourceTypeJSONArray);
+        dataMap.put("otherSourceTypeCount", otherSourceTypeJSONArray);
+
+        JSONObject dataEffectTableJSON = JSON.parseObject(JSONObject.toJSONString(dataEffectTable().getData()));
+        JSONArray clickJSONArray = dataEffectTableJSON.getJSONArray("clickCount");
+        JSONArray commentJSONArray = dataEffectTableJSON.getJSONArray("commentCount");
+        JSONArray estimateJSONArray = dataEffectTableJSON.getJSONArray("estimateCount");
+        dataMap.put("clickCount", clickJSONArray);
+        dataMap.put("commentCount", commentJSONArray);
+        dataMap.put("estimateCount", estimateJSONArray);
+
+
         template.process(dataMap, new OutputStreamWriter(response.getOutputStream()));
     }
 
