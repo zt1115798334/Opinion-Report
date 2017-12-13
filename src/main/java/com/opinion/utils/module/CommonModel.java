@@ -10,19 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommonModel {
 
-    @Value("${download.template.report.path}")
-    private String reportTemplatePath;
-
     @Value("${download.template.report.file}")
     private String reportTemplateFile;
-
-    public String getReportTemplatePath() {
-        return reportTemplatePath;
-    }
-
-    public void setReportTemplatePath(String reportTemplatePath) {
-        this.reportTemplatePath = reportTemplatePath;
-    }
 
     public String getReportTemplateFile() {
         return reportTemplateFile;

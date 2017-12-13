@@ -92,6 +92,7 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
+        System.out.println("跳转信息统计页面");
         return "/dataStatistics/dataStatistics";
     }
 
@@ -494,7 +495,6 @@ public class DataStatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "downloadPresentation", method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
     public void downloadPresentation(HttpServletRequest request, HttpServletResponse response,
                                      @RequestParam String dataAnalysisChartBase64,
                                      @RequestParam String dataLevelDistributionBase64,
@@ -502,12 +502,10 @@ public class DataStatisticsController extends BaseController {
                                      @RequestParam String dataEffectDistributionBase64)
             throws IOException, TemplateException {
 
-
-        dataAnalysisChartBase64=dataAnalysisChartBase64.replace("data:image/png;base64,", "");
-        dataLevelDistributionBase64=dataLevelDistributionBase64.replace("data:image/png;base64,", "");
-        dataSourceDistributionBase64=dataSourceDistributionBase64.replace("data:image/png;base64,", "");
-        dataEffectDistributionBase64=dataEffectDistributionBase64.replace("data:image/png;base64,", "");
-        System.out.println("dataAnalysisChartBase64 = " + dataAnalysisChartBase64);
+        dataAnalysisChartBase64 = dataAnalysisChartBase64.replace("data:image/png;base64,", "");
+        dataLevelDistributionBase64 = dataLevelDistributionBase64.replace("data:image/png;base64,", "");
+        dataSourceDistributionBase64 = dataSourceDistributionBase64.replace("data:image/png;base64,", "");
+        dataEffectDistributionBase64 = dataEffectDistributionBase64.replace("data:image/png;base64,", "");
 
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
@@ -538,7 +536,6 @@ public class DataStatisticsController extends BaseController {
             organizationName = cityOrganization.getName();
             level = cityOrganization.getLevel();
         }
-
 
         LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
         String analysisTimeStart = DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_SECOND_FORMAT);
@@ -584,9 +581,6 @@ public class DataStatisticsController extends BaseController {
                 .append(adoptInfo.get("num"))
                 .append("%。");
         String analysisOutline = analysisOutlineSB.toString();
-
-        freeMarkerConfigurer.getConfiguration().setClassForTemplateLoading(getClass(),
-                File.separator + commonModel.getReportTemplatePath() + File.separator);
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate(commonModel.getReportTemplateFile());
 
         List<String> dataList = thisWeekDateRange.stream()
@@ -638,7 +632,6 @@ public class DataStatisticsController extends BaseController {
         dataMap.put("clickCount", clickJSONArray);
         dataMap.put("commentCount", commentJSONArray);
         dataMap.put("estimateCount", estimateJSONArray);
-
 
         template.process(dataMap, new OutputStreamWriter(response.getOutputStream()));
     }

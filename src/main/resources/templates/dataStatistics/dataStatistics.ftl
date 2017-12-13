@@ -21,7 +21,7 @@
     <#include "/public/menu.ftl"/>
     <div id="page-wrapper" style="margin-left: 220px;">
         <div class="page-content clearfix">
-            <form action="/dataStatistics/downloadPresentation" method="post">
+            <form action="/dataStatistics/downloadPresentation" method="post"  enctype="multipart/form-data">
                 <input id="dataAnalysisChartBase64" type="hidden" name="dataAnalysisChartBase64" value=""/>
                 <input id="dataLevelDistributionBase64" type="hidden" name="dataLevelDistributionBase64" value=""/>
                 <input id="dataSourceDistributionBase64" type="hidden" name="dataSourceDistributionBase64" value=""/>
