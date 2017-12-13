@@ -100,4 +100,12 @@ function showBootstrapDialog(msg, callback) {
     });
 }
 
+function isNotEmpty(str) {
+    if (str != null && str != undefined && str != "") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 

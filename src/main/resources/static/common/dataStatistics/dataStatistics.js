@@ -9,6 +9,19 @@ $(function () {
      */
     searchDataFun();
 
+    $(document).on("click", ".formSubmit", function () {
+        // &&
+        //     isNotEmpty($("#dataLevelDistributionBase64").val()) &&
+        //     isNotEmpty($("#dataSourceDistributionBase64").val()) &&
+        //     isNotEmpty($("#dataEffectDistributionBase64").val())
+        if (isNotEmpty($("#dataAnalysisChartBase64").val())) {
+            console.log("我开始提交了啊")
+            $("#downPresentation").submit();
+        } else {
+            notify.error({title: "提示", content: "数据还未加载完成请稍等！！", autoClose: true});
+        }
+    });
+
 });
 
 /**
@@ -96,6 +109,7 @@ function dataAnalysisChartFun(myChart1) {
             var value = data.value;
 
             var option1 = {
+                animationDuration: 500,
                 color: ["#03b2fc"],
                 title: {
                     text: '近一周舆情上报数',
@@ -176,7 +190,7 @@ function dataAnalysisChartFun(myChart1) {
             setTimeout(function () {
                 var dataAnalysisChartBase64 = myChart1.getDataURL('png');
                 $("#dataAnalysisChartBase64").val(dataAnalysisChartBase64);
-            }, 5000);
+            }, 600);
 
         }
     }
