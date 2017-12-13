@@ -8,6 +8,7 @@ $(function () {
      * 获取数据
      */
     searchDataFun();
+
 });
 
 /**
@@ -55,12 +56,12 @@ function searchDataFun() {
         /**
          * 本周上报舆情等级分布
          */
-        dataLevelDistributionFun();
+        dataLevelDistributionFun(myChart1);
 
         /**
          * 本周上报舆情来源分布
          */
-        dataSourceDistributionFun();
+        dataSourceDistributionFun(myChart1);
 
         /**
          * 本周上报舆情等级来源  -- 表
@@ -70,7 +71,7 @@ function searchDataFun() {
         /**
          * 本周上报舆情影响力分析 -- 图
          */
-        dataEffectDistributionFun();
+        dataEffectDistributionFun(myChart1);
 
         /**
          * 本周上报舆情影响力分析 -- 表
@@ -172,6 +173,11 @@ function dataAnalysisChartFun(myChart1) {
                 }]
             };
             myChart1.setOption(option1);
+            setTimeout(function () {
+                var dataAnalysisChartBase64 = myChart1.getDataURL('png');
+                $("#dataAnalysisChartBase64").val(dataAnalysisChartBase64);
+            }, 5000);
+
         }
     }
 }
@@ -261,7 +267,7 @@ function dataAnalysisTableFun() {
 /**
  * 本周上报舆情等级分布
  */
-function dataLevelDistributionFun() {
+function dataLevelDistributionFun(myChart1) {
     var url = "/dataStatistics/dataLevelDistribution";
     var params = {};
     execAjax(url, params, callback);
@@ -279,7 +285,7 @@ function dataLevelDistributionFun() {
 /**
  * 本周上报舆情来源分布
  */
-function dataSourceDistributionFun() {
+function dataSourceDistributionFun(myChart1) {
     var url = "/dataStatistics/dataSourceDistribution";
     var params = {};
     execAjax(url, params, callback);
@@ -356,7 +362,7 @@ function dataLevelSourceTableFun() {
 /**
  * 本周上报舆情影响力分析 -- 图
  */
-function dataEffectDistributionFun() {
+function dataEffectDistributionFun(myChart1) {
     var url = "/dataStatistics/dataEffectDistribution";
     var params = {};
     execAjax(url, params, callback);

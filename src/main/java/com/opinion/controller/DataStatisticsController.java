@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
@@ -494,8 +495,20 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping(value = "downloadPresentation", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public void downloadPresentation(HttpServletRequest request, HttpServletResponse response)
+    public void downloadPresentation(HttpServletRequest request, HttpServletResponse response,
+                                     @RequestParam String dataAnalysisChartBase64,
+                                     @RequestParam String dataLevelDistributionBase64,
+                                     @RequestParam String dataSourceDistributionBase64,
+                                     @RequestParam String dataEffectDistributionBase64)
             throws IOException, TemplateException {
+
+
+        dataAnalysisChartBase64=dataAnalysisChartBase64.replace("data:image/png;base64,", "");
+        dataLevelDistributionBase64=dataLevelDistributionBase64.replace("data:image/png;base64,", "");
+        dataSourceDistributionBase64=dataSourceDistributionBase64.replace("data:image/png;base64,", "");
+        dataEffectDistributionBase64=dataEffectDistributionBase64.replace("data:image/png;base64,", "");
+        System.out.println("dataAnalysisChartBase64 = " + dataAnalysisChartBase64);
+
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
         String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
         judgeNull();
@@ -588,6 +601,11 @@ public class DataStatisticsController extends BaseController {
         dataMap.put("analysisRange", analysisRange);
         dataMap.put("analysisOutline", analysisOutline);
         dataMap.put("dateList", dataList);
+
+        dataMap.put("dataAnalysisChartBase64", dataAnalysisChartBase64);
+        dataMap.put("dataLevelDistributionBase64", dataLevelDistributionBase64);
+        dataMap.put("dataSourceDistributionBase64", dataSourceDistributionBase64);
+        dataMap.put("dataEffectDistributionBase64", dataEffectDistributionBase64);
 
         JSONObject dataAnalysisTableJSON = JSON.parseObject(JSONObject.toJSONString(dataAnalysisTable().getData()));
         JSONArray reportJsonArray = dataAnalysisTableJSON.getJSONArray("reportCount");

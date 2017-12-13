@@ -21,6 +21,14 @@
     <#include "/public/menu.ftl"/>
     <div id="page-wrapper" style="margin-left: 220px;">
         <div class="page-content clearfix">
+            <form action="/dataStatistics/downloadPresentation" method="post">
+                <input id="dataAnalysisChartBase64" type="hidden" name="dataAnalysisChartBase64" value=""/>
+                <input id="dataLevelDistributionBase64" type="hidden" name="dataLevelDistributionBase64" value=""/>
+                <input id="dataSourceDistributionBase64" type="hidden" name="dataSourceDistributionBase64" value=""/>
+                <input id="dataEffectDistributionBase64" type="hidden" name="dataEffectDistributionBase64" value=""/>
+                <input type="submit" value="下载"/>
+            </form>
+
             <div class="portlet box clearfix" style="border: 1px solid #e7e8f0;">
                 <div class="portlet-header clearfix">
                     <div class="TxtHeader mb15">
