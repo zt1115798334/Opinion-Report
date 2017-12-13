@@ -307,15 +307,47 @@ function dataLevelSourceTableFun() {
             var data = result.data;
 
             var date = data.date;
+            var dateHtml = '<th>日期</th>';
+            $.each(date, function (index, value) {
+                dateHtml += '<th>' + value + '</th>';
+            });
 
             var redReportLevelCount = data.redReportLevelCount;
+            var redReportLevelCountHtml = '<th>红色等级数</th>';
+            $.each(redReportLevelCount, function (index, value) {
+                redReportLevelCountHtml += '<th>' + value + '</th>';
+            });
             var orangeReportLevelCount = data.orangeReportLevelCount;
+            var orangeReportLevelCountHtml = '<th>橙色等级数</th>';
+            $.each(orangeReportLevelCount, function (index, value) {
+                orangeReportLevelCountHtml += '<th>' + value + '</th>';
+            });
             var orangeReportLevelCount = data.orangeReportLevelCount;
+            var orangeReportLevelCountHtml = '<th>黄色等级数</th>';
+            $.each(orangeReportLevelCount, function (index, value) {
+                orangeReportLevelCountHtml += '<th>' + value + '</th>';
+            });
 
             var networkSourceTypeCount = data.networkSourceTypeCount;
+            var networkSourceTypeCountHtml = '<th>网络</th>';
+            $.each(networkSourceTypeCount, function (index, value) {
+                networkSourceTypeCountHtml += '<th>' + value + '</th>';
+            });
             var mediaSourceTypeCount = data.mediaSourceTypeCount;
+            var mediaSourceTypeCountHtml = '<th>媒体</th>';
+            $.each(mediaSourceTypeCount, function (index, value) {
+                mediaSourceTypeCountHtml += '<th>' + value + '</th>';
+            });
             var sceneSourceTypeCount = data.sceneSourceTypeCount;
+            var sceneSourceTypeCountHtml = '<th>现场</th>';
+            $.each(sceneSourceTypeCount, function (index, value) {
+                sceneSourceTypeCountHtml += '<th>' + value + '</th>';
+            });
             var otherSourceTypeCount = data.otherSourceTypeCount;
+            var otherSourceTypeCountHtml = '<th>其他</th>';
+            $.each(otherSourceTypeCount, function (index, value) {
+                otherSourceTypeCountHtml += '<th>' + value + '</th>';
+            });
 
         }
     }
@@ -356,10 +388,26 @@ function dataEffectTableFun() {
             var data = result.data;
 
             var date = data.date;
+            var dateHtml = '<th>日期</th>';
+            $.each(date, function (index, value) {
+                dateHtml += '<th>' + value + '</th>';
+            });
 
             var clickCount = data.clickCount;
+            var clickCountHtml = '<th>点击数</th>';
+            $.each(clickCount, function (index, value) {
+                clickCountHtml += '<th>' + value + '</th>';
+            });
             var commentCount = data.commentCount;
+            var commentCountHtml = '<th>评论数</th>';
+            $.each(commentCount, function (index, value) {
+                commentCountHtml += '<th>' + value + '</th>';
+            });
             var estimateCount = data.estimateCount;
+            var estimateCountHtml = '<th>预估值</th>';
+            $.each(estimateCount, function (index, value) {
+                estimateCountHtml += '<th>' + value + '</th>';
+            });
         }
     }
 }
