@@ -82,6 +82,66 @@
                     </table>
                 </div>
             </div>
+            <div class="portlet box clearfix  mt10" style="border: 1px solid #e7e8f0;">
+                <div class="portlet-header col-md-6 clearfix mb10">
+                    <div class="TxtHeader mb15">
+                        <span class="barIcon"></span> <span class="fs16">本周上报舆情等级分布</span>
+                    </div>
+                    <div class="echartHeader col-md-4 pull-right clearfix noPaddingX ">
+                        <div class="mb25 mt100">
+                            <span class="disc disc-red"></span>红色
+                            <span class="fs16 Margin redProportion"></span>
+                        </div>
+                        <div class="mb25">
+                            <span class="disc disc-orange"></span>橙色
+                            <span class="fs16 Margin orangeProportion"></span>
+                        </div>
+                        <div class="mb25">
+                            <span class="disc disc-yellow"></span>黄色
+                            <span class="fs16 Margin yellowProportion"></span>
+                        </div>
+                    </div>
+                    <div id="echart-ds2" class="col-md-7" style="height:320px;"></div>
+                </div>
+                <div class="portlet-header col-md-6 clearfix mb10">
+                    <div class="TxtHeader mb15">
+                        <span class="barIcon"></span> <span class="fs16">本周上报舆情来源分布</span>
+                    </div>
+                    <div id="echart-ds3"  style="height:320px;"></div>
+                </div>
+                <div class="portlet-body clearfix" style="padding: 0;">
+                    <table class="table table-hover table-bordered text-center data-table dataLevelSourceTable">
+                        <thead>
+                        <tr class="date">
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="redReportLevel">
+
+                        </tr>
+                        <tr class="orangeReportLevelCount">
+
+                        </tr>
+                        <tr class="yellowReportLevelCount">
+
+                        </tr>
+                        <tr class="networkSourceTypeCount">
+
+                        </tr>
+                        <tr class="mediaSourceTypeCount">
+
+                        </tr>
+                        <tr class="sceneSourceTypeCount">
+
+                        </tr>
+                        <tr class="otherSourceTypeCount">
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!--page-content结束-->
     </div>

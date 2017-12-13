@@ -572,6 +572,7 @@ body{
 .data-table tr td,.data-table tr td a{
     font-size: 13px !important;
     color: #242a2f;
+    padding: 12px !important;
 }
 .data-table tr td a:hover{
     color: #00d8d4;
@@ -580,4 +581,5 @@ body{
     text-align: center;
     font-weight: 500;
     border: 1px solid #e3ebee !important;
+    padding: 12px !important;
 }

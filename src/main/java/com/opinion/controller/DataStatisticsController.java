@@ -288,10 +288,37 @@ public class DataStatisticsController extends BaseController {
         judgeNull();
         Map<String, Long> reportLevelMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getReportLevel, Collectors.counting()));
+        Integer allCount = reportArticlesThisWeek.size();
+        Double redProportion = 0D;
+        Double orangeProportion = 0D;
+        Double yellowProportion = 0D;
+        String yellow = SysConst.ReportLevel.YELLOW.getCode();
+        String orange = SysConst.ReportLevel.ORANGE.getCode();
+        String red = SysConst.ReportLevel.RED.getCode();
+        if (!reportLevelMap.containsKey(yellow)) {
+            reportLevelMap.put(yellow, 0L);
+        } else {
+            yellowProportion = NumberUtils.division(reportLevelMap.get(yellow), allCount);
+        }
+        if (!reportLevelMap.containsKey(orange)) {
+            reportLevelMap.put(orange, 0L);
+        } else {
+            orangeProportion = NumberUtils.division(reportLevelMap.get(orange), allCount);
+        }
+        if (!reportLevelMap.containsKey(red)) {
+            reportLevelMap.put(red, 0L);
+        } else {
+            redProportion = NumberUtils.division(reportLevelMap.get(red), allCount);
+        }
+        Map<String, Long> finalMap = Maps.newLinkedHashMap();
+        reportLevelMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue()
+                        .reversed()).forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
+
         JSONObject result = new JSONObject();
         JSONArray infoJSONArray = new JSONArray();
         JSONArray nameJSONArray = new JSONArray();
-        for (Map.Entry<String, Long> entry : reportLevelMap.entrySet()) {
+        for (Map.Entry<String, Long> entry : finalMap.entrySet()) {
             SysConst.ReportLevel rlEnum = SysConst.getReportLevelByCode(entry.getKey());
             if (rlEnum != null) {
                 String levelName = rlEnum.getName();
@@ -304,6 +331,10 @@ public class DataStatisticsController extends BaseController {
         }
         result.put("info", infoJSONArray);
         result.put("name", nameJSONArray);
+        result.put("allCount", allCount);
+        result.put("redProportion", redProportion);
+        result.put("orangeProportion", orangeProportion);
+        result.put("yellowProportion", yellowProportion);
         return success(result);
     }
 
@@ -318,10 +349,33 @@ public class DataStatisticsController extends BaseController {
         judgeNull();
         Map<String, Long> sourceTypeMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(ReportArticle::getSourceType, Collectors.counting()));
+        if (sourceTypeMap.size() != 3) {
+            String network = SysConst.SourceType.NETWORK.getCode();
+            String media = SysConst.SourceType.MEDIA.getCode();
+            String scene = SysConst.SourceType.SCENE.getCode();
+            String other = SysConst.SourceType.OTHER.getCode();
+            if (!sourceTypeMap.containsKey(network)) {
+                sourceTypeMap.put(network, 0L);
+            }
+            if (!sourceTypeMap.containsKey(media)) {
+                sourceTypeMap.put(media, 0L);
+            }
+            if (!sourceTypeMap.containsKey(scene)) {
+                sourceTypeMap.put(scene, 0L);
+            }
+            if (!sourceTypeMap.containsKey(other)) {
+                sourceTypeMap.put(other, 0L);
+            }
+        }
+        Map<String, Long> finalMap = Maps.newLinkedHashMap();
+        sourceTypeMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue()
+                        .reversed()).forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
+
         JSONObject result = new JSONObject();
         JSONArray infoJSONArray = new JSONArray();
         JSONArray nameJSONArray = new JSONArray();
-        for (Map.Entry<String, Long> entry : sourceTypeMap.entrySet()) {
+        for (Map.Entry<String, Long> entry : finalMap.entrySet()) {
             SysConst.SourceType rlEnum = SysConst.getSourceTypeByCode(entry.getKey());
             if (rlEnum != null) {
                 String levelName = rlEnum.getName();

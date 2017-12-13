@@ -27,4 +27,16 @@ public class NumberUtils {
         }
         return result;
     }
+
+    public static Double division(Number num1, Number num2) {
+        Double result = 0D;
+        BigDecimal numBig1 = new BigDecimal(String.valueOf(num1));
+        BigDecimal numBig2 = new BigDecimal(String.valueOf(num2));
+        if (numBig2.compareTo(BigDecimal.ZERO) == 1) {
+            BigDecimal calcResult = numBig1.divide(numBig2, 4, BigDecimal.ROUND_HALF_DOWN)
+                    .multiply(new BigDecimal(100));
+            result = calcResult.doubleValue();
+        }
+        return result;
+    }
 }

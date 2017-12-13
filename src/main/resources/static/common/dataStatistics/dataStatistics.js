@@ -36,14 +36,17 @@ function searchDataFun() {
 
         //近一周舆情上报数
         var myChart1 = echarts.init(document.getElementById('echart-ds1'));
-
+        //本周上报舆情等级分布
+        var myChart2 = echarts.init(document.getElementById('echart-ds2'));
+        //本周上报舆情来源分布
+        var myChart3 = echarts.init(document.getElementById('echart-ds3'));
         // 图表屏幕自适应
         setTimeout(function () {
             window.onresize = function () {
                 myChart1.resize();
-                /*myChart2.resize();
+                myChart2.resize();
                 myChart3.resize();
-                myChart4.resize();
+                /*myChart4.resize();
                 myChart5.resize();
                 myChart6.resize();
                 myChart7.resize();*/
@@ -69,12 +72,12 @@ function searchDataFun() {
         /**
          * 本周上报舆情等级分布
          */
-        dataLevelDistributionFun(myChart1);
+        dataLevelDistributionFun(myChart2);
 
         /**
          * 本周上报舆情来源分布
          */
-        dataSourceDistributionFun(myChart1);
+        dataSourceDistributionFun(myChart3);
 
         /**
          * 本周上报舆情等级来源  -- 表
@@ -281,7 +284,7 @@ function dataAnalysisTableFun() {
 /**
  * 本周上报舆情等级分布
  */
-function dataLevelDistributionFun(myChart1) {
+function dataLevelDistributionFun(myChart2) {
     var url = "/dataStatistics/dataLevelDistribution";
     var params = {};
     execAjax(url, params, callback);
@@ -290,8 +293,80 @@ function dataLevelDistributionFun(myChart1) {
         if (result.success) {
             var data = result.data;
 
-            var info = data.info;
-            var name = data.name;
+            var echartData = data.info;
+            var legendData = data.name;
+            var allCount = data.allCount;
+            var redProportion = data.redProportion;
+            var orangeProportion = data.orangeProportion;
+            var yellowProportion = data.yellowProportion;
+
+            $(".redProportion").html(redProportion + "%");
+            $(".orangeProportion").html(orangeProportion + "%");
+            $(".yellowProportion").html(yellowProportion + "%");
+
+            var option2 = {
+                animationDuration: 500,
+                color: ['#fc6d6e', '#ff9901', '#ffcc01'],
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                title: {
+                    text: allCount,
+                    subtext: '主机（台）',
+                    left: 'center',
+                    top: '35%',
+                    padding: [24, 0],
+                    textStyle: {
+                        color: '#34495e',
+                        fontSize: 32,
+                        align: 'center'
+                    },
+                    subtextStyle: {
+                        color: '#8d989d',
+                        fontSize: 14,
+                        align: 'center'
+                    }
+                },
+                series: [{
+                    symbol: 'circle',
+                    name: '等级',
+                    type: 'pie',
+                    radius: ['56%', '76%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: false,
+                            textStyle: {
+                                fontSize: '16',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 5,
+                            borderColor: '#fff'
+                        }
+                    },
+                    data: echartData
+                }]
+            };
+
+            myChart2.setOption(option2);
+            setTimeout(function () {
+                var dataLevelDistributionBase64 = myChart2.getDataURL('png');
+                $("#dataLevelDistributionBase64").val(dataLevelDistributionBase64);
+            }, 600);
         }
     }
 }
@@ -299,7 +374,7 @@ function dataLevelDistributionFun(myChart1) {
 /**
  * 本周上报舆情来源分布
  */
-function dataSourceDistributionFun(myChart1) {
+function dataSourceDistributionFun(myChart3) {
     var url = "/dataStatistics/dataSourceDistribution";
     var params = {};
     execAjax(url, params, callback);
@@ -308,8 +383,55 @@ function dataSourceDistributionFun(myChart1) {
         if (result.success) {
             var data = result.data;
 
-            var info = data.info;
+            var echartData = data.info;
             var name = data.name;
+
+            var scale = 1;
+
+            var option3 = {
+                animationDuration: 500,
+                series: [{
+                    name: '来源',
+                    type: 'pie',
+                    radius: ['52%', '70%'],
+                    hoverAnimation: false,
+                    color: ['#02cca6', '#01d8e4', '#fcdc5c', '#fd6e6f'],
+                    label: {
+                        normal: {
+                            formatter: function (params, ticket, callback) {
+                                var total = 0; //来源总数量
+                                var percent = 0; //来源占比
+                                echartData.forEach(function (value, index, array) {
+                                    total += value.value;
+                                });
+                                percent = ((params.value / total) * 100).toFixed(1);
+                                return '' + params.name + '\n\n\n' + percent + '%';
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            length: 15 * scale,
+                            length2: 60,
+                            lineStyle: {
+                                color: '#ededed'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 5,
+                            borderColor: '#fff'
+                        }
+                    },
+                    data: echartData
+                }]
+            };
+            myChart3.setOption(option3);
+            setTimeout(function () {
+                var dataSourceDistributionBase64 = myChart3.getDataURL('png');
+                $("#dataSourceDistributionBase64").val(dataSourceDistributionBase64);
+            }, 600);
         }
     }
 }
@@ -325,49 +447,68 @@ function dataLevelSourceTableFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+            var _table = $("table.dataLevelSourceTable");
 
             var date = data.date;
-            var dateHtml = '<th>日期</th>';
+            var dateHtml = '<th>类别</th>\n' +
+                '                            <th>日期</th>';
             $.each(date, function (index, value) {
                 dateHtml += '<th>' + value + '</th>';
             });
+            _table.find(".date").html(dateHtml);
 
             var redReportLevelCount = data.redReportLevelCount;
-            var redReportLevelCountHtml = '<th>红色等级数</th>';
+            var redReportLevelCountHtml = '<td rowspan="3">舆情等级统计</td>\n' +
+                '                            <td><span class="colorred">红色等级数</span></td>';
             $.each(redReportLevelCount, function (index, value) {
+                // reportCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 redReportLevelCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".redReportLevel").html(redReportLevelCountHtml);
             var orangeReportLevelCount = data.orangeReportLevelCount;
-            var orangeReportLevelCountHtml = '<th>橙色等级数</th>';
+            var orangeReportLevelCountHtml = '<td><span class="colororange">橙色等级数</span></td>';
             $.each(orangeReportLevelCount, function (index, value) {
+                // reportCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 orangeReportLevelCountHtml += '<th>' + value + '</th>';
             });
-            var orangeReportLevelCount = data.orangeReportLevelCount;
-            var orangeReportLevelCountHtml = '<th>黄色等级数</th>';
-            $.each(orangeReportLevelCount, function (index, value) {
-                orangeReportLevelCountHtml += '<th>' + value + '</th>';
+            _table.find(".orangeReportLevelCount").html(orangeReportLevelCountHtml);
+            var yellowReportLevelCount = data.yellowReportLevelCount;
+            var yellowReportLevelCountHtml = '<td><span class="coloryellow">黄色等级数</span></td>';
+            $.each(yellowReportLevelCount, function (index, value) {
+                // yellowReportLevelCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
+                yellowReportLevelCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".yellowReportLevelCount").html(yellowReportLevelCountHtml);
 
             var networkSourceTypeCount = data.networkSourceTypeCount;
-            var networkSourceTypeCountHtml = '<th>网络</th>';
+            var networkSourceTypeCountHtml = '<td rowspan="4">舆情采纳数</td>\n' +
+                '                            <td><span class="colorgreen">网络</span></td>';
             $.each(networkSourceTypeCount, function (index, value) {
+                // networkSourceTypeCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 networkSourceTypeCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".networkSourceTypeCount").html(networkSourceTypeCountHtml);
             var mediaSourceTypeCount = data.mediaSourceTypeCount;
-            var mediaSourceTypeCountHtml = '<th>媒体</th>';
+            var mediaSourceTypeCountHtml = ' <td><span class="colorgreen">媒体</span></td>';
             $.each(mediaSourceTypeCount, function (index, value) {
+                // mediaSourceTypeCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 mediaSourceTypeCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".mediaSourceTypeCount").html(mediaSourceTypeCountHtml);
             var sceneSourceTypeCount = data.sceneSourceTypeCount;
-            var sceneSourceTypeCountHtml = '<th>现场</th>';
+            var sceneSourceTypeCountHtml = '<td><span class="colorgreen">现场</span></td>';
             $.each(sceneSourceTypeCount, function (index, value) {
+                // sceneSourceTypeCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 sceneSourceTypeCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".sceneSourceTypeCount").html(sceneSourceTypeCountHtml);
             var otherSourceTypeCount = data.otherSourceTypeCount;
-            var otherSourceTypeCountHtml = '<th>其他</th>';
+            var otherSourceTypeCountHtml = '<td><span class="colorgreen">其他</span></td>';
             $.each(otherSourceTypeCount, function (index, value) {
+                // otherSourceTypeCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 otherSourceTypeCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".otherSourceTypeCount").html(otherSourceTypeCountHtml);
 
         }
     }
@@ -406,28 +547,34 @@ function dataEffectTableFun() {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+            var _table = $("table.dataEffectTable");
 
             var date = data.date;
             var dateHtml = '<th>日期</th>';
             $.each(date, function (index, value) {
                 dateHtml += '<th>' + value + '</th>';
             });
+            _table.find(".date").html(otherSourceTypeCountHtml);
 
             var clickCount = data.clickCount;
             var clickCountHtml = '<th>点击数</th>';
             $.each(clickCount, function (index, value) {
                 clickCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".clickCount").html(clickCountHtml);
+
             var commentCount = data.commentCount;
             var commentCountHtml = '<th>评论数</th>';
             $.each(commentCount, function (index, value) {
                 commentCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".commentCount").html(commentCountHtml);
             var estimateCount = data.estimateCount;
             var estimateCountHtml = '<th>预估值</th>';
             $.each(estimateCount, function (index, value) {
                 estimateCountHtml += '<th>' + value + '</th>';
             });
+            _table.find(".estimateCount").html(estimateCountHtml);
         }
     }
 }
