@@ -142,6 +142,34 @@
                     </table>
                 </div>
             </div>
+            <div class="portlet box clearfix  mt10" style="border: 1px solid #e7e8f0;">
+                <div class="portlet-header clearfix">
+                    <div class="TxtHeader mb15">
+                        <span class="barIcon"></span> <span class="fs16">本周上报舆情影响力分析</span>
+                    </div>
+                    <div id="echart-ds4" style="height:320px;"></div>
+                </div>
+                <div class="portlet-body clearfix mt10" style="padding: 0">
+                    <table class="table table-hover table-bordered text-center data-table dataEffectTable">
+                        <thead>
+                        <tr class="date">
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="clickCount">
+
+                        </tr>
+                        <tr class="commentCount">
+
+                        </tr>
+                        <tr class="estimateCount">
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!--page-content结束-->
     </div>

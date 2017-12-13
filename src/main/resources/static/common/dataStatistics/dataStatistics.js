@@ -10,11 +10,11 @@ $(function () {
     searchDataFun();
 
     $(document).on("click", ".formSubmit", function () {
-        // &&
-        //     isNotEmpty($("#dataLevelDistributionBase64").val()) &&
-        //     isNotEmpty($("#dataSourceDistributionBase64").val()) &&
-        //     isNotEmpty($("#dataEffectDistributionBase64").val())
-        if (isNotEmpty($("#dataAnalysisChartBase64").val())) {
+
+        if (isNotEmpty($("#dataAnalysisChartBase64").val() &&
+                isNotEmpty($("#dataLevelDistributionBase64").val()) &&
+                isNotEmpty($("#dataSourceDistributionBase64").val()) &&
+                isNotEmpty($("#dataEffectDistributionBase64").val()))) {
             console.log("我开始提交了啊")
             $("#downPresentation").submit();
         } else {
@@ -40,16 +40,15 @@ function searchDataFun() {
         var myChart2 = echarts.init(document.getElementById('echart-ds2'));
         //本周上报舆情来源分布
         var myChart3 = echarts.init(document.getElementById('echart-ds3'));
+        //本周上报舆情影响力分析
+        var myChart4 = echarts.init(document.getElementById('echart-ds4'));
         // 图表屏幕自适应
         setTimeout(function () {
             window.onresize = function () {
                 myChart1.resize();
                 myChart2.resize();
                 myChart3.resize();
-                /*myChart4.resize();
-                myChart5.resize();
-                myChart6.resize();
-                myChart7.resize();*/
+                myChart4.resize();
             }
         }, 200);
 
@@ -87,7 +86,7 @@ function searchDataFun() {
         /**
          * 本周上报舆情影响力分析 -- 图
          */
-        dataEffectDistributionFun(myChart1);
+        dataEffectDistributionFun(myChart4);
 
         /**
          * 本周上报舆情影响力分析 -- 表
@@ -517,7 +516,7 @@ function dataLevelSourceTableFun() {
 /**
  * 本周上报舆情影响力分析 -- 图
  */
-function dataEffectDistributionFun(myChart1) {
+function dataEffectDistributionFun(myChart4) {
     var url = "/dataStatistics/dataEffectDistribution";
     var params = {};
     execAjax(url, params, callback);
@@ -532,6 +531,104 @@ function dataEffectDistributionFun(myChart1) {
             var commentCount = data.commentCount;
             var estimateCount = data.estimateCount;
 
+            var option4 = {
+                animationDuration: 500,
+                color: ['#02cca6', '#01d8e4', '#ffcc01'],
+                grid: {
+                    y: '6%',
+                    y2: '0',
+                    x: '0',
+                    x2: '0',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    icon: 'circle',
+                    x: 'right',
+                    padding: [0, 12, 0, 50],
+                    itemWidth: 8,
+                    itemHeight: 8,
+                    data: ['点击数', '评论数', '预估值']
+                },
+                xAxis: [
+                    {
+                        axisLabel: {
+                            interval: 0
+                        },
+                        show: true,
+                        type: 'category',
+                        data: date,
+                        fontSize: 6,
+                        scale: true,
+                        axisTick: {
+                            alignWithLabel: false
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#8e99a8',
+                                width: 1,
+                                type: 'solid'
+                            }
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#8e99a8',
+                                width: 1,
+                                type: 'solid'
+                            }
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '点击数',
+                        type: 'bar',
+                        barWidth: '12%',
+                        barGap: '50%',
+                        data: clickCount
+
+
+                    },
+                    {
+                        name: '评论数',
+                        type: 'bar',
+                        barWidth: '12%',
+                        barGap: '50%',
+                        data: commentCount
+                    },
+                    {
+                        name: '预估值',
+                        type: 'bar',
+                        barWidth: '12%',
+                        barGap: '50%',
+                        data: estimateCount
+                    }
+
+                ]
+            };
+            myChart4.setOption(option4);
+            setTimeout(function () {
+                var dataEffectDistributionBase64 = myChart4.getDataURL('png');
+                $("#dataEffectDistributionBase64").val(dataEffectDistributionBase64);
+            }, 600);
         }
     }
 }
@@ -554,11 +651,12 @@ function dataEffectTableFun() {
             $.each(date, function (index, value) {
                 dateHtml += '<th>' + value + '</th>';
             });
-            _table.find(".date").html(otherSourceTypeCountHtml);
+            _table.find(".date").html(dateHtml);
 
             var clickCount = data.clickCount;
             var clickCountHtml = '<th>点击数</th>';
             $.each(clickCount, function (index, value) {
+                // clickCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 clickCountHtml += '<th>' + value + '</th>';
             });
             _table.find(".clickCount").html(clickCountHtml);
@@ -566,12 +664,14 @@ function dataEffectTableFun() {
             var commentCount = data.commentCount;
             var commentCountHtml = '<th>评论数</th>';
             $.each(commentCount, function (index, value) {
+                // commentCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 commentCountHtml += '<th>' + value + '</th>';
             });
             _table.find(".commentCount").html(commentCountHtml);
             var estimateCount = data.estimateCount;
             var estimateCountHtml = '<th>预估值</th>';
             $.each(estimateCount, function (index, value) {
+                // estimateCountHtml += '<td><a target="_blank" href="">' + value + '</a></td>';
                 estimateCountHtml += '<th>' + value + '</th>';
             });
             _table.find(".estimateCount").html(estimateCountHtml);
