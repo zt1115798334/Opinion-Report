@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.opinion.utils.DateUtils.*;
+
 /**
  * @author zhangtong
  * Created by on 2017/11/16
@@ -111,16 +113,28 @@ public class DataStatisticsController extends BaseController {
     }
 
     private void getReportArticlesThisWeekData() {
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        LocalDateTime thisWeekInSunday = thisWeekInSunday();
 
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        LocalDateTime thisWeekInMonday = thisWeekInMonday();
+
+        //获取本周信息
+//        reportArticlesThisWeek = getReportArticles(thisWeekInMonday, thisWeekInSunday);
+
+        LocalDateTime currentDatetime = currentDatetime();
+
+        LocalDateTime beforeSevenDays = currentDateBeforeSevenDays();
         //获取本周信息
         reportArticlesThisWeek = getReportArticles(beforeSevenDays, currentDatetime);
     }
 
     private void getReportArticlesLastWeekData() {
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        LocalDateTime thisWeekInMonday = thisWeekInMonday();
 
+        LocalDateTime previousWeekInMonday = previousWeekInMonday();
+        //获取上周周信息
+//        reportArticlesLastWeek = getReportArticles(previousWeekInMonday, thisWeekInMonday);
+
+        LocalDateTime beforeSevenDays = currentDateBeforeSevenDays();
 
         LocalDateTime beforeFourteenDays = DateUtils.currentDateBeforeFourteenDays();
         //获取上周周信息
@@ -128,9 +142,17 @@ public class DataStatisticsController extends BaseController {
     }
 
     private void getThisWeekDateRangeData() {
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
 
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        LocalDateTime thisWeekInSunday = thisWeekInSunday();
+
+        LocalDateTime thisWeekInMonday = thisWeekInMonday();
+
+        //获取本周时间范围
+//        thisWeekDateRange = DateUtils.dateRange(thisWeekInMonday.toLocalDate(), thisWeekInSunday.toLocalDate());
+
+        LocalDateTime currentDatetime = currentDatetime();
+
+        LocalDateTime beforeSevenDays = currentDateBeforeSevenDays();
 
         //获取本周时间范围
         thisWeekDateRange = DateUtils.dateRange(beforeSevenDays.toLocalDate(), currentDatetime.toLocalDate());
@@ -507,7 +529,7 @@ public class DataStatisticsController extends BaseController {
         dataSourceDistributionBase64 = dataSourceDistributionBase64.replace("data:image/png;base64,", "");
         dataEffectDistributionBase64 = dataEffectDistributionBase64.replace("data:image/png;base64,", "");
 
-        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        LocalDateTime currentDatetime = currentDatetime();
         String publishDate = DateUtils.formatDate(currentDatetime, DateUtils.DATE__FORMAT_CN);
         judgeNull();
         String downFileName = publishDate + "报告.doc";
@@ -537,7 +559,7 @@ public class DataStatisticsController extends BaseController {
             level = cityOrganization.getLevel();
         }
 
-        LocalDateTime beforeSevenDays = DateUtils.currentDateBeforeSevenDays();
+        LocalDateTime beforeSevenDays = currentDateBeforeSevenDays();
         String analysisTimeStart = DateUtils.formatDate(beforeSevenDays, DateUtils.DATE_SECOND_FORMAT);
         String analysisTimeEnd = DateUtils.formatDate(currentDatetime, DateUtils.DATE_SECOND_FORMAT);
         String analysisRange;

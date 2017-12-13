@@ -6,9 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 /**
  * <p>Title: DateUtils</p>
@@ -238,4 +240,38 @@ public class DateUtils {
         return result;
     }
 
+    /**
+     * 获取本周周日日期
+     *
+     * @return
+     */
+    public static LocalDateTime thisWeekInSunday() {
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        return currentDatetime.with(nextOrSame(DayOfWeek.SUNDAY));
+    }
+
+    /**
+     * 获取本周周一日期
+     *
+     * @return
+     */
+    public static LocalDateTime thisWeekInMonday() {
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        return dateTimeToZero(currentDatetime.with(previousOrSame(DayOfWeek.TUESDAY)));
+    }
+
+    /**
+     * 获取本周周一日期
+     *
+     * @return
+     */
+    public static LocalDateTime previousWeekInMonday() {
+        LocalDateTime thisWeekInMonday = thisWeekInMonday();
+        return dateTimeAddDay(-8L, thisWeekInMonday);
+    }
+
+//    public static void main(String[] args) {
+//        System.out.println(previousWeekInMonday());
+//        System.out.println(thisWeekInMonday());
+//    }
 }
