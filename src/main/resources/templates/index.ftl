@@ -44,7 +44,7 @@
                                 <span>本周舆情未采纳数</span>
                             </div>
                             <div class="homePage_data_content text-center">
-                                <h1 class="colorful_num_orange adoptInfo"></h1>
+                                <h1 class="colorful_num_orange notAdoptInfo"></h1>
                                 <p>
                                     <img src="" alt="">
                                     <span></span>
@@ -57,7 +57,7 @@
                                 <span>本周舆情采纳数</span>
                             </div>
                             <div class="homePage_data_content text-center">
-                                <h1 class="colorful_num_green notAdoptInfo"></h1>
+                                <h1 class="colorful_num_green adoptInfo"></h1>
                                 <p>
                                     <img src="" alt="">
                                     <span></span>

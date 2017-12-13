@@ -673,6 +673,14 @@ button:hover{
     background-color: rgba(13,121,209,.06);
 }
 
+/*条状图标*/
+.barIcon{
+    display: inline-block;
+    height: 18px;
+    border: 2px solid #00d8d4;
+    margin-bottom: -3px;
+    margin-right: 2px;
+}
 /*空心圆*/
 .circle {
     display: inline-block;
@@ -741,7 +749,28 @@ button:hover{
     -ms-box-shadow: 0px 2px 4px #4877f1;
 }
 
-
+/*彩色渐变字体*/
+.colorful_num_blue{
+    font-weight: 900;
+    color:#00a0e9;/*ie预留底色*/
+    background: -webkit-linear-gradient(top,#00e1ff,#00a0e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.colorful_num_orange{
+    font-weight: 900;
+    color:#f57b34;/*ie预留底色*/
+    background: -webkit-linear-gradient(top,#ffc042,#f57b34);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.colorful_num_green{
+    font-weight: 900;
+    color:#06dfdc;/*ie预留底色*/
+    background: -webkit-linear-gradient(top,#2ee0b0,#06dfdc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
 .textareaName {
     width: 100%;

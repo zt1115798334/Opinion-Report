@@ -549,3 +549,35 @@ body{
     color: #fff;
     background-image: linear-gradient(to right, #2eaeff 0%, #3e92ff 100%) !important;
 }
+.data_div{
+    padding: 10px 0 20px 14px;
+    margin: 10px 0 40px 0;
+    border-bottom: 1px solid #ededed;
+}
+.data_div:last-child{
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.data_content{
+    margin-left: 25px;
+}
+
+.data-table {
+    margin-bottom: 0px !important;
+}
+.data-table thead{
+    background: #f4f4f4;
+}
+.data-table tr td,.data-table tr td a{
+    font-size: 13px !important;
+    color: #242a2f;
+}
+.data-table tr td a:hover{
+    color: #00d8d4;
+}
+.data-table tr td,.data-table tr th{
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #e3ebee !important;
+}

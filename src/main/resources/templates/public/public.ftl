@@ -25,3 +25,4 @@
 <!-- css结束 -->
 <script src="/assets/js/sidebar.js" type="text/javascript"></script>
 <script src="/assets/plugins/slimScroll/jquery.slimscroll.js" type="text/javascript"></script>
+<script src="/assets/plugins/echarts/echarts.min.js" type="text/javascript"></script>
