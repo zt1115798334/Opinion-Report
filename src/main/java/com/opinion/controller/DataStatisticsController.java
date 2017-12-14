@@ -688,6 +688,7 @@ public class DataStatisticsController extends BaseController {
         JSONArray orangeReportLevelJSONArray = dataLevelSourceTableJSON.getJSONArray("orangeReportLevelCount");
         JSONArray yellowReportLevelJSONArray = dataLevelSourceTableJSON.getJSONArray("yellowReportLevelCount");
 
+
         JSONArray networkSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("networkSourceTypeCount");
         JSONArray mediaSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("mediaSourceTypeCount");
         JSONArray sceneSourceTypeJSONArray = dataLevelSourceTableJSON.getJSONArray("sceneSourceTypeCount");
@@ -695,6 +696,15 @@ public class DataStatisticsController extends BaseController {
         dataMap.put("redReportLevelCount", redReportLevelJSONArray);
         dataMap.put("orangeReportLevelCount", orangeReportLevelJSONArray);
         dataMap.put("yellowReportLevelCount", yellowReportLevelJSONArray);
+
+        JSONObject dataLevelDistributionJSON = JSON.parseObject(JSONObject.toJSONString(dataLevelDistribution().getData()));
+        String redProportion = dataLevelDistributionJSON.getString("redProportion") + "%";
+        String orangeProportion = dataLevelDistributionJSON.getString("orangeProportion") + "%";
+        String yellowProportion = dataLevelDistributionJSON.getString("yellowProportion") + "%";
+
+        dataMap.put("redProportion", redProportion);
+        dataMap.put("orangeProportion", orangeProportion);
+        dataMap.put("yellowProportion", yellowProportion);
 
         dataMap.put("networkSourceTypeCount", networkSourceTypeJSONArray);
         dataMap.put("mediaSourceTypeCount", mediaSourceTypeJSONArray);
