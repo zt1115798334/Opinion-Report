@@ -5,6 +5,7 @@ import com.opinion.base.controller.BaseController;
 import com.opinion.shiro.ShiroService;
 import com.opinion.vcode.Captcha;
 import com.opinion.vcode.GifCaptcha;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class LoginController extends BaseController {
 
     /**
      * 登录
+     *
      * @return
      */
     @RequestMapping(value = "login")
@@ -63,12 +65,15 @@ public class LoginController extends BaseController {
     public AjaxResult ajaxLogin(@RequestParam String username,
                                 @RequestParam String password,
                                 @RequestParam Boolean rememberMe) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return fail("请输入账户,密码");
+        }
         try {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             SecurityUtils.getSubject().login(token);
             return success("登录成功");
         } catch(Exception e) {
-            return success(e.getMessage());
+            return fail(e.getMessage());
         }
     }
 

@@ -1,14 +1,20 @@
 $(function () {
+    $('#txt_rememberMe').iCheck({
+        checkboxClass: 'icheckbox_minimal-blue',
+        radioClass: 'iradio_minimal-blue',
+        increaseArea: '20%' // optional
+    });
 
-    $(document).on("click", ".btn-primary", function () {
+
+    $(document).on("click", ".login-btn", function () {
         login();
     });
 });
 
 function login() {
-    var username = $("#username").val();
-    var password = $("#password").val();
-    var rememberMe = $('#rememberMe').is(':checked');
+    var username = $("#txt_username").val();
+    var password = $("#txt_password").val();
+    var rememberMe = $('#txt_rememberMe').is(':checked');
     var param = {
         "username": username,
         "password": password,
@@ -21,7 +27,10 @@ function login() {
         if (result.success) {
             window.location.href = "/index";
         } else {
-            notify.error({title: "提示", content: result.message});
+            BootstrapDialog.show({
+                title: '提示',
+                message: result.message
+            });
         }
     }
 }
