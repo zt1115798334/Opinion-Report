@@ -75,11 +75,12 @@ public class MyDES {
         return decryptedData;
     }
 
-//    public static void main(String[] args) {
-//        String str = "system" + "system";
-//        // DES数据加密
-//        String s1 = encryptBasedDes(str);
-//        System.out.println(s1);
-//
-//    }
+    public static void main(String[] args) {
+        String str = "system" + "system";
+        // DES数据加密
+        String s1 = encryptBasedDes("");
+        System.out.println(s1);
+        System.out.println(decryptBasedDes("ZXCPHgb6kLitGiHixQFuDw=="));
+
+    }
 }

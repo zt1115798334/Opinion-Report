@@ -8,26 +8,20 @@ $(function () {
 function login() {
     var username = $("#username").val();
     var password = $("#password").val();
-    var vcode = $("#vcode").val();
     var rememberMe = $('#rememberMe').is(':checked');
     var param = {
         "username": username,
         "password": password,
-        "vcode": vcode,
         "rememberMe": rememberMe
     };
     var url = "/ajaxLogin";
     execAjax(url, param, callback);
 
     function callback(result) {
-
-        if (result.status != 200) {
-            swal("哦豁", result.message, "error");
+        if (result.success) {
+            window.location.href = "/index";
         } else {
-            swal({title: "太帅了", text: "登录成功，进入系统！", type: "success"},
-                function () {
-                    location.href = "/index";
-                });
+            notify.error({title: "提示", content: result.message});
         }
     }
 }
