@@ -10,8 +10,9 @@
     <#include "/public/public.ftl"/>
 
     <style type="text/css">
-        .fixed-table-toolbar {
-            display: none;
+        .downloadBtn{
+            margin-top: -10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -21,16 +22,16 @@
     <#include "/public/menu.ftl"/>
     <div id="page-wrapper" style="margin-left: 220px;">
         <div class="page-content clearfix">
-            <form id="downPresentation" action="/dataStatistics/downloadPresentation" method="post"  enctype="multipart/form-data">
-                <input id="dataAnalysisChartBase64" type="hidden" name="dataAnalysisChartBase64" value=""/>
-                <input id="dataLevelDistributionBase64" type="hidden" name="dataLevelDistributionBase64" value=""/>
-                <input id="dataSourceDistributionBase64" type="hidden" name="dataSourceDistributionBase64" value=""/>
-                <input id="dataEffectDistributionBase64" type="hidden" name="dataEffectDistributionBase64" value=""/>
-                <input type="button" value="下载" class="formSubmit"/>
-            </form>
-
             <div class="portlet box clearfix" style="border: 1px solid #e7e8f0;">
                 <div class="portlet-header clearfix">
+                    <form id="downPresentation" action="/dataStatistics/downloadPresentation" method="post"  enctype="multipart/form-data">
+                        <input id="dataAnalysisChartBase64" type="hidden" name="dataAnalysisChartBase64" value=""/>
+                        <input id="dataLevelDistributionBase64" type="hidden" name="dataLevelDistributionBase64" value=""/>
+                        <input id="dataSourceDistributionBase64" type="hidden" name="dataSourceDistributionBase64" value=""/>
+                        <input id="dataEffectDistributionBase64" type="hidden" name="dataEffectDistributionBase64" value=""/>
+                        <a href="javascript:void(0)" class="button_green pull-right downloadBtn formSubmit"><i class="download"></i>下载报告</a>
+                    </form>
+
                     <div class="TxtHeader mb15">
                         <span class="barIcon"></span> <span class="fs16">舆情上报分析</span>
                     </div>
