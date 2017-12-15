@@ -19,5 +19,8 @@ public class UserFingerprintTest extends BaseTest {
     public void testAdd(){
         UserFingerprint userFingerprint = new UserFingerprint(1L,"1111111");
         userFingerprintService.save(userFingerprint);
+
+        UserFingerprint userFingerprint1 = userFingerprintService.findByUserId(1L);
+        System.out.println("userFingerprint1 = " + userFingerprint1);
     }
 }

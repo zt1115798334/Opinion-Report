@@ -58,16 +58,14 @@
                         <input type="checkbox" id="txt_rememberMe" name="iCheck"  /> 记住密码
                     </label>
                 </div>
-                <input type="hidden" id="fingerReg" />
                 <input type="button" class="btn btn-default btn-info login-btn" onclick="" value="登录" />
-                <input type="button" class="btn btn-default btn-info login-finger-btn" onclick="" value="录入指纹" />
             </form>
         </div>
     </div>
 </div>
 <#include "/public/footer.ftl"/>
 <script src="/common/utils.js"></script>
-<script src="/common/finger.js"></script>
+<#--<script src="/common/finger.js"></script>-->
 <script src="/common/login.js"></script>
 </body>
 </html>
