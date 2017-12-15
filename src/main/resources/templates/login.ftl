@@ -16,18 +16,26 @@
     <script src="/assets/plugins/icheck-1.x/icheck.min.js"></script>
 
     <link href="/assets/css/login.css" rel="stylesheet" type="text/css" /><!--登录-->
+
+    <object classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width="0" height="0" id="zkonline"></object>
+    <comment>
+        <EMBED type="application/x-eskerplus"
+               classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
+               codebase="ZKOnline.ocx"
+               width=0 height=0>
+        </EMBED>
+    </comment>
 </head>
 <body bgcolor="#FFFFFF">
 <div class="loginBox">
     <div class="login-left">
-        <img id="columnarDisc" src="../assets/images/login1_03.png" alt="">
-        <img id="light_big" src="../assets/images/light_big_03.png" alt="">
-        <img id="light_small" src="../assets/images/light_small_03.png" alt="">
-        <img id="gu" src="/assets/images/login/dao1.png" alt="">
-        <img id="line1" src="/assets/images/login/line1.png" alt="">
-        <img id="line2" src="/assets/images/login/line2.png" alt="">
-        <img id="line3" src="/assets/images/login/line3.png" alt="">
-        <img id="line4" src="/assets/images/login/line4.png" alt="">
+        <img id="columnarDisc" src="/assets/images/login1_03.png" alt="">
+        <img id="light_big" src="/assets/images/light_big_03.png" alt="">
+        <img id="light_small" src="/assets/images/light_small_03.png" alt="">
+        <img id="line1" src="/assets/images/login2_03.png" alt="">
+        <img id="line2" src="/assets/images/login3_03.png" alt="">
+        <img id="line3" src="/assets/images/login4_03.png" alt="">
+        <img id="line4" src="/assets/images/login5_03.png" alt="">
     </div>
     <div class="login-information">
         <div class="top">
@@ -50,13 +58,16 @@
                         <input type="checkbox" id="txt_rememberMe" name="iCheck"  /> 记住密码
                     </label>
                 </div>
+                <input type="hidden" id="fingerReg" />
                 <input type="button" class="btn btn-default btn-info login-btn" onclick="" value="登录" />
+                <input type="button" class="btn btn-default btn-info login-finger-btn" onclick="" value="录入指纹" />
             </form>
         </div>
     </div>
 </div>
 <#include "/public/footer.ftl"/>
 <script src="/common/utils.js"></script>
+<script src="/common/finger.js"></script>
 <script src="/common/login.js"></script>
 </body>
 </html>

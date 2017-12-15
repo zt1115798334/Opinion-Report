@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan("com.opinion")
 @EntityScan(basePackages = "com.opinion.mysql.entity")
 @EnableJpaRepositories(basePackages = "com.opinion.mysql.repository")
+@EnableMongoRepositories(basePackages = "com.opinion.mongodb.repository")
 @EnableAutoConfiguration
 @EnableScheduling
 public class Application {

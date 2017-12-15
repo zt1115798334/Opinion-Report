@@ -265,9 +265,9 @@ form .btn:hover {
 
 .login-left #line1 {
     position: absolute;
-    height: 30%;
-    left: 90px;
-    top: 92px;
+    height: 18%;
+    left: 120px;
+    top: 110px;
     animation: move 5s linear infinite;
     -webkit-animation: move 5s linear infinite;
     -moz-animation: move 5s linear infinite;
@@ -277,23 +277,24 @@ form .btn:hover {
 .login-left #line2 {
     position: absolute;
     height: 18%;
-    left: 108px;
-    top: 284px;
+    left: 190px;
+    top: 150px;
     animation: move 3s linear infinite;
 }
 
 .login-left #line3 {
     position: absolute;
-    right: 70px;
-    top: 250px;
+    height: 18%;
+    right: 226px;
+    top: 60px;
     animation: move 5s linear infinite;
 }
 
 .login-left #line4 {
     position: absolute;
-    height: 30%;
-    left: 522px;
-    top: 150px;
+    height: 18%;
+    right:106px;
+    top: 100px;
     animation: move 3s linear infinite;
 }
 
