@@ -140,7 +140,7 @@ public class IssuedNoticeController extends BaseController {
     /**
      * 查询下传信息(发出)
      *
-     * @param issuedNotice
+     * @param issuedNotice 下达通知
      * @return
      */
     @RequestMapping(value = "searchIssuedNoticeSend", method = RequestMethod.POST)
