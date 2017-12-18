@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * 
  * <p>Title: BaseController</p>
  * <p>Description: 提供公共接口方法的基础控制器类</p>
- * @author wjc
+ * @author zhangtong
  * @date 2017年6月19日
  */
 public abstract class BaseController {
