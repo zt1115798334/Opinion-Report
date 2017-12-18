@@ -152,7 +152,7 @@ function searchIssuedNoticeSendFun() {
         pageList: [10, 25, 50, 100],
         queryParamsType: '',
         formatNoMatches: function () {
-            var _nodata = '<div class="text-center"><img src="../../images/no_data.png">'
+            var _nodata = '<div class="text-center">'
                 + '<p>没有搜到任何数据</p></div>';
             return _nodata;
         },
