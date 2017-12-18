@@ -130,7 +130,8 @@ public class IssuedNoticeController extends BaseController {
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
         List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(userId);
-        Map<String, IssuedNoticeLog> issuedNoticeLogMap = issuedNoticeLogs.stream().collect(Collectors.toMap(IssuedNoticeLog::getNoticeCode, in -> in));
+        Map<String, IssuedNoticeLog> issuedNoticeLogMap = issuedNoticeLogs.stream()
+                .collect(Collectors.toMap(IssuedNoticeLog::getNoticeCode, in -> in));
         Page<IssuedNotice> page = issuedNoticeService.findPageByReceiptUserId(issuedNotice);
         JSONObject result = pageIssuedNoticeToJSONObject(page, issuedNoticeLogMap);
         return result;
