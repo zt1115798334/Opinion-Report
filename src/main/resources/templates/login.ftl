@@ -17,16 +17,16 @@
 
     <link href="/assets/css/login.css" rel="stylesheet" type="text/css" /><!--登录-->
 
-    <object classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width="0" height="0" id="zkonline"></object>
-    <comment>
-        <EMBED type="application/x-eskerplus"
-               classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"
-               codebase="ZKOnline.ocx"
-               width=0 height=0>
-        </EMBED>
-    </comment>
+    <#--<object classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B" width="0" height="0" id="zkonline"></object>-->
+    <#--<comment>-->
+        <#--<EMBED type="application/x-eskerplus"-->
+               <#--classid="clsid:A318A9AC-E75F-424C-9364-6B40A848FC6B"-->
+               <#--codebase="ZKOnline.ocx"-->
+               <#--width=0 height=0>-->
+        <#--</EMBED>-->
+    <#--</comment>-->
 </head>
-<body bgcolor="#FFFFFF">
+<body class="loginBox">
 <div class="loginBox">
     <div class="login-left">
         <img id="columnarDisc" src="/assets/images/login1_03.png" alt="">
