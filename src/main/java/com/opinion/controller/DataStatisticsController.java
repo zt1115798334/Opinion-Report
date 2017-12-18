@@ -312,7 +312,7 @@ public class DataStatisticsController extends BaseController {
         }
         Map<String, Long> finalMap = Maps.newLinkedHashMap();
         reportLevelMap.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue()
+                .sorted(Map.Entry.<String, Long>comparingByKey()
                         .reversed()).forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
 
         JSONObject result = new JSONObject();
