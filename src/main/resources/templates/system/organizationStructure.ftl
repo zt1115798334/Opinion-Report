@@ -71,7 +71,7 @@
         <form role="form" id="userInfoForm">
             <div class="modal-content">
                 <div class="modal-header logocbg">
-                    <h5 class="modal-title colorwhite" id="">新建用户</h5>
+                    <h5 class="modal-title colorwhite">新建用户</h5>
                 </div>
                 <div class="modal-body  text-center">
                     <div class="form-horizontal Margin">
@@ -79,28 +79,28 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">用户账户<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="userAccount" id="userAccount" type="text" placeholder="请输入用户账户(10字以内)"
+                                    <input name="userAccount" id="userAccountNew" type="text" placeholder="请输入用户账户(10字以内)"
                                            class="form-control" onblur="onUserNameBlurHandler()">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">用户名称<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="userName" id="userName" type="text" placeholder="请输入用户名称(20字以内)"
+                                    <input name="userName" id="userNameNew" type="text" placeholder="请输入用户名称(20字以内)"
                                            class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">密码<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="userPassword" id="userPassword" type="password"
+                                    <input name="userPassword" id="userPasswordNew" type="password"
                                            placeholder="请输入6-20位密码" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">确认密码<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="confirmPassword" id="confirmPassword" type="password"
+                                    <input name="confirmPassword" id="confirmPasswordNew" type="password"
                                            placeholder="请输入确认密码" class="form-control">
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12">
-                        <button id="" type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                        <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
                         <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
                     </div>
                 </div>
@@ -130,23 +130,23 @@
         <form role="form" id="userInfoEditForm">
             <div class="modal-content">
                 <div class="modal-header logocbg">
-                    <h5 class="modal-title colorwhite" id="">编辑用户</h5>
+                    <h5 class="modal-title colorwhite">编辑用户</h5>
                 </div>
                 <div class="modal-body  text-center">
                     <div class="form-horizontal Margin">
                         <div class="form-body">
-                            <input type="hidden" name="userAccount" id="userAccount">
+                            <input type="hidden" name="userAccount" id="userAccountEdit">
                             <div class="form-group">
                                 <label class="col-md-2 control-label">用户名称<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="userName" id="userName" type="text" placeholder="请输入用户名称(20字以内)"
+                                    <input name="userName" id="userNameEdit" type="text" placeholder="请输入用户名称(20字以内)"
                                            class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">旧密码<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="oldPassword" id="oldPassword" type="password"
+                                    <input name="oldPassword" id="oldPasswordEdit" type="password"
                                            placeholder="请输入旧密码密码" class="form-control"
                                            onblur="onOldPasswordBlurHandler()">
                                 </div>
@@ -154,14 +154,14 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">密码<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="userPassword" id="userPassword" type="password"
+                                    <input name="userPassword" id="userPasswordEdit" type="password"
                                            placeholder="请输入6-20位密码" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">确认密码<span class="require">*</span></label>
                                 <div class="col-md-6">
-                                    <input name="confirmPassword" id="confirmPassword" type="password"
+                                    <input name="confirmPassword" id="confirmPasswordEdit" type="password"
                                            placeholder="请输入确认密码" class="form-control">
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12">
-                        <button id="" type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                        <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
                         <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
                     </div>
                 </div>

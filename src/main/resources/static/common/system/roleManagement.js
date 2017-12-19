@@ -1,6 +1,6 @@
 $(function () {
 
-    searchDisplayMenuFun("#li_006","#lli_013");
+    searchDisplayMenuFun("#li_006", "#lli_013");
 
     showMenuTitle("系统管理 / 角色管理");
 
@@ -46,6 +46,11 @@ $(function () {
         }
         var data = $("#roleForm").serializeJSON();
         saveSysRoleFun(data);
+    });
+
+    $(document).on("hidden.bs.modal", "#jurisdiction", function () {
+        console.log("执行清空数据操作");
+        $("[name='jurisdiction_code']").iCheck('uncheck');
     });
 
     /**

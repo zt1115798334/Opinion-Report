@@ -1,6 +1,6 @@
 $(function () {
 
-    searchDisplayMenuFun("#li_006","#lli_012");
+    searchDisplayMenuFun("#li_006", "#lli_012");
 
     showMenuTitle("系统管理 / 组织机构");
 
@@ -381,10 +381,14 @@ function searchSysUserPageByCityOrganizationIdFun() {
             align: "center",
             valign: "middle",
             formatter: function (value, row, index) {
+                var userId = row.id;
+                var userAccount = row.userAccount;
                 var _html = "";
                 // _html += "<button class=\"viewBtn\"  type=\"button\" rowId=\"" + row.id + "\">查看</button>";
                 _html += "<button class=\"revise\"  type=\"button\" rowId=\"" + row.id + "\">修改</button>";
-                _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                if (userId != "1" && userAccount != "admin") {
+                    _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
+                }
                 return _html;
             }
         }],
@@ -564,8 +568,8 @@ function validateEditFun() {
                         async: false, //改为同步
                         data: function (validator) {
                             return {
-                                userAccount: $("#userInfoEditForm #userAccount").val(),
-                                userPassword: $("#userInfoEditForm #oldPassword").val()
+                                userAccount: $("#userInfoEditForm #userAccountEdit").val(),
+                                userPassword: $("#userInfoEditForm #oldPasswordEdit").val()
                             }
                         },
                         message: '密码错误，请重新输入'
@@ -679,7 +683,7 @@ function searchSysUserFun(userId) {
         if (result.success) {
             var data = result.data;
             var userAccount = data.userAccount;
-            $("#editUser #userAccount").val(userAccount);
+            $("#editUser #userAccountEdit").val(userAccount);
         } else {
             notify.error({title: "提示", content: result.message});
         }

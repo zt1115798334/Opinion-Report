@@ -175,9 +175,13 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                query.where(builder.and(builder.equal(root.get("expireDate").as(LocalDate.class), reportArticle.getExpireDate())));
-                query.where(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
-                return null;
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(builder.and(builder.equal(root.get("expireDate").as(LocalDate.class), reportArticle.getExpireDate())));
+                predicates.add(builder.and(builder.equal(root.get("adoptState").as(String.class), reportArticle.getAdoptState())));
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Pageable pageable = PageUtils.buildPageRequest(reportArticle.getPageNumber(),
@@ -211,9 +215,13 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                query.where(builder.and(builder.equal(root.get("createdUserId").as(Long.class), createdUserId)));
-                query.where(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
-                return null;
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(builder.and(builder.equal(root.get("createdUserId").as(Long.class), createdUserId)));
+                predicates.add(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
@@ -226,11 +234,15 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+                List<Predicate> predicates = Lists.newArrayList();
                 CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
                 createdUserId.forEach(userid -> in.value(userid));
-                query.where(in);
-                query.where(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
-                return null;
+                predicates.add(in);
+                predicates.add(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
+                Predicate[] pre = new Predicate[predicates.size()];
+                query.where(predicates.toArray(pre));
+
+                return builder.and(predicates.toArray(pre));
             }
         };
         Sort sort = new Sort(Sort.Direction.ASC, "createdDatetime");
