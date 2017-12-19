@@ -483,6 +483,11 @@ public class DataStatisticsController extends BaseController {
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
 
+//        Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
+//                .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
+//                        Collectors.groupingBy(ReportArticle::getReplyType,
+//                                Collectors.summingLong(ReportArticle::getReplyNumber))));
+
         JSONObject result = new JSONObject();
 
         JSONArray dateJSONArray = new JSONArray();
@@ -530,6 +535,11 @@ public class DataStatisticsController extends BaseController {
         Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
                 .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
                         Collectors.groupingBy(ReportArticle::getReplyType, Collectors.counting())));
+
+//        Map<String, Map<String, Long>> replyTypeDateMap = reportArticlesThisWeek.stream()
+//                .collect(Collectors.groupingBy(reportArticle -> DateUtils.formatDate(reportArticle.getCreatedDate()),
+//                        Collectors.groupingBy(ReportArticle::getReplyType,
+//                                Collectors.summingLong(ReportArticle::getReplyNumber))));
 
         JSONObject result = new JSONObject();
 
