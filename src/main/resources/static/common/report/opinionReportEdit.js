@@ -7,8 +7,8 @@ $(function () {
     //实例化编辑器
     var E = window.wangEditor;
     var editor = new E('#editor');
-    editor.customConfig.uploadImgServer = '/wangEditor/upload'  // 上传图片到服务器
-    editor.customConfig.uploadFileName = 'file'
+    editor.customConfig.uploadImgServer = '/wangEditor/upload'; // 上传图片到服务器
+    editor.customConfig.uploadFileName = 'file';
     editor.customConfig.uploadImgHeaders = {
         'Accept': 'application/json'
     }
