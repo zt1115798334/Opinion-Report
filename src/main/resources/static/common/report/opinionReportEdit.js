@@ -88,6 +88,10 @@ function validateFun() {
                     notEmpty: {
                         message: '请输入数值'
                     },
+                    stringLength: {
+                        max: 8,
+                        message: '请输入8位以内数值'
+                    },
                     regexp: {
                         regexp: /^\+?(0|[1-9][0-9]*)$/,
                         message: '只能填写数字'
