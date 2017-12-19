@@ -49,7 +49,6 @@ $(function () {
     });
 
     $(document).on("hidden.bs.modal", "#jurisdiction", function () {
-        console.log("执行清空数据操作");
         $("[name='jurisdiction_code']").iCheck('uncheck');
     });
 

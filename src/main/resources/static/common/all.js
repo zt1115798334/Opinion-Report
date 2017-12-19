@@ -110,5 +110,6 @@ function sidebarSelectFun(p1, p2) {
     var _this = $(p1);
     _this.addClass("current");
     _this.children(".side-list").show();
+    _this.find("b").addClass("up");
     $(p2).addClass("active");
 }
