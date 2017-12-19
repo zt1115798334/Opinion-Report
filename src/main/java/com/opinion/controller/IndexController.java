@@ -197,12 +197,8 @@ public class IndexController extends BaseController {
             String reportCode = reportArticle.getReportCode();
             JSONObject jo = new JSONObject();
             String url = "";
-            String setType;
-            if (type == null) {
-                setType = reportArticle.getType();
-            } else {
-                setType = type;
-            }
+            String setType = type == null
+                    ? reportArticle.getType() : type;
             if (Objects.equal(setType, SysConst.ImportOrExport.IMPORT.getCode())) {
                 url = SysConst.OPINION_REPORT_INFO_URL_INFO;
             } else if (Objects.equal(setType, SysConst.ImportOrExport.EXPORT.getCode())) {
