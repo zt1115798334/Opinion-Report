@@ -257,7 +257,7 @@ public class DateUtils {
      */
     public static LocalDateTime thisWeekInMonday() {
         LocalDateTime currentDatetime = LocalDateTime.now();
-        return dateTimeToZero(currentDatetime.with(previousOrSame(DayOfWeek.TUESDAY)));
+        return dateTimeToZero(currentDatetime.with(previousOrSame(DayOfWeek.MONDAY)));
     }
 
     /**
