@@ -10,6 +10,8 @@ public interface UserFingerprintService {
 
     UserFingerprint save(UserFingerprint userFingerprint);
 
+    UserFingerprint saveDefault();
+
     UserFingerprint findByUserId(Long userId);
 
     boolean deleteByUserId(Long userId);
