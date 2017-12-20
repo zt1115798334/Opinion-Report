@@ -44,6 +44,7 @@ $(function () {
     $(document).on("click", "#fingerprintRegister .saveBtn", function () {
         storeDataToHtml();
         $("#fingerprintRegister").modal("hide");
+        login();
     });
 
     /**
