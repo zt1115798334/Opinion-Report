@@ -8,7 +8,9 @@ import com.opinion.mongodb.entity.UserFingerprint;
  */
 public interface UserFingerprintService {
 
-     void save(UserFingerprint userFingerprint);
+    UserFingerprint save(UserFingerprint userFingerprint);
 
     UserFingerprint findByUserId(Long userId);
+
+    boolean deleteByUserId(Long userId);
 }

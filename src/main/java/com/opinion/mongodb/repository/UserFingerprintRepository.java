@@ -16,4 +16,6 @@ public interface UserFingerprintRepository extends MongoRepository<UserFingerpri
      * @return
      */
     UserFingerprint findByUserId(Long userId);
+
+    void deleteByUserId(Long userId);
 }

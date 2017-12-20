@@ -97,6 +97,26 @@ $(function () {
             delSysUserFun(userId);
         }
     });
+
+    /**
+     * 录入指纹
+     */
+    $(document).on("click", ".fingerprint", function () {
+        myfunction();
+        submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true)
+        var userId = $(this).attr("rowId");
+        $("#userId").val(userId);
+        $("#fingerprint").modal("show");
+    });
+
+    /**
+     * 录入指纹 -- 保存操作
+     */
+    $(document).on("click", "#fingerprint .saveBtn", function () {
+        storeDataToHtml();
+        $("#fingerprint").modal("hide");
+    });
+
 });
 
 /**
@@ -384,11 +404,11 @@ function searchSysUserPageByCityOrganizationIdFun() {
                 var userId = row.id;
                 var userAccount = row.userAccount;
                 var _html = "";
-                // _html += "<button class=\"viewBtn\"  type=\"button\" rowId=\"" + row.id + "\">查看</button>";
                 _html += "<button class=\"revise\"  type=\"button\" rowId=\"" + row.id + "\">修改</button>";
                 if (userId != "1" && userAccount != "admin") {
                     _html += "<button class=\"delete\"  type=\"button\" rowId=\"" + row.id + "\">删除</button>";
                 }
+                _html += "<button class=\"fingerprint\"  type=\"button\" rowId=\"" + row.id + "\">录入指纹</button>";
                 return _html;
             }
         }],

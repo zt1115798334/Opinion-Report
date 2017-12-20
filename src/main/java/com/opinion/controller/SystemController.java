@@ -6,6 +6,8 @@ import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
+import com.opinion.mongodb.entity.UserFingerprint;
+import com.opinion.mongodb.service.UserFingerprintService;
 import com.opinion.mysql.entity.*;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
@@ -13,6 +15,7 @@ import com.opinion.utils.MyDES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -50,6 +53,9 @@ public class SystemController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private UserFingerprintService userFingerprintService;
+
     /**
      * 跳转组织机构页面
      *
@@ -59,6 +65,7 @@ public class SystemController extends BaseController {
     public String organizationStructurePage() {
         return "/system/organizationStructure";
     }
+
 
     /**
      * 跳转角色管理页面
@@ -419,6 +426,22 @@ public class SystemController extends BaseController {
         boolean flag = null != sysUser;
         result.put("valid", flag);
         return result;
+    }
+
+    /**
+     * 保存用户指纹
+     * @param userFingerprint
+     * @return
+     */
+    @RequestMapping(value = "saveFingerprint", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult saveFingerprint(@RequestBody UserFingerprint userFingerprint) {
+        userFingerprint =  userFingerprintService.save(userFingerprint);
+        if (userFingerprint!= null) {
+            return success("指纹保存成功");
+        } else {
+            return fail("指纹保存失败");
+        }
     }
 
     /**
