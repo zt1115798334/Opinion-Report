@@ -1,6 +1,5 @@
 package com.opinion.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.mongodb.entity.UserFingerprint;
@@ -11,24 +10,23 @@ import com.opinion.shiro.ShiroService;
 import com.opinion.utils.MyDES;
 import com.opinion.vcode.Captcha;
 import com.opinion.vcode.GifCaptcha;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -38,6 +36,12 @@ import java.util.Map;
 public class LoginController extends BaseController {
     @Autowired
     ShiroService shiroService;
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private UserFingerprintService userFingerprintService;
 
     /**
      * 首页
@@ -81,6 +85,36 @@ public class LoginController extends BaseController {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             SecurityUtils.getSubject().login(token);
             return success("登录成功");
+        } catch(Exception e) {
+            return fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 指纹登录
+     *
+     * @param fingerprint 指纹
+     * @return
+     */
+    @RequestMapping(value = "ajaxFingerprintLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult ajaxFingerprintLogin(@RequestParam String fingerprint) {
+        List<UserFingerprint> userFingerprints = userFingerprintService.findAll();
+        List<UserFingerprint> success = userFingerprints.stream()
+                .filter(userFingerprint -> userFingerprintService.verificationFingerprint(userFingerprint.getFingerprint(), fingerprint))
+                .collect(Collectors.toList());
+        try {
+            if (success != null && success.size() != 0) {
+                SysUser sysUser = sysUserService.findById(success.get(0).getUserId());
+                String userAccount = sysUser.getUserAccount();
+                String pawDEC = MyDES.decryptBasedDes(sysUser.getUserPassword());
+                String password = pawDEC.substring(0, pawDEC.length() - userAccount.length());
+                UsernamePasswordToken token = new UsernamePasswordToken(userAccount, password, true);
+                SecurityUtils.getSubject().login(token);
+                return success("登录成功");
+            } else {
+                return fail("指纹错误");
+            }
         } catch(Exception e) {
             return fail(e.getMessage());
         }
@@ -132,4 +166,5 @@ public class LoginController extends BaseController {
             System.err.println("获取验证码异常：" + e.getMessage());
         }
     }
+
 }

@@ -97,4 +97,5 @@ public class FingerprintController extends BaseController {
         result.put("userId",sysUser.getId());
         return success(result);
     }
+
 }

@@ -27,7 +27,7 @@ $(function () {
                     submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true);
                     $("#fingerprintRegister").modal("show");
                     $("#userIdM").val(result.data.userId);
-
+                    // login();
                 }
             } else {
                 BootstrapDialog.show({
@@ -50,7 +50,7 @@ $(function () {
      * 录入指纹 -- 验证
      */
     $(document).on("click", "#fingerprintVerification .saveBtn", function () {
-        login();
+        fingerprintLogin();
         $("#fingerprintVerification").modal("hide");
     });
 });
@@ -65,6 +65,26 @@ function login() {
         "rememberMe": rememberMe
     };
     var url = "/ajaxLogin";
+    execAjax(url, param, callback);
+
+    function callback(result) {
+        if (result.success) {
+            window.location.href = "/index";
+        } else {
+            BootstrapDialog.show({
+                title: '提示',
+                message: result.message
+            });
+        }
+    }
+}
+
+function fingerprintLogin() {
+    var fingerprint = $("#fingerprint_val").val();
+    var param = {
+        "fingerprint": fingerprint
+    };
+    var url = "/ajaxFingerprintLogin";
     execAjax(url, param, callback);
 
     function callback(result) {
