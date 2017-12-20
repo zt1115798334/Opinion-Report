@@ -196,6 +196,9 @@
                 <div class="modal-body  text-center">
                     <div class="form-horizontal Margin">
                         <div class="form-body">
+                            <div class="form-group">
+                                注意：只保存录入额第一个指纹
+                            </div>
                             <canvas id="canvas" width="430" height="450"
                                     style="background: rgb(243, 245, 240)"></canvas>
                             <input type="hidden" id="userId">

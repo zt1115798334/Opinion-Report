@@ -1192,7 +1192,8 @@ function getFPTemplate(paramArray, flag) {
                 else if (flag == "verification") {
                     verifyFlag = false;
                     //指纹比对
-                    fpComparison(fpTemplate);
+                    $("#fingerprint_val").val(fpTemplate);
+                    // fpComparison(fpTemplate);
                 }
             }
             else if (ret == -2003) {
@@ -1515,13 +1516,13 @@ function fpVerification(title, downloadPrompt, isDriverInstall, context) {
         //支持html5
         if (typeof(Worker) != "undefined") {
             //createWindow('base_baseFPVerify.do?random=' + getRandomNum() + '^0^0^465^320^'+title);
-            var comparisonDiv = document.getElementById("comparisonDiv");
-            var bg = document.getElementById("bg");
-            comparisonDiv.style.display = "block";//显示内容层，显示覆盖层
-            comparisonDiv.style.left = parseInt((document.documentElement.scrollWidth - comparisonDiv.offsetWidth) / 2) + document.documentElement.scrollLeft + "px";
-            comparisonDiv.style.top = Math.abs(parseInt((document.documentElement.clientHeight - comparisonDiv.offsetHeight) / 2)) + document.documentElement.scrollTop + "px"; //为内容层设置位置
-            bg.style.display = "block";
-            bg.style.height = document.documentElement.scrollHeight + "px";
+            // var comparisonDiv = document.getElementById("comparisonDiv");
+            // var bg = document.getElementById("bg");
+            // comparisonDiv.style.display = "block";//显示内容层，显示覆盖层
+            // comparisonDiv.style.left = parseInt((document.documentElement.scrollWidth - comparisonDiv.offsetWidth) / 2) + document.documentElement.scrollLeft + "px";
+            // comparisonDiv.style.top = Math.abs(parseInt((document.documentElement.clientHeight - comparisonDiv.offsetHeight) / 2)) + document.documentElement.scrollTop + "px"; //为内容层设置位置
+            // bg.style.display = "block";
+            // bg.style.height = document.documentElement.scrollHeight + "px";
             isComp = true;
             //开始采集
             //beginCapture(context);
@@ -1627,14 +1628,14 @@ function cancelCaptureBeforeClose(browserFlag) {
  * @author wenxin
  * @create 2013-08-05 15:19:11 pm
  */
-function formSubmit(id) {
-
-    $('#' + id).serialize();
-    $('#' + id).ajaxForm(function (data) {
-        callBackFormSubmit(data);
-    });
-    $('#' + id).submit(); //表单提交。
-}
+// function formSubmit(id) {
+//
+//     $('#' + id).serialize();
+//     $('#' + id).ajaxForm(function (data) {
+//         callBackFormSubmit(data);
+//     });
+//     $('#' + id).submit(); //表单提交。
+// }
 
 /**
  * 保存指纹到mongodb中

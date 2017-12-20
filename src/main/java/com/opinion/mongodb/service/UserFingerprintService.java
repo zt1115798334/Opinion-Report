@@ -13,4 +13,6 @@ public interface UserFingerprintService {
     UserFingerprint findByUserId(Long userId);
 
     boolean deleteByUserId(Long userId);
+
+    boolean verificationFingerprint(Long userId,String fingerprint);
 }

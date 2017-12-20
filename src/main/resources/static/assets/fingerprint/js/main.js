@@ -149,7 +149,8 @@ function checkColl()
 		dataType : "json",
 		async: true,
 		success : function(result) 
-		{debugger;
+		{
+            // debugger,
 			//alert(objToStr(data));
 			//指纹采集次数
 			var collCount = 0;

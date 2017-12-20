@@ -103,7 +103,7 @@ $(function () {
      */
     $(document).on("click", ".fingerprint", function () {
         myfunction();
-        submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true)
+        submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true);
         var userId = $(this).attr("rowId");
         $("#userId").val(userId);
         $("#fingerprint").modal("show");

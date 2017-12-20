@@ -63,7 +63,37 @@
         </div>
     </div>
 </div>
+
+<div id="fingerprint" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header logocbg">
+                <h5 class="modal-title colorwhite">录入指纹</h5>
+            </div>
+            <div class="modal-body  text-center">
+                <div class="form-horizontal Margin">
+                    <div class="form-body">
+                        <canvas id="canvasComp" width="430" height="320"
+                                style="background: url('/assets/fingerprint/image/base_fpVerify.jpg') rgb(243, 245, 240);"></canvas>
+                        <input type="hidden" id="fingerprint_val">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                    <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <#include "/public/footer.ftl"/>
+<script type="text/javascript" src="/assets/fingerprint/js/main.js"></script>
+<script type="text/javascript" src="/assets/fingerprint/js/fingerprint.js"></script>
+<script type="text/javascript" src="/assets/fingerprint/js/baseMoth.js"></script>
+<script type="text/javascript" src="/assets/fingerprint/js/dhtmlxCommon.js"></script>
 <script src="/common/utils.js"></script>
 <#--<script src="/common/finger.js"></script>-->
 <script src="/common/login.js"></script>
