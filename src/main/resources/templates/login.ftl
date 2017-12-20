@@ -59,6 +59,7 @@
                     </label>
                 </div>
                 <input type="button" class="btn btn-default btn-info login-btn" onclick="" value="登录" />
+                <a class="pull-right loadBtn" href="/down/ZKBIOOnline">下载驱动</a>
             </form>
         </div>
     </div>

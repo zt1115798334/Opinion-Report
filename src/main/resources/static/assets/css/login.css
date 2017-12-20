@@ -164,6 +164,10 @@ form .btn:hover {
     color: #fff;
 }
 
+.loadBtn{
+    margin: 10px 160px 10px 0;
+
+}
 /*左侧动画区域*/
 .login-left {
     float: left;
