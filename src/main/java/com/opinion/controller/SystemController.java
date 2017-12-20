@@ -53,9 +53,6 @@ public class SystemController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
 
-    @Autowired
-    private UserFingerprintService userFingerprintService;
-
     /**
      * 跳转组织机构页面
      *
@@ -428,21 +425,6 @@ public class SystemController extends BaseController {
         return result;
     }
 
-    /**
-     * 保存用户指纹
-     * @param userFingerprint
-     * @return
-     */
-    @RequestMapping(value = "saveFingerprint", method = RequestMethod.POST)
-    @ResponseBody
-    public AjaxResult saveFingerprint(@RequestBody UserFingerprint userFingerprint) {
-        userFingerprint =  userFingerprintService.save(userFingerprint);
-        if (userFingerprint!= null) {
-            return success("指纹保存成功");
-        } else {
-            return fail("指纹保存失败");
-        }
-    }
 
     /**
      * 删除用户信息

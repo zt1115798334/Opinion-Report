@@ -1,7 +1,9 @@
 package com.opinion.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
+import com.opinion.mongodb.entity.UserFingerprint;
 import com.opinion.mongodb.service.UserFingerprintService;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.service.SysUserService;
@@ -17,10 +19,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,12 +38,6 @@ import java.util.Map;
 public class LoginController extends BaseController {
     @Autowired
     ShiroService shiroService;
-
-    @Autowired
-    private SysUserService sysUserService;
-
-    @Autowired
-    private UserFingerprintService userFingerprintService;
 
     /**
      * 首页
@@ -80,23 +73,11 @@ public class LoginController extends BaseController {
     @ResponseBody
     public AjaxResult ajaxLogin(@RequestParam String username,
                                 @RequestParam String password,
-                                @RequestParam Boolean rememberMe,
-                                @RequestParam String fingerprint) {
+                                @RequestParam Boolean rememberMe) {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return fail("请输入账户,密码");
         }
         try {
-            String paw = password + username;
-            String pawDES = MyDES.encryptBasedDes(paw);
-            // 从数据库获取对应用户名密码的用户
-            SysUser sysUser = sysUserService.findByUserAccountAndUserPassword(username, pawDES);
-            if (sysUser == null) {
-                throw new AccountException("帐号或密码不正确！");
-            }
-            boolean verificationStatus = userFingerprintService.verificationFingerprint(sysUser.getId(), fingerprint);
-            if (!verificationStatus) {
-                return fail("你录入的指纹不对！！");
-            }
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             SecurityUtils.getSubject().login(token);
             return success("登录成功");
@@ -151,5 +132,4 @@ public class LoginController extends BaseController {
             System.err.println("获取验证码异常：" + e.getMessage());
         }
     }
-
 }

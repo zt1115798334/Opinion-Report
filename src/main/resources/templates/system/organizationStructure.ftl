@@ -187,41 +187,8 @@
         </form>
     </div>
 </div>
-<div id="fingerprint" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header logocbg">
-                    <h5 class="modal-title colorwhite">录入指纹</h5>
-                </div>
-                <div class="modal-body  text-center">
-                    <div class="form-horizontal Margin">
-                        <div class="form-body">
-                            <div class="form-group">
-                                注意：只保存录入额第一个指纹
-                            </div>
-                            <canvas id="canvas" width="430" height="450"
-                                    style="background: rgb(243, 245, 240)"></canvas>
-                            <input type="hidden" id="userId">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
-                        <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
-                    </div>
-                </div>
-            </div>
-    </div>
-</div>
 
 <#include "/public/publicJs.ftl"/>
-
-<script type="text/javascript" src="/assets/fingerprint/js/main.js"></script>
-<script type="text/javascript" src="/assets/fingerprint/js/fingerprint.js"></script>
-<script type="text/javascript" src="/assets/fingerprint/js/baseMoth.js"></script>
-<script type="text/javascript" src="/assets/fingerprint/js/dhtmlxCommon.js"></script>
-
 
 <script src="/common/system/organizationStructure.js?v=11"></script>
 </body>

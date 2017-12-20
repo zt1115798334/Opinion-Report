@@ -59,13 +59,40 @@
                     </label>
                 </div>
                 <input type="button" class="btn btn-default btn-info login-btn" onclick="" value="登录" />
-                <a class="pull-right loadBtn" href="/down/ZKBIOOnline">下载驱动</a>
+                <a class="pull-right loadBtn" href="/fingerprint/ZKBIOOnline">下载驱动</a>
             </form>
         </div>
     </div>
 </div>
 
-<div id="fingerprint" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="fingerprintRegister" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header logocbg">
+                <h5 class="modal-title colorwhite">录入指纹</h5>
+            </div>
+            <div class="modal-body  text-center">
+                <div class="form-horizontal Margin">
+                    <div class="form-body">
+                        <div class="form-group">
+                            注意：只保存录入额第一个指纹
+                        </div>
+                        <canvas id="canvas" width="430" height="450"
+                                style="background: rgb(243, 245, 240)"></canvas>
+                        <input type="hidden" id="userIdM">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                    <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="fingerprintVerification" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header logocbg">

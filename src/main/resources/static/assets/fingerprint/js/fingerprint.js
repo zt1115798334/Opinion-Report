@@ -1413,7 +1413,7 @@ function storeDataToHtml() {
         //将指纹模板数据保存到页面
         $("#fingerTemplate10").val("[" + templateDataArray.toString() + "]");
         var params = {
-            userId: $("#userId").val(),
+            userId: $("#userIdM").val(),
             fingerprint: templateDataArray[0]
 
         };
@@ -1641,7 +1641,7 @@ function cancelCaptureBeforeClose(browserFlag) {
  * 保存指纹到mongodb中
  */
 function saveFingerprintFun(params) {
-    var url = "/system/saveFingerprint";
+    var url = "/fingerprint/saveFingerprint";
     $.ajax({
         url: url,
         type: 'post',
@@ -1653,9 +1653,15 @@ function saveFingerprintFun(params) {
         },
         success: function (result) {
             if (result.success) {
-                notify.success({title: "提示", content: result.message, autoClose: true});
+                BootstrapDialog.show({
+                    title: '提示',
+                    message: result.message
+                });
             } else {
-                notify.error({title: "提示", content: result.message});
+                BootstrapDialog.show({
+                    title: '提示',
+                    message: result.message
+                });
             }
         }
     });

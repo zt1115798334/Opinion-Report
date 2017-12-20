@@ -7,29 +7,62 @@ $(function () {
 
 
     $(document).on("click", ".login-btn", function () {
-        myfunction();
-        fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
-        $("#fingerprint").modal("show");
-        // login();
+        var url = "/fingerprint/isExistFingerprint";
+        var username = $("#txt_username").val();
+        var password = $("#txt_password").val();
+        var param = {
+            "username": username,
+            "password": password
+        };
+        execAjax(url, param, callback);
+
+        function callback(result) {
+            if (result.success) {
+                var isExists = result.data.isExist;
+                myfunction();
+                if(isExists){   //存在指纹
+                    fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
+                    $("#fingerprintVerification").modal("show");
+                }else{  //  不存在指纹
+                    submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true);
+                    $("#fingerprintRegister").modal("show");
+                    $("#userIdM").val(result.data.userId);
+
+                }
+            } else {
+                BootstrapDialog.show({
+                    title: '提示',
+                    message: result.message
+                });
+            }
+        }
     });
 
-    $(document).on("click", "#fingerprint .saveBtn", function () {
+    /**
+     * 录入指纹 -- 保存操作
+     */
+    $(document).on("click", "#fingerprintRegister .saveBtn", function () {
+        storeDataToHtml();
+        $("#fingerprintRegister").modal("hide");
+    });
+
+    /**
+     * 录入指纹 -- 验证
+     */
+    $(document).on("click", "#fingerprintVerification .saveBtn", function () {
         login();
-        $("#fingerprint").modal("hide");
+        $("#fingerprintVerification").modal("hide");
     });
 });
 
 function login() {
-
     var username = $("#txt_username").val();
     var password = $("#txt_password").val();
     var rememberMe = $('#txt_rememberMe').is(':checked');
-    var fingerprint = $("#fingerprint_val").val();
     var param = {
         "username": username,
         "password": password,
-        "rememberMe": rememberMe,
-        "fingerprint": fingerprint
+        "rememberMe": rememberMe
     };
     var url = "/ajaxLogin";
     execAjax(url, param, callback);
