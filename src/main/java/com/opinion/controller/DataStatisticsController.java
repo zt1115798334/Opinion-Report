@@ -94,7 +94,6 @@ public class DataStatisticsController extends BaseController {
      */
     @RequestMapping(value = "dataStatisticsPage", method = RequestMethod.GET)
     public String dataStatisticsPage() {
-        System.out.println("跳转信息统计页面");
         return "/dataStatistics/dataStatistics";
     }
 
