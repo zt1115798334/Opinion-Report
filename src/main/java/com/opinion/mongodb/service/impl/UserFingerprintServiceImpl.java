@@ -1,5 +1,6 @@
 package com.opinion.mongodb.service.impl;
 
+import com.google.common.base.Objects;
 import com.opinion.mongodb.entity.UserFingerprint;
 import com.opinion.mongodb.repository.UserFingerprintRepository;
 import com.opinion.mongodb.service.UserFingerprintService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import zk.jni.JavaToBiokey;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -22,6 +24,15 @@ public class UserFingerprintServiceImpl implements UserFingerprintService {
     @Override
     public UserFingerprint save(UserFingerprint userFingerprint) {
         this.deleteByUserId(userFingerprint.getUserId());
+        String fingerprint = userFingerprint.getFingerprint();
+        List<UserFingerprint> matchingFingerprint = this.findAll()
+                .stream()
+                .filter(cf -> !Objects.equal(cf.getFingerprint(), fingerprint))
+                .filter(cf -> this.verificationFingerprint(cf.getFingerprint(), fingerprint))
+                .collect(Collectors.toList());
+        if (matchingFingerprint != null && matchingFingerprint.size() > 0) {
+            return null;
+        }
         return userFingerprintRepository.save(userFingerprint);
     }
 
