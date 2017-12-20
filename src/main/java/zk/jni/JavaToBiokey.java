@@ -44,18 +44,6 @@ public class JavaToBiokey {
 			int AOneToOneThreshold);
 
     static {
-//		System.loadLibrary("matchdll");
-//        String path = "/application.properties";
-//        String path = System.getProperty("user.dir") + File.separator + "application.properties";
-//        System.out.println("path = " + path);
-//        Resource resource = new PathResource(path);
-//        try {
-//            props = PropertiesLoaderUtils.loadProperties(resource);
-//        } catch(IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.load(props.getProperty("path.matchdll"));
-//        System.load("D:\\log\\matchdll.dll");
-        System.load("C:\\Program Files (x86)\\FPOnline\\bin\\matchdll.dll");
+		System.loadLibrary("matchdll");
     }
 }
