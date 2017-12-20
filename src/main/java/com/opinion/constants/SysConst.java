@@ -30,6 +30,8 @@ public class SysConst {
 
     public final static Integer SPLIT_LEN = 10;
 
+    public static final String ENCODING_ISO_8859_1 = "ISO-8859-1";
+
     public enum LoginStatus {
 
         EFFECTIVE("effective", "有效"),

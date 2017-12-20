@@ -9,21 +9,25 @@ import com.opinion.shiro.ShiroService;
 import com.opinion.utils.MyDES;
 import com.opinion.vcode.Captcha;
 import com.opinion.vcode.GifCaptcha;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import zk.jni.JavaToBiokey;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -91,7 +95,7 @@ public class LoginController extends BaseController {
             }
             boolean verificationStatus = userFingerprintService.verificationFingerprint(sysUser.getId(), fingerprint);
             if (!verificationStatus) {
-                return fail("你录入的指纹不对，快把手剁了吧！！");
+                return fail("你录入的指纹不对！！");
             }
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             SecurityUtils.getSubject().login(token);

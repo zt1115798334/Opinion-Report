@@ -1,12 +1,6 @@
 package zk.jni;
 
 
-import org.springframework.core.io.PathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -40,10 +34,10 @@ public class JavaToBiokey {
      * 	AThreshold: 10 as default The larger the value the greater the rejection rate
      * 	AOneToOneThreshold: 10 as default
      */
-	public native static void NativeToSetThreshold(int AThreshold,
-			int AOneToOneThreshold);
+    public native static void NativeToSetThreshold(int AThreshold,
+                                                   int AOneToOneThreshold);
 
     static {
-		System.loadLibrary("matchdll");
+        System.loadLibrary("matchdll");
     }
 }
