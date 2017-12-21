@@ -19,12 +19,12 @@ $(function () {
         searchSysRoleFun();
     });
 
-    document.onkeydown = function (e) {
-        var ev = document.all ? window.event : e;
-        if (ev.keyCode == 13) {
-            searchSysRoleFun();
-        }
-    };
+    // document.onkeydown = function (e) {
+    //     var ev = document.all ? window.event : e;
+    //     if (ev.keyCode == 13) {
+    //         searchSysRoleFun();
+    //     }
+    // };
 
     /**
      * 新建用户
