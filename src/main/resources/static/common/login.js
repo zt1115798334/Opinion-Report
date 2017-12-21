@@ -5,7 +5,7 @@ $(function () {
         increaseArea: '20%' // optional
     });
 
-
+    myfunction();
     $(document).on("click", ".login-btn", function () {
         var url = "/fingerprint/isExistFingerprint";
         var username = $("#txt_username").val();
@@ -19,15 +19,14 @@ $(function () {
         function callback(result) {
             if (result.success) {
                 var isExists = result.data.isExist;
-                myfunction();
                 if(isExists){   //存在指纹
-                    fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
-                    $("#fingerprintVerification").modal("show");
+                    // fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
+                    // $("#fingerprintVerification").modal("show");
+                    login();
                 }else{  //  不存在指纹
                     submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true);
                     $("#fingerprintRegister").modal("show");
                     $("#userIdM").val(result.data.userId);
-                    // login();
                 }
             } else {
                 BootstrapDialog.show({
@@ -44,7 +43,7 @@ $(function () {
     $(document).on("click", "#fingerprintRegister .saveBtn", function () {
         storeDataToHtml();
         $("#fingerprintRegister").modal("hide");
-        login();
+
     });
 
     /**
