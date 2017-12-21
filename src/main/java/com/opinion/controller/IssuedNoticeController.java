@@ -242,7 +242,7 @@ public class IssuedNoticeController extends BaseController {
                 .forEach(issuedNoticeLog -> {
                     JSONObject jo = new JSONObject();
                     String RReceiptStateVal = SysConst.getReceiptStateByCode(issuedNoticeLog.getReceiptState()).getName();
-                    SysUser sysUser = sysUserService.findById(issuedNoticeLog.getCreatedUserId());
+                    SysUser sysUser = sysUserService.findById(issuedNoticeLog.getReceiptUserId());
                     StringBuilder sb = new StringBuilder();
                     sb.append("用户：").append(sysUser.getUserName()).append(RReceiptStateVal);
                     jo.put("msg", sb.toString());
