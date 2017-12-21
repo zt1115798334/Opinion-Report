@@ -987,7 +987,7 @@ function collectTips(context, text, browserFlag) {
 
         //文字右对齐
         context.fillStyle = "rgb(122,193,66)";
-        context.font = "12px Arial,微软雅黑";
+        context.font = "13px Arial,微软雅黑";
         //context.shadowColor = 'white';
         //context.shadowBlur = 10;
         //context.strokeText(text, 230, 30);
@@ -1021,7 +1021,7 @@ function collectTips(context, text, browserFlag) {
 
         //文字右对齐
         context.fillStyle = "rgb(122,193,66)";
-        context.font = "24px Arial,微软雅黑";
+        context.font = "14px Arial,微软雅黑";
         context.textAlign = "center";
         //自动换行
         autoWordBreak(context, text, canvasWidth, x);
