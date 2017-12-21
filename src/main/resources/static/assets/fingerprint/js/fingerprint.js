@@ -799,13 +799,13 @@ function showImage(context, base64FPImg, browserFlag) {
             // 开始创建路径
             context.beginPath();
             // 画一个椭圆
-            context.oval(92, 159, 100, 128);
+            context.oval(72, 72, 100, 128);
             // 关闭路径
             context.closePath();
             // 剪切路径
             context.clip();
             //将图片画到画布上
-            context.drawImage(img, 37, 90, 112, 145);
+            context.drawImage(img, 22, 8, 112, 145);
             //调用restore最后一次存储的状态会被恢复
             context.restore();
         }

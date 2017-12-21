@@ -5,6 +5,14 @@ $(function () {
         increaseArea: '20%' // optional
     });
 
+    /*方式切换*/
+    $("#fingerPrintBtn").on("click",function () {
+        $("#accountsForm").toggle();
+        $("#fingerPrintDiv").toggle();
+        $("#fingerprint_val").val("");
+        fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
+    });
+
     myfunction();
     $(document).on("click", ".login-btn", function () {
         var url = "/fingerprint/isExistFingerprint";
@@ -20,8 +28,6 @@ $(function () {
             if (result.success) {
                 var isExists = result.data.isExist;
                 if(isExists){   //存在指纹
-                    // fpVerification("指纹比对", "请安装指纹驱动或启动服务", true, globalContext);
-                    // $("#fingerprintVerification").modal("show");
                     login();
                 }else{  //  不存在指纹
                     submitRegister("指纹", "指纹数:", "确认保存当前修改吗？", "驱动下载", true);
@@ -38,6 +44,14 @@ $(function () {
     });
 
     /**
+     * 指纹登录
+     */
+
+    $(document).on("click",".fingerprintLogin-btn",function () {
+        fingerprintLogin();
+    });
+
+    /**
      * 录入指纹 -- 保存操作
      */
     $(document).on("click", "#fingerprintRegister .saveBtn", function () {
@@ -46,13 +60,6 @@ $(function () {
 
     });
 
-    /**
-     * 录入指纹 -- 验证
-     */
-    $(document).on("click", "#fingerprintVerification .saveBtn", function () {
-        fingerprintLogin();
-        $("#fingerprintVerification").modal("hide");
-    });
 });
 
 function login() {

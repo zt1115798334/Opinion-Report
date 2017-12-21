@@ -42,9 +42,11 @@
             <div class="font">
                 基层舆情上报系统
             </div>
+            <!--指纹入口点 fingerPrintBtn-->
+            <a id="fingerPrintBtn" href="javascript:void(0)"><img  class="fingerPrint" src="/assets/images/fingerPrint_03.png" alt=""></a>
         </div>
         <div class="login">
-            <form action="">
+            <form action="" id="accountsForm">
                 <div class="accounts">
                     <span class="glyphicon glyphicon-user"></span>
                     <input type="text" placeholder="帐号" maxlength="100" id="txt_username" value="" />
@@ -59,8 +61,18 @@
                     </label>
                 </div>
                 <input type="button" class="btn btn-default btn-info login-btn" onclick="" value="登录" />
-                <a class="pull-right loadBtn" href="/fingerprint/ZKBIOOnline">下载驱动</a>
             </form>
+            <!--指纹-->
+            <div id="fingerPrintDiv">
+                <h5 class="text-center tip">请水平按压手指验证</h5>
+                <div class="fingerPrints">
+                    <canvas id="canvasComp" width="145" height="145"
+                            style=""></canvas>
+                    <input type="hidden" id="fingerprint_val">
+                </div>
+                <input type="button" class="btn btn-default btn-info fingerprintLogin-btn" onclick="" value="指纹登录" />
+            </div>
+            <a class="pull-right loadBtn" href="/fingerprint/ZKBIOOnline">下载驱动</a>
         </div>
     </div>
 </div>
@@ -77,7 +89,7 @@
                         <div class="form-group">
                             注意：只保存录入额第一个指纹
                         </div>
-                        <canvas id="canvas" width="430" height="450"
+                        <canvas id="canvas" width="430" height="380"
                                 style="background: rgb(243, 245, 240)"></canvas>
                         <input type="hidden" id="userIdM">
                     </div>
@@ -85,32 +97,8 @@
             </div>
             <div class="modal-footer">
                 <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
-                    <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="fingerprintVerification" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header logocbg">
-                <h5 class="modal-title colorwhite">录入指纹</h5>
-            </div>
-            <div class="modal-body  text-center">
-                <div class="form-horizontal Margin">
-                    <div class="form-body">
-                        <canvas id="canvasComp" width="430" height="320"
-                                style="background: url('/assets/fingerprint/image/base_fpVerify.jpg') rgb(243, 245, 240);"></canvas>
-                        <input type="hidden" id="fingerprint_val">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
-                    <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
+                    <button type="button" class="saveBtn">确认</button>
+                    <button type="button" class="" data-dismiss="modal">取消</button>
                 </div>
             </div>
         </div>

@@ -70,15 +70,33 @@ input:-webkit-autofill {
 
 .login-information .top {
     text-align: center;
-    height: 70px;
+    height: 60px;
     margin-top: 40px;
+    position: relative;
 }
 .top .font {
     font-size: 36px;
     color: #fff;
 }
+.fingerPrint{
+    width: 60px;
+    position: absolute;
+    right: 0;
+    top:-40px;
+}
+.tip{
+    color: #fff;
+}
+#fingerPrintDiv{
+   display: none;
+}
+.fingerPrints{
+    width: 145px;
+    height: 145px;
+    border: 1px solid #fff;
+    margin: 5px auto 8px auto;
+}
 .login {
-    height: 200px;
     width: 370px;
     margin: 0 auto;
     z-index: 1;
@@ -139,7 +157,7 @@ input:-webkit-autofill {
     margin: 20px auto
 }
 
-form .btn {
+.btn {
     width: 320px;
     height: 40px;
     background: #00d8d4;
@@ -148,7 +166,7 @@ form .btn {
     margin-left: 25px;
 }
 
-form .btn:hover {
+.btn:hover {
     width: 320px;
     height: 40px;
     background: linear-gradient(  #7df9f7,#00d8d4);
@@ -158,6 +176,7 @@ form .btn:hover {
 }
 .checkbox{
     padding-left: 25px;
+    margin-bottom: 15px;
 }
 .checkbox label {
     padding-left: 0px;

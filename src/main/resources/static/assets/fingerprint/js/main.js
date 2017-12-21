@@ -11,7 +11,7 @@ var model = "2";
 //绘画双手的起点横坐标
 var x = 28;
 //绘画双手的起点纵坐标
-var y = 346;
+var y = 326;
 //存放画手指函数的数组
 var fingerList = [];
 //保存当前正在采集的手指标记--删除时，消除当前正在采集的手指颜色时用到
@@ -342,7 +342,7 @@ function dataInitComp()
 	
 	//${base_fp_verifyInfo}:请水平按压手指验证
 	//显示框--采集提示
-	collectTips(context, "请水平按压手指验证", "verification");
+	collectTips(context, "", "verification");
 	
 	//开始采集
 	beginCapture(context);
