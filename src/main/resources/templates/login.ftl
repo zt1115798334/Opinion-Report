@@ -81,7 +81,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header logocbg">
-                <h5 class="modal-title colorwhite">录入指纹</h5>
+                <h5 class="modal-title colorwhite">初始化用户指纹</h5>
             </div>
             <div class="modal-body  text-center">
                 <div class="form-horizontal Margin">
