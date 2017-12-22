@@ -30,7 +30,6 @@ public class ExpirationOperationDataTask {
      * @Scheduled(fixedDelay = 3600000)
      */
     @Scheduled(cron = "0 00 23 * * ?")
-//    @Scheduled(fixedDelay = 14400000)   //四个小时执行一次
     public void execute() {
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setExpireDate(DateUtils.currentDate());
