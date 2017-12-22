@@ -177,6 +177,18 @@ public class DateUtils {
     }
 
     /**
+     * 时分秒归零
+     *
+     * @param dateTime
+     * @return
+     */
+    public static LocalDateTime dateTimeToEnd(LocalDateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        LocalTime time = LocalTime.of(23, 59, 59);
+        return date.atTime(time);
+    }
+
+    /**
      * 当前日期前七天日期
      *
      * @return
@@ -247,7 +259,7 @@ public class DateUtils {
      */
     public static LocalDateTime thisWeekInSunday() {
         LocalDateTime currentDatetime = LocalDateTime.now();
-        return currentDatetime.with(nextOrSame(DayOfWeek.SUNDAY));
+        return dateTimeToEnd(currentDatetime.with(nextOrSame(DayOfWeek.SUNDAY)));
     }
 
     /**
@@ -261,17 +273,18 @@ public class DateUtils {
     }
 
     /**
-     * 获取本周周一日期
+     * 获取上周周一日期
      *
      * @return
      */
     public static LocalDateTime previousWeekInMonday() {
         LocalDateTime thisWeekInMonday = thisWeekInMonday();
-        return dateTimeAddDay(-8L, thisWeekInMonday);
+        return dateTimeAddDay(-7L, thisWeekInMonday);
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(previousWeekInMonday());
-//        System.out.println(thisWeekInMonday());
-//    }
+    public static void main(String[] args) {
+        System.out.println("本周日：" + thisWeekInSunday());
+        System.out.println("本周一时间" + thisWeekInMonday());
+        System.out.println("上周一时间" + previousWeekInMonday());
+    }
 }
