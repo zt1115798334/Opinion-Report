@@ -2,6 +2,7 @@ package com.opinion.base.bean;
 
 
 import javax.persistence.Transient;
+import java.time.LocalDateTime;
 
 /**
  * @author zhangtong
@@ -32,12 +33,17 @@ public abstract class BaseSortRequest {
     @Transient
     private int pageSize;
 
-//    @Transient
-//    private LocalDateTime startDateTime;
-//
-//    @Transient
-//    private LocalDateTime endDateTime;
+    @Transient
+    private String startDateTimeStr;
 
+    @Transient
+    private String endDateTimeStr;
+
+    @Transient
+    private LocalDateTime startDateTime;
+
+    @Transient
+    private LocalDateTime endDateTime;
 
 
     public String getSortName() {
@@ -72,19 +78,35 @@ public abstract class BaseSortRequest {
         this.pageSize = pageSize;
     }
 
-//    public LocalDateTime getStartDateTime() {
-//        return startDateTime;
-//    }
-//
-//    public void setStartDateTime(LocalDateTime startDateTime) {
-//        this.startDateTime = startDateTime;
-//    }
-//
-//    public LocalDateTime getEndDateTime() {
-//        return endDateTime;
-//    }
-//
-//    public void setEndDateTime(LocalDateTime endDateTime) {
-//        this.endDateTime = endDateTime;
-//    }
+    public String getStartDateTimeStr() {
+        return startDateTimeStr;
+    }
+
+    public void setStartDateTimeStr(String startDateTimeStr) {
+        this.startDateTimeStr = startDateTimeStr;
+    }
+
+    public String getEndDateTimeStr() {
+        return endDateTimeStr;
+    }
+
+    public void setEndDateTimeStr(String endDateTimeStr) {
+        this.endDateTimeStr = endDateTimeStr;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
+    }
 }
