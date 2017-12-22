@@ -119,6 +119,11 @@ public class ReportArticleServiceImpl implements ReportArticleService {
                 if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
                     predicates.add(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType()));
                 }
+                if (StringUtils.isNotEmpty(reportArticle.getStartDateTimeStr())
+                        && StringUtils.isNotEmpty(reportArticle.getEndDateTimeStr())) {
+                    predicates.add(builder.between(root.get("createdDatetime").as(LocalDateTime.class),
+                            reportArticle.getStartDateTime(), reportArticle.getEndDateTime()));
+                }
 
                 Predicate[] pre = new Predicate[predicates.size()];
                 query.where(predicates.toArray(pre));
@@ -155,6 +160,11 @@ public class ReportArticleServiceImpl implements ReportArticleService {
                 }
                 if (StringUtils.isNotEmpty(reportArticle.getSourceType())) {
                     predicates.add(builder.equal(root.get("sourceType").as(String.class), reportArticle.getSourceType()));
+                }
+                if (StringUtils.isNotEmpty(reportArticle.getStartDateTimeStr())
+                        && StringUtils.isNotEmpty(reportArticle.getEndDateTimeStr())) {
+                    predicates.add(builder.between(root.get("createdDatetime").as(LocalDateTime.class),
+                            reportArticle.getStartDateTime(), reportArticle.getEndDateTime()));
                 }
                 Predicate[] pre = new Predicate[predicates.size()];
                 query.where(predicates.toArray(pre));
