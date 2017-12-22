@@ -21,11 +21,10 @@ public abstract class BasePageHandler<T> {
 
             prepareFilterObject(filterObject);
 
-            int corePoolSize = 5;
             ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                     .setNameFormat("demo-pool-%d").build();
-            ExecutorService executor = new ThreadPoolExecutor(corePoolSize, 10,
-                    0L, TimeUnit.MILLISECONDS,
+            ExecutorService executor = new ThreadPoolExecutor(80, 92,
+                    1L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
             int total = 0;
             int count = handleData(executor);
