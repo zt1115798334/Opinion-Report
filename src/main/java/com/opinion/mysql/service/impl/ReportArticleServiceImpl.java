@@ -246,7 +246,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 CriteriaBuilder.In<Long> in = builder.in(root.get("createdUserId").as(Long.class));
-                createdUserId.forEach(userid -> in.value(userid));
+                createdUserId.forEach(userId -> in.value(userId));
                 predicates.add(in);
                 predicates.add(builder.between(root.get("createdDatetime").as(LocalDateTime.class), startDateTime, endDateTime));
                 Predicate[] pre = new Predicate[predicates.size()];
