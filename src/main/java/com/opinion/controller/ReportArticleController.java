@@ -119,6 +119,11 @@ public class ReportArticleController extends BaseController {
             reportArticle.setSortName("publishDatetime");
             reportArticle.setSortOrder("desc");
         }
+        if (StringUtils.isNotEmpty(reportArticle.getStartDateTimeStr())
+                && StringUtils.isNotEmpty(reportArticle.getEndDateTimeStr())) {
+            reportArticle.setStartDateTime(DateUtils.dateToZero(DateUtils.parseDate(reportArticle.getStartDateTimeStr())));
+            reportArticle.setEndDateTime(DateUtils.dateToZero(DateUtils.parseDate(reportArticle.getEndDateTimeStr())));
+        }
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);
         Page<ReportArticle> page = reportArticleService.findPageByCreateUser(reportArticle);
@@ -138,6 +143,11 @@ public class ReportArticleController extends BaseController {
         if (StringUtils.isEmpty(reportArticle.getSortName())) {
             reportArticle.setSortName("publishDatetime");
             reportArticle.setSortOrder("desc");
+        }
+        if (StringUtils.isNotEmpty(reportArticle.getStartDateTimeStr())
+                && StringUtils.isNotEmpty(reportArticle.getEndDateTimeStr())) {
+            reportArticle.setStartDateTime(DateUtils.dateToZero(DateUtils.parseDate(reportArticle.getStartDateTimeStr())));
+            reportArticle.setEndDateTime(DateUtils.dateToZero(DateUtils.parseDate(reportArticle.getEndDateTimeStr())));
         }
         Long userId = new SysUserConst().getUserId();
         reportArticle.setCreatedUserId(userId);

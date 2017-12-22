@@ -127,6 +127,11 @@ public class IssuedNoticeController extends BaseController {
             issuedNotice.setSortName("publishDatetime");
             issuedNotice.setSortOrder("desc");
         }
+        if (StringUtils.isNotEmpty(issuedNotice.getStartDateTimeStr())
+                && StringUtils.isNotEmpty(issuedNotice.getEndDateTimeStr())) {
+            issuedNotice.setStartDateTime(DateUtils.dateToZero(DateUtils.parseDate(issuedNotice.getStartDateTimeStr())));
+            issuedNotice.setEndDateTime(DateUtils.dateToZero(DateUtils.parseDate(issuedNotice.getEndDateTimeStr())));
+        }
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setReceiptUserId(userId);
         List<IssuedNoticeLog> issuedNoticeLogs = issuedNoticeLogService.findListByReceiptUserId(userId);
@@ -150,6 +155,11 @@ public class IssuedNoticeController extends BaseController {
         if (StringUtils.isEmpty(issuedNotice.getSortName())) {
             issuedNotice.setSortName("publishDatetime");
             issuedNotice.setSortOrder("desc");
+        }
+        if (StringUtils.isNotEmpty(issuedNotice.getStartDateTimeStr())
+                && StringUtils.isNotEmpty(issuedNotice.getEndDateTimeStr())) {
+            issuedNotice.setStartDateTime(DateUtils.dateToZero(DateUtils.parseDate(issuedNotice.getStartDateTimeStr())));
+            issuedNotice.setEndDateTime(DateUtils.dateToZero(DateUtils.parseDate(issuedNotice.getEndDateTimeStr())));
         }
         Long userId = new SysUserConst().getUserId();
         issuedNotice.setCreatedUserId(userId);

@@ -164,6 +164,11 @@ public class DateUtils {
         return Duration.between(dateTime, currentDatetime).toMillis();
     }
 
+    public static LocalDateTime dateToZero(LocalDate date) {
+        LocalTime time = LocalTime.of(0, 0, 0);
+        return date.atTime(time);
+    }
+
     /**
      * 时分秒归零
      *
@@ -173,6 +178,17 @@ public class DateUtils {
     public static LocalDateTime dateTimeToZero(LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalTime time = LocalTime.of(0, 0, 0);
+        return date.atTime(time);
+    }
+
+    /**
+     * 时分秒归零
+     *
+     * @param date
+     * @return
+     */
+    public static LocalDateTime dateToEnd(LocalDate date) {
+        LocalTime time = LocalTime.of(23, 59, 59);
         return date.atTime(time);
     }
 
