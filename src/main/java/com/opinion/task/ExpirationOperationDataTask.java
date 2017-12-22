@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 /**
  * @author zhangtong
  * Created by on 2017/11/23
@@ -28,6 +30,7 @@ public class ExpirationOperationDataTask {
      * @Scheduled(fixedDelay = 3600000)
      */
     @Scheduled(cron = "0 00 23 * * ?")
+//    @Scheduled(fixedDelay = 14400000)   //四个小时执行一次
     public void execute() {
         ReportArticle reportArticle = new ReportArticle();
         reportArticle.setExpireDate(DateUtils.currentDate());

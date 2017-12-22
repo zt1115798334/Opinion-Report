@@ -1,12 +1,12 @@
 package com.opinion.task.handler;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * @author zhangtong
@@ -21,8 +21,12 @@ public abstract class BasePageHandler<T> {
 
             prepareFilterObject(filterObject);
 
-            int corePoolSize = 10;
-            ThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(corePoolSize);
+            int corePoolSize = 5;
+            ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                    .setNameFormat("demo-pool-%d").build();
+            ExecutorService executor = new ThreadPoolExecutor(corePoolSize, 10,
+                    0L, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
             int total = 0;
             int count = handleData(executor);
             total += count;
@@ -36,7 +40,7 @@ public abstract class BasePageHandler<T> {
         }
     }
 
-    private int handleData(ThreadPoolExecutor executor) {
+    private int handleData(ExecutorService executor) {
         int total = 0;
         int pageNumber = 1;
 
@@ -61,7 +65,7 @@ public abstract class BasePageHandler<T> {
     }
 
     protected abstract int handleDataOfPerPage(List<T> list, int pageNumber,
-                                               ThreadPoolExecutor executor);
+                                               ExecutorService executor);
 
     protected Page<T> getPageList(int pageNumber) {
         return null;

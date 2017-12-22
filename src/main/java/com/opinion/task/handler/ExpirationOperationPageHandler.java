@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -45,7 +46,7 @@ public class ExpirationOperationPageHandler extends BasePageHandler<ReportArticl
     }
 
     @Override
-    protected int handleDataOfPerPage(List<ReportArticle> list, int pageNumber, ThreadPoolExecutor executor) {
+    protected int handleDataOfPerPage(List<ReportArticle> list, int pageNumber, ExecutorService executor) {
         int count = 0;
         try {
             ExpirationOperationCallableTask task =

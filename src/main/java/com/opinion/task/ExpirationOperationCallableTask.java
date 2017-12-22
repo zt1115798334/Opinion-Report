@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
  * @author zhangtong
  * Created by on 2017/11/23
  */
-public class ExpirationOperationCallableTask implements Callable<Integer> {
+public class ExpirationOperationCallableTask implements  Callable<Integer> {
 
     protected final Logger logger = LoggerFactory.getLogger(ExpirationOperationCallableTask.class);
 
@@ -32,6 +32,15 @@ public class ExpirationOperationCallableTask implements Callable<Integer> {
             ra.setAdoptOpinion(SysConst.DEFAULT_ADOPT_OPINION);
             boolean flag = reportArticleService.examineAndVerifyInSystem(ra);
         });
-        return 0;
+        return 1;
     }
+
+//    @Override
+//    public void run() {
+//        list.parallelStream().forEach(ra -> {
+//            ra.setAdoptState(SysConst.AdoptState.NOTADOPTED.getCode());
+//            ra.setAdoptOpinion(SysConst.DEFAULT_ADOPT_OPINION);
+//            boolean flag = reportArticleService.examineAndVerifyInSystem(ra);
+//        });
+//    }
 }
