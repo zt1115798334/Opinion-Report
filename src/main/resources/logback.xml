@@ -4,7 +4,7 @@
     <!--<property name="LOG_HOME" value="D:/log/JDJR-opinion_log" />-->
     <substitutionProperty name="LOG_HOME" value="D:/log/Opinion_Report_log"/>
     <!--输出到控制台-->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
          <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--<pattern>%d %p (%file:%line\)- %m%n</pattern>-->
             <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
@@ -66,7 +66,7 @@
 
     <!-- 日志输出级别 -->
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE_INFO"/>
         <appender-ref ref="FILE_ERR"/>
     </root>
