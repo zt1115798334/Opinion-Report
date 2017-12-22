@@ -30,7 +30,7 @@ public abstract class BasePageHandler<T> {
             int count = handleData(executor);
             total += count;
 
-            executor.shutdown();
+            executor.shutdownNow();
 
             logger.info("共处理了{}条数据", total);
             logger.info("处理数据结束");
