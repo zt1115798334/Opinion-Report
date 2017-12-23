@@ -38,6 +38,14 @@ public class AjaxResult extends BaseAjaxResult {
         return result;
     }
 
+    public static AjaxResult success(String message,Object data) {
+        AjaxResult result = new AjaxResult();
+        result.setStatus(0);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
     public static AjaxResult fail(String message) {
         AjaxResult result = new AjaxResult();
         result.setStatus(500);

@@ -7,13 +7,17 @@ import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
 import com.opinion.mysql.entity.ReportArticle;
+import com.opinion.mysql.entity.ReportArticleFile;
 import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.entity.SysUser;
+import com.opinion.mysql.service.ReportArticleFileService;
 import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.FileUploadUtil;
 import com.opinion.utils.TStringUtils;
+import com.opinion.utils.module.UploadFile;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +25,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangtong
@@ -36,6 +44,9 @@ public class ReportArticleController extends BaseController {
 
     @Autowired
     private ReportArticleLogService reportArticleLogService;
+
+    @Autowired
+    private ReportArticleFileService reportArticleFileService;
 
     @Autowired
     private SysUserService sysUserService;
@@ -100,10 +111,45 @@ public class ReportArticleController extends BaseController {
         logger.info("请求 saveReportArticle 方法，reportArticle:{}", reportArticle);
         reportArticle = reportArticleService.save(reportArticle);
         if (reportArticle != null) {
-            return success("添加成功");
+            return success("添加成功", reportArticle);
         } else {
             return fail("添加失败");
         }
+    }
+
+    /**
+     * 保存 --上报文章信息
+     *
+     * @param reportCode 上报文章编号
+     * @return
+     */
+    @RequestMapping(value = "saveReportArticleFile", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult saveReportArticleFile(HttpServletRequest request, @RequestParam String reportCode) {
+        logger.info("请求 saveReportArticleFile 方法，reportCode:{}", reportCode);
+        Long userId = new SysUserConst().getUserId();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
+        String filePath = System.getProperty("user.dir") + File.separator + "reportFile" + File.separator;
+        FileUploadUtil fileUploadUtil = new FileUploadUtil();
+        List<UploadFile> files = fileUploadUtil.getFiles(request, filePath);
+        List<ReportArticleFile> reportArticleFiles = files.stream()
+                .map(file -> {
+                    ReportArticleFile reportArticleFile = new ReportArticleFile();
+                    reportArticleFile.setReportCode(reportCode);
+                    reportArticleFile.setFilePath(file.file.getPath());
+                    reportArticleFile.setFileSize(file.getFileSize());
+                    reportArticleFile.setFileMD5(file.getFileMD5());
+                    reportArticleFile.setFullFileName(file.getFullFileName());
+                    reportArticleFile.setOriginalFileName(file.getOriginalFileName());
+                    reportArticleFile.setFileName(file.getFileName());
+                    reportArticleFile.setSuffixName(file.getSuffixName());
+                    reportArticleFile.setCreatedDatetime(currentDatetime);
+                    reportArticleFile.setCreatedUserId(userId);
+                    return reportArticleFile;
+                }).collect(Collectors.toList());
+        reportArticleFileService.save(reportArticleFiles);
+        return success("添加成功");
+
     }
 
     /**
