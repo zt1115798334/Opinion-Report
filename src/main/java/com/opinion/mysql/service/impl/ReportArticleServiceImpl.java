@@ -241,6 +241,9 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if(createdUserId.size()==0){
+            createdUserId.add(-1L);
+        }
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
             @Override
             public Predicate toPredicate(Root<ReportArticle> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
