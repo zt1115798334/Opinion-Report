@@ -8,10 +8,7 @@ import com.opinion.mysql.entity.ReportArticleLog;
 import com.opinion.mysql.entity.SysMessage;
 import com.opinion.mysql.entity.SysUser;
 import com.opinion.mysql.repository.ReportArticleRepository;
-import com.opinion.mysql.service.ReportArticleLogService;
-import com.opinion.mysql.service.ReportArticleService;
-import com.opinion.mysql.service.SysMessageService;
-import com.opinion.mysql.service.SysUserService;
+import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
 import com.opinion.utils.PageUtils;
 import com.opinion.utils.SNUtil;
@@ -50,6 +47,9 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Autowired
     private ReportArticleLogService reportArticleLogService;
+
+    @Autowired
+    private ReportArticleFileService reportArticleFileService;
 
     @Autowired
     private SysMessageService sysMessageService;
@@ -241,7 +241,7 @@ public class ReportArticleServiceImpl implements ReportArticleService {
 
     @Override
     public List<ReportArticle> findListInCreatedUserIds(List<Long> createdUserId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        if(createdUserId.size()==0){
+        if (createdUserId.size() == 0) {
             createdUserId.add(-1L);
         }
         Specification<ReportArticle> specification = new Specification<ReportArticle>() {
@@ -266,14 +266,14 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     @Override
     public boolean delByIds(List<Long> ids) {
         List<ReportArticle> reportArticles = (List<ReportArticle>) reportArticleRepository.findAll(ids);
-        delReportArticleAndReportArticleLog(reportArticles);
+        delReportArticleAndReportArticleRelevant(reportArticles);
         return true;
     }
 
     @Override
     public boolean delByCreatedUserId(Long createdUserId) {
         List<ReportArticle> reportArticles = reportArticleRepository.findByCreatedUserId(createdUserId);
-        delReportArticleAndReportArticleLog(reportArticles);
+        delReportArticleAndReportArticleRelevant(reportArticles);
         return true;
     }
 
@@ -333,9 +333,10 @@ public class ReportArticleServiceImpl implements ReportArticleService {
         return reportArticleLog;
     }
 
-    private void delReportArticleAndReportArticleLog(List<ReportArticle> reportArticles) {
+    private void delReportArticleAndReportArticleRelevant(List<ReportArticle> reportArticles) {
         List<String> reportCodes = reportArticles.stream().map(ReportArticle::getReportCode).collect(Collectors.toList());
         reportArticleLogService.delByReportCodes(reportCodes);
+        reportArticleFileService.delByReportCodes(reportCodes);
         reportArticleRepository.delete(reportArticles);
     }
 }

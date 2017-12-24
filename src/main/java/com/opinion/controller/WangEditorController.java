@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.opinion.mysql.entity.ImageInfo;
 import com.opinion.mysql.service.ImageInfoService;
-import com.opinion.utils.FileUploadUtil;
+import com.opinion.utils.FileUtils;
 import com.opinion.utils.module.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,8 +41,8 @@ public class WangEditorController {
     @ResponseBody
     public Object imgUpload(HttpServletRequest request) {
         String filePath = System.getProperty("user.dir") + File.separator + "image" + File.separator;
-        FileUploadUtil fileUploadUtil = new FileUploadUtil();
-        List<UploadFile> files = fileUploadUtil.getFiles(request, filePath);
+        FileUtils fileUtils = new FileUtils();
+        List<UploadFile> files = fileUtils.getFiles(request, filePath);
         JSONObject result = new JSONObject();
         result.put("errno", "0");
         JSONArray ja = new JSONArray();

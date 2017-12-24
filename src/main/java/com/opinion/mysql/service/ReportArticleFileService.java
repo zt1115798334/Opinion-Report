@@ -16,4 +16,25 @@ public interface ReportArticleFileService {
      */
     void save(List<ReportArticleFile> reportArticleFiles);
 
+    /**
+     *
+     * @param reportCode
+     * @return
+     */
+    List<ReportArticleFile> findListByReportCode(String reportCode);
+
+    /**
+     *
+     * @param reportCodes
+     * @return
+     */
+    List<ReportArticleFile> findListByReportCodes(List<String> reportCodes);
+
+    /**
+     *
+     * @param reportCodes
+     * @return
+     */
+    boolean delByReportCodes(List<String> reportCodes);
+
 }

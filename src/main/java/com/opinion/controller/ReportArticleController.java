@@ -15,7 +15,7 @@ import com.opinion.mysql.service.ReportArticleLogService;
 import com.opinion.mysql.service.ReportArticleService;
 import com.opinion.mysql.service.SysUserService;
 import com.opinion.utils.DateUtils;
-import com.opinion.utils.FileUploadUtil;
+import com.opinion.utils.FileUtils;
 import com.opinion.utils.TStringUtils;
 import com.opinion.utils.module.UploadFile;
 import org.apache.commons.lang3.StringUtils;
@@ -129,9 +129,9 @@ public class ReportArticleController extends BaseController {
         logger.info("请求 saveReportArticleFile 方法，reportCode:{}", reportCode);
         Long userId = new SysUserConst().getUserId();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
-        String filePath = System.getProperty("user.dir") + File.separator + "reportFile" + File.separator;
-        FileUploadUtil fileUploadUtil = new FileUploadUtil();
-        List<UploadFile> files = fileUploadUtil.getFiles(request, filePath);
+        String filePath = System.getProperty("user.dir") + File.separator + "reportFile" + File.separator + reportCode + File.separator;
+        FileUtils fileUtils = new FileUtils();
+        List<UploadFile> files = fileUtils.getFiles(request, filePath);
         List<ReportArticleFile> reportArticleFiles = files.stream()
                 .map(file -> {
                     ReportArticleFile reportArticleFile = new ReportArticleFile();
@@ -276,8 +276,7 @@ public class ReportArticleController extends BaseController {
     @ResponseBody
     public AjaxResult searchReportArticleLog(@RequestParam String reportCode) {
         logger.info("请求 searchReportArticleLog 方法，reportCode:{}", reportCode);
-        Long userId = new SysUserConst().getUserId();
-        List<ReportArticleLog> list = reportArticleLogService.findListByReportArticleId(reportCode);
+        List<ReportArticleLog> list = reportArticleLogService.findListByReportCode(reportCode);
         JSONArray result = new JSONArray();
         list.stream()
 //                .filter(reportArticleLog -> !Objects.equal(userId, reportArticleLog.getAdoptUserId()))
@@ -290,6 +289,28 @@ public class ReportArticleController extends BaseController {
                     jo.put("msg", sb.toString());
                     jo.put("datetime", DateUtils.formatDate(reportArticleLog.getCreatedDatetime(), DateUtils.DATE_SECOND_FORMAT));
                     jo.put("adoptState", reportArticleLog.getAdoptState());
+                    result.add(jo);
+                });
+        return success(result);
+    }
+
+    /**
+     * 根据上报编号查询上报文件
+     *
+     * @param reportCode 上报编号
+     * @return
+     */
+    @RequestMapping(value = "searchReportArticleFile", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult searchReportArticleFile(@RequestParam String reportCode) {
+        logger.info("请求 searchReportArticleFile 方法，reportCode:{}", reportCode);
+        List<ReportArticleFile> list = reportArticleFileService.findListByReportCode(reportCode);
+        JSONArray result = new JSONArray();
+        list.stream()
+                .forEach(reportArticleFile -> {
+                    JSONObject jo = new JSONObject();
+                    jo.put("originalFileName", reportArticleFile.getOriginalFileName());
+                    jo.put("fileSize", reportArticleFile.getFileSize());
                     result.add(jo);
                 });
         return success(result);

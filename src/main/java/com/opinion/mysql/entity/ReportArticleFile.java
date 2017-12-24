@@ -30,7 +30,7 @@ public class ReportArticleFile {
     private String reportCode;
 
     /**
-     * 上传编号
+     * 上传路径
      */
     @Column(name = "file_path")
     private String filePath;

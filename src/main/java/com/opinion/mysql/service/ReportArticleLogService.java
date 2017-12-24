@@ -24,7 +24,7 @@ public interface ReportArticleLogService {
      * @param reportCode
      * @return
      */
-    List<ReportArticleLog> findListByReportArticleId(String reportCode);
+    List<ReportArticleLog> findListByReportCode(String reportCode);
 
     /**
      * 根据上传编号批量删除
