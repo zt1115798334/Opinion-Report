@@ -468,7 +468,7 @@ var uploadTools = {
         var formData = new FormData();
         var fileNumber = uploadTools.getFileNumber(opt);
         if(fileNumber<=0){
-            alert("没有文件，不支持上传");
+            // alert("没有文件，不支持上传");
             return;
         }
 

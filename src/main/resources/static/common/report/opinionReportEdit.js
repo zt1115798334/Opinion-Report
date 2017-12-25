@@ -142,10 +142,15 @@ function saveReportArticleFun(params, editor) {
             var reportArticle = result.data;
             var reportCode = reportArticle.reportCode;
             var opt = uploadTools.getOpt("fileUploadContent");
-            opt.otherData = [{"name": "reportCode", "value": reportCode}];
-            uploadEvent.uploadFileEvent(opt);
-
-
+            uploadTools.startUpload(opt);
+            var fileNumber = uploadTools.getFileNumber(opt);
+            if(fileNumber>0){
+                opt.otherData = [{"name": "reportCode", "value": reportCode}];
+                uploadEvent.uploadFileEvent(opt);
+            }else{
+                notify.success({title: "提示", content: result.message, autoClose: true});
+                resetForm("#opinionReportForm");
+            }
             editor.txt.html('');
 
         } else {

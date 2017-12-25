@@ -6,8 +6,6 @@ import com.opinion.base.bean.AjaxResult;
 import com.opinion.base.controller.BaseController;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
-import com.opinion.mongodb.entity.UserFingerprint;
-import com.opinion.mongodb.service.UserFingerprintService;
 import com.opinion.mysql.entity.*;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
@@ -15,7 +13,6 @@ import com.opinion.utils.MyDES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -219,33 +216,35 @@ public class SystemController extends BaseController {
     public AjaxResult searchDisplayMenu() {
         String permissionType = SysConst.PermissionType.DISPLAY.getCode();
         List<SysPermission> sysPermissions = getSysPermissionsByType(permissionType);
-        Map<Long, List<SysPermission>> childs = sysPermissions.stream().collect(Collectors.groupingBy(SysPermission::getParentId));
         JSONArray result = new JSONArray();
-        sysPermissions.stream()
-                .filter(sysPermission -> sysPermission.getParentId() == 1L)
-                .forEach(sysPermission -> {
-                    Long permissionId = sysPermission.getId();
-                    JSONArray childJSON = new JSONArray();
-                    if (childs.containsKey(permissionId)) {
-                        List<SysPermission> sysPermissionChilds = childs.get(permissionId);
-                        sysPermissionChilds.stream().forEach(child -> {
-                            JSONObject jo = new JSONObject();
-                            jo.put("urlName", child.getUrlName());
-                            jo.put("sysUrl", child.getSysUrl());
-                            jo.put("icon", child.getIcon());
-                            jo.put("code", child.getCode());
-                            childJSON.add(jo);
-                        });
-                    }
-                    JSONObject jo = new JSONObject();
-                    jo.put("id", permissionId);
-                    jo.put("urlName", sysPermission.getUrlName());
-                    jo.put("sysUrl", sysPermission.getSysUrl());
-                    jo.put("icon", sysPermission.getIcon());
-                    jo.put("code", sysPermission.getCode());
-                    jo.put("childs", childJSON);
-                    result.add(jo);
-                });
+        if (sysPermissions != null && sysPermissions.size() > 0) {
+            Map<Long, List<SysPermission>> childs = sysPermissions.stream().collect(Collectors.groupingBy(SysPermission::getParentId));
+            sysPermissions.stream()
+                    .filter(sysPermission -> sysPermission.getParentId() == 1L)
+                    .forEach(sysPermission -> {
+                        Long permissionId = sysPermission.getId();
+                        JSONArray childJSON = new JSONArray();
+                        if (childs.containsKey(permissionId)) {
+                            List<SysPermission> sysPermissionChilds = childs.get(permissionId);
+                            sysPermissionChilds.stream().forEach(child -> {
+                                JSONObject jo = new JSONObject();
+                                jo.put("urlName", child.getUrlName());
+                                jo.put("sysUrl", child.getSysUrl());
+                                jo.put("icon", child.getIcon());
+                                jo.put("code", child.getCode());
+                                childJSON.add(jo);
+                            });
+                        }
+                        JSONObject jo = new JSONObject();
+                        jo.put("id", permissionId);
+                        jo.put("urlName", sysPermission.getUrlName());
+                        jo.put("sysUrl", sysPermission.getSysUrl());
+                        jo.put("icon", sysPermission.getIcon());
+                        jo.put("code", sysPermission.getCode());
+                        jo.put("childs", childJSON);
+                        result.add(jo);
+                    });
+        }
         return success(result);
     }
 

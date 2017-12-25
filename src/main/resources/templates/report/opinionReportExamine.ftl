@@ -11,7 +11,7 @@
     <link href="/assets/plugins/bootstrapValidator/css/bootstrapValidator.min.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="/assets/plugins/bootstrapValidator/js/bootstrapValidator.min.js"></script>
     <style type="text/css">
-        .w-e-text-container{ /*编辑器文本区域高度*/
+        .w-e-text-container { /*编辑器文本区域高度*/
             height: 470px !important;
         }
     </style>
@@ -59,17 +59,25 @@
 
                         <!--附件下载-->
                         <div class="attachmentDownload">
-                            <h5  class="fs16 bold" style="padding: 10px 5px;">附件下载</h5>
+                            <h5 class="fs16 bold" style="padding: 10px 5px;">附件下载</h5>
 
                         </div>
 
                         <!--流程轴-->
                         <div class="bgf flowShaft">
-                            <h5  class="fs16 bold" style="padding: 10px 5px;">处理记录</h5>
+                            <h5 class="fs16 bold" style="padding: 10px 5px;">处理记录</h5>
 
                         </div>
+
+                        <!--指导意见-->
+                        <div class="opinion">
+                            <h5  class="fs16 bold" style="padding: 10px 5px;">指导意见</h5>
+                            <textarea  style="resize: none;width: 100%;height: 100px;" disabled="disabled" id="adoptOpinionShow"></textarea>
+                        </div>
                     </div>
+
                 </div>
+
 
                 <!--处理按钮-->
                 <div class="col-md-12 text-center  padding20 clearfix" id="showButton">
@@ -90,8 +98,7 @@
     <!--page-wrapper结束-->
 </div>
 <!--wrapper结束-->
-
-<div id="editAdoptOpinion" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="editAdoptOpinion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form role="form" id="adoptOpinionForm">
             <div class="modal-content">
@@ -99,17 +106,8 @@
                     <h5 class="modal-title colorwhite" id="">指导意见</h5>
                 </div>
                 <div class="modal-body  text-center">
-                    <div class="form-horizontal Margin">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-2 control-label">角色名称<span class="require">*</span></label>
-                                <div class="col-md-6">
-                                    <input name="adoptOpinion" id="adoptOpinion" type="text" placeholder="请输入指导意见"
-                                           class="form-control adoptOpinion">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <textarea name="adoptOpinion" id="adoptOpinion" style="resize: none;width: 100%;height: 160px;" class="form-control" placeholder="请输入指导意见，不超过300字"></textarea>
+
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12">
@@ -117,10 +115,11 @@
                         <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
                     </div>
                 </div>
-            </div>
+            </div><!-- /.modal-content -->
         </form>
     </div>
 </div>
+
 <#include "/public/footer.ftl"/>
 <#include "/public/publicJs.ftl"/>
 <script src="/common/report/opinionReportExamine.js"></script>

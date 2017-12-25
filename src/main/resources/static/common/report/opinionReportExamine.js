@@ -47,14 +47,13 @@ $(function () {
      * 填写审核意见  确认
      */
     $(document).on("click", "#editAdoptOpinion .saveBtn", function () {
-        validateFun();
-        var bv = $("#adoptOpinionForm").data('bootstrapValidator');
-        bv.validate();
-        if (!bv.isValid()) {
+        if($("#adoptOpinion").val().length>300){
+            notify.error({title: "提示", content: "请输入300个字符以内", autoClose: true});
             return false;
         }
         params.adoptState = $(this).attr("adoptState");
         params.adoptOpinion = $("#adoptOpinion").val();
+
         examineAndVerifyReportArticleFun(params);
     });
 
@@ -70,27 +69,6 @@ $(function () {
     });
 
 });
-
-function validateFun() {
-    $("#adoptOpinionForm").bootstrapValidator({
-        message: 'This value is not valid',
-        feedbackIcons: {
-            // valid: 'glyphicon glyphicon-ok',
-            // invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            adoptOpinion: {
-                validators: {
-                    stringLength: {
-                        max: 300,
-                        message: '文字长度请控制在300字符以内'
-                    }
-                }
-            }
-        }
-    });
-}
 
 /**
  * 查询详情
@@ -122,6 +100,7 @@ function searchReportArticleByCodeFun(params, editor) {
             $(".reply").html(replyType + replyNumber);
             $(".sourceUrl").html(sourceUrl);
             $(".sourceUrl").attr("href", sourceUrl);
+            $("#adoptOpinionShow").html(adoptOpinion);
             editor.txt.html(reportCause);
             if (adoptState != "report") {
                 if ($(".adoptBtn").length > 0) {
@@ -189,16 +168,21 @@ function searchReportArticleFileFun(params) {
         if (result.success) {
             var data = result.data;
             var html = "";
-            for (var i in data) {
-                var da = data[i];
-                var id = da.id;
-                var originalFileName = da.originalFileName;
-                var fileSize = da.fileSize;
-                html += '<div class="attachmentSlide">\n' +
-                    '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
-                    '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
-                    '                            </div>';
+            if(data.length>0){
+                for (var i in data) {
+                    var da = data[i];
+                    var id = da.id;
+                    var originalFileName = da.originalFileName;
+                    var fileSize = da.fileSize;
+                    html += '<div class="attachmentSlide">\n' +
+                        '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
+                        '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
+                        '                            </div>';
+                }
+            }else{
+                html="<h5 class='paddingY5'>暂无文件</h5>";
             }
+
             $(".attachmentDownload").append(html);
         }
     }
@@ -217,6 +201,7 @@ function examineAndVerifyReportArticleFun(params) {
             if ($(".adoptBtn").length > 0) {
                 $(".adoptBtn").attr("disabled", true);
             }
+            $("#adoptOpinionShow").html(params.adoptOpinion);
             $("#editAdoptOpinion").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
@@ -239,7 +224,7 @@ function saveReportArticleAgainFun(params) {
             }
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }

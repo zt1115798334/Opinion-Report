@@ -1,7 +1,7 @@
 /**
  * Created by zhangxin on 2017/7/26.
  */
-var notify=new Object(),_top=-45,_zIndex=1000;
+var notify=new Object(),_top=-45,_zIndex=2000;
 (function (notify) {
     notify.init=function (option) {
         var opstions={},
