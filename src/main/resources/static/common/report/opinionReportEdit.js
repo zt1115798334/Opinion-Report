@@ -29,13 +29,13 @@ $(function () {
         // "showFileItemProgress":false,
         //"showSummerProgress":false,//总进度条，默认限制
         //"scheduleStandard":true,//模拟进度的方式，设置为true是按总进度，用于控制上传时间，如果设置为false,按照文件数据的总量,默认为false
-        "size": 350,//文件大小限制，单位kb,默认不限制
+        "size": 1024,//文件大小限制，单位kb,默认不限制
         //"maxFileNumber":3,//文件个数限制，为整数
         //"filelSavePath":"",//文件上传地址，后台设置的根目录
         // "beforeUpload": beforeUploadFun,//在上传前执行的函数
         "onUpload": onUploadFun,//在上传后执行的函数
         //autoCommit:true,//文件是否自动上传
-        "fileType": ['png', 'jpg', 'docx', 'doc'],//文件类型限制，默认不限制，注意写的是文件后缀
+        // "fileType": ['png', 'jpg', 'docx', 'doc'],//文件类型限制，默认不限制，注意写的是文件后缀
 
     });
 
@@ -145,9 +145,9 @@ function saveReportArticleFun(params, editor) {
             opt.otherData = [{"name": "reportCode", "value": reportCode}];
             uploadEvent.uploadFileEvent(opt);
 
-            notify.success({title: "提示", content: result.message, autoClose: true});
+
             editor.txt.html('');
-            resetForm("#opinionReportForm");
+
         } else {
             notify.error({title: "提示", content: result.message});
         }
@@ -161,6 +161,8 @@ function beforeUploadFun(opt) {
 
 function onUploadFun(opt, data) {
     // alert(data);
+    notify.success({title: "提示", content: "添加成功", autoClose: true});
+    resetForm("#opinionReportForm");
     uploadTools.uploadError(opt);//显示上传错误
 }
 
