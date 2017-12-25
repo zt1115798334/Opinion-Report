@@ -57,6 +57,12 @@
 
                         </div>
 
+                        <!--附件下载-->
+                        <div class="attachmentDownload">
+                            <h5  class="fs16 bold" style="padding: 10px 5px;">附件下载</h5>
+
+                        </div>
+
                         <!--流程轴-->
                         <div class="bgf flowShaft">
                             <h5  class="fs16 bold" style="padding: 10px 5px;">处理记录</h5>

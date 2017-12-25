@@ -241,7 +241,8 @@ public class FileUtils {
      */
     public static boolean fileDownLoad(HttpServletRequest request,
                                        HttpServletResponse response,
-                                       String filePath) throws Exception {
+                                       String filePath,
+                                       String fileName) throws Exception {
         boolean bl = false;
         if (response != null && request != null && filePath != null
                 && !filePath.equals("")) {
@@ -262,7 +263,7 @@ public class FileUtils {
             }
 
             // 取得文件名。
-            String fileName = file.getName();
+//            String fileName = file.getName();
             if ("IE".equals(browserType)) {// IE浏览器,页面传过来的值，只用于判断是否为IE浏览器
                 logger.info("ie浏览器");
                 fileName = URLEncoder.encode(fileName, "UTF8");

@@ -178,7 +178,7 @@ function searchReportArticleLogFun(params) {
 }
 
 /**
- * 查询日志
+ * 查询文件
  * @param params
  */
 function searchReportArticleFileFun(params) {
@@ -194,8 +194,12 @@ function searchReportArticleFileFun(params) {
                 var id = da.id;
                 var originalFileName = da.originalFileName;
                 var fileSize = da.fileSize;
+                html += '<div class="attachmentSlide">\n' +
+                    '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
+                    '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
+                    '                            </div>';
             }
-            // $(".flowShaft").append(html);
+            $(".attachmentDownload").append(html);
         }
     }
 }

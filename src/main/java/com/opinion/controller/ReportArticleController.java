@@ -310,7 +310,7 @@ public class ReportArticleController extends BaseController {
         list.stream()
                 .forEach(reportArticleFile -> {
                     JSONObject jo = new JSONObject();
-                    jo.put("id",reportArticleFile.getFileSize());
+                    jo.put("id", reportArticleFile.getId());
                     jo.put("originalFileName", reportArticleFile.getOriginalFileName());
                     jo.put("fileSize", reportArticleFile.getFileSize());
                     result.add(jo);
@@ -333,8 +333,9 @@ public class ReportArticleController extends BaseController {
         ReportArticleFile reportArticleFile = reportArticleFileService.findById(id);
         if (reportArticleFile != null) {
             String filePath = reportArticleFile.getFilePath();
+            String originalFileName = reportArticleFile.getOriginalFileName();
             try {
-                boolean bl = FileUtils.fileDownLoad(request, response, filePath);
+                boolean bl = FileUtils.fileDownLoad(request, response, filePath, originalFileName);
                 if (bl) {
                     return success("下载附件成功");
                 } else {
