@@ -47,9 +47,15 @@ $(function () {
      * 填写审核意见  确认
      */
     $(document).on("click", "#editAdoptOpinion .saveBtn", function () {
-        params.adoptState = $(this).attr("adoptState");
-        params.adoptOpinion = $("#adoptOpinion").val();
-        examineAndVerifyReportArticleFun(params);
+        validateFun();
+        var bv = $("#adoptOpinionForm").data('bootstrapValidator');
+        bv.validate();
+        if (!bv.isValid()) {
+            return false;
+        }
+        // params.adoptState = $(this).attr("adoptState");
+        // params.adoptOpinion = $("#adoptOpinion").val();
+        // examineAndVerifyReportArticleFun(params);
     });
 
     $(document).on("hidden.bs.modal", "#editAdoptOpinion", function () {
@@ -64,6 +70,27 @@ $(function () {
     });
 
 });
+
+function validateFun() {
+    $("#adoptOpinionForm").bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            // valid: 'glyphicon glyphicon-ok',
+            // invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            adoptOpinion: {
+                validators: {
+                    stringLength: {
+                        max: 300,
+                        message: '文字长度请控制在300字符以内'
+                    }
+                }
+            }
+        }
+    });
+}
 
 /**
  * 查询详情
@@ -87,6 +114,7 @@ function searchReportArticleByCodeFun(params, editor) {
             var replyNumber = data.replyNumber;
             var reportCause = data.reportCause;
             var adoptState = data.adoptState;
+            var adoptOpinion = data.adoptOpinion;
             var adoptStateMsg = data.adoptStateMsg;
             $(".title").html(title)
             $(".sourceType").html(sourceType);

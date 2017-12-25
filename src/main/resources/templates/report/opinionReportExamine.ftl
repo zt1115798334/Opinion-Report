@@ -8,6 +8,8 @@
     <link href="/assets/plugins/wangEditor-3.0.15/release/wangEditor.css" type="text/css" rel="stylesheet"><!-- 编辑器-->
     <script type="text/javascript" src="/assets/plugins/wangEditor-3.0.15/release/wangEditor.js"
             charset="utf-8"></script><!-- 编辑器-->
+    <link href="/assets/plugins/bootstrapValidator/css/bootstrapValidator.min.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="/assets/plugins/bootstrapValidator/js/bootstrapValidator.min.js"></script>
     <style type="text/css">
         .w-e-text-container{ /*编辑器文本区域高度*/
             height: 470px !important;
@@ -85,7 +87,7 @@
 
 <div id="editAdoptOpinion" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form role="form" id="roleForm">
+        <form role="form" id="adoptOpinionForm">
             <div class="modal-content">
                 <div class="modal-header logocbg">
                     <h5 class="modal-title colorwhite" id="">指导意见</h5>
