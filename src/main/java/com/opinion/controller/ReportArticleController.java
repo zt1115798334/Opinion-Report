@@ -121,12 +121,12 @@ public class ReportArticleController extends BaseController {
     /**
      * 保存 --上报文章信息
      *
-     * @param reportCode 上报文章编号
      * @return
      */
     @RequestMapping(value = "saveReportArticleFile", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResult saveReportArticleFile(HttpServletRequest request, @RequestParam String reportCode) {
+    public AjaxResult saveReportArticleFile(HttpServletRequest request) {
+        String reportCode = request.getParameter("reportCode");
         logger.info("请求 saveReportArticleFile 方法，reportCode:{}", reportCode);
         Long userId = new SysUserConst().getUserId();
         LocalDateTime currentDatetime = DateUtils.currentDatetime();
@@ -244,7 +244,7 @@ public class ReportArticleController extends BaseController {
             result.put("replyNumber", reportArticle.getReplyNumber());
             result.put("reportCause", reportArticle.getReportCause());
             result.put("adoptState", reportArticle.getAdoptState());
-            result.put("adoptOpinion",reportArticle.getAdoptOpinion());
+            result.put("adoptOpinion", reportArticle.getAdoptOpinion());
             result.put("adoptStateMsg", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
         }
         return success(result);

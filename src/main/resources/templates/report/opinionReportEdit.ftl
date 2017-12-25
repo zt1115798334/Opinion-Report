@@ -18,6 +18,10 @@
     <link href="/assets/plugins/bootstrapValidator/css/bootstrapValidator.min.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="/assets/plugins/bootstrapValidator/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript" src="/assets/plugins/jquery.serializejson.min.js"></script>
+    <link href="/assets/plugins/jquery-fileUpload/css/iconfont.css" rel="stylesheet" type="text/css"/><!--文件上传-->
+    <link href="/assets/plugins/jquery-fileUpload/css/fileUpload.css" rel="stylesheet" type="text/css"><!--文件上传-->
+    <script src="/assets/plugins/jquery-fileUpload/js/fileUpload.js" type="text/javascript"></script><!--文件上传-->
+
 </head>
 <body>
 <#include "/public/header.ftl"/>
@@ -89,6 +93,14 @@
 
                             </div>
 
+                        </div>
+                        <div class="portlet-header clearfix">
+                            <span class="circle1"></span>
+                            <span class="inlineBlock  fs16">附件上传</span>
+                        </div>
+                        <div class="portlet-body clearfix">
+                            <!--文件上传fileUploadContent-->
+                            <div id="fileUploadContent" class="fileUploadContent"></div>
                         </div>
                     </div>
                     <div class="col-md-12 text-center  padding20 clearfix" id="showButton">
