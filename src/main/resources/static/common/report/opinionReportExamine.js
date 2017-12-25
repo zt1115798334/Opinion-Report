@@ -37,8 +37,23 @@ $(function () {
      * 对上报文章进行审核
      */
     $(document).on("click", ".adoptBtn", function () {
+        var adoptState = $(this).attr("adoptState");
+        $("#editAdoptOpinion").modal("show");
+        $("#editAdoptOpinion .saveBtn").attr("adoptState", adoptState);
+
+    });
+
+    /**
+     * 填写审核意见  确认
+     */
+    $(document).on("click", "#editAdoptOpinion .saveBtn", function () {
         params.adoptState = $(this).attr("adoptState");
+        params.adoptOpinion = $("#adoptOpinion").val();
         examineAndVerifyReportArticleFun(params);
+    });
+
+    $(document).on("hidden.bs.modal", "#editAdoptOpinion", function () {
+        $("#editAdoptOpinion .saveBtn").removeAttr("adoptState");
     });
 
     /**
@@ -147,6 +162,7 @@ function examineAndVerifyReportArticleFun(params) {
             if ($(".adoptBtn").length > 0) {
                 $(".adoptBtn").attr("disabled", true);
             }
+            $("#editAdoptOpinion").modal("hide");
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
             notify.error({title: "提示", content: result.message});

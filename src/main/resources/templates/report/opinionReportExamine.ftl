@@ -82,6 +82,37 @@
     <!--page-wrapper结束-->
 </div>
 <!--wrapper结束-->
+
+<div id="editAdoptOpinion" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form role="form" id="roleForm">
+            <div class="modal-content">
+                <div class="modal-header logocbg">
+                    <h5 class="modal-title colorwhite" id="">指导意见</h5>
+                </div>
+                <div class="modal-body  text-center">
+                    <div class="form-horizontal Margin">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">角色名称<span class="require">*</span></label>
+                                <div class="col-md-6">
+                                    <input name="adoptOpinion" id="adoptOpinion" type="text" placeholder="请输入指导意见"
+                                           class="form-control adoptOpinion">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12">
+                        <button id="" type="button" class="btn btn-primary sureBtn_green saveBtn">确认</button>
+                        <button type="button" class="btn btn-default denyBtn_green" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <#include "/public/footer.ftl"/>
 <#include "/public/publicJs.ftl"/>
 <script src="/common/report/opinionReportExamine.js"></script>
