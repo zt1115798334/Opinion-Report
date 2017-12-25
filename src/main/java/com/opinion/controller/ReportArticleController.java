@@ -350,6 +350,25 @@ public class ReportArticleController extends BaseController {
         }
     }
 
+    /**
+     * 根据上报编号查询上报文件
+     *
+     * @param id 上报id
+     * @return
+     */
+    @RequestMapping(value = "deleteReportArticleFile", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult deleteReportArticleFile(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                @RequestParam Long id) {
+        logger.info("请求 deleteReportArticleFile 方法，id:{}", id);
+        boolean state = reportArticleFileService.delById(id);
+        if (state) {
+            return success("删除成功");
+        } else {
+            return fail("该删除操作失败");
+        }
+    }
 
     /**
      * 对上报文章再次上报

@@ -47,7 +47,7 @@ $(function () {
      * 填写审核意见  确认
      */
     $(document).on("click", "#editAdoptOpinion .saveBtn", function () {
-        if($("#adoptOpinion").val().length>300){
+        if ($("#adoptOpinion").val().length > 300) {
             notify.error({title: "提示", content: "请输入300个字符以内", autoClose: true});
             return false;
         }
@@ -59,6 +59,18 @@ $(function () {
 
     $(document).on("hidden.bs.modal", "#editAdoptOpinion", function () {
         $("#editAdoptOpinion .saveBtn").removeAttr("adoptState");
+    });
+
+    $(document).on("click", ".reportFileDel", function () {
+        var id = $(this).attr("reportFileId");
+        showBootstrapDialog("是否确认删除该文件，删除后无法恢复？", callback);
+        var params1 = {
+            id: id
+        };
+
+        function callback() {
+            deleteReportArticleFileFun(params1,params);
+        }
     });
 
     /**
@@ -167,23 +179,32 @@ function searchReportArticleFileFun(params) {
     function callback(result) {
         if (result.success) {
             var data = result.data;
-            var html = "";
-            if(data.length>0){
+            var html = "<h5 class=\"fs16 bold\" style=\"padding: 10px 5px;\">附件下载</h5>";
+            if (data.length > 0) {
+                var type = $("#type").val();
                 for (var i in data) {
                     var da = data[i];
                     var id = da.id;
                     var originalFileName = da.originalFileName;
                     var fileSize = da.fileSize;
-                    html += '<div class="attachmentSlide">\n' +
-                        '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
-                        '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
-                        '                            </div>';
+                    if (type == "info") { //详情
+                        html += '<div class="attachmentSlide">\n' +
+                            '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
+                            '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
+                            '                                <a href="javascript:void(0)" reportFileId = ' + id + ' class="reportFileDel"><img style="margin: -8px 20px 0 20px;" src="/assets/images/delete.png" alt=""></a>\n' +
+                            '                            </div>';
+                    } else if (type == "examine") {     // 审核
+                        html += '<div class="attachmentSlide">\n' +
+                            '                                <img src="/assets/images/download.png" style="transform: rotate(180deg);margin: 0px 10px 4px 15px;" alt="">\n' +
+                            '                                <a href="/reportArticle/downLoadReportArticleFile/' + id + '" class="fs14">' + originalFileName + '</a>\n' +
+                            '                            </div>';
+                    }
                 }
-            }else{
-                html="<h5 class='paddingY5'>暂无文件</h5>";
+            } else {
+                html = "<h5 class='paddingY5'>暂无文件</h5>";
             }
 
-            $(".attachmentDownload").append(html);
+            $(".attachmentDownload").html(html);
         }
     }
 }
@@ -228,3 +249,22 @@ function saveReportArticleAgainFun(params) {
         }
     }
 }
+
+/**
+ * 删除文件
+ * @param params
+ */
+function deleteReportArticleFileFun(params1,params2) {
+    var url = "/reportArticle/deleteReportArticleFile";
+    execAjax(url, params1, callback);
+
+    function callback(result) {
+        if (result.success) {
+            searchReportArticleFileFun(params2);
+            notify.success({title: "提示", content: result.message, autoClose: true});
+        } else {
+            notify.error({title: "提示", content: result.message, autoClose: true});
+        }
+    }
+}
+

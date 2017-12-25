@@ -52,4 +52,17 @@ public class ReportArticleFileServiceImpl implements ReportArticleFileService {
         reportArticleFileRepository.deleteByReportCodeIn(reportCodes);
         return true;
     }
+
+    @Override
+    public boolean delById(Long id) {
+        ReportArticleFile reportArticleFile = this.findById(id);
+        if (reportArticleFile != null) {
+            String filePath = reportArticleFile.getFilePath();
+            FileUtils.deleteFile(filePath);
+            reportArticleFileRepository.delete(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

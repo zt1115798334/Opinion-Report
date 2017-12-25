@@ -44,4 +44,6 @@ public interface ReportArticleFileService {
      */
     boolean delByReportCodes(List<String> reportCodes);
 
+    boolean delById(Long id);
+
 }
