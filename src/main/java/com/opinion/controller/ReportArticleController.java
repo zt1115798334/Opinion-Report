@@ -150,7 +150,6 @@ public class ReportArticleController extends BaseController {
                 }).collect(Collectors.toList());
         reportArticleFileService.save(reportArticleFiles);
         return success("添加成功");
-
     }
 
     /**

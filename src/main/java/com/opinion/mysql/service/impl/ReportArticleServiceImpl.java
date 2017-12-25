@@ -3,13 +3,11 @@ package com.opinion.mysql.service.impl;
 import com.google.common.collect.Lists;
 import com.opinion.constants.SysConst;
 import com.opinion.constants.SysUserConst;
-import com.opinion.mysql.entity.ReportArticle;
-import com.opinion.mysql.entity.ReportArticleLog;
-import com.opinion.mysql.entity.SysMessage;
-import com.opinion.mysql.entity.SysUser;
+import com.opinion.mysql.entity.*;
 import com.opinion.mysql.repository.ReportArticleRepository;
 import com.opinion.mysql.service.*;
 import com.opinion.utils.DateUtils;
+import com.opinion.utils.FileUtils;
 import com.opinion.utils.PageUtils;
 import com.opinion.utils.SNUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +23,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -79,6 +78,8 @@ public class ReportArticleServiceImpl implements ReportArticleService {
     public ReportArticle saveAgain(String reportCode) {
         ReportArticle reportArticle = reportArticleRepository.findByReportCode(reportCode);
         ReportArticle newReportArticle = new ReportArticle();
+        Long userId = new SysUserConst().getUserId();
+        LocalDateTime currentDatetime = DateUtils.currentDatetime();
         if (reportArticle != null) {
 
             newReportArticle.setReportLevel(reportArticle.getReportLevel());
@@ -94,6 +95,32 @@ public class ReportArticleServiceImpl implements ReportArticleService {
             newReportArticle.setAdoptDatetime(null);
             newReportArticle.setAdoptUserId(null);
             newReportArticle = save(newReportArticle);
+            String reportArticleReportCode = reportArticle.getReportCode();
+            String newReportArticleReportCode = newReportArticle.getReportCode();
+            List<ReportArticleFile> reportArticleFiles = reportArticleFileService.findListByReportCode(reportArticleReportCode);
+            List<ReportArticleFile> newReportArticleFiles = reportArticleFiles.stream()
+                    .map(reportArticleFile -> {
+                        String filePath = reportArticleFile.getFilePath();
+                        String newFilePath = filePath.replace(reportArticleReportCode, newReportArticleReportCode);
+                        try {
+                            FileUtils.copyFileUsingFileStreams(filePath, newFilePath);
+                        } catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                        ReportArticleFile newReportArticleFile = new ReportArticleFile();
+                        newReportArticleFile.setReportCode(newReportArticleReportCode);
+                        newReportArticleFile.setFilePath(newFilePath);
+                        newReportArticleFile.setFileSize(reportArticleFile.getFileSize());
+                        newReportArticleFile.setFileMD5(reportArticleFile.getFileMD5());
+                        newReportArticleFile.setFullFileName(reportArticleFile.getFullFileName());
+                        newReportArticleFile.setOriginalFileName(reportArticleFile.getOriginalFileName());
+                        newReportArticleFile.setFileName(reportArticleFile.getFileName());
+                        newReportArticleFile.setSuffixName(reportArticleFile.getSuffixName());
+                        newReportArticleFile.setCreatedDatetime(currentDatetime);
+                        newReportArticleFile.setCreatedUserId(userId);
+                        return newReportArticleFile;
+                    }).collect(Collectors.toList());
+            reportArticleFileService.save(newReportArticleFiles);
         }
         return newReportArticle;
     }

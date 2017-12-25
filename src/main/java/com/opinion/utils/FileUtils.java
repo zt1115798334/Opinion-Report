@@ -14,6 +14,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -231,6 +232,7 @@ public class FileUtils {
 
     /**
      * 下载文件
+     *
      * @param request
      * @param response
      * @param filePath
@@ -308,5 +310,70 @@ public class FileUtils {
                     "HttpServletRequest Or HttpServletResponse Or fileName Is Null !");
         }
         return bl;
+    }
+
+    /**
+     * 复制文件
+     *
+     * @param sourcePath
+     * @param destPath
+     * @throws IOException
+     */
+    public static boolean copyFileUsingFileStreams(String sourcePath, String destPath)
+            throws IOException {
+        File source = new File(sourcePath);
+        File dest = new File(destPath);
+        if (!source.exists()) {
+            throw new IOException("文件复制失败：源文件（" + source + "） 不存在");
+        }
+        if (dest.isDirectory()) {
+            throw new IOException("文件复制失败：复制路径（" + dest + "） 错误");
+        }
+        File parent = dest.getParentFile();
+        // 创建复制路径
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
+        // 创建复制文件
+        if (!dest.exists()) {
+            dest.createNewFile();
+        }
+        FileInputStream fis = new FileInputStream(source);
+        FileOutputStream fos = new FileOutputStream(dest);
+
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+        byte[] KB = new byte[1024];
+        int index;
+        while ((index = bis.read(KB)) != -1) {
+            bos.write(KB, 0, index);
+        }
+
+        bos.close();
+        bis.close();
+        fos.close();
+        fis.close();
+        if (!dest.exists()) {
+            return false;
+        } else if (dest.length() != dest.length()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 复制文件
+     *
+     * @param sourcePath
+     * @param destPath
+     * @throws IOException
+     */
+    public static void copyFileUsingJava7Files(String sourcePath, String destPath)
+            throws IOException {
+        File source = new File(sourcePath);
+        File dest = new File(destPath);
+        Files.copy(source.toPath(), dest.toPath());
     }
 }
