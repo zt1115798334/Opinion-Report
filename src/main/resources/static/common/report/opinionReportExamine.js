@@ -53,9 +53,9 @@ $(function () {
         if (!bv.isValid()) {
             return false;
         }
-        // params.adoptState = $(this).attr("adoptState");
-        // params.adoptOpinion = $("#adoptOpinion").val();
-        // examineAndVerifyReportArticleFun(params);
+        params.adoptState = $(this).attr("adoptState");
+        params.adoptOpinion = $("#adoptOpinion").val();
+        examineAndVerifyReportArticleFun(params);
     });
 
     $(document).on("hidden.bs.modal", "#editAdoptOpinion", function () {
