@@ -25,7 +25,7 @@ $(function () {
     };
     searchReportArticleByCodeFun(params, editor);
     searchReportArticleLogFun(params);
-
+    searchReportArticleFileFun(params);
     /**
      * 返回列表
      */
@@ -145,6 +145,29 @@ function searchReportArticleLogFun(params) {
                     '                            </div>';
             }
             $(".flowShaft").append(html);
+        }
+    }
+}
+
+/**
+ * 查询日志
+ * @param params
+ */
+function searchReportArticleFileFun(params) {
+    var url = "/reportArticle/searchReportArticleFile";
+    execAjax(url, params, callback);
+
+    function callback(result) {
+        if (result.success) {
+            var data = result.data;
+            var html = "";
+            for (var i in data) {
+                var da = data[i];
+                var id = da.id;
+                var originalFileName = da.originalFileName;
+                var fileSize = da.fileSize;
+            }
+            // $(".flowShaft").append(html);
         }
     }
 }

@@ -310,6 +310,7 @@ public class ReportArticleController extends BaseController {
         list.stream()
                 .forEach(reportArticleFile -> {
                     JSONObject jo = new JSONObject();
+                    jo.put("id",reportArticleFile.getFileSize());
                     jo.put("originalFileName", reportArticleFile.getOriginalFileName());
                     jo.put("fileSize", reportArticleFile.getFileSize());
                     result.add(jo);
