@@ -27,6 +27,11 @@ public class ReportArticleFileServiceImpl implements ReportArticleFileService {
     }
 
     @Override
+    public ReportArticleFile findById(Long id) {
+        return reportArticleFileRepository.findOne(id);
+    }
+
+    @Override
     public List<ReportArticleFile> findListByReportCode(String reportCode) {
         return reportArticleFileRepository.findByReportCode(reportCode);
     }

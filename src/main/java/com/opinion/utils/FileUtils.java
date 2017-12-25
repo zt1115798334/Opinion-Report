@@ -2,14 +2,18 @@ package com.opinion.utils;
 
 import com.opinion.utils.module.UploadFile;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +24,8 @@ import java.util.UUID;
  * Created by on 2017/11/28
  */
 public class FileUtils {
+
+    protected final static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      * 上传文件，并获取上传文件（单文件上传）
@@ -145,7 +151,7 @@ public class FileUtils {
 
     /**
      * 删除文件
-      */
+     */
     public static boolean deleteFile(String filePath) {
         boolean flag = false;
         File file = new File(filePath);
@@ -159,6 +165,7 @@ public class FileUtils {
 
     /**
      * 删除文件与目录
+     *
      * @param filePath
      * @return
      */
@@ -180,6 +187,7 @@ public class FileUtils {
 
     /**
      * 删除目录
+     *
      * @param filePath
      * @return
      */
@@ -219,5 +227,86 @@ public class FileUtils {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 下载文件
+     * @param request
+     * @param response
+     * @param filePath
+     * @return
+     * @throws Exception
+     */
+    public static boolean fileDownLoad(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       String filePath) throws Exception {
+        boolean bl = false;
+        if (response != null && request != null && filePath != null
+                && !filePath.equals("")) {
+            String browserType = request.getParameter("browserType");
+            final String userAgent = request.getHeader("USER-AGENT");
+            logger.info("userAgent==:" + userAgent);
+
+            // filePath是指欲下载的文件的路径。
+            filePath = URLDecoder.decode(filePath, "UTF-8");
+            File file = new File(filePath);
+            if (!file.exists()) {
+                logger.info("############ FilePath: " + filePath);
+                throw new Exception("文件不存在！");
+            }
+            if (!file.isFile()) {
+                logger.info("############ FilePath: " + filePath);
+                throw new Exception("非文件类型！");
+            }
+
+            // 取得文件名。
+            String fileName = file.getName();
+            if ("IE".equals(browserType)) {// IE浏览器,页面传过来的值，只用于判断是否为IE浏览器
+                logger.info("ie浏览器");
+                fileName = URLEncoder.encode(fileName, "UTF8");
+            } else {
+                if (userAgent.contains("Mozilla")) {// google,火狐浏览器
+                    fileName = new String(fileName.getBytes(), "ISO8859-1");
+                    logger.info("火狐浏览器");
+                } else {
+                    logger.info("其他浏览器");
+                    fileName = URLEncoder.encode(fileName, "UTF8");// 其他浏览器
+                }
+            }
+            // 提示框设置
+            response.reset(); // reset the response
+            // response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/octet-stream");//告诉浏览器输出内容为流
+            response.setHeader("content-disposition", "attachment; filename=\""
+                    + fileName + "\"");
+
+            //读出文件到i/o流
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream buff = new BufferedInputStream(fis);
+            byte[] ary_byte = new byte[1024];//缓存
+            long k = 0;//该值用于计算当前实际下载了多少字节
+            // 输出流
+            OutputStream out = response.getOutputStream();
+            //开始循环下载
+            while (k < file.length()) {
+                int j = buff.read(ary_byte, 0, 1024);
+                k += j;
+                //将b中的数据写到客户端的内存
+                out.write(ary_byte, 0, j);
+            }
+            // 关闭输出流
+            if (out != null) {
+                out.flush();
+                out.close();
+                fis.close();
+                buff.close();
+            }
+            bl = true;
+            logger.info("文件下载完毕！");
+        } else {
+            new NullPointerException(
+                    "HttpServletRequest Or HttpServletResponse Or fileName Is Null !");
+        }
+        return bl;
     }
 }

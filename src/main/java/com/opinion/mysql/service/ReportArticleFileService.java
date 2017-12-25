@@ -17,6 +17,13 @@ public interface ReportArticleFileService {
     void save(List<ReportArticleFile> reportArticleFiles);
 
     /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    ReportArticleFile findById(Long id);
+
+    /**
      *
      * @param reportCode
      * @return

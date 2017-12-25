@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -244,6 +245,7 @@ public class ReportArticleController extends BaseController {
             result.put("replyNumber", reportArticle.getReplyNumber());
             result.put("reportCause", reportArticle.getReportCause());
             result.put("adoptState", reportArticle.getAdoptState());
+            result.put("adoptOpinion",reportArticle.getAdoptOpinion());
             result.put("adoptStateMsg", SysConst.getAdoptStateByCode(reportArticle.getAdoptState()).getName());
         }
         return success(result);
@@ -315,6 +317,38 @@ public class ReportArticleController extends BaseController {
                 });
         return success(result);
     }
+
+    /**
+     * 根据上报编号查询上报文件
+     *
+     * @param id 上报id
+     * @return
+     */
+    @RequestMapping(value = "downLoadReportArticleFile/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public AjaxResult downLoadReportArticleFile(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                @PathVariable Long id) {
+        logger.info("请求 downLoadReportArticleFile 方法，id:{}", id);
+        ReportArticleFile reportArticleFile = reportArticleFileService.findById(id);
+        if (reportArticleFile != null) {
+            String filePath = reportArticleFile.getFilePath();
+            try {
+                boolean bl = FileUtils.fileDownLoad(request, response, filePath);
+                if (bl) {
+                    return success("下载附件成功");
+                } else {
+                    return fail("下载附件失败");
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                return fail("下载文件发生异常");
+            }
+        } else {
+            return fail("文件不存在");
+        }
+    }
+
 
     /**
      * 对上报文章再次上报
