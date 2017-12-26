@@ -9,8 +9,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import static java.time.temporal.TemporalAdjusters.*;
 
 /**
  * <p>Title: DateUtils</p>
@@ -298,9 +297,40 @@ public class DateUtils {
         return dateTimeAddDay(-7L, thisWeekInMonday);
     }
 
+    /**
+     * 获取本月月末时间
+     * @return
+     */
+    public static LocalDateTime thisMonthInEOM(){
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        return dateTimeToEnd(currentDatetime.with(lastDayOfMonth()));
+    }
+
+    /**
+     * 获取本月月初时间
+     * @return
+     */
+    public static LocalDateTime thisMonthInBOM(){
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        return dateTimeToZero(currentDatetime.with(firstDayOfMonth()));
+    }
+
+    /**
+     * 获取本月月末时间
+     * @return
+     */
+    public static LocalDateTime previousMonthInBOM(){
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        LocalDateTime previousNowDatetime = currentDatetime.minusMonths(1);
+        return dateTimeToZero(previousNowDatetime.with(firstDayOfMonth()));
+    }
+
     public static void main(String[] args) {
         System.out.println("本周日：" + thisWeekInSunday());
         System.out.println("本周一时间" + thisWeekInMonday());
         System.out.println("上周一时间" + previousWeekInMonday());
+        System.out.println("本月最后天时间" + thisMonthInEOM());
+        System.out.println("本月第一天时间" + thisMonthInBOM());
+        System.out.println("上月第一天时间" + previousMonthInBOM());
     }
 }
