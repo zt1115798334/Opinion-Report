@@ -29,7 +29,7 @@ $(function () {
         // "showFileItemProgress":false,
         //"showSummerProgress":false,//总进度条，默认限制
         //"scheduleStandard":true,//模拟进度的方式，设置为true是按总进度，用于控制上传时间，如果设置为false,按照文件数据的总量,默认为false
-        "size": 1024*5,//文件大小限制，单位kb,默认不限制
+        "size": 1024*3,//文件大小限制，单位kb,默认不限制
         //"maxFileNumber":3,//文件个数限制，为整数
         //"filelSavePath":"",//文件上传地址，后台设置的根目录
         // "beforeUpload": beforeUploadFun,//在上传前执行的函数
