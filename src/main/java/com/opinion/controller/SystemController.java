@@ -333,7 +333,7 @@ public class SystemController extends BaseController {
             jo.put("code", co.getCode());
             jo.put("name", co.getName());
             jo.put("pId", co.getpId());
-            jo.put("level", co.getLevel());
+            jo.put("levelSystem", co.getLevel());
             result.add(jo);
         });
         return success(result);

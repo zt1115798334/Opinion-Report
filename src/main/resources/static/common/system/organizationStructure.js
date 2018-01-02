@@ -208,11 +208,14 @@ function addHoverDom(treeId, treeNode) {
                 return false;
             }
         }
-
+        if (treeNode.levelSystem == 3) {
+            notify.error({title: "提示", content: "已经是第三级机构了，不可新建子级"});
+            return false;
+        }
         var params = {
             pId: treeNode.id,
             name: "新的机构",
-            level: treeNode.level + 1
+            level: treeNode.levelSystem + 1
         };
         saveCityOrganizationFun(params, treeNode);
     });
