@@ -210,7 +210,7 @@ function deleteReportArticleFun(id) {
             bootstrapTableRefresh();
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }

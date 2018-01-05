@@ -209,7 +209,7 @@ function addHoverDom(treeId, treeNode) {
             }
         }
         if (treeNode.levelSystem == 3) {
-            notify.error({title: "提示", content: "已经是第三级机构了，不可新建子级"});
+            notify.error({title: "提示", content: "已经是第三级机构了，不可新建子级", autoClose: true});
             return false;
         }
         var params = {
@@ -294,7 +294,7 @@ function saveCityOrganizationFun(params, treeNode) {
             var zTree = $.fn.zTree.getZTreeObj("organizationTree");
             zTree.addNodes(treeNode, data);
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }
@@ -645,7 +645,7 @@ function saveSysUserInfoFun(params) {
             notify.success({title: "提示", content: result.message, autoClose: true});
             bootstrapTableRefresh();
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }
@@ -665,7 +665,7 @@ function delSysUserFun(userId) {
             bootstrapTableRefresh();
             notify.success({title: "提示", content: result.message, autoClose: true});
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }
@@ -687,7 +687,7 @@ function searchSysUserFun(userId) {
             var userAccount = data.userAccount;
             $("#editUser #userAccountEdit").val(userAccount);
         } else {
-            notify.error({title: "提示", content: result.message});
+            notify.error({title: "提示", content: result.message, autoClose: true});
         }
     }
 }
