@@ -25,8 +25,11 @@ public class UserFingerprintServiceImpl implements UserFingerprintService {
     public UserFingerprint save(UserFingerprint userFingerprint) {
         this.deleteByUserId(userFingerprint.getUserId());
         String fingerprint = userFingerprint.getFingerprint();
-        List<UserFingerprint> matchingFingerprint = this.findAll()
-                .stream()
+        List<UserFingerprint> allUF = this.findAll();
+        if (allUF == null && allUF.size() == 0) {
+            return userFingerprintRepository.save(userFingerprint);
+        }
+        List<UserFingerprint> matchingFingerprint = allUF.stream()
                 .filter(cf -> !Objects.equal(cf.getFingerprint(), fingerprint))
                 .filter(cf -> this.verificationFingerprint(cf.getFingerprint(), fingerprint))
                 .collect(Collectors.toList());
