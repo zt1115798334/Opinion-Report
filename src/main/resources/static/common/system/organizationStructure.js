@@ -291,6 +291,7 @@ function saveCityOrganizationFun(params, treeNode) {
     function callback(result) {
         if (result.success) {
             var data = result.data;
+            data.levelSystem = data.level;
             var zTree = $.fn.zTree.getZTreeObj("organizationTree");
             zTree.addNodes(treeNode, data);
         } else {

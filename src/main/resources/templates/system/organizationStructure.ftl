@@ -190,6 +190,6 @@
 
 <#include "/public/publicJs.ftl"/>
 
-<script src="/common/system/organizationStructure.js?v=11"></script>
+<script src="/common/system/organizationStructure.js"></script>
 </body>
 </html>
